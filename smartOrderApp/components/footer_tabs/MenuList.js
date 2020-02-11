@@ -6,7 +6,7 @@ export default class MenuList extends React.Component {
     super(props)
     this.state = { isLoading: true }
 
-    fetch("http://172.20.10.5:5000/tables")
+    fetch(`${config.SERVER_API}/tables`)
       .then(response => response.json())
       .then(responseJson => {
         this.setState(

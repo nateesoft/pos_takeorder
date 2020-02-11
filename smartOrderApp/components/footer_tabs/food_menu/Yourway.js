@@ -10,33 +10,35 @@ import {
   Thumbnail,
   Content
 } from "native-base"
+const config = require("../../../config/index")
 
+const host_url = `${config.THUMBNAIL}`
 const menus = [
-  "https://www.jeffersteak.com/img/menu/yourway/yourway1.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway2.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway3.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway4.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway5.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway6.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway7.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway8.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway9.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway10.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway11.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway12.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway13.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway14.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway15.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway16.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway17.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway18.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway19.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway20.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway21.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway22.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway23.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway24.jpg",
-  "https://www.jeffersteak.com/img/menu/yourway/yourway25.jpg"
+  `${host_url}/yourway/yourway1.jpg`,
+  `${host_url}/yourway/yourway2.jpg`,
+  `${host_url}/yourway/yourway3.jpg`,
+  `${host_url}/yourway/yourway4.jpg`,
+  `${host_url}/yourway/yourway5.jpg`,
+  `${host_url}/yourway/yourway6.jpg`,
+  `${host_url}/yourway/yourway7.jpg`,
+  `${host_url}/yourway/yourway8.jpg`,
+  `${host_url}/yourway/yourway9.jpg`,
+  `${host_url}/yourway/yourway10.jpg`,
+  `${host_url}/yourway/yourway11.jpg`,
+  `${host_url}/yourway/yourway12.jpg`,
+  `${host_url}/yourway/yourway13.jpg`,
+  `${host_url}/yourway/yourway14.jpg`,
+  `${host_url}/yourway/yourway15.jpg`,
+  `${host_url}/yourway/yourway16.jpg`,
+  `${host_url}/yourway/yourway17.jpg`,
+  `${host_url}/yourway/yourway18.jpg`,
+  `${host_url}/yourway/yourway19.jpg`,
+  `${host_url}/yourway/yourway20.jpg`,
+  `${host_url}/yourway/yourway21.jpg`,
+  `${host_url}/yourway/yourway22.jpg`,
+  `${host_url}/yourway/yourway23.jpg`,
+  `${host_url}/yourway/yourway24.jpg`,
+  `${host_url}/yourway/yourway25.jpg`
 ]
 const Appitizer = () => {
   return (
@@ -49,7 +51,7 @@ const Appitizer = () => {
                 <Thumbnail square source={{ uri: name }} />
               </Left>
               <Body>
-                <Text>Yourway { index +1 }</Text>
+                <Text>Yourway {index + 1}</Text>
                 <Text note numberOfLines={1}>
                   Super smart food so yummy
                 </Text>

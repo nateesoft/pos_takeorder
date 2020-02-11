@@ -11,98 +11,100 @@ import {
   Content,
   Toast
 } from "native-base"
+const config = require("../../../config/index")
 
+const host_url = `${config.THUMBNAIL}`
 const menus = [
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer1.jpg",
+    uri: `${host_url}/appitizer/appitizer1.jpg`,
     name: "Appitizers",
     price: 199.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer2.jpg",
+    uri: `${host_url}/appitizer/appitizer2.jpg`,
     name: "Appitizers",
     price: 169.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer3.jpg",
+    uri: `${host_url}/appitizer/appitizer3.jpg`,
     name: "Appitizers Normal",
     price: 179.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer4.jpg",
+    uri: `${host_url}/appitizer/appitizer4.jpg`,
     name: "Appitizers Super Set",
     price: 399.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer5.jpg",
+    uri: `${host_url}/appitizer/appitizer5.jpg`,
     name: "Appitizers",
     price: 299.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer6.jpg",
+    uri: `${host_url}/appitizer/appitizer6.jpg`,
     name: "Appitizers",
     price: 100.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer7.jpg",
+    uri: `${host_url}/appitizer/appitizer7.jpg`,
     name: "Appitizers",
     price: 99.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer8.jpg",
+    uri: `${host_url}/appitizer/appitizer8.jpg`,
     name: "Appitizers",
     price: 79.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer9.jpg",
+    uri: `${host_url}/appitizer/appitizer9.jpg`,
     name: "Appitizers",
     price: 199.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer10.jpg",
+    uri: `${host_url}/appitizer/appitizer10.jpg`,
     name: "Appitizers",
     price: 89.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer11.jpg",
+    uri: `${host_url}/appitizer/appitizer11.jpg`,
     name: "Appitizers",
     price: 139.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer12.jpg",
+    uri: `${host_url}/appitizer/appitizer12.jpg`,
     name: "Appitizers",
     price: 139.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer13.jpg",
+    uri: `${host_url}/appitizer/appitizer13.jpg`,
     name: "Appitizers",
     price: 119.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer14.jpg",
+    uri: `${host_url}/appitizer/appitizer14.jpg`,
     name: "Appitizers",
     price: 129.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
   },
   {
-    uri: "https://www.jeffersteak.com/img/menu/appitizer/appitizer15.jpg",
+    uri: `${host_url}/appitizer/appitizer15.jpg`,
     name: "Appitizers",
     price: 109.0,
     description: "รับอาหารว่างทานเล่นกันก่อน"
-  },
+  }
 ]
 const Appitizer = () => {
   return (
@@ -127,7 +129,7 @@ const Appitizer = () => {
                   success
                   onPress={() =>
                     Toast.show({
-                      text: `${name}`,
+                      text: `${name.uri}`,
                       buttonText: "Okay",
                       buttonStyle: { backgroundColor: "#5cb85c" }
                     })

@@ -1,12 +1,13 @@
 import React from "react"
 import { FlatList, ActivityIndicator, Text, View } from "react-native"
+const config = require('../../config/index')
 
 export default class TableList extends React.Component {
   constructor(props) {
     super(props)
     this.state = { isLoading: true }
 
-    fetch("http://127.0.0.1:5000/tables")
+    fetch(`${config.SERVER_API}/tables`)
       .then(response => response.json())
       .then(responseJson => {
         this.setState(

@@ -4,28 +4,23 @@ import { SwipeListView } from "react-native-swipe-list-view"
 
 const BillList = () => {
   const listViewData = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15"
+    { id: 1, name: "A" },
+    { id: 2, name: "B" },
+    { id: 3, name: "C" },
+    { id: 4, name: "D" },
+    { id: 5, name: "E" },
+    { id: 6, name: "F" },
+    { id: 7, name: "G" },
+    { id: 8, name: "H" },
+    { id: 9, name: "I" },
+    { id: 10, name: "GJ" }
   ]
   return (
     <SwipeListView
       data={listViewData}
-      renderItem={(data, rowMap) => (
-        <View style={styles.rowFront}>
-          <Text>I am {data.item} in a SwipeListView</Text>
+      renderItem={(item, index) => (
+        <View style={styles.rowFront} id={index}>
+          <Text>I am {item.name} in a SwipeListView</Text>
         </View>
       )}
       renderHiddenItem={(data, rowMap) => (

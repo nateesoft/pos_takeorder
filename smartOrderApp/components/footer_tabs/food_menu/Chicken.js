@@ -10,14 +10,16 @@ import {
   Thumbnail,
   Content
 } from "native-base"
+const config = require("../../../config/index")
 
+const host_url = `${config.THUMBNAIL}`
 const menus = [
-  "https://www.jeffersteak.com/img/menu/chicken/chicken1.jpg",
-  "https://www.jeffersteak.com/img/menu/chicken/chicken2.jpg",
-  "https://www.jeffersteak.com/img/menu/chicken/chicken3.jpg",
-  "https://www.jeffersteak.com/img/menu/chicken/chicken4.jpg",
-  "https://www.jeffersteak.com/img/menu/chicken/chicken5.jpg",
-  "https://www.jeffersteak.com/img/menu/chicken/chicken6.jpg"
+  `${host_url}/chicken/chicken1.jpg`,
+  `${host_url}/chicken/chicken2.jpg`,
+  `${host_url}/chicken/chicken3.jpg`,
+  `${host_url}/chicken/chicken4.jpg`,
+  `${host_url}/chicken/chicken5.jpg`,
+  `${host_url}/chicken/chicken6.jpg`
 ]
 const Appitizer = () => {
   return (
@@ -30,7 +32,7 @@ const Appitizer = () => {
                 <Thumbnail square source={{ uri: name }} />
               </Left>
               <Body>
-                <Text>Chicken { index +1 }</Text>
+                <Text>Chicken {index + 1}</Text>
                 <Text note numberOfLines={1}>
                   เสต็กไก่นุ่ม
                 </Text>

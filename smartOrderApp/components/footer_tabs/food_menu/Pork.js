@@ -10,18 +10,20 @@ import {
   Thumbnail,
   Content
 } from "native-base"
+const config = require("../../../config/index")
 
+const host_url = `${config.THUMBNAIL}`
 const menus = [
-  "https://www.jeffersteak.com/img/menu/pork/pork1.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork2.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork3.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork4.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork5.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork6.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork7.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork8.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork9.jpg",
-  "https://www.jeffersteak.com/img/menu/pork/pork10.jpg"
+  `${host_url}/pork/pork1.jpg`,
+  `${host_url}/pork/pork2.jpg`,
+  `${host_url}/pork/pork3.jpg`,
+  `${host_url}/pork/pork4.jpg`,
+  `${host_url}/pork/pork5.jpg`,
+  `${host_url}/pork/pork6.jpg`,
+  `${host_url}/pork/pork7.jpg`,
+  `${host_url}/pork/pork8.jpg`,
+  `${host_url}/pork/pork9.jpg`,
+  `${host_url}/pork/pork10.jpg`
 ]
 const Appitizer = () => {
   return (
@@ -34,7 +36,7 @@ const Appitizer = () => {
                 <Thumbnail square source={{ uri: name }} />
               </Left>
               <Body>
-                <Text>Pork { index +1 }</Text>
+                <Text>Pork {index + 1}</Text>
                 <Text note numberOfLines={1}>
                   เสต็กเนื้อหมู
                 </Text>

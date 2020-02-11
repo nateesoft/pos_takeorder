@@ -13,7 +13,7 @@ import {
   FooterTab,
   Text
 } from "native-base"
-import FoodList from './components/footer_tabs/food_menu/FoodList'
+import FoodList from "./components/footer_tabs/food_menu/FoodList"
 // import MenuList from "./components/footer_tabs/MenuList"
 import TableList from "./components/footer_tabs/TableList"
 import BillList from "./components/footer_tabs/BillList"
