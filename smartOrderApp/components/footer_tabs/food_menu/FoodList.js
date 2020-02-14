@@ -1,5 +1,5 @@
 import React from "react"
-import { Tabs, Tab, ScrollableTab } from "native-base"
+import { Tabs, Tab, ScrollableTab, Icon, TabHeading, Text } from "native-base"
 import Appitizer from "./Appitizer"
 import Beef from "./Beef"
 import Beverage from "./Beverage"
@@ -19,7 +19,14 @@ import Yourway from "./Yourway"
 const FoodList = () => {
   return (
     <Tabs renderTabBar={() => <ScrollableTab />}>
-      <Tab heading="Appitizer">
+      <Tab
+        heading={
+          <TabHeading>
+            <Icon name="star" />
+            <Text>Appitizer</Text>
+          </TabHeading>
+        }
+      >
         <Appitizer />
       </Tab>
       <Tab heading="Beef">

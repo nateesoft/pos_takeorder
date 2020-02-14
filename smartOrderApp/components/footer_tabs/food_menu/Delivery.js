@@ -1,49 +1,31 @@
 import React from "react"
-import {
-  Button,
-  Text,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem,
-  Thumbnail,
-  Content
-} from "native-base"
+import { Content } from "native-base"
+import ListMenuItem from "../../contents/ListMenuItem"
 const config = require("../../../config/index")
 
 const host_url = `${config.THUMBNAIL}`
 const menus = [
-  `${host_url}/delivery/delivery1.jpg`,
-  `${host_url}/delivery/delivery2.jpg`
+  {
+    id: 34,
+    uri: `${host_url}/delivery/delivery1.jpg`,
+    name: "Delivery",
+    price: 199.0,
+    description: "จัดส่งถึงที่"
+  },
+  {
+    id: 35,
+    uri: `${host_url}/delivery/delivery2.jpg`,
+    name: "Delivery",
+    price: 199.0,
+    description: "จัดส่งถึงที่"
+  }
 ]
-const Appitizer = () => {
+const Delivery = () => {
   return (
     <Content>
-      <List>
-        {menus.map((name, index) => {
-          return (
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square source={{ uri: name }} />
-              </Left>
-              <Body>
-                <Text>Delivery {index + 1}</Text>
-                <Text note numberOfLines={1}>
-                  Super smart food so yummy
-                </Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-            </ListItem>
-          )
-        })}
-      </List>
+      <ListMenuItem menus={menus} />
     </Content>
   )
 }
 
-export default Appitizer
+export default Delivery

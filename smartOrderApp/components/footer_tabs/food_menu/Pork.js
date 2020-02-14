@@ -1,57 +1,87 @@
 import React from "react"
-import {
-  Button,
-  Text,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem,
-  Thumbnail,
-  Content
-} from "native-base"
+import { Content } from "native-base"
+import ListMenuItem from "../../contents/ListMenuItem"
 const config = require("../../../config/index")
 
 const host_url = `${config.THUMBNAIL}`
 const menus = [
-  `${host_url}/pork/pork1.jpg`,
-  `${host_url}/pork/pork2.jpg`,
-  `${host_url}/pork/pork3.jpg`,
-  `${host_url}/pork/pork4.jpg`,
-  `${host_url}/pork/pork5.jpg`,
-  `${host_url}/pork/pork6.jpg`,
-  `${host_url}/pork/pork7.jpg`,
-  `${host_url}/pork/pork8.jpg`,
-  `${host_url}/pork/pork9.jpg`,
-  `${host_url}/pork/pork10.jpg`
+  {
+    id: 48,
+    uri: `${host_url}/pork/pork1.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 49,
+    uri: `${host_url}/pork/pork2.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 50,
+    uri: `${host_url}/pork/pork3.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 51,
+    uri: `${host_url}/pork/pork4.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 52,
+    uri: `${host_url}/pork/pork5.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 53,
+    uri: `${host_url}/pork/pork6.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 54,
+    uri: `${host_url}/pork/pork7.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 55,
+    uri: `${host_url}/pork/pork8.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 56,
+    uri: `${host_url}/pork/pork9.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  },
+  {
+    id: 57,
+    uri: `${host_url}/pork/pork10.jpg`,
+    name: "Pork Steak",
+    price: 199.0,
+    description: "สเต็กหมูเนื้อนุ่ม"
+  }
 ]
-const Appitizer = () => {
+const Pork = () => {
   return (
     <Content>
-      <List>
-        {menus.map((name, index) => {
-          return (
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square source={{ uri: name }} />
-              </Left>
-              <Body>
-                <Text>Pork {index + 1}</Text>
-                <Text note numberOfLines={1}>
-                  เสต็กเนื้อหมู
-                </Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-            </ListItem>
-          )
-        })}
-      </List>
+      <ListMenuItem menus={menus} />
     </Content>
   )
 }
 
-export default Appitizer
+export default Pork

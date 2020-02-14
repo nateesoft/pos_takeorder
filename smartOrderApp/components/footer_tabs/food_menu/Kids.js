@@ -1,50 +1,38 @@
 import React from "react"
-import {
-  Button,
-  Text,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem,
-  Thumbnail,
-  Content
-} from "native-base"
+import { Content } from "native-base"
+import ListMenuItem from "../../contents/ListMenuItem"
 const config = require("../../../config/index")
 
 const host_url = `${config.THUMBNAIL}`
 const menus = [
-  `${host_url}/kids/kids1.jpg`,
-  `${host_url}/kids/kids2.jpg`,
-  `${host_url}/kids/kids3.jpg`
+  {
+    id: 45,
+    uri: `${host_url}/kids/kids1.jpg`,
+    name: "Kids Menu",
+    price: 199.0,
+    description: "เมนูสำหรับคุณหนู"
+  },
+  {
+    id: 46,
+    uri: `${host_url}/kids/kids2.jpg`,
+    name: "Kids Menu",
+    price: 199.0,
+    description: "เมนูสำหรับคุณหนู"
+  },
+  {
+    id: 47,
+    uri: `${host_url}/kids/kids3.jpg`,
+    name: "Kids Menu",
+    price: 199.0,
+    description: "เมนูสำหรับคุณหนู"
+  }
 ]
-const Appitizer = () => {
+const Kids = () => {
   return (
     <Content>
-      <List>
-        {menus.map((name, index) => {
-          return (
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square source={{ uri: name }} />
-              </Left>
-              <Body>
-                <Text>Kids {index + 1}</Text>
-                <Text note numberOfLines={1}>
-                  ชุดเมนูคุณหนู
-                </Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-            </ListItem>
-          )
-        })}
-      </List>
+      <ListMenuItem menus={menus} />
     </Content>
   )
 }
 
-export default Appitizer
+export default Kids

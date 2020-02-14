@@ -1,51 +1,45 @@
 import React from "react"
-import {
-  Button,
-  Text,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem,
-  Thumbnail,
-  Content
-} from "native-base"
+import { Content } from "native-base"
+import ListMenuItem from "../../contents/ListMenuItem"
 const config = require("../../../config/index")
 
 const host_url = `${config.THUMBNAIL}`
 const menus = [
-  `${host_url}/spaghetti/spaghetti1.jpg`,
-  `${host_url}/spaghetti/spaghetti2.jpg`,
-  `${host_url}/spaghetti/spaghetti3.jpg`,
-  `${host_url}/spaghetti/spaghetti4.jpg`
+  {
+    id: 73,
+    uri: `${host_url}/spaghetti/spaghetti1.jpg`,
+    name: "Spaghetti",
+    price: 199.0,
+    description: "สปาเก็ตตี้"
+  },
+  {
+    id: 74,
+    uri: `${host_url}/spaghetti/spaghetti2.jpg`,
+    name: "Spaghetti",
+    price: 199.0,
+    description: "สปาเก็ตตี้"
+  },
+  {
+    id: 75,
+    uri: `${host_url}/spaghetti/spaghetti3.jpg`,
+    name: "Spaghetti",
+    price: 199.0,
+    description: "สปาเก็ตตี้"
+  },
+  {
+    id: 76,
+    uri: `${host_url}/spaghetti/spaghetti4.jpg`,
+    name: "Spaghetti",
+    price: 199.0,
+    description: "สปาเก็ตตี้"
+  }
 ]
-const Appitizer = () => {
+const Spaghetti = () => {
   return (
     <Content>
-      <List>
-        {menus.map((name, index) => {
-          return (
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square source={{ uri: name }} />
-              </Left>
-              <Body>
-                <Text>Spaghetti {index + 1}</Text>
-                <Text note numberOfLines={1}>
-                  Super smart food so yummy
-                </Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-            </ListItem>
-          )
-        })}
-      </List>
+      <ListMenuItem menus={menus} />
     </Content>
   )
 }
 
-export default Appitizer
+export default Spaghetti

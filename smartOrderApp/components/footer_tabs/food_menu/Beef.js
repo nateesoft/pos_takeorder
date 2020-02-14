@@ -1,50 +1,38 @@
 import React from "react"
-import {
-  Button,
-  Text,
-  Left,
-  Body,
-  Right,
-  List,
-  ListItem,
-  Thumbnail,
-  Content
-} from "native-base"
+import { Content } from "native-base"
+import ListMenuItem from "../../contents/ListMenuItem"
 const config = require("../../../config/index")
 
 const host_url = `${config.THUMBNAIL}`
 const menus = [
-  `${host_url}/beef/beef1.jpg`,
-  `${host_url}/beef/beef2.jpg`,
-  `${host_url}/beef/beef3.jpg`
+  {
+    id: 17,
+    uri: `${host_url}/beef/beef1.jpg`,
+    name: "Beefs",
+    price: 200.0,
+    description: "เสต็กเนื้อวัว"
+  },
+  {
+    id: 18,
+    uri: `${host_url}/beef/beef2.jpg`,
+    name: "Beefs",
+    price: 200.0,
+    description: "เสต็กเนื้อวัว"
+  },
+  {
+    id: 19,
+    uri: `${host_url}/beef/beef3.jpg`,
+    name: "Beefs",
+    price: 200.0,
+    description: "เสต็กเนื้อวัว"
+  }
 ]
-const Appitizer = () => {
+const Beef = () => {
   return (
     <Content>
-      <List>
-        {menus.map((name, index) => {
-          return (
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square source={{ uri: name }} />
-              </Left>
-              <Body>
-                <Text>Beef {index + 1}</Text>
-                <Text note numberOfLines={1}>
-                  เสต็กเนื้อเหนียวนุ่มหนึบ
-                </Text>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Text>View</Text>
-                </Button>
-              </Right>
-            </ListItem>
-          )
-        })}
-      </List>
+      <ListMenuItem menus={menus} />
     </Content>
   )
 }
 
-export default Appitizer
+export default Beef
