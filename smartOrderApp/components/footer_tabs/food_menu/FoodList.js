@@ -1,5 +1,6 @@
 import React from "react"
 import { Tabs, Tab, ScrollableTab, Icon, TabHeading, Text } from "native-base"
+import Recommend from "./Recommend"
 import Appitizer from "./Appitizer"
 import Beef from "./Beef"
 import Beverage from "./Beverage"
@@ -23,10 +24,13 @@ const FoodList = () => {
         heading={
           <TabHeading>
             <Icon name="star" />
-            <Text>Appitizer</Text>
+            <Text>Recommend</Text>
           </TabHeading>
         }
       >
+        <Recommend />
+      </Tab>
+      <Tab heading="Appitizer">
         <Appitizer />
       </Tab>
       <Tab heading="Beef">
