@@ -1,25 +1,21 @@
 import React from "react"
-import {
-  FlatList,
-  ActivityIndicator,
-  Text,
-  View,
-  StyleSheet
-} from "react-native"
-const config = require("../../config/index")
+import { ActivityIndicator, Text, View, StyleSheet } from "react-native"
+const config = require("../../../config")
 import {
   List,
   ListItem,
   Left,
   Right,
-  Icon,
   Content,
   Container,
-  Header,
-  Footer
+  Form,
+  Item,
+  Input,
+  Label,
+  Button
 } from "native-base"
 
-export default class MyOrder extends React.Component {
+export default class OrderScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = { isLoading: true }
@@ -58,17 +54,6 @@ export default class MyOrder extends React.Component {
 
     return (
       <Container>
-        <Header style={{ backgroundColor: "red" }}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 20,
-              color: "white"
-            }}
-          >
-            Net total ( {netTotal.toFixed(2)} )
-          </Text>
-        </Header>
         <Content>
           <List>
             {this.state.dataSource.map((item, index) => (
@@ -84,7 +69,6 @@ export default class MyOrder extends React.Component {
                   >
                     {index + 1}
                   </Text>
-                  <Text style={{ padding: 10 }}>{item.code}</Text>
                   <Text style={{ padding: 10 }}></Text>
                   <Text style={{ padding: 10 }}>{item.name}</Text>
                 </Left>
@@ -97,8 +81,14 @@ export default class MyOrder extends React.Component {
             ))}
           </List>
         </Content>
+        <View style={{ justifyContent: "center", padding: 10 }}>
+          <Button
+            style={{ justifyContent: "center", backgroundColor: "green" }}
+          >
+            <Text style={{ color: "white" }}>ยืนยันรายการ</Text>
+          </Button>
+        </View>
       </Container>
-      // </View>
     )
   }
 }

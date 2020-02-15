@@ -18,16 +18,6 @@ const showContent = order =>
     buttonStyle: { backgroundColor: "#5cb85c" }
   })
 
-const addMenu = (code, name, price) =>
-  fetch("http://172.20.10.5:5000/orders/create", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ code, name, price })
-  })
-
 const ListMenuItem = props => (
   <List>
     {props.menus.map((name, index) => {
@@ -47,7 +37,7 @@ const ListMenuItem = props => (
           <Right>
             <Button
               success
-              onPress={() => addMenu(name.id, name.name, name.price)}
+              onPress={() => props.submit(name.id, name.name, name.price)}
             >
               <Text>Add</Text>
             </Button>

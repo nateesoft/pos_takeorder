@@ -11,13 +11,14 @@ import {
   Root,
   Footer,
   FooterTab,
-  Text
+  Text,
+  Badge
 } from "native-base"
-import FoodList from "./components/footer_tabs/food_menu/FoodList"
-import TableList from "./components/footer_tabs/TableList"
-import BillList from "./components/footer_tabs/BillList"
-// import OrderBill from "./components/footer_tabs/OrderList"
-import MyOrder from "./components/footer_tabs/MyOrder"
+import MenuScreen from "./src/screen/MenuScreen"
+import TableScreen from "./src/screen/TableScreen"
+import BillScreen from "./src/screen/BillScreen"
+import OrderScreen from "./src/screen/OrderScreen"
+const config = require("./config")
 
 export default function App() {
   const [screen, setScreen] = useState(1)
@@ -39,10 +40,10 @@ export default function App() {
             </Button>
           </Right>
         </Header>
-        {screen === 1 && <FoodList />}
-        {screen === 2 && <TableList />}
-        {screen === 3 && <BillList />}
-        {screen === 4 && <MyOrder />}
+        {screen === 1 && <MenuScreen config={config} />}
+        {screen === 2 && <TableScreen />}
+        {screen === 3 && <OrderScreen />}
+        {screen === 4 && <BillScreen />}
         <Footer>
           <FooterTab>
             <Button vertical onPress={() => setScreen(1)} active={screen === 1}>
@@ -53,13 +54,21 @@ export default function App() {
               <Icon name="grid" style={{ color: "blue" }} />
               <Text>Table</Text>
             </Button>
-            <Button vertical onPress={() => setScreen(3)} active={screen === 3}>
+            <Button
+              badge
+              vertical
+              onPress={() => setScreen(3)}
+              active={screen === 3}
+            >
+              <Badge>
+                <Text>2</Text>
+              </Badge>
               <Icon name="paper" style={{ color: "blue" }} />
-              <Text>Bill</Text>
+              <Text>Order</Text>
             </Button>
             <Button vertical onPress={() => setScreen(4)} active={screen === 4}>
               <Icon name="clipboard" style={{ color: "blue" }} />
-              <Text>Order</Text>
+              <Text>Bill</Text>
             </Button>
           </FooterTab>
         </Footer>

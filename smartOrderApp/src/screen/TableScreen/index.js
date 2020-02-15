@@ -11,7 +11,7 @@ import {
   Icon
 } from "native-base"
 import { StyleSheet } from "react-native"
-export default class TableList extends Component {
+export default class TableScreen extends Component {
   render() {
     return (
       <Container>
@@ -25,7 +25,7 @@ export default class TableList extends Component {
                 <Row>
                   <Col style={styles.myColA}>
                     <Text>1</Text>
-                    <Icon name="people" style={{color: "blue"}} />
+                    <Icon name="people" style={{ color: "blue" }} />
                   </Col>
                   <Col style={styles.myColA}>
                     <Text>2</Text>
@@ -67,7 +67,7 @@ export default class TableList extends Component {
                   </Col>
                   <Col style={styles.myColC}>
                     <Text style={{ color: "white" }}>2</Text>
-                    <Icon name="people" style={{color: "white"}} />
+                    <Icon name="people" style={{ color: "white" }} />
                   </Col>
                   <Col style={styles.myColC}>
                     <Text style={{ color: "white" }}>3</Text>
