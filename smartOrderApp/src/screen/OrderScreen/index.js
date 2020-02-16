@@ -12,8 +12,26 @@ import {
   Item,
   Input,
   Label,
-  Button
+  Button,
+  Toast
 } from "native-base"
+
+const truncateData = () => {
+  fetch(`${config.SERVER_API}/orders_detail/empty`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: {}
+  })
+
+  Toast.show({
+    text: "Trunate order detail successfully :)",
+    buttonText: "OK",
+    buttonStyle: { backgroundColor: "#5cb85c" }
+  })
+}
 
 export default class OrderScreen extends React.Component {
   constructor(props) {
@@ -22,13 +40,13 @@ export default class OrderScreen extends React.Component {
   }
 
   componentDidMount() {
-    return fetch(`${config.SERVER_API}/orders`)
+    return fetch(`${config.SERVER_API}/orders_detail?order_no=00001`)
       .then(response => response.json())
       .then(responseJson => {
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson.orderList
+            dataSource: responseJson
           },
           function() {}
         )
@@ -70,7 +88,7 @@ export default class OrderScreen extends React.Component {
                     {index + 1}
                   </Text>
                   <Text style={{ padding: 10 }}></Text>
-                  <Text style={{ padding: 10 }}>{item.name}</Text>
+                  <Text style={{ padding: 10 }}>{item.menu_name}</Text>
                 </Left>
                 <Right>
                   <Text style={{ color: "green", fontWeight: "bold" }}>
@@ -84,6 +102,7 @@ export default class OrderScreen extends React.Component {
         <View style={{ justifyContent: "center", padding: 10 }}>
           <Button
             style={{ justifyContent: "center", backgroundColor: "green" }}
+            onPress={() => truncateData()}
           >
             <Text style={{ color: "white" }}>ยืนยันรายการ</Text>
           </Button>

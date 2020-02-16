@@ -16,20 +16,52 @@ import Salad from "./Salad"
 import Soup from "./Soup"
 import Spaghetti from "./Spaghetti"
 import Yourway from "./Yourway"
-import ListMenuItem from "./contents/ListMenuItem"
+import showMenuItem from "./contents/ListMenuItem"
 
 const MenuScreen = props => {
   const { config } = props
 
-  const addMenu = (code, name, price) =>
-    fetch(`${config.SERVER_API}/orders/create`, {
+  const addMenu = (code, name, price) => {
+    const order_no = "00001"
+    const table_code = "01"
+    const emp_code = "001"
+    const cust_count = 1
+    const item_count = 1
+    const total_amount = 199
+
+    // fetch(`${config.SERVER_API}/orders/create`, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     order_no,
+    //     table_code,
+    //     emp_code,
+    //     cust_count,
+    //     item_count,
+    //     total_amount
+    //   })
+    // })
+
+    fetch(`${config.SERVER_API}/orders_detail/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ code, name, price })
+      body: JSON.stringify({
+        index: order_no + "/" + code,
+        order_no,
+        menu_code: code,
+        menu_name: name,
+        price,
+        qty: 1,
+        total_amount: price
+      })
     })
+  }
 
   return (
     <Tabs renderTabBar={() => <ScrollableTab />}>
@@ -45,60 +77,60 @@ const MenuScreen = props => {
       </Tab>
       <Tab heading="Appitizer">
         <Appitizer
-          ListMenuItem={ListMenuItem}
+          ListMenuItem={showMenuItem}
           onAddOrder={addMenu}
           {...props}
         />
       </Tab>
       <Tab heading="Beef">
-        <Beef ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Beef ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Beverage">
-        <Beverage ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Beverage ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Burger">
-        <Burger ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Burger ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Chicken">
-        <Chicken ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Chicken ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Delivery">
-        <Delivery ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Delivery ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Dessert">
-        <Dessert ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Dessert ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Fish">
-        <Fish ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Fish ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Kids">
-        <Kids ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Kids ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Pork">
-        <Pork ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Pork ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Premiumsteak">
         <Premiumsteak
-          ListMenuItem={ListMenuItem}
+          ListMenuItem={showMenuItem}
           onAddOrder={addMenu}
           {...props}
         />
       </Tab>
       <Tab heading="Salad">
-        <Salad ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Salad ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Soup">
-        <Soup ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Soup ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
       <Tab heading="Spaghetti">
         <Spaghetti
-          ListMenuItem={ListMenuItem}
+          ListMenuItem={showMenuItem}
           onAddOrder={addMenu}
           {...props}
         />
       </Tab>
       <Tab heading="Yourway">
-        <Yourway ListMenuItem={ListMenuItem} onAddOrder={addMenu} {...props} />
+        <Yourway ListMenuItem={showMenuItem} onAddOrder={addMenu} {...props} />
       </Tab>
     </Tabs>
   )

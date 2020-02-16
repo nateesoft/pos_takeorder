@@ -20,7 +20,7 @@ const Recommend = props => {
   const host_full_url = `${config.FULL_IMG}`
   const menus = [
     {
-      id: 1,
+      id: 102,
       uri: `${host_url}/appitizer/appitizer1.jpg`,
       uri_full: `${host_full_url}/appitizer/appitizer1.jpg`,
       name: "Recommend 01",
@@ -30,7 +30,7 @@ const Recommend = props => {
       isComment: 12
     },
     {
-      id: 2,
+      id: 103,
       uri: `${host_url}/beef/beef1.jpg`,
       uri_full: `${host_full_url}/beef/beef1.jpg`,
       name: "Recommend 02",
@@ -40,7 +40,7 @@ const Recommend = props => {
       isComment: 3
     },
     {
-      id: 3,
+      id: 104,
       uri: `${host_url}/burger/burger1.jpg`,
       uri_full: `${host_full_url}/burger/burger1.jpg`,
       name: "Recommend 03",
@@ -50,7 +50,7 @@ const Recommend = props => {
       isComment: 2
     },
     {
-      id: 4,
+      id: 105,
       uri: `${host_url}/Chicken/Chicken1.jpg`,
       uri_full: `${host_full_url}/Chicken/Chicken1.jpg`,
       name: "Recommend 04",
@@ -60,7 +60,7 @@ const Recommend = props => {
       isComment: 1
     },
     {
-      id: 5,
+      id: 106,
       uri: `${host_url}/appitizer/appitizer5.jpg`,
       uri_full: `${host_full_url}/appitizer/appitizer5.jpg`,
       name: "Recommend 05",

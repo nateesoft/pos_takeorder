@@ -1,6 +1,6 @@
 const db = require("../config/db")
 
-var Orders = {
+const Orders = {
   getAllOrders: function(callback) {
     return db.query("select * from orders", callback)
   },
