@@ -1,18 +1,22 @@
-const mysql = require("mysql") // เรียกใช้งาน MySQL module
+const mysql = require("mysql")
 
-const db = mysql.createConnection({
+const connection = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "mysql8password",
-  database: "testdb"
+  password: "mysql5password",
+  database: "pos_takeorder"
 })
 
-db.connect(err => {
-  if (err) {
-    console.error("error connecting: " + err.stack)
-    return
-  }
-  console.log("connected as id " + db.threadId)
-})
+// const connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "mysql5password",
+//   database: "pos_takeorder"
+// })
 
-module.exports = db
+// connection.connect(function(err) {
+//   if (err) throw err
+//   console.log("Connected!")
+// })
+
+module.exports = connection
