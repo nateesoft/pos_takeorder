@@ -1,0 +1,98 @@
+CREATE TABLE `Bill` (
+  `id` int(11) NOT NULL,
+  `bill_no` varchar(10) DEFAULT NULL,
+  `order_no` varchar(10) NOT NULL,
+  `table_code` varchar(3) DEFAULT NULL,
+  `emp_code` varchar(20) NOT NULL,
+  `cust_count` int(2) DEFAULT NULL,
+  `item_count` int(2) DEFAULT NULL,
+  `total_amount` float DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Bill_Detail` (
+  `index` varchar(20) DEFAULT NULL,
+  `bill_no` varchar(100) DEFAULT NULL,
+  `order_no` varchar(10) NOT NULL,
+  `menu_code` varchar(20) DEFAULT NULL,
+  `menu_name` varchar(100) NOT NULL,
+  `price` float DEFAULT NULL,
+  `qty` int(2) DEFAULT NULL,
+  `total_amout` float DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Group_Menu` (
+  `id` int(11) NOT NULL,
+  `code` varchar(3) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Login` (
+  `emp_code` varchar(20) DEFAULT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `active` varchar(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Open_Table` (
+  `code` varchar(3) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `zone` varchar(20) DEFAULT NULL,
+  `reserve_status` varchar(1) DEFAULT NULL,
+  `max_customer` int(2) DEFAULT NULL,
+  `available_customer` int(2) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Orders` (
+  `id` int(11) NOT NULL,
+  `order_no` varchar(10) NOT NULL,
+  `table_code` varchar(3) DEFAULT NULL,
+  `emp_code` varchar(20) NOT NULL,
+  `cust_count` int(2) DEFAULT NULL,
+  `item_count` int(2) DEFAULT NULL,
+  `total_amount` float DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Orders_Detail` (
+  `order_no` varchar(10) NOT NULL,
+  `menu_code` varchar(20) DEFAULT NULL,
+  `menu_name` varchar(100) NOT NULL,
+  `price` float DEFAULT NULL,
+  `qty` int(2) DEFAULT NULL,
+  `total_amout` float DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ProductMenu` (
+  `id` int(11) NOT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `code_key` varchar(5) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `group_code` varchar(3) DEFAULT NULL,
+  `img_url` varchar(100) DEFAULT NULL,
+  `img_url_thumbnail` varchar(100) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
