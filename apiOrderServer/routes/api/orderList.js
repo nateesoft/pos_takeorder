@@ -58,4 +58,14 @@ router.delete("/:order_no/delete", (req, res, next) => {
   })
 })
 
+router.post("/move", (req, res, next) => {
+  Task.moveToBill(order_no, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json("Move data success")
+    }
+  })
+})
+
 module.exports = router

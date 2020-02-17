@@ -31,7 +31,7 @@ export default class BillScreen extends React.Component {
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson.billList
+            dataSource: responseJson
           },
           function() {}
         )

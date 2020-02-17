@@ -45,6 +45,17 @@ const Orders = {
       [order_no],
       callback
     )
+  },
+  moveToBill: function(order_no, callback) {
+    return db.query(
+      `insert into bill
+      (bill_no, order_no, table_code, emp_code, cust_count, item_count, total_amount, status, created_at ,updated_at) 
+      select "b001", od.order_no, od.table_code, od.emp_code, od.cust_count, od.item_count, od.total_amount, 
+      "Y", now(), now() 
+      from orders od where order_no=?`,
+      [order_no],
+      callback
+    )
   }
 }
 

@@ -1,5 +1,13 @@
 import React from "react"
-import { Tabs, Tab, ScrollableTab, Icon, TabHeading, Text } from "native-base"
+import {
+  Tabs,
+  Tab,
+  ScrollableTab,
+  Icon,
+  TabHeading,
+  Text,
+  Toast
+} from "native-base"
 import Recommend from "./Recommend"
 import Appitizer from "./Appitizer"
 import Beef from "./Beef"
@@ -44,6 +52,12 @@ const MenuScreen = props => {
     //     total_amount
     //   })
     // })
+
+    Toast.show({
+      text: `คุณเลือกรายการนี้แล้ว`,
+      buttonText: "OK",
+      buttonStyle: { backgroundColor: "#5cb85c" }
+    })
 
     fetch(`${config.SERVER_API}/orders_detail/create`, {
       method: "POST",

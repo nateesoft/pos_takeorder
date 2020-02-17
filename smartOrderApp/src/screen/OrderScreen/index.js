@@ -135,12 +135,13 @@ export default class OrderScreen extends React.Component {
                       textAlign: "center"
                     }}
                   >
-                    {index + 1}
+                    #{index + 1}
                   </Text>
                   <Text style={{ padding: 10 }}></Text>
                   <Text style={{ padding: 10 }}>{item.menu_name}</Text>
                 </Left>
                 <Right>
+                  <Text>Qty {item.qty}</Text>
                   <Text style={{ color: "green", fontWeight: "bold" }}>
                     {item.price.toFixed(2)}
                   </Text>

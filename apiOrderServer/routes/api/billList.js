@@ -1,16 +1,17 @@
+const Task = require("../../models/takeorder/Bill")
 const express = require("express")
 const router = express.Router()
 
-let billList = []
-
 /* GET data listing. */
 router.get("/", function(req, res, next) {
-  const dataSimple = {
-    title: "The Basics - Networking",
-    description: "Your app fetched this from a remote endpoint!",
-    billList: []
-  }
-  res.json(dataSimple)
+  const bill_no = req.query.bill_no
+  Task.findByBillNo(bill_no, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(rows)
+    }
+  })
 })
 
 router.post("/create", (req, res, next) => {
