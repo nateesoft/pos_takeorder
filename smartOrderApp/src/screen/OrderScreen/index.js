@@ -15,6 +15,7 @@ import {
   Button,
   Toast
 } from "native-base"
+// import { SwipeListView } from "react-native-swipe-list-view"
 
 const truncateData = () => {
   fetch(`${config.SERVER_API}/orders_detail/empty`, {
@@ -55,6 +56,55 @@ export default class OrderScreen extends React.Component {
         console.error(error)
       })
   }
+
+  //   render() {
+  //     if (this.state.isLoading) {
+  //       return (
+  //         <View style={{ flex: 1, padding: 20 }}>
+  //           <ActivityIndicator />
+  //         </View>
+  //       )
+  //     }
+
+  //     return (
+  //       <SwipeListView
+  //         data={this.state.dataSource}
+  //         renderItem={(data, rowMap) => (
+  //           <View style={styles.rowFront}>
+  //             <Text>I am xxx in a SwipeListView</Text>
+  //           </View>
+  //         )}
+  //         renderHiddenItem={(data, rowMap) => (
+  //           <View style={styles.rowBack}>
+  //             <Text>Left</Text>
+  //             <Text>Right</Text>
+  //           </View>
+  //         )}
+  //         leftOpenValue={75}
+  //         rightOpenValue={-75}
+  //       />
+  //     )
+  //   }
+  // }
+
+  // const styles = StyleSheet.create({
+  //   rowFront: {
+  //     alignItems: "center",
+  //     backgroundColor: "#CCC",
+  //     borderBottomColor: "black",
+  //     borderBottomWidth: 1,
+  //     justifyContent: "center",
+  //     height: 50
+  //   },
+  //   rowBack: {
+  //     alignItems: "center",
+  //     backgroundColor: "#DDD",
+  //     flex: 1,
+  //     flexDirection: "row",
+  //     justifyContent: "space-between",
+  //     paddingLeft: 15
+  //   }
+  // })
 
   render() {
     if (this.state.isLoading) {

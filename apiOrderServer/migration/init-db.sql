@@ -10,7 +10,7 @@ CREATE TABLE `bill` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`bill_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `bill_detail` (
   `index` varchar(20) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE `bill_detail` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `group_menu` (
   `code` varchar(3) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `group_menu` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `login` (
   `emp_code` varchar(20) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `login` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `open_table` (
   `code` varchar(3) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `open_table` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `orders` (
   `order_no` varchar(10) NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE `orders` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`order_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `orders_detail` (
   `index` varchar(20) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE `orders_detail` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `product_menu` (
   `code` varchar(10) NOT NULL,
@@ -100,4 +100,4 @@ CREATE TABLE `product_menu` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
