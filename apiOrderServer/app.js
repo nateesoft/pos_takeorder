@@ -7,8 +7,10 @@ const logger = require("morgan")
 const indexRouter = require("./routes/index")
 const tableRouter = require("./routes/api/tableList")
 const billRouter = require("./routes/api/billList")
+const billDetailRouter = require("./routes/api/billDetailList")
 const orderRouter = require("./routes/api/orderList")
 const orderDetailRouter = require("./routes/api/orderDetailList")
+const productMenuRouter = require("./routes/api/productMenu")
 
 const app = express()
 
@@ -25,8 +27,10 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use("/", indexRouter)
 app.use("/tables", tableRouter)
 app.use("/bills", billRouter)
+app.use("/bill_detail", billDetailRouter)
 app.use("/orders", orderRouter)
 app.use("/orders_detail", orderDetailRouter)
+app.use("/product", productMenuRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

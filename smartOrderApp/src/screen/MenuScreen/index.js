@@ -1,13 +1,5 @@
 import React from "react"
-import {
-  Tabs,
-  Tab,
-  ScrollableTab,
-  Icon,
-  TabHeading,
-  Text,
-  Toast
-} from "native-base"
+import { Tabs, Tab, ScrollableTab, Toast } from "native-base"
 import Recommend from "./Recommend"
 import Appitizer from "./Appitizer"
 import Beef from "./Beef"
@@ -25,6 +17,7 @@ import Soup from "./Soup"
 import Spaghetti from "./Spaghetti"
 import Yourway from "./Yourway"
 import showMenuItem from "./contents/ListMenuItem"
+import showCardMenuItem from "./contents/ShowCardMenuItem"
 
 const MenuScreen = props => {
   const { config } = props
@@ -79,15 +72,12 @@ const MenuScreen = props => {
 
   return (
     <Tabs renderTabBar={() => <ScrollableTab />}>
-      <Tab
-        heading={
-          <TabHeading>
-            <Icon name="star" />
-            <Text>Recommend</Text>
-          </TabHeading>
-        }
-      >
-        <Recommend onAddOrder={addMenu} {...props} />
+      <Tab heading="Recommend">
+        <Recommend
+          ListMenuItem={showCardMenuItem}
+          onAddOrder={addMenu}
+          {...props}
+        />
       </Tab>
       <Tab heading="Appitizer">
         <Appitizer

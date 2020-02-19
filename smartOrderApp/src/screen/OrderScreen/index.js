@@ -1,5 +1,5 @@
-import React from "react"
-import { ActivityIndicator, Text, View, StyleSheet } from "react-native"
+import React, { useState, useEffect } from "react"
+import { ActivityIndicator, Text, View } from "react-native"
 const config = require("../../../config")
 import {
   List,
@@ -8,14 +8,9 @@ import {
   Right,
   Content,
   Container,
-  Form,
-  Item,
-  Input,
-  Label,
   Button,
   Toast
 } from "native-base"
-// import { SwipeListView } from "react-native-swipe-list-view"
 
 const truncateData = () => {
   fetch(`${config.SERVER_API}/orders_detail/empty`, {
@@ -34,143 +29,70 @@ const truncateData = () => {
   })
 }
 
-export default class OrderScreen extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { isLoading: true }
-  }
+const OrderScreen = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  const [dataSource, setDataSource] = useState([])
 
-  componentDidMount() {
-    return fetch(`${config.SERVER_API}/orders_detail?order_no=00001`)
+  useEffect(() => {
+    fetch(`${config.SERVER_API}/orders_detail?order_no=00001`)
       .then(response => response.json())
       .then(responseJson => {
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: responseJson
-          },
-          function() {}
-        )
+        setIsLoading(false)
+        setDataSource(responseJson)
       })
       .catch(error => {
         console.error(error)
       })
-  }
+  }, [])
 
-  //   render() {
-  //     if (this.state.isLoading) {
-  //       return (
-  //         <View style={{ flex: 1, padding: 20 }}>
-  //           <ActivityIndicator />
-  //         </View>
-  //       )
-  //     }
-
-  //     return (
-  //       <SwipeListView
-  //         data={this.state.dataSource}
-  //         renderItem={(data, rowMap) => (
-  //           <View style={styles.rowFront}>
-  //             <Text>I am xxx in a SwipeListView</Text>
-  //           </View>
-  //         )}
-  //         renderHiddenItem={(data, rowMap) => (
-  //           <View style={styles.rowBack}>
-  //             <Text>Left</Text>
-  //             <Text>Right</Text>
-  //           </View>
-  //         )}
-  //         leftOpenValue={75}
-  //         rightOpenValue={-75}
-  //       />
-  //     )
-  //   }
-  // }
-
-  // const styles = StyleSheet.create({
-  //   rowFront: {
-  //     alignItems: "center",
-  //     backgroundColor: "#CCC",
-  //     borderBottomColor: "black",
-  //     borderBottomWidth: 1,
-  //     justifyContent: "center",
-  //     height: 50
-  //   },
-  //   rowBack: {
-  //     alignItems: "center",
-  //     backgroundColor: "#DDD",
-  //     flex: 1,
-  //     flexDirection: "row",
-  //     justifyContent: "space-between",
-  //     paddingLeft: 15
-  //   }
-  // })
-
-  render() {
-    if (this.state.isLoading) {
-      return (
-        <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator />
-        </View>
-      )
-    }
-
-    const netTotal = this.state.dataSource.reduce(
-      (price, item) => price + item.price,
-      0
-    )
-
+  if (isLoading) {
     return (
-      <Container>
-        <Content>
-          <List>
-            {this.state.dataSource.map((item, index) => (
-              <ListItem id={index}>
-                <Left>
-                  <Text
-                    style={{
-                      padding: 10,
-                      backgroundColor: "#eeeeee",
-                      width: 45,
-                      textAlign: "center"
-                    }}
-                  >
-                    #{index + 1}
-                  </Text>
-                  <Text style={{ padding: 10 }}></Text>
-                  <Text style={{ padding: 10 }}>{item.menu_name}</Text>
-                </Left>
-                <Right>
-                  <Text>Qty {item.qty}</Text>
-                  <Text style={{ color: "green", fontWeight: "bold" }}>
-                    {item.price.toFixed(2)}
-                  </Text>
-                </Right>
-              </ListItem>
-            ))}
-          </List>
-        </Content>
-        <View style={{ justifyContent: "center", padding: 10 }}>
-          <Button
-            style={{ justifyContent: "center", backgroundColor: "green" }}
-            onPress={() => truncateData()}
-          >
-            <Text style={{ color: "white" }}>ยืนยันรายการ</Text>
-          </Button>
-        </View>
-      </Container>
+      <View style={{ flex: 1, padding: 20 }}>
+        <ActivityIndicator />
+      </View>
     )
   }
+
+  return (
+    <Container>
+      <Content>
+        <List>
+          {dataSource.map((item, index) => (
+            <ListItem key={index}>
+              <Left>
+                <Text
+                  style={{
+                    padding: 10,
+                    backgroundColor: "#eeeeee",
+                    width: 45,
+                    textAlign: "center"
+                  }}
+                >
+                  #{index + 1}
+                </Text>
+                <Text style={{ padding: 10 }}></Text>
+                <Text style={{ padding: 10 }}>{item.menu_name}</Text>
+              </Left>
+              <Right>
+                <Text>Qty {item.qty}</Text>
+                <Text style={{ color: "green", fontWeight: "bold" }}>
+                  {item.price.toFixed(2)}
+                </Text>
+              </Right>
+            </ListItem>
+          ))}
+        </List>
+      </Content>
+      <View style={{ justifyContent: "center", padding: 10 }}>
+        <Button
+          style={{ justifyContent: "center", backgroundColor: "green" }}
+          onPress={() => truncateData()}
+        >
+          <Text style={{ color: "white" }}>ยืนยันรายการ</Text>
+        </Button>
+      </View>
+    </Container>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 22
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44
-  }
-})
+module.exports = OrderScreen

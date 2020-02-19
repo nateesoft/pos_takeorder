@@ -1,21 +1,8 @@
 import React from "react"
-import {
-  Content,
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Button,
-  Icon,
-  Left,
-  Body,
-  Right
-} from "native-base"
-import { Image } from "react-native"
+import { Content } from "native-base"
 
 const Recommend = props => {
-  const { config, onAddOrder } = props
-
+  const { config, onAddOrder, ListMenuItem } = props
   const host_url = `${config.THUMBNAIL}`
   const host_full_url = `${config.FULL_IMG}`
   const menus = [
@@ -73,47 +60,7 @@ const Recommend = props => {
 
   return (
     <Content>
-      {menus.map((item, index) => (
-        <Card>
-          <CardItem>
-            <Left>
-              <Thumbnail source={{ uri: item.uri }} />
-              <Body>
-                <Text>{item.name}</Text>
-                <Text note>{item.description}</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem cardBody>
-            <Image
-              source={{ uri: item.uri_full }}
-              style={{ height: 200, width: null, flex: 1 }}
-            />
-          </CardItem>
-          <CardItem>
-            <Left>
-              <Button transparent>
-                <Icon active name="thumbs-up" />
-                <Text>{item.isLike} Likes</Text>
-              </Button>
-            </Left>
-            <Body>
-              <Button transparent>
-                <Icon active name="chatbubbles" />
-                <Text>{item.isComment} Comments</Text>
-              </Button>
-            </Body>
-            <Right>
-              <Button
-                success
-                onPress={() => onAddOrder(item.id, item.name, item.price)}
-              >
-                <Text>Add</Text>
-              </Button>
-            </Right>
-          </CardItem>
-        </Card>
-      ))}
+      <ListMenuItem menus={menus} submit={onAddOrder} />
     </Content>
   )
 }

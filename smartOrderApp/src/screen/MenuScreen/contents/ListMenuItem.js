@@ -22,7 +22,7 @@ const ListMenuItem = props => (
   <List>
     {props.menus.map((name, index) => {
       return (
-        <ListItem thumbnail onPress={() => showContent(name.name)}>
+        <ListItem key={index} thumbnail onPress={() => showContent(name.name)}>
           <Left>
             <Thumbnail square source={{ uri: name.uri }} />
           </Left>
