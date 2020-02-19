@@ -20,24 +20,27 @@ const showContent = order =>
 
 const ListMenuItem = props => (
   <List>
-    {props.menus.map((name, index) => {
+    {props.menus.map((item, index) => {
       return (
-        <ListItem key={index} thumbnail onPress={() => showContent(name.name)}>
+        <ListItem key={index} thumbnail onPress={() => showContent(item.name)}>
           <Left>
-            <Thumbnail square source={{ uri: name.uri }} />
+            <Thumbnail
+              square
+              source={{ uri: props.config.THUMBNAIL + item.img_url }}
+            />
           </Left>
           <Body>
             <Text>
-              {name.name} ${name.price}
+              {item.name} ${item.price}
             </Text>
             <Text note numberOfLines={1}>
-              {name.description}
+              {item.description}
             </Text>
           </Body>
           <Right>
             <Button
               success
-              onPress={() => props.submit(name.id, name.name, name.price)}
+              onPress={() => props.submit(item.code, item.name, item.price)}
             >
               <Text>Add</Text>
             </Button>

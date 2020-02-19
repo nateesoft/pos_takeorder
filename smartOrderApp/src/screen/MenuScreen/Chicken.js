@@ -1,56 +1,34 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Content } from "native-base"
+import { ActivityIndicator, View } from "react-native"
 
 const Chicken = props => {
   const { config, onAddOrder, ListMenuItem } = props
-  const host_url = `${config.THUMBNAIL}`
-  const menus = [
-    {
-      id: 28,
-      uri: `${host_url}/chicken/chicken1.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    },
-    {
-      id: 29,
-      uri: `${host_url}/chicken/chicken2.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    },
-    {
-      id: 30,
-      uri: `${host_url}/chicken/chicken3.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    },
-    {
-      id: 31,
-      uri: `${host_url}/chicken/chicken4.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    },
-    {
-      id: 32,
-      uri: `${host_url}/chicken/chicken5.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    },
-    {
-      id: 33,
-      uri: `${host_url}/chicken/chicken6.jpg`,
-      name: "Chicken",
-      price: 199.0,
-      description: "สเต็กไก่อันใหญ่ๆ"
-    }
-  ]
+  const [isLoading, setIsLoading] = useState(true)
+  const [menus, setMenus] = useState([])
+  useEffect(() => {
+    fetch(`${config.SERVER_API}/product/g05`)
+      .then(response => response.json())
+      .then(responseJson => {
+        setIsLoading(false)
+        setMenus(responseJson)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, [])
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, padding: 20 }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
     <Content>
-      <ListMenuItem menus={menus} submit={onAddOrder} />
+      <ListMenuItem menus={menus} submit={onAddOrder} {...props} />
     </Content>
   )
 }

@@ -12,9 +12,19 @@ router.get("/", (req, res, next) => {
   })
 })
 
-router.get("/group_code", (req, res, next) => {
-  const group_code = req.query.group_code
+router.get("/:group_code", (req, res, next) => {
+  const group_code = req.params.group_code
   Task.findByGroup(group_code, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      res.json(rows)
+    }
+  })
+})
+
+router.get("/top/recommend", (req, res, next) => {
+  Task.showRecommend((err, rows) => {
     if (err) {
       res.send(err)
     } else {

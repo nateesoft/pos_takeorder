@@ -19,7 +19,9 @@ const ShowCardMenuItem = props => (
       <Card key={index}>
         <CardItem>
           <Left>
-            <Thumbnail source={{ uri: item.uri }} />
+            <Thumbnail
+              source={{ uri: props.config.THUMBNAIL + item.img_url_thumbnail }}
+            />
             <Body>
               <Text>{item.name}</Text>
               <Text note>{item.description}</Text>
@@ -28,7 +30,7 @@ const ShowCardMenuItem = props => (
         </CardItem>
         <CardItem cardBody>
           <Image
-            source={{ uri: item.uri_full }}
+            source={{ uri: props.config.FULL_IMG + item.img_url }}
             style={{ height: 200, width: null, flex: 1 }}
           />
         </CardItem>
@@ -48,7 +50,7 @@ const ShowCardMenuItem = props => (
           <Right>
             <Button
               success
-              onPress={() => onAddOrder(item.id, item.name, item.price)}
+              onPress={() => props.onAddOrder(item.code, item.name, item.price)}
             >
               <Text>Add</Text>
             </Button>

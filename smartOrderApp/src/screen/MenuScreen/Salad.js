@@ -1,42 +1,34 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { Content } from "native-base"
+import { ActivityIndicator, View } from "react-native"
 
 const Salad = props => {
   const { config, onAddOrder, ListMenuItem } = props
-  const host_url = `${config.THUMBNAIL}`
-  const menus = [
-    {
-      id: 64,
-      uri: `${host_url}/salad/salad1.jpg`,
-      name: "Salad",
-      price: 199.0,
-      description: "สลัด"
-    },
-    {
-      id: 65,
-      uri: `${host_url}/salad/salad2.jpg`,
-      name: "Salad",
-      price: 199.0,
-      description: "สลัด"
-    },
-    {
-      id: 66,
-      uri: `${host_url}/salad/salad3.jpg`,
-      name: "Salad",
-      price: 199.0,
-      description: "สลัด"
-    },
-    {
-      id: 67,
-      uri: `${host_url}/salad/salad4.jpg`,
-      name: "Salad",
-      price: 199.0,
-      description: "สลัด"
-    }
-  ]
+  const [isLoading, setIsLoading] = useState(true)
+  const [menus, setMenus] = useState([])
+  useEffect(() => {
+    fetch(`${config.SERVER_API}/product/g12`)
+      .then(response => response.json())
+      .then(responseJson => {
+        setIsLoading(false)
+        setMenus(responseJson)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, [])
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, padding: 20 }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
     <Content>
-      <ListMenuItem menus={menus} submit={onAddOrder} />
+      <ListMenuItem menus={menus} submit={onAddOrder} {...props} />
     </Content>
   )
 }

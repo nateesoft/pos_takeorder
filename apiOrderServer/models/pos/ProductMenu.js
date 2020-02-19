@@ -18,6 +18,12 @@ const ProductMenu = {
       [group_code],
       callback
     )
+  },
+  showRecommend: function(callback) {
+    return db.query(
+      `select * from ${table_name} where show_recommend='Y' and status='Y' order by code`,
+      callback
+    )
   }
 }
 

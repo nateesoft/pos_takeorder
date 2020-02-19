@@ -1,28 +1,34 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Content } from "native-base"
+import { ActivityIndicator, View } from "react-native"
 
 const Delivery = props => {
   const { config, onAddOrder, ListMenuItem } = props
-  const host_url = `${config.THUMBNAIL}`
-  const menus = [
-    {
-      id: 34,
-      uri: `${host_url}/delivery/delivery1.jpg`,
-      name: "Delivery",
-      price: 199.0,
-      description: "จัดส่งถึงที่"
-    },
-    {
-      id: 35,
-      uri: `${host_url}/delivery/delivery2.jpg`,
-      name: "Delivery",
-      price: 199.0,
-      description: "จัดส่งถึงที่"
-    }
-  ]
+  const [isLoading, setIsLoading] = useState(true)
+  const [menus, setMenus] = useState([])
+  useEffect(() => {
+    fetch(`${config.SERVER_API}/product/g06`)
+      .then(response => response.json())
+      .then(responseJson => {
+        setIsLoading(false)
+        setMenus(responseJson)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, [])
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, padding: 20 }}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
     <Content>
-      <ListMenuItem menus={menus} submit={onAddOrder} />
+      <ListMenuItem menus={menus} submit={onAddOrder} {...props} />
     </Content>
   )
 }
