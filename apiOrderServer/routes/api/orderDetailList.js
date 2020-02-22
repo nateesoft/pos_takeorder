@@ -48,13 +48,13 @@ router.put("/:order_no/update", (req, res, next) => {
   })
 })
 
-router.delete("/:order_no/delete", (req, res, next) => {
-  const order_no = req.params.order_no
-  Task.delete(order_no, (err, rows) => {
+router.delete("/:index/delete", (req, res, next) => {
+  const index = req.params.index
+  Task.delete(index, (err, rows) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Delete data success")
+      res.json("Delete product success")
     }
   })
 })

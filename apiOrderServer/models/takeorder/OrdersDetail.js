@@ -1,5 +1,6 @@
 const db = require("../../config/db")
 const table_name = "orders_detail"
+const uuid = require("react-native-uuid")
 
 const OrdersDetail = {
   findByOrderNo: function(order_no, callback) {
@@ -18,7 +19,7 @@ const OrdersDetail = {
   },
   add: function(OrdersDetail, callback) {
     return db.query(
-      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now())`,
+      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now(),?)`,
       [
         OrdersDetail.index,
         OrdersDetail.order_no,
@@ -26,7 +27,8 @@ const OrdersDetail = {
         OrdersDetail.menu_name,
         OrdersDetail.price,
         OrdersDetail.qty,
-        OrdersDetail.total_amount
+        OrdersDetail.total_amount,
+        uuid.v4()
       ],
       callback
     )
@@ -38,19 +40,11 @@ const OrdersDetail = {
       callback
     )
   },
-  delete: function(index, callback) {
-    return db.query(
-      `delete from ${table_name} where index=?`,
-      [index],
-      callback
-    )
+  delete: function(uid, callback) {
+    return db.query(`delete from ${table_name} where uid=?`, [uid], callback)
   },
   empty: function(index, callback) {
-    return db.query(
-      `delete from ${table_name}`,
-      [index],
-      callback
-    )
+    return db.query(`delete from ${table_name}`, [index], callback)
   }
 }
 

@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "live.nathee.takeorder",
+      "buildNumber": "1.0.0"
     },
     "description": ""
   }

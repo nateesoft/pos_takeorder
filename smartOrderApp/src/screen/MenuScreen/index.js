@@ -47,9 +47,7 @@ const MenuScreen = props => {
     // })
 
     Toast.show({
-      text: `คุณเลือกรายการนี้แล้ว code=${code},name=${name},price=${price}`,
-      buttonText: "OK",
-      buttonStyle: { backgroundColor: "#5cb85c" }
+      text: `สั่ง ${name} เรียบร้อย`
     })
 
     fetch(`${config.SERVER_API}/orders_detail/create`, {
