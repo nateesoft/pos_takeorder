@@ -19,6 +19,13 @@ const ProductMenu = {
       callback
     )
   },
+  findByGroupAndProduct: function(group_code, product_code, callback) {
+    return db.query(
+      `select * from ${table_name} where group_code=? and code=? and status='Y'`,
+      [group_code, product_code],
+      callback
+    )
+  },
   showRecommend: function(callback) {
     return db.query(
       `select * from ${table_name} where show_recommend='Y' and status='Y' order by code`,
