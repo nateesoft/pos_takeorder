@@ -181,7 +181,7 @@ export const MainPage = () => {
               <Route exact path="/" component={WelcomePage} />
               <Route path="/login" component={LoginPage} />
               <Route path="/table" component={TableTab} />
-              <Route path="/menu" component={MenuTab} />
+              <Route path="/menu/:group" component={MenuTab} />
               <Route path="/detail/:group/:code" component={MenuDetail} />
               <Route path="/order" component={OrderTab} />
               <Route path="/bill" component={BillTab} />

@@ -9,17 +9,19 @@ import CardActions from "@material-ui/core/CardActions"
 import Collapse from "@material-ui/core/Collapse"
 import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
-import Typography from "@material-ui/core/Typography"
 import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
 import MenuSubList from "./MenuSubList"
 import { Checkbox } from "@material-ui/core"
+import ButtonAction from "./ButtonAction"
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%"
+  },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%"
   },
   expand: {
     transform: "rotate(0deg)",
@@ -39,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 export default function MenuDeatil(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [isLoader, setIsLoader] = useState(false)
+  const [setIsLoader] = useState(false)
   const [expanded, setExpanded] = React.useState(true)
   const group = props.match.params.group
   const code = props.match.params.code
@@ -55,7 +57,7 @@ export default function MenuDeatil(props) {
           setIsLoader(true)
         }
       )
-  }, [code, group])
+  }, [code, group, setIsLoader])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -71,9 +73,7 @@ export default function MenuDeatil(props) {
                 R
               </Avatar>
             }
-            action={
-              <Checkbox />
-            }
+            action={<Checkbox />}
             title={item.name}
             subheader={item.description}
           />
@@ -82,11 +82,6 @@ export default function MenuDeatil(props) {
             image={`http://172.20.10.5:5000/images${item.img_url}`}
             title="Paella dish"
           />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              ราคา: {item.price} บาท
-            </Typography>
-          </CardContent>
           <CardActions disableSpacing>
             <h4>เลือกรายการอาหารทานคู่กัน</h4>
             <IconButton
@@ -105,6 +100,7 @@ export default function MenuDeatil(props) {
               <MenuSubList />
             </CardContent>
           </Collapse>
+          <ButtonAction group={item.group_code} />
         </Card>
       ))}
     </div>

@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 export default props => {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [isLoader, setIsLoader] = useState(false)
+  const [setIsLoader] = useState(false)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
 
@@ -50,7 +50,7 @@ export default props => {
           setIsLoader(true)
         }
       )
-  }, [props.id])
+  }, [props.id, setIsLoader])
 
   if (redirect) {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />

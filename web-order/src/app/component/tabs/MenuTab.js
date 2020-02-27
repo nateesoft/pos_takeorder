@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
@@ -32,6 +32,24 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 }
 
+const dataGroup = [
+  "g01",
+  "g02",
+  "g03",
+  "g04",
+  "g05",
+  "g06",
+  "g07",
+  "g08",
+  "g09",
+  "g10",
+  "g11",
+  "g12",
+  "g13",
+  "g14",
+  "g15"
+]
+
 function a11yProps(index) {
   return {
     id: `scrollable-force-tab-${index}`,
@@ -47,9 +65,18 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default () => {
+export default props => {
+  const groupId = (props.match.params && props.match.params.group) || "g01"
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
+
+  useEffect(() => {
+    dataGroup.map((item, i) => {
+      if (item === groupId) {
+        setValue(i)
+      }
+    })
+  }, [groupId])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -74,61 +101,21 @@ export default () => {
           <Tab label="Chicken" {...a11yProps(4)} />
           <Tab label="Delivery" {...a11yProps(5)} />
           <Tab label="Dessert" {...a11yProps(6)} />
-          <Tab label="Fish" {...a11yProps(6)} />
-          <Tab label="Kids" {...a11yProps(6)} />
-          <Tab label="Pork" {...a11yProps(6)} />
-          <Tab label="Premiumsteak" {...a11yProps(6)} />
-          <Tab label="Salad" {...a11yProps(6)} />
-          <Tab label="Soup" {...a11yProps(6)} />
-          <Tab label="Spaghetti" {...a11yProps(6)} />
-          <Tab label="Yourway" {...a11yProps(6)} />
+          <Tab label="Fish" {...a11yProps(7)} />
+          <Tab label="Kids" {...a11yProps(8)} />
+          <Tab label="Pork" {...a11yProps(9)} />
+          <Tab label="Premiumsteak" {...a11yProps(10)} />
+          <Tab label="Salad" {...a11yProps(11)} />
+          <Tab label="Soup" {...a11yProps(12)} />
+          <Tab label="Spaghetti" {...a11yProps(13)} />
+          <Tab label="Yourway" {...a11yProps(14)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <GetMenu id="g01" />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <GetMenu id="g02" />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <GetMenu id="g03" />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <GetMenu id="g04" />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <GetMenu id="g05" />
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <GetMenu id="g06" />
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        <GetMenu id="g07" />
-      </TabPanel>
-      <TabPanel value={value} index={7}>
-        <GetMenu id="g08" />
-      </TabPanel>
-      <TabPanel value={value} index={8}>
-        <GetMenu id="g09" />
-      </TabPanel>
-      <TabPanel value={value} index={9}>
-        <GetMenu id="g10" />
-      </TabPanel>
-      <TabPanel value={value} index={10}>
-        <GetMenu id="g11" />
-      </TabPanel>
-      <TabPanel value={value} index={11}>
-        <GetMenu id="g12" />
-      </TabPanel>
-      <TabPanel value={value} index={12}>
-        <GetMenu id="g13" />
-      </TabPanel>
-      <TabPanel value={value} index={13}>
-        <GetMenu id="g14" />
-      </TabPanel>
-      <TabPanel value={value} index={14}>
-        <GetMenu id="g15" />
-      </TabPanel>
+      {dataGroup.map((item, i) => (
+        <TabPanel value={value} index={i} key={i}>
+          <GetMenu id={item} />
+        </TabPanel>
+      ))}
     </div>
   )
 }

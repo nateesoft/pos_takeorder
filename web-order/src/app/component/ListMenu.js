@@ -10,6 +10,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
+import Badge from "@material-ui/core/Badge"
 
 const useStyles = makeStyles(theme => ({
   listMenu: {
@@ -40,7 +41,7 @@ export default function ListMenu() {
           <ListItemText primary="Table" />
         </ListItem>
       </Link>
-      <Link to="/menu" className={classes.listMenu}>
+      <Link to="/menu/g01" className={classes.listMenu}>
         <ListItem
           button
           selected={selectedIndex === 1}
@@ -59,7 +60,9 @@ export default function ListMenu() {
           onClick={event => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            <ViewList />
+            <Badge badgeContent={4} color="primary">
+              <ViewList />
+            </Badge>
           </ListItemIcon>
           <ListItemText primary="Order" />
         </ListItem>
