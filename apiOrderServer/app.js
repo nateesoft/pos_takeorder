@@ -15,7 +15,13 @@ const productMenuRouter = require("./routes/api/productMenu")
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  })
+)
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"))

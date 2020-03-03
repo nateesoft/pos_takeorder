@@ -28,42 +28,42 @@ const useStyles = makeStyles(theme => ({
 
 const tileData = [
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer2.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer2.jpg",
     title: "appitizer2",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer3.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer3.jpg",
     title: "appitizer3",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer4.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer4.jpg",
     title: "appitizer4",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer5.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer5.jpg",
     title: "appitizer5",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer6.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer6.jpg",
     title: "appitizer6",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer7.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer7.jpg",
     title: "appitizer7",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer8.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer8.jpg",
     title: "appitizer8",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer9.jpg",
+    img: "http://localhost:5000/images/appitizer/appitizer9.jpg",
     title: "appitizer9",
     author: "author"
   }

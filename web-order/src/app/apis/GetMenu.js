@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 export default props => {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
 
@@ -40,7 +40,7 @@ export default props => {
   }
 
   useEffect(() => {
-    fetch(`http://172.20.10.5:5000/product/${props.id}`)
+    fetch(`http://localhost:5000/product/${props.id}`)
       .then(res => res.json())
       .then(
         result => {
@@ -62,7 +62,7 @@ export default props => {
         {data.map(item => (
           <GridListTile key={item.code_key}>
             <img
-              src={`http://172.20.10.5:5000/images${item.img_url}`}
+              src={`http://localhost:5000/images${item.img_url}`}
               alt={item.description}
               onClick={() =>
                 handleOnClick(`${item.code}`, `${item.group_code}`)

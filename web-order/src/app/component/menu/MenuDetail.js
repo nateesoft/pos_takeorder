@@ -47,7 +47,7 @@ export default function MenuDeatil(props) {
   const code = props.match.params.code
 
   useEffect(() => {
-    fetch(`http://172.20.10.5:5000/product/${group}/${code}`)
+    fetch(`http://localhost:5000/product/${group}/${code}`)
       .then(res => res.json())
       .then(
         result => {
@@ -65,8 +65,8 @@ export default function MenuDeatil(props) {
 
   return (
     <div>
-      {data.map(item => (
-        <Card className={classes.root}>
+      {data.map((item, index) => (
+        <Card className={classes.root} key={index}>
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
@@ -79,7 +79,7 @@ export default function MenuDeatil(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`http://172.20.10.5:5000/images${item.img_url}`}
+            image={`http://localhost:5000/images${item.img_url}`}
             title="Paella dish"
           />
           <CardActions disableSpacing>
@@ -100,7 +100,7 @@ export default function MenuDeatil(props) {
               <MenuSubList />
             </CardContent>
           </Collapse>
-          <ButtonAction group={item.group_code} />
+          <ButtonAction group={item.group_code} item={item} />
         </Card>
       ))}
     </div>
