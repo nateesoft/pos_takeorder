@@ -4,9 +4,10 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
-import Fastfood from "@material-ui/icons/Fastfood"
+import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { Config } from "../config"
+import addOrderItem from "./AddOrder"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     height: 450
   },
   icon: {
-    color: "rgba(255, 255, 255, 0.54)"
+    color: "green"
   }
 }))
 
@@ -51,6 +52,9 @@ export default function GetMenu(props) {
           // setIsLoader(true)
         }
       )
+    return function() {
+      console.log("GetMenu cleanup")
+    }
   }, [props.id])
 
   if (redirect) {
@@ -77,7 +81,11 @@ export default function GetMenu(props) {
                   aria-label={`info about ${item.description}`}
                   className={classes.icon}
                 >
-                  <Fastfood />
+                  <AddCircle
+                    onClick={() =>
+                      addOrderItem(item.code, item.name, item.price)
+                    }
+                  />
                 </IconButton>
               }
             />

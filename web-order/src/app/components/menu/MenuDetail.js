@@ -12,9 +12,9 @@ import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MenuSubList from "./MenuSubList"
-import { Checkbox } from "@material-ui/core"
 import ButtonAction from "./ButtonAction"
 import { Config } from "../../config"
+import Fastfood from "@material-ui/icons/Fastfood"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 export default function MenuDetail(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [setIsLoader] = useState(false)
+  // const [isLoader, setIsLoader] = useState(false)
   const [expanded, setExpanded] = React.useState(true)
   const group = props.match.params.group
   const code = props.match.params.code
@@ -56,13 +56,13 @@ export default function MenuDetail(props) {
           setData(result)
         },
         error => {
-          setIsLoader(true)
+          // setIsLoader(true)
         }
       )
     return function() {
       console.log("MenuDetail cleanup")
     }
-  }, [code, group, setIsLoader])
+  }, [code, group])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -78,7 +78,7 @@ export default function MenuDetail(props) {
                 R
               </Avatar>
             }
-            action={<Checkbox />}
+            action={<Fastfood style={{ color: "blue" }} />}
             title={item.name}
             subheader={item.description}
           />
@@ -87,24 +87,28 @@ export default function MenuDetail(props) {
             image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
-          <CardActions disableSpacing>
-            <h4>เลือกรายการอาหารทานคู่กัน</h4>
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <MenuSubList />
-            </CardContent>
-          </Collapse>
+          {item.show_sublist === "Y" && (
+            <div>
+              <CardActions disableSpacing>
+                <h4>เลือกรายการอาหารทานคู่กัน</h4>
+                <IconButton
+                  className={clsx(classes.expand, {
+                    [classes.expandOpen]: expanded
+                  })}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </CardActions>
+              <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                  <MenuSubList code={item.code} />
+                </CardContent>
+              </Collapse>
+            </div>
+          )}
           <ButtonAction group={item.group_code} item={item} />
         </Card>
       ))}
