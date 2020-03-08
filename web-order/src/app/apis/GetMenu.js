@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 export default props => {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [isLoader, setIsLoader] = useState(false)
+  // const [isLoader, setIsLoader] = useState(false)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
 
@@ -40,17 +40,17 @@ export default props => {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:5000/product/${props.id}`)
+    fetch(`http://172.20.10.5:5000/product/${props.id}`)
       .then(res => res.json())
       .then(
         result => {
           setData(result)
         },
         error => {
-          setIsLoader(true)
+          // setIsLoader(true)
         }
       )
-  }, [props.id, setIsLoader])
+  }, [props.id])
 
   if (redirect) {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />
@@ -62,7 +62,7 @@ export default props => {
         {data.map(item => (
           <GridListTile key={item.code_key}>
             <img
-              src={`http://localhost:5000/images${item.img_url}`}
+              src={`http://172.20.10.5:5000/images${item.img_url}`}
               alt={item.description}
               onClick={() =>
                 handleOnClick(`${item.code}`, `${item.group_code}`)

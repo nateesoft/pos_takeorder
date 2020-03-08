@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -28,8 +28,24 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SignIn() {
+const validLogin = (user, pass) => {
+  if (user === "admin" && pass === "000000") {
+    localStorage.setItem("user", user)
+  }
+}
+
+export default function Login() {
   const classes = useStyles()
+  const [user, setUser] = useState("")
+  const [pass, setPass] = useState("")
+
+  useEffect(() => {
+    console.log("Login startup")
+    localStorage.removeItem("user")
+    return function() {
+      console.log("Login cleanup")
+    }
+  }, [])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -39,9 +55,13 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          เข้าสู่ระบบ
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={e => e.preventDefault()}
+        >
           <TextField
             variant="outlined"
             margin="normal"
@@ -52,6 +72,8 @@ export default function SignIn() {
             name="empCode"
             autoComplete="email"
             autoFocus
+            value={user}
+            onChange={e => setUser(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -63,13 +85,16 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={pass}
+            onChange={e => setPass(e.target.value)}
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={() => validLogin(user, pass)}
           >
             Sign In
           </Button>

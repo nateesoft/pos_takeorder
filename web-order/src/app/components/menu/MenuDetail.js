@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function MenuDeatil(props) {
+export default function MenuDetail(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
   const [setIsLoader] = useState(false)
@@ -47,7 +47,8 @@ export default function MenuDeatil(props) {
   const code = props.match.params.code
 
   useEffect(() => {
-    fetch(`http://localhost:5000/product/${group}/${code}`)
+    console.log("MenuDetail startup")
+    fetch(`http://172.20.10.5:5000/product/${group}/${code}`)
       .then(res => res.json())
       .then(
         result => {
@@ -57,6 +58,9 @@ export default function MenuDeatil(props) {
           setIsLoader(true)
         }
       )
+    return function() {
+      console.log("MenuDetail cleanup")
+    }
   }, [code, group, setIsLoader])
 
   const handleExpandClick = () => {
@@ -79,7 +83,7 @@ export default function MenuDeatil(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`http://localhost:5000/images${item.img_url}`}
+            image={`http://172.20.10.5:5000/images${item.img_url}`}
             title="Paella dish"
           />
           <CardActions disableSpacing>

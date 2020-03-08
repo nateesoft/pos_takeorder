@@ -65,17 +65,26 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default props => {
-  const groupId = (props.match.params && props.match.params.group) || "g01"
+export default function MenuTab(props) {
+  const groupId =
+    (props && props.match && props.match.params && props.match.params.group) ||
+    "g01"
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
 
+  console.log("BillTab startup")
+
   useEffect(() => {
+    console.log("MenuTab startup")
     dataGroup.map((item, i) => {
       if (item === groupId) {
         setValue(i)
       }
+      return null
     })
+    return function() {
+      console.log("MenuTab cleanup")
+    }
   }, [groupId])
 
   const handleChange = (event, newValue) => {

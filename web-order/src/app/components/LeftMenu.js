@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
@@ -19,9 +19,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ListMenu() {
+export default function LeftMenu(props) {
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
+
+  useEffect(() => {
+    console.log("LeftMenu startup")
+    return function() {
+      console.log("LeftMenu cleanup")
+    }
+  }, [])
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
@@ -60,7 +67,7 @@ export default function ListMenu() {
           onClick={event => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            <Badge badgeContent={4} color="primary">
+            <Badge badgeContent={9} color="primary">
               <ViewList />
             </Badge>
           </ListItemIcon>

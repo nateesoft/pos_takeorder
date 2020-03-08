@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"
@@ -24,8 +24,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function CSSGrid() {
+export default function TableTab() {
   const classes = useStyles()
+
+  useEffect(() => {
+    console.log("TableTab startup")
+    return function() {
+      console.log("TableTab cleanup")
+    }
+  }, [])
 
   return (
     <div>

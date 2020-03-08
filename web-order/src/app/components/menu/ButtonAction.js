@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const addOrderItem = (code, name, price) => {
   const order_no = "00001"
-  fetch(`http://localhost:5000/orders_detail/create`, {
+  fetch(`http://172.20.10.5:5000/orders_detail/create`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -29,10 +29,10 @@ const addOrderItem = (code, name, price) => {
       total_amount: price
     })
   })
-  alert("Add item success")
+  console.log(`Add item success: ${code}`)
 }
 
-export default props => {
+export default function ButtonAction(props) {
   const classes = useStyles()
   const { code, name, price } = props.item
 

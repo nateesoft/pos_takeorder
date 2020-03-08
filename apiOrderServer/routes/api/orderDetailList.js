@@ -48,9 +48,9 @@ router.put("/:order_no/update", (req, res, next) => {
   })
 })
 
-router.delete("/:index/delete", (req, res, next) => {
-  const index = req.params.index
-  Task.delete(index, (err, rows) => {
+router.delete("/", (req, res, next) => {
+  const uid = req.body.uid
+  Task.delete(uid, (err, rows) => {
     if (err) {
       res.send(err)
     } else {

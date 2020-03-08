@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -13,17 +13,6 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
-
-const removeIndex = uid => {
-  fetch(`http://localhost:5000/orders_detail/${uid}/delete`, {
-    method: "DELETE",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: {}
-  })
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,25 +30,26 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SpanningTable() {
+export default function BillTab() {
   const classes = useStyles()
-  const [isLoader, setIsLoader] = useState(false)
+  // const [isLoader, setIsLoader] = useState(false)
   const [rows, setRows] = useState([])
-  const [invoiceTotal, setInvoiceTotal] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/orders_detail?order_no=00001`)
+    console.log("BillTab startup")
+    fetch(`http://172.20.10.5:5000/bill_detail?bill_no=b001`)
       .then(res => res.json())
       .then(
         result => {
           setRows(result)
         },
         error => {
-          setIsLoader(true)
+          // setIsLoader(true)
         }
       )
+
     return function() {
-      console.log("cleanup")
+      console.log("BillTab cleanup")
     }
   }, [])
 
@@ -76,16 +66,15 @@ export default function SpanningTable() {
             <Fastfood />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            รายการอาหารที่สั่ง
+            รายการอาหาร
           </Typography>
-          <Button color="inherit">{invoiceTotal}</Button>
+          <Button color="inherit">999</Button>
         </Toolbar>
       </AppBar>
       <TableContainer component={Paper} className={classes.container}>
         <Table aria-label="spanning table" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>รหัส</TableCell>
               <TableCell>เมนู</TableCell>
               <TableCell align="right">จำนวน</TableCell>
               <TableCell align="right">ราคา</TableCell>
@@ -94,26 +83,27 @@ export default function SpanningTable() {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <TableRow key={row.uid} onClick={() => removeIndex(row.uid)}>
-                <TableCell>{row.uid}</TableCell>
-                <TableCell>{row.menu_name}</TableCell>
+              <TableRow key={row.index}>
+                <TableCell>{row.desc}</TableCell>
                 <TableCell align="right">{row.qty}</TableCell>
+                <TableCell align="right">{row.unit}</TableCell>
                 <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.total_amount}</TableCell>
               </TableRow>
             ))}
 
-            <TableRow style={{ background: "pink" }}>
-              <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
-                Total
-              </TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {1 * 6}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {199 * rows.length}
-              </TableCell>
+            <TableRow>
+              <TableCell rowSpan={3} />
+              <TableCell colSpan={2}>Subtotal</TableCell>
+              <TableCell align="right">123</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Tax</TableCell>
+              <TableCell align="right">555</TableCell>
+              <TableCell align="right">456</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={2}>Total</TableCell>
+              <TableCell align="right">789</TableCell>
             </TableRow>
           </TableBody>
         </Table>
