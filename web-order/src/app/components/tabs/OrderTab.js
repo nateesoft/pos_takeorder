@@ -16,45 +16,7 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
 import EditIcon from "@material-ui/icons/Edit"
-
-const removeIndex = uid => {
-  fetch(`http://172.20.10.5:5000/orders_detail`, {
-    method: "DELETE",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      uid: uid
-    })
-  })
-  console.log(`Delete success: ${uid}`)
-}
-
-const editItem = uid => {
-  alert("show edit item popup")
-}
-
-const plusItem = (code, name, price) => {
-  const order_no = "00001"
-  fetch(`http://172.20.10.5:5000/orders_detail/create`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      index: order_no + "/" + code,
-      order_no,
-      menu_code: code,
-      menu_name: name,
-      price,
-      qty: 1,
-      total_amount: price
-    })
-  })
-  console.log(`Add item success: ${code}`)
-}
+import { Config } from "../../config"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -77,9 +39,61 @@ export default function OrderTab() {
   // const [isLoader, setIsLoader] = useState(false)
   const [rows, setRows] = useState([])
 
-  useEffect(() => {
-    console.log("OrderTab startup")
-    fetch(`http://172.20.10.5:5000/orders_detail?order_no=00001`)
+  const removeIndex = uid => {
+    fetch(`${Config.API_HOST}/orders_detail`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        uid: uid
+      })
+    }).then(
+      result => {
+        initLoad()
+        console.log(`Delete: ${uid}`)
+      },
+      error => {
+        console.log(`error: ${error}`)
+      }
+    )
+  }
+
+  const editItem = uid => {
+    alert("show edit item popup")
+  }
+
+  const addItem = (code, name, price) => {
+    const order_no = "00001"
+    fetch(`${Config.API_HOST}/orders_detail/create`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        index: order_no + "/" + code,
+        order_no,
+        menu_code: code,
+        menu_name: name,
+        price,
+        qty: 1,
+        total_amount: price
+      })
+    }).then(
+      result => {
+        initLoad()
+        console.log(`Add: ${code}`)
+      },
+      error => {
+        console.log(`error: ${error}`)
+      }
+    )
+  }
+
+  const initLoad = () => {
+    fetch(`${Config.API_HOST}/orders_detail?order_no=00001`)
       .then(res => res.json())
       .then(
         result => {
@@ -89,7 +103,13 @@ export default function OrderTab() {
           // setIsLoader(true)
         }
       )
+  }
+
+  useEffect(() => {
+    console.log("OrderTab startup")
+    initLoad()
     return function() {
+      setRows([])
       console.log("cleanup")
     }
   }, [])
@@ -145,7 +165,7 @@ export default function OrderTab() {
                   <AddIcon
                     style={{ color: "green" }}
                     onClick={() =>
-                      plusItem(row.menu_code, row.menu_name, row.price)
+                      addItem(row.menu_code, row.menu_name, row.price)
                     }
                   />
                 </TableCell>

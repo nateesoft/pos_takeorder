@@ -7,6 +7,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
+import { Redirect } from "react-router"
+// import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -28,24 +30,36 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const validLogin = (user, pass) => {
-  if (user === "admin" && pass === "000000") {
-    localStorage.setItem("user", user)
-  }
-}
-
 export default function Login() {
   const classes = useStyles()
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
+  const [redirect, setRedirect] = useState(false)
+
+  const validLogin = (user, pass) => {
+    if (user === "admin" && pass === "000000") {
+      localStorage.setItem("emp_code", user)
+      localStorage.setItem("table_no", null)
+      localStorage.setItem("order_no", null)
+      console.log("Logged in success")
+      setRedirect(true)
+    }
+  }
 
   useEffect(() => {
     console.log("Login startup")
-    localStorage.removeItem("user")
     return function() {
       console.log("Login cleanup")
     }
   }, [])
+
+  if (redirect) {
+    return <Redirect push to="/table" />
+  } else {
+    localStorage.removeItem("emp_code")
+    localStorage.removeItem("table_no")
+    localStorage.removeItem("order_no")
+  }
 
   return (
     <Container component="main" maxWidth="xs">

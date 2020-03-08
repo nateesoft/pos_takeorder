@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
+import { Config } from '../../config'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +38,7 @@ export default function BillTab() {
 
   useEffect(() => {
     console.log("BillTab startup")
-    fetch(`http://172.20.10.5:5000/bill_detail?bill_no=b001`)
+    fetch(`${Config.API_HOST}/bill_detail?bill_no=b001`)
       .then(res => res.json())
       .then(
         result => {

@@ -6,6 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
+import { Config } from "../config"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default props => {
+export default function GetMenu(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
   // const [isLoader, setIsLoader] = useState(false)
@@ -40,7 +41,7 @@ export default props => {
   }
 
   useEffect(() => {
-    fetch(`http://172.20.10.5:5000/product/${props.id}`)
+    fetch(`${Config.API_HOST}/product/${props.id}`)
       .then(res => res.json())
       .then(
         result => {
@@ -62,7 +63,7 @@ export default props => {
         {data.map(item => (
           <GridListTile key={item.code_key}>
             <img
-              src={`http://172.20.10.5:5000/images${item.img_url}`}
+              src={`${Config.API_HOST}/images${item.img_url}`}
               alt={item.description}
               onClick={() =>
                 handleOnClick(`${item.code}`, `${item.group_code}`)

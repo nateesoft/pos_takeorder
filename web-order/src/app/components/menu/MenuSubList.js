@@ -4,6 +4,7 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
+import { Config } from '../../config'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,42 +29,42 @@ const useStyles = makeStyles(theme => ({
 
 const tileData = [
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer2.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer2.jpg`,
     title: "appitizer2",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer3.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer3.jpg`,
     title: "appitizer3",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer4.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer4.jpg`,
     title: "appitizer4",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer5.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer5.jpg`,
     title: "appitizer5",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer6.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer6.jpg`,
     title: "appitizer6",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer7.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer7.jpg`,
     title: "appitizer7",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer8.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer8.jpg`,
     title: "appitizer8",
     author: "author"
   },
   {
-    img: "http://172.20.10.5:5000/images/appitizer/appitizer9.jpg",
+    img: `${Config.API_HOST}/images/appitizer/appitizer9.jpg`,
     title: "appitizer9",
     author: "author"
   }

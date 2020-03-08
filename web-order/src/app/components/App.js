@@ -22,6 +22,7 @@ import LoginPage from "./login/Login"
 import WelcomePage from "./Welcome"
 import ReportPage from "./report/ReportPage"
 import QrCodeLink from "./QrCodeLink"
+import Setting from "./Setting"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 
@@ -115,6 +116,7 @@ export default function App() {
               <Route path="/bill" component={BillTab} />
               <Route path="/report" component={ReportPage} />
               <Route path="/qrcode" component={QrCodeLink} />
+              <Route path="/setting" component={Setting} />
             </Switch>
           </Container>
         </main>

@@ -6,11 +6,12 @@ import ViewModule from "@material-ui/icons/ViewModule"
 import MenuBook from "@material-ui/icons/MenuBook"
 import ViewList from "@material-ui/icons/ViewList"
 import BarChartIcon from "@material-ui/icons/BarChart"
+import SettingIcon from "@material-ui/icons/Settings"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
-import Badge from "@material-ui/core/Badge"
+// import Badge from "@material-ui/core/Badge"
 
 const useStyles = makeStyles(theme => ({
   listMenu: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 export default function LeftMenu(props) {
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
+  // const [itemCount, setItemCount] = useState(0)
 
   useEffect(() => {
     console.log("LeftMenu startup")
@@ -48,6 +50,7 @@ export default function LeftMenu(props) {
           <ListItemText primary="Table" />
         </ListItem>
       </Link>
+      <Divider />
       <Link to="/menu/g01" className={classes.listMenu}>
         <ListItem
           button
@@ -67,9 +70,9 @@ export default function LeftMenu(props) {
           onClick={event => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            <Badge badgeContent={9} color="primary">
-              <ViewList />
-            </Badge>
+            {/* <Badge badgeContent={itemCount} color="primary"> */}
+            <ViewList />
+            {/* </Badge> */}
           </ListItemIcon>
           <ListItemText primary="Order" />
         </ListItem>
@@ -86,9 +89,8 @@ export default function LeftMenu(props) {
           <ListItemText primary="Bill" />
         </ListItem>
       </Link>
-
+      <Divider />
       <Link to="/report" className={classes.listMenu}>
-        <Divider />
         <ListItem
           button
           selected={selectedIndex === 4}
@@ -98,6 +100,19 @@ export default function LeftMenu(props) {
             <BarChartIcon />
           </ListItemIcon>
           <ListItemText primary="Report" />
+        </ListItem>
+      </Link>
+      <Divider />
+      <Link to="/setting" className={classes.listMenu}>
+        <ListItem
+          button
+          selected={selectedIndex === 5}
+          onClick={event => handleListItemClick(event, 5)}
+        >
+          <ListItemIcon>
+            <SettingIcon />
+          </ListItemIcon>
+          <ListItemText primary="Setting" />
         </ListItem>
       </Link>
     </div>

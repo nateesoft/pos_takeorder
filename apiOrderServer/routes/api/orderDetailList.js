@@ -15,13 +15,18 @@ router.get("/", (req, res, next) => {
 
 router.post("/create", (req, res, next) => {
   OrdersDetail = {
-    index: req.body.index,
     order_no: req.body.order_no,
+    table_code: req.body.table_code,
+    emp_code: req.body.emp_code,
+    cust_code: req.body.cust_code,
+    order_status: req.body.order_status,
+    index: req.body.index,
     menu_code: req.body.menu_code,
     menu_name: req.body.menu_name,
     price: req.body.price,
     qty: req.body.qty,
-    total_amount: req.body.total_amount
+    total_amount: req.body.total_amount,
+    order_detail_status: req.body.order_detail_status
   }
   Task.add(OrdersDetail, (err, rows) => {
     if (err) {

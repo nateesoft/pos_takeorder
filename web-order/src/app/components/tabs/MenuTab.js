@@ -6,7 +6,6 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
-
 import GetMenu from "../../apis/GetMenu"
 
 function TabPanel(props) {
@@ -61,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 0,
     width: "100%",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: "theme.palette.background.paper"
   }
 }))
 

@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MenuSubList from "./MenuSubList"
 import { Checkbox } from "@material-ui/core"
 import ButtonAction from "./ButtonAction"
+import { Config } from "../../config"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +49,7 @@ export default function MenuDetail(props) {
 
   useEffect(() => {
     console.log("MenuDetail startup")
-    fetch(`http://172.20.10.5:5000/product/${group}/${code}`)
+    fetch(`${Config.API_HOST}/product/${group}/${code}`)
       .then(res => res.json())
       .then(
         result => {
@@ -83,7 +84,7 @@ export default function MenuDetail(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`http://172.20.10.5:5000/images${item.img_url}`}
+            image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
           <CardActions disableSpacing>

@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
+import { Config } from "../../config"
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 const addOrderItem = (code, name, price) => {
   const order_no = "00001"
-  fetch(`http://172.20.10.5:5000/orders_detail/create`, {
+  fetch(`${Config.API_HOST}/orders_detail/create`, {
     method: "POST",
     headers: {
       Accept: "application/json",
