@@ -14,8 +14,8 @@ export default function QrCodeLink() {
     }
   }, [])
   return (
-    <div>
-      <div>Qr Code Link</div>
+    <div align="center">
+      <h1>Qr Code Link</h1>
     </div>
   )
 }

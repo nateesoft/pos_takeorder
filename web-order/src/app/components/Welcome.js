@@ -8,8 +8,8 @@ export default function Welcome() {
     }
   }, [])
   return (
-    <div>
-      <div>Welcome Page</div>
+    <div align="center">
+      <h1>Welcome Page</h1>
     </div>
   )
 }

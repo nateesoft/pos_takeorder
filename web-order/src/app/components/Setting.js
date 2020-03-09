@@ -8,8 +8,8 @@ export default function Setting() {
     }
   }, [])
   return (
-    <div>
-      <div>Setting Page</div>
+    <div align="center">
+      <h1>Setting Page</h1>
     </div>
   )
 }

@@ -9,8 +9,8 @@ export default function ReportPage() {
   }, [])
 
   return (
-    <div>
-      <div>Report Page</div>
+    <div align="center">
+      <h1>Report Page</h1>
     </div>
   )
 }
