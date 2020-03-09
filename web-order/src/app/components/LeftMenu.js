@@ -11,7 +11,9 @@ import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
-// import Badge from "@material-ui/core/Badge"
+import Badge from "@material-ui/core/Badge"
+import { useDispatch, useSelector } from "react-redux"
+import { reset } from "../actions"
 
 const useStyles = makeStyles(theme => ({
   listMenu: {
@@ -21,6 +23,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function LeftMenu(props) {
+  const dispatch = useDispatch()
+  const counter = useSelector(state => state.counter)
+  if (counter <= 0) {
+    dispatch(reset())
+  }
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
   // const [itemCount, setItemCount] = useState(0)
@@ -70,9 +77,9 @@ export default function LeftMenu(props) {
           onClick={event => handleListItemClick(event, 2)}
         >
           <ListItemIcon>
-            {/* <Badge badgeContent={itemCount} color="primary"> */}
-            <ViewList />
-            {/* </Badge> */}
+            <Badge badgeContent={counter} color="primary">
+              <ViewList />
+            </Badge>
           </ListItemIcon>
           <ListItemText primary="Order" />
         </ListItem>

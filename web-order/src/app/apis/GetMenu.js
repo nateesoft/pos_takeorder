@@ -8,6 +8,7 @@ import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { Config } from "../config"
 import addOrderItem from "./AddOrder"
+import { useDispatch } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,9 +28,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function GetMenu(props) {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [data, setData] = useState([])
-  // const [isLoader, setIsLoader] = useState(false)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
 
@@ -83,7 +84,12 @@ export default function GetMenu(props) {
                 >
                   <AddCircle
                     onClick={() =>
-                      addOrderItem(item.code, item.name, item.price)
+                      addOrderItem({
+                        code: item.code,
+                        name: item.name,
+                        price: item.price,
+                        dispatch
+                      })
                     }
                   />
                 </IconButton>

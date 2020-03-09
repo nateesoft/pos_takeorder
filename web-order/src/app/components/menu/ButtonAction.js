@@ -5,6 +5,7 @@ import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
 import addOrderItem from "../../apis/AddOrder"
+import { useDispatch } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ButtonAction(props) {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const { code, name, price } = props.item
 
@@ -28,7 +30,7 @@ export default function ButtonAction(props) {
         </Button>
       </Link>
       <Button
-        onClick={() => addOrderItem(code, name, price)}
+        onClick={() => addOrderItem({ code, name, price, dispatch })}
         variant="contained"
         color="primary"
         className={classes.button}

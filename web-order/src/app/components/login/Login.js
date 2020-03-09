@@ -8,7 +8,8 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
-// import { v4 as uuidv4 } from "uuid"
+import { reset } from "../../actions"
+import { useDispatch } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,6 +36,7 @@ export default function Login() {
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const [redirect, setRedirect] = useState(false)
+  useDispatch()(reset())
 
   const validLogin = (user, pass) => {
     if (user === "admin" && pass === "000000") {

@@ -17,6 +17,11 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
 import EditIcon from "@material-ui/icons/Edit"
 import { Config } from "../../config"
+import Fab from "@material-ui/core/Fab"
+import AddItem from "@material-ui/icons/Add"
+import { useDispatch } from "react-redux"
+import { increment, decrement } from "../../actions"
+import { Link } from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,10 +36,16 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  fab: {
+    position: "absolute",
+    right: theme.spacing(2),
+    bottom: theme.spacing(5)
   }
 }))
 
 export default function OrderTab() {
+  const dispatch = useDispatch()
   const classes = useStyles()
   // const [isLoader, setIsLoader] = useState(false)
   const [rows, setRows] = useState([])
@@ -52,6 +63,7 @@ export default function OrderTab() {
     }).then(
       result => {
         initLoad()
+        dispatch(decrement())
         console.log(`Delete: ${uid}`)
       },
       error => {
@@ -84,6 +96,7 @@ export default function OrderTab() {
     }).then(
       result => {
         initLoad()
+        dispatch(increment())
         console.log(`Add: ${code}`)
       },
       error => {
@@ -191,6 +204,11 @@ export default function OrderTab() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Link to={`/menu/g01`} style={{ textDecoration: "none" }}>
+        <Fab color="primary" className={classes.fab}>
+          <AddItem style={{ color: "white" }} />
+        </Fab>
+      </Link>
     </Paper>
   )
 }

@@ -1,6 +1,8 @@
 import { Config } from "../config"
+import { increment } from "../actions"
 
-export default function AddOrder(code, name, price) {
+export default function AddOrder(props) {
+  const { code, name, price, dispatch } = props
   const order_no = "00001"
   fetch(`${Config.API_HOST}/orders_detail/create`, {
     method: "POST",
@@ -18,5 +20,6 @@ export default function AddOrder(code, name, price) {
       total_amount: price
     })
   })
+  dispatch(increment())
   console.log(`Add item success: ${code}`)
 }
