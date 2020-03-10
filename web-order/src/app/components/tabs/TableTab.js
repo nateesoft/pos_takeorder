@@ -60,6 +60,7 @@ export default function TableTab() {
 
   return (
     <div>
+      <h2 align="center">โต๊ะอาหารภายในร้าน</h2>
       <Typography variant="subtitle1" gutterBottom>
         Zone - A
       </Typography>

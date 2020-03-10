@@ -75,7 +75,7 @@ export default function MenuDetail(props) {
           <CardHeader
             avatar={
               <Avatar aria-label="recipe" className={classes.avatar}>
-                R
+                JF
               </Avatar>
             }
             action={<Fastfood style={{ color: "blue" }} />}

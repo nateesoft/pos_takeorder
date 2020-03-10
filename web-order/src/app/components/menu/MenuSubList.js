@@ -27,48 +27,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// const tileData = [
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer2.jpg`,
-//     title: "appitizer2",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer3.jpg`,
-//     title: "appitizer3",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer4.jpg`,
-//     title: "appitizer4",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer5.jpg`,
-//     title: "appitizer5",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer6.jpg`,
-//     title: "appitizer6",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer7.jpg`,
-//     title: "appitizer7",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer8.jpg`,
-//     title: "appitizer8",
-//     author: "author"
-//   },
-//   {
-//     img: `${Config.API_HOST}/images/appitizer/appitizer9.jpg`,
-//     title: "appitizer9",
-//     author: "author"
-//   }
-// ]
 export default function MenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
