@@ -32,7 +32,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Add order detail success")
+      res.json("Success")
     }
   })
 })
@@ -48,7 +48,7 @@ router.put("/:order_no/update", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Update data success")
+      res.json("Success")
     }
   })
 })
@@ -59,7 +59,7 @@ router.delete("/", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Delete product success")
+      res.json("Success")
     }
   })
 })
@@ -70,7 +70,7 @@ router.delete("/empty", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Truncate order detail success")
+      res.json("Success")
     }
   })
 })

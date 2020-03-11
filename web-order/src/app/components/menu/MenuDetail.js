@@ -15,6 +15,7 @@ import MenuSubList from "./MenuSubList"
 import ButtonAction from "./ButtonAction"
 import { Config } from "../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
+import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,30 +43,36 @@ const useStyles = makeStyles(theme => ({
 export default function MenuDetail(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
-  // const [isLoader, setIsLoader] = useState(false)
   const [expanded, setExpanded] = React.useState(true)
   const group = props.match.params.group
   const code = props.match.params.code
 
   useEffect(() => {
-    console.log("MenuDetail startup")
     fetch(`${Config.API_HOST}/product/${group}/${code}`)
       .then(res => res.json())
       .then(
-        result => {
-          setData(result)
+        response => {
+          setData(response)
         },
         error => {
-          // setIsLoader(true)
+          console.log("in error found => ", error)
         }
       )
-    return function() {
-      console.log("MenuDetail cleanup")
-    }
+      .catch(error => {
+        console.log("Error: (MenuDetail: " + error + ")")
+      })
+    return function() {}
   }, [code, group])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
+  }
+
+  if (!localStorage.getItem("order_no")) {
+    return <Redirect push to={`/login`} />
+  }
+  if (!localStorage.getItem("table_no")) {
+    return <Redirect push to={`/table`} />
   }
 
   return (

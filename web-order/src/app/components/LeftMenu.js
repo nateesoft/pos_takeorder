@@ -30,12 +30,9 @@ export default function LeftMenu(props) {
   }
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  // const [itemCount, setItemCount] = useState(0)
 
   useEffect(() => {
-    console.log("LeftMenu startup")
     return function() {
-      console.log("LeftMenu cleanup")
     }
   }, [])
 

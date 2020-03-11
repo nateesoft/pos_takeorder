@@ -20,7 +20,7 @@ router.post("/create", (req, res, next) => {
     name: req.body.name,
     price: req.body.price
   })
-  res.send("add data success")
+  res.send("Success")
 })
 
 module.exports = router

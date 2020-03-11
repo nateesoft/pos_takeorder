@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import Grid from "@material-ui/core/Grid"
+import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -40,7 +41,6 @@ export default function TableTab() {
   const [tbSel, setTbSel] = useState(0)
 
   const selectTable = tableNo => {
-    console.log(`Table select: ${tableNo}`)
     localStorage.setItem("table_no", tableNo)
     setTbSel(tableNo)
   }
@@ -50,13 +50,21 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    console.log("TableTab startup")
-    console.log(localStorage.getItem("table_no"))
     setTbSel(localStorage.getItem("table_no"))
-    return function() {
-      console.log("TableTab cleanup")
-    }
+    return function() {}
   }, [])
+
+  if (!localStorage.getItem("order_no")) {
+    return <Redirect push to={`/login`} />
+  }
+  if (
+    localStorage.getItem("table_no") &&
+    localStorage.getItem("history_page")
+  ) {
+    const historyPage = localStorage.getItem("history_page")
+    localStorage.removeItem("history_page")
+    return <Redirect push to={historyPage} />
+  }
 
   return (
     <div>

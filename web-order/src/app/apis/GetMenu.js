@@ -46,16 +46,17 @@ export default function GetMenu(props) {
     fetch(`${Config.API_HOST}/product/${props.id}`)
       .then(res => res.json())
       .then(
-        result => {
-          setData(result)
+        response => {
+          setData(response)
         },
         error => {
-          // setIsLoader(true)
+          console.log("in error found => ", error)
         }
       )
-    return function() {
-      console.log("GetMenu cleanup")
-    }
+      .catch(error => {
+        console.log("Error: (GetMenu: " + error + ")")
+      })
+    return function() {}
   }, [props.id])
 
   if (redirect) {

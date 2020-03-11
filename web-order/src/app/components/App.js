@@ -19,10 +19,9 @@ import MenuDetail from "./menu/MenuDetail"
 import OrderTab from "./tabs/OrderTab"
 import BillTab from "./tabs/BillTab"
 import LoginPage from "./login/Login"
-import WelcomePage from "./Welcome"
+import WelcomePage from "./tabs/Welcome"
 import ReportPage from "./report/ReportPage"
-import QrCodeLink from "./QrCodeLink"
-import Setting from "./Setting"
+import Setting from "./tabs/Setting"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 
@@ -31,9 +30,7 @@ export default function App() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    console.log("App startup")
     return function() {
-      console.log("App cleanup")
     }
   }, [])
 
@@ -115,7 +112,6 @@ export default function App() {
               <Route path="/order" component={OrderTab} />
               <Route path="/bill" component={BillTab} />
               <Route path="/report" component={ReportPage} />
-              <Route path="/qrcode" component={QrCodeLink} />
               <Route path="/setting" component={Setting} />
             </Switch>
           </Container>

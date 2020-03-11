@@ -22,6 +22,7 @@ import AddItem from "@material-ui/icons/Add"
 import { useDispatch } from "react-redux"
 import { increment, decrement } from "../../actions"
 import { Link } from "react-router-dom"
+import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +48,6 @@ const useStyles = makeStyles(theme => ({
 export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
-  // const [isLoader, setIsLoader] = useState(false)
   const [rows, setRows] = useState([])
 
   const removeIndex = uid => {
@@ -60,24 +60,28 @@ export default function OrderTab() {
       body: JSON.stringify({
         uid: uid
       })
-    }).then(
-      result => {
-        initLoad()
-        dispatch(decrement())
-        console.log(`Delete: ${uid}`)
-      },
-      error => {
-        console.log(`error: ${error}`)
-      }
-    )
+    })
+      .then(
+        response => {
+          initLoad()
+          dispatch(decrement())
+        },
+        error => {
+          console.log(`error: ${error}`)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
   }
 
   const editItem = uid => {
-    alert("show edit item popup")
+    // alert("show edit item popup")
   }
 
   const addItem = (code, name, price) => {
-    const order_no = "00001"
+    const order_no = localStorage.getItem("order_no")
+    const table_no = localStorage.getItem("table_no")
     fetch(`${Config.API_HOST}/orders_detail/create`, {
       method: "POST",
       headers: {
@@ -85,7 +89,7 @@ export default function OrderTab() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        index: order_no + "/" + code,
+        index: table_no + "/" + code,
         order_no,
         menu_code: code,
         menu_name: name,
@@ -93,39 +97,51 @@ export default function OrderTab() {
         qty: 1,
         total_amount: price
       })
-    }).then(
-      result => {
-        initLoad()
-        dispatch(increment())
-        console.log(`Add: ${code}`)
-      },
-      error => {
-        console.log(`error: ${error}`)
-      }
-    )
+    })
+      .then(
+        response => {
+          initLoad()
+          dispatch(increment())
+        },
+        error => {
+          console.log(`error: ${error}`)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
   }
 
   const initLoad = () => {
-    fetch(`${Config.API_HOST}/orders_detail?order_no=00001`)
+    const order_no = localStorage.getItem("order_no")
+    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
       .then(res => res.json())
       .then(
-        result => {
-          setRows(result)
+        response => {
+          setRows(response)
         },
         error => {
-          // setIsLoader(true)
+          console.log("in error found => ", error)
         }
       )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
   }
 
   useEffect(() => {
-    console.log("OrderTab startup")
     initLoad()
     return function() {
       setRows([])
-      console.log("cleanup")
     }
   }, [])
+
+  if (!localStorage.getItem("order_no")) {
+    return <Redirect push to={`/login`} />
+  }
+  if (!localStorage.getItem("table_no")) {
+    return <Redirect push to={`/table`} />
+  }
 
   return (
     <Paper className={classes.root} elevation={10}>

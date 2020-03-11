@@ -32,20 +32,20 @@ export default function MenuSubList(props) {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    console.log("MenuSubList startup")
     fetch(`${Config.API_HOST}/menu_list/${props.code}`)
       .then(res => res.json())
       .then(
-        result => {
-          setData(result)
+        response => {
+          setData(response)
         },
         error => {
-          // setIsLoader(true)
+          console.log("in error found => ", error)
         }
       )
-    return function() {
-      console.log("MenuSubList cleanup")
-    }
+      .catch(error => {
+        console.log("Error: (MenuSubList: " + error + ")")
+      })
+    return function() {}
   }, [props.code, props.menuCode])
 
   return (

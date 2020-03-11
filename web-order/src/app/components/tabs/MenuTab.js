@@ -7,6 +7,7 @@ import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import GetMenu from "../../apis/GetMenu"
+import { Redirect } from "react-router"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -71,23 +72,26 @@ export default function MenuTab(props) {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
 
-  console.log("BillTab startup")
-
   useEffect(() => {
-    console.log("MenuTab startup")
     dataGroup.map((item, i) => {
       if (item === groupId) {
         setValue(i)
       }
       return null
     })
-    return function() {
-      console.log("MenuTab cleanup")
-    }
+    return function() {}
   }, [groupId])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  if (!localStorage.getItem("order_no")) {
+    return <Redirect push to={`/login`} />
+  }
+  if (!localStorage.getItem("table_no")) {
+    localStorage.setItem("history_page", "/menu/g01")
+    return <Redirect push to={`/table`} />
   }
 
   return (

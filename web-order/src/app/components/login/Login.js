@@ -10,6 +10,7 @@ import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
 import { reset } from "../../actions"
 import { useDispatch } from "react-redux"
+import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,18 +42,13 @@ export default function Login() {
   const validLogin = (user, pass) => {
     if (user === "admin" && pass === "000000") {
       localStorage.setItem("emp_code", user)
-      localStorage.setItem("table_no", null)
-      localStorage.setItem("order_no", null)
-      console.log("Logged in success")
+      localStorage.setItem("order_no", uuidv4())
       setRedirect(true)
     }
   }
 
   useEffect(() => {
-    console.log("Login startup")
-    return function() {
-      console.log("Login cleanup")
-    }
+    return function() {}
   }, [])
 
   if (redirect) {
@@ -61,6 +57,7 @@ export default function Login() {
     localStorage.removeItem("emp_code")
     localStorage.removeItem("table_no")
     localStorage.removeItem("order_no")
+    localStorage.removeItem("history_page")
   }
 
   return (

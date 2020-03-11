@@ -28,7 +28,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Add bill detail success")
+      res.json("Success")
     }
   })
 })
@@ -44,7 +44,7 @@ router.put("/:bill_no/update", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Update data success")
+      res.json("Success")
     }
   })
 })
@@ -55,7 +55,7 @@ router.delete("/:bill_no/delete", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Delete data success")
+      res.json("Success")
     }
   })
 })
@@ -65,7 +65,7 @@ router.delete("/empty", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Truncate bill detail success")
+      res.json("Success")
     }
   })
 })

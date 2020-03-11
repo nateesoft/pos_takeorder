@@ -13,7 +13,8 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
-import { Config } from '../../config'
+import { Config } from "../../config"
+import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,26 +34,32 @@ const useStyles = makeStyles(theme => ({
 
 export default function BillTab() {
   const classes = useStyles()
-  // const [isLoader, setIsLoader] = useState(false)
   const [rows, setRows] = useState([])
 
   useEffect(() => {
-    console.log("BillTab startup")
     fetch(`${Config.API_HOST}/bill_detail?bill_no=b001`)
       .then(res => res.json())
       .then(
-        result => {
-          setRows(result)
+        response => {
+          setRows(response)
         },
         error => {
-          // setIsLoader(true)
+          console.log("in error found => ", error)
         }
       )
+      .catch(error => {
+        console.log("Error: (BillTab: " + error + ")")
+      })
 
-    return function() {
-      console.log("BillTab cleanup")
-    }
+    return function() {}
   }, [])
+
+  if (!localStorage.getItem("order_no")) {
+    return <Redirect push to={`/login`} />
+  }
+  if (!localStorage.getItem("table_no")) {
+    return <Redirect push to={`/table`} />
+  }
 
   return (
     <Paper className={classes.root} elevation={10}>
