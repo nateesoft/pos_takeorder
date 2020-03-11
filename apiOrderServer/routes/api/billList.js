@@ -9,7 +9,11 @@ router.get("/", function(req, res, next) {
     if (err) {
       res.send(err)
     } else {
-      res.json(rows)
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
     }
   })
 })

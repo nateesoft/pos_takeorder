@@ -19,7 +19,7 @@ const OrdersDetail = {
   },
   add: function(OrdersDetail, callback) {
     return db.query(
-      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now(),?)`,
+      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now(),?,?)`,
       [
         OrdersDetail.index,
         OrdersDetail.order_no,
@@ -28,7 +28,8 @@ const OrdersDetail = {
         OrdersDetail.price,
         OrdersDetail.qty,
         OrdersDetail.total_amount,
-        uuid.v4()
+        uuid.v4(),
+        "N"
       ],
       callback
     )

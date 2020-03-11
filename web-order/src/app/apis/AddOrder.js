@@ -10,6 +10,26 @@ export default function AddOrder(props) {
   const item_count = 0
   const total_amount = 0
 
+  const checkOrder = () => {
+    fetch(`${Config.API_HOST}/orders?order_no=${order_no}`)
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "not_found") {
+            addOrder()
+          } else {
+            addOrderDetail()
+          }
+        },
+        error => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (AddOrder: " + error + ")")
+      })
+  }
+
   const addOrder = () => {
     fetch(`${Config.API_HOST}/orders/create`, {
       method: "POST",
@@ -56,8 +76,7 @@ export default function AddOrder(props) {
       })
     })
       .then(
-        response => {
-        },
+        response => {},
         error => {
           console.log("in error found => ", error)
         }
@@ -67,6 +86,6 @@ export default function AddOrder(props) {
       })
   }
 
-  addOrder()
+  checkOrder()
   dispatch(increment())
 }

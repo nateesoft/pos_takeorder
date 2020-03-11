@@ -41,7 +41,11 @@ export default function BillTab() {
       .then(res => res.json())
       .then(
         response => {
-          setRows(response)
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
         },
         error => {
           console.log("in error found => ", error)

@@ -50,6 +50,10 @@ export default function OrderTab() {
   const classes = useStyles()
   const [rows, setRows] = useState([])
 
+  const sendOrderToPOS = () => {
+    alert("Send Order To POS")
+  }
+
   const removeIndex = uid => {
     fetch(`${Config.API_HOST}/orders_detail`, {
       method: "DELETE",
@@ -118,7 +122,11 @@ export default function OrderTab() {
       .then(res => res.json())
       .then(
         response => {
-          setRows(response)
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
         },
         error => {
           console.log("in error found => ", error)
@@ -158,7 +166,13 @@ export default function OrderTab() {
           <Typography variant="h6" className={classes.title}>
             อาหารที่สั่ง
           </Typography>
-          <Button color="inherit">{199 * rows.length}</Button>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "green", color: "white" }}
+            onClick={() => sendOrderToPOS()}
+          >
+            ยืนยันรายการ
+          </Button>
         </Toolbar>
       </AppBar>
       <TableContainer component={Paper} className={classes.container}>
@@ -177,20 +191,24 @@ export default function OrderTab() {
             {rows.map(row => (
               <TableRow key={row.uid}>
                 <TableCell>
-                  <DeleteIcon
-                    style={{ color: "red" }}
-                    onClick={() => removeIndex(row.uid)}
-                  />
+                  {row.send_order === "N" && (
+                    <DeleteIcon
+                      style={{ color: "red" }}
+                      onClick={() => removeIndex(row.uid)}
+                    />
+                  )}
                 </TableCell>
                 <TableCell>{row.menu_name}</TableCell>
                 <TableCell align="right">{row.qty}</TableCell>
                 <TableCell align="right">{row.price}</TableCell>
                 <TableCell align="right">{row.total_amount}</TableCell>
                 <TableCell align="right">
-                  <EditIcon
-                    style={{ color: "gray", marginRight: 20 }}
-                    onClick={() => editItem(row.uid)}
-                  />
+                  {row.send_order === "N" && (
+                    <EditIcon
+                      style={{ color: "gray", marginRight: 20 }}
+                      onClick={() => editItem(row.uid)}
+                    />
+                  )}
                   <AddIcon
                     style={{ color: "green" }}
                     onClick={() =>
