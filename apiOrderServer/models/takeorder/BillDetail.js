@@ -18,11 +18,10 @@ const BillDetail = {
   },
   add: function(BillDetail, callback) {
     return db.query(
-      `insert into ${table_name} values(?,?,?,?,?,?,?,?,'Y',now(),now())`,
+      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now())`,
       [
         BillDetail.index,
         BillDetail.bill_no,
-        BillDetail.order_no,
         BillDetail.menu_code,
         BillDetail.menu_name,
         BillDetail.price,

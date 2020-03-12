@@ -7,7 +7,7 @@ import MenuBook from "@material-ui/icons/Fastfood"
 import ViewList from "@material-ui/icons/ViewList"
 import BarChartIcon from "@material-ui/icons/BarChart"
 import SettingIcon from "@material-ui/icons/Settings"
-import AssignmentIcon from "@material-ui/icons/Assignment"
+// import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
@@ -32,8 +32,7 @@ export default function LeftMenu(props) {
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
   useEffect(() => {
-    return function() {
-    }
+    return function() {}
   }, [])
 
   const handleListItemClick = (event, index) => {
@@ -81,7 +80,7 @@ export default function LeftMenu(props) {
           <ListItemText primary="Order" />
         </ListItem>
       </Link>
-      <Link to="/bill" className={classes.listMenu}>
+      {/* <Link to="/bill" className={classes.listMenu}>
         <ListItem
           button
           selected={selectedIndex === 3}
@@ -92,7 +91,7 @@ export default function LeftMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Bill" />
         </ListItem>
-      </Link>
+      </Link> */}
       <Divider />
       <Link to="/report" className={classes.listMenu}>
         <ListItem

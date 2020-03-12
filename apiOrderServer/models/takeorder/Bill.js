@@ -14,10 +14,9 @@ const Bill = {
   },
   add: function(Bill, callback) {
     return db.query(
-      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now())`,
+      `insert into ${table_name} values(?,?,?,?,?,?,'Y',now(),now())`,
       [
         Bill.bill_no,
-        Bill.order_no,
         Bill.table_code,
         Bill.emp_code,
         Bill.cust_count,

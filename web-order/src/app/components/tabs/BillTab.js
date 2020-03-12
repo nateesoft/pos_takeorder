@@ -36,8 +36,34 @@ export default function BillTab() {
   const classes = useStyles()
   const [rows, setRows] = useState([])
 
-  useEffect(() => {
-    fetch(`${Config.API_HOST}/bill_detail?bill_no=b001`)
+  const sendBillToPOS = () => {
+    const order_no = localStorage.getItem("order_no")
+    fetch(`${Config.API_HOST}/bill/move`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        order_no
+      })
+    })
+      .then(
+        response => {
+          initLoad()
+        },
+        error => {
+          console.log(`error: ${error}`)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+  }
+
+  const initLoad = () => {
+    const order_no = localStorage.getItem("order_no")
+    fetch(`${Config.API_HOST}/bill_detail?order_no=${order_no}`)
       .then(res => res.json())
       .then(
         response => {
@@ -54,8 +80,13 @@ export default function BillTab() {
       .catch(error => {
         console.log("Error: (BillTab: " + error + ")")
       })
+  }
 
-    return function() {}
+  useEffect(() => {
+    initLoad()
+    return function() {
+      setRows([])
+    }
   }, [])
 
   if (!localStorage.getItem("order_no")) {
@@ -80,7 +111,13 @@ export default function BillTab() {
           <Typography variant="h6" className={classes.title}>
             รายการอาหาร
           </Typography>
-          <Button color="inherit">999</Button>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "green", color: "white" }}
+            onClick={() => sendBillToPOS()}
+          >
+            ยืนยันรายการ
+          </Button>
         </Toolbar>
       </AppBar>
       <TableContainer component={Paper} className={classes.container}>
@@ -94,12 +131,12 @@ export default function BillTab() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.index}>
-                <TableCell>{row.desc}</TableCell>
+            {rows.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.menu_name}</TableCell>
                 <TableCell align="right">{row.qty}</TableCell>
-                <TableCell align="right">{row.unit}</TableCell>
                 <TableCell align="right">{row.price}</TableCell>
+                <TableCell align="right">{row.total_amount}</TableCell>
               </TableRow>
             ))}
 

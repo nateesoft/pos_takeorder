@@ -12,6 +12,13 @@ const Orders = {
       callback
     )
   },
+  findOrderNotSendToBill: function(order_no, callback) {
+    return db.query(
+      `select * from orders_detail where order_no=? and order_send='N'`,
+      [order_no],
+      callback
+    )
+  },
   add: function(Orders, callback) {
     return db.query(
       `insert into ${table_name} values(?,?,?,?,?,?,'Y',now(),now())`,
@@ -49,10 +56,26 @@ const Orders = {
   moveToBill: function(order_no, callback) {
     return db.query(
       `insert into bill
-      (bill_no, order_no, table_code, emp_code, cust_count, item_count, total_amount, status, created_at ,updated_at) 
-      select "b001", od.order_no, od.table_code, od.emp_code, od.cust_count, od.item_count, od.total_amount, 
-      "Y", now(), now() 
-      from orders od where order_no=?`,
+      (bill_no, table_code, emp_code, cust_count, item_count, total_amount, status, created_at ,updated_at) 
+      select od.order_no, od.table_code, od.emp_code, od.cust_count, od.item_count, od.total_amount, 
+      "Y", now(), now() from orders od where od.order_no=?`,
+      [order_no],
+      callback
+    )
+  },
+  moveToBillDetail: function(order_no, callback) {
+    return db.query(
+      `insert into bill_detail
+      (\`index\`, bill_no, menu_code, menu_name, price, qty, total_amount, status, created_at ,updated_at, uid) 
+      select \`index\`, od.order_no, od.menu_code, od.menu_name, od.price, od.qty, od.total_amount, 
+      "Y", now(), now(), od.uid from orders_detail od where od.order_no=? and od.send_order='N'`,
+      [order_no],
+      callback
+    )
+  },
+  updateOrderDetailAfterMove: function(order_no, callback) {
+    return db.query(
+      `update orders_detail set send_order='Y' where order_no=? and send_order='N'`,
       [order_no],
       callback
     )

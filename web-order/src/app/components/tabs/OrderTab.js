@@ -51,7 +51,29 @@ export default function OrderTab() {
   const [rows, setRows] = useState([])
 
   const sendOrderToPOS = () => {
-    alert("Send Order To POS")
+    const order_no = localStorage.getItem("order_no")
+    fetch(`${Config.API_HOST}/orders/move`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        order_no
+      })
+    })
+      .then(
+        response => {
+          initLoad()
+          dispatch(decrement())
+        },
+        error => {
+          console.log(`error: ${error}`)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
   }
 
   const removeIndex = uid => {
@@ -118,23 +140,25 @@ export default function OrderTab() {
 
   const initLoad = () => {
     const order_no = localStorage.getItem("order_no")
-    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
-      .then(res => res.json())
-      .then(
-        response => {
-          if (response.status === "not_found") {
-            setRows([])
-          } else {
-            setRows(response)
+    if (order_no) {
+      fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
+        .then(res => res.json())
+        .then(
+          response => {
+            if (response.status === "not_found") {
+              setRows([])
+            } else {
+              setRows(response)
+            }
+          },
+          error => {
+            console.log("in error found => ", error)
           }
-        },
-        error => {
-          console.log("in error found => ", error)
-        }
-      )
-      .catch(error => {
-        console.log("Error: (OrderTab: " + error + ")")
-      })
+        )
+        .catch(error => {
+          console.log("Error: (OrderTab: " + error + ")")
+        })
+    }
   }
 
   useEffect(() => {

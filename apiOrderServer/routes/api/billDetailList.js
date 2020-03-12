@@ -3,8 +3,8 @@ const express = require("express")
 const router = express.Router()
 
 router.get("/", (req, res, next) => {
-  const bill_no = req.query.bill_no
-  Task.findByBillNo(bill_no, (err, rows) => {
+  const order_no = req.query.order_no
+  Task.findByOrderNo(order_no, (err, rows) => {
     if (err) {
       res.send(err)
     } else {

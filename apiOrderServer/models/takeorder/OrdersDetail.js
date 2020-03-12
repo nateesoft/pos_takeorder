@@ -43,9 +43,6 @@ const OrdersDetail = {
   },
   delete: function(uid, callback) {
     return db.query(`delete from ${table_name} where uid=?`, [uid], callback)
-  },
-  empty: function(callback) {
-    return db.query(`delete from ${table_name}`, callback)
   }
 }
 

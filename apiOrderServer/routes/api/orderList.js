@@ -1,4 +1,5 @@
 const Task = require("../../models/takeorder/Orders")
+const TaskBill = require("../../models/takeorder/Bill")
 const express = require("express")
 const router = express.Router()
 
@@ -63,7 +64,8 @@ router.delete("/:order_no/delete", (req, res, next) => {
 })
 
 router.post("/move", (req, res, next) => {
-  Task.moveToBill(order_no, (err, rows) => {
+  const order_no = req.body.order_no
+  Task.updateOrderDetailAfterMove(order_no, (err, rows) => {
     if (err) {
       res.send(err)
     } else {
