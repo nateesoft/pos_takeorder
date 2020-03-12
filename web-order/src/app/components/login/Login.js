@@ -112,6 +112,7 @@ export default function Login() {
             Sign In
           </Button>
         </form>
+        user:admin, pass:000000
       </div>
     </Container>
   )

@@ -36,7 +36,11 @@ export default function MenuSubList(props) {
       .then(res => res.json())
       .then(
         response => {
-          setData(response)
+          if (response.status === "not_found") {
+            setData([])
+          } else {
+            setData(response)
+          }
         },
         error => {
           console.log("in error found => ", error)
