@@ -17,11 +17,11 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
 import EditIcon from "@material-ui/icons/Edit"
 import { Config } from "../../config"
-import Fab from "@material-ui/core/Fab"
-import AddItem from "@material-ui/icons/Add"
+// import Fab from "@material-ui/core/Fab"
+// import AddItem from "@material-ui/icons/Add"
 import { useDispatch } from "react-redux"
 import { increment, decrement } from "../../actions"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
@@ -49,6 +49,7 @@ export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [rows, setRows] = useState([])
+  const [showCols, setShowCols] = useState(true)
 
   const sendOrderToPOS = () => {
     const order_no = localStorage.getItem("order_no")
@@ -163,6 +164,9 @@ export default function OrderTab() {
 
   useEffect(() => {
     initLoad()
+    if (window.innerWidth <= 760) {
+      setShowCols(false)
+    }
     return function() {
       setRows([])
     }
@@ -174,6 +178,8 @@ export default function OrderTab() {
   if (!localStorage.getItem("table_no")) {
     return <Redirect push to={`/table`} />
   }
+
+  localStorage.setItem("current_page", "order")
 
   return (
     <Paper className={classes.root} elevation={10}>
@@ -227,12 +233,6 @@ export default function OrderTab() {
                 <TableCell align="right">{row.price}</TableCell>
                 <TableCell align="right">{row.total_amount}</TableCell>
                 <TableCell align="right">
-                  {row.send_order === "N" && (
-                    <EditIcon
-                      style={{ color: "gray", marginRight: 20 }}
-                      onClick={() => editItem(row.uid)}
-                    />
-                  )}
                   <AddIcon
                     style={{ color: "green" }}
                     onClick={() =>
@@ -248,7 +248,6 @@ export default function OrderTab() {
                 Total
               </TableCell>
               <TableCell
-                colSpan={2}
                 align="right"
                 style={{ fontWeight: "bold" }}
               >
@@ -258,15 +257,16 @@ export default function OrderTab() {
               <TableCell align="right" style={{ fontWeight: "bold" }}>
                 {199 * rows.length}
               </TableCell>
+              <TableCell align="right"></TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      <Link to={`/menu/g01`} style={{ textDecoration: "none" }}>
+      {/* <Link to={`/menu/g01`} style={{ textDecoration: "none" }}>
         <Fab color="primary" className={classes.fab}>
           <AddItem style={{ color: "white" }} />
         </Fab>
-      </Link>
+      </Link> */}
     </Paper>
   )
 }

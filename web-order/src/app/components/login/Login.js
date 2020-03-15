@@ -57,7 +57,7 @@ export default function Login() {
     localStorage.removeItem("emp_code")
     localStorage.removeItem("table_no")
     localStorage.removeItem("order_no")
-    localStorage.removeItem("history_page")
+    localStorage.removeItem("current_page")
   }
 
   return (

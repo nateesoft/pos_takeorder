@@ -5,8 +5,8 @@ import ListItemText from "@material-ui/core/ListItemText"
 import ViewModule from "@material-ui/icons/ViewModule"
 import MenuBook from "@material-ui/icons/Fastfood"
 import ViewList from "@material-ui/icons/ViewList"
-import BarChartIcon from "@material-ui/icons/BarChart"
-import SettingIcon from "@material-ui/icons/Settings"
+// import BarChartIcon from "@material-ui/icons/BarChart"
+// import SettingIcon from "@material-ui/icons/Settings"
 // import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
@@ -92,7 +92,7 @@ export default function LeftMenu(props) {
           <ListItemText primary="Bill" />
         </ListItem>
       </Link> */}
-      <Divider />
+      {/* <Divider />
       <Link to="/report" className={classes.listMenu}>
         <ListItem
           button
@@ -117,7 +117,7 @@ export default function LeftMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Setting" />
         </ListItem>
-      </Link>
+      </Link> */}
     </div>
   )
 }

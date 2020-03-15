@@ -3,17 +3,32 @@ const express = require("express")
 const router = express.Router()
 
 router.get("/", (req, res, next) => {
-  Task.findAll((err, rows) => {
-    if (err) {
-      res.send(err)
-    } else {
-      if (rows.length === 0) {
-        res.json({ status: "not_found" })
+  const searchTxt = req.query.txt
+  if (searchTxt) {
+    Task.search(searchTxt, (err, rows) => {
+      if (err) {
+        res.send(err)
       } else {
-        res.json(rows)
+        if (rows.length === 0) {
+          res.json({ status: "not_found" })
+        } else {
+          res.json(rows)
+        }
       }
-    }
-  })
+    })
+  } else {
+    Task.findAll((err, rows) => {
+      if (err) {
+        res.send(err)
+      } else {
+        if (rows.length === 0) {
+          res.json({ status: "not_found" })
+        } else {
+          res.json(rows)
+        }
+      }
+    })
+  }
 })
 
 router.get("/:group_code", (req, res, next) => {

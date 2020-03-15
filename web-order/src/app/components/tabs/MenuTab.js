@@ -90,9 +90,10 @@ export default function MenuTab(props) {
     return <Redirect push to={`/login`} />
   }
   if (!localStorage.getItem("table_no")) {
-    localStorage.setItem("history_page", "/menu/g01")
     return <Redirect push to={`/table`} />
   }
+
+  localStorage.setItem("current_page", "menu")
 
   return (
     <div className={classes.root}>

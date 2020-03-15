@@ -2,6 +2,12 @@ const db = require("../../config/db")
 const table_name = "product_menu"
 
 const ProductMenu = {
+  search: function(searchTxt, callback) {
+    return db.query(
+      `select * from ${table_name} where name like '%${searchTxt}%' and status = 'Y'`,
+      callback
+    )
+  },
   findAll: function(callback) {
     return db.query(`select * from ${table_name}`, callback)
   },

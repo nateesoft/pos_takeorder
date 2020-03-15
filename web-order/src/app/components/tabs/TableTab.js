@@ -57,14 +57,6 @@ export default function TableTab() {
   if (!localStorage.getItem("order_no")) {
     return <Redirect push to={`/login`} />
   }
-  if (
-    localStorage.getItem("table_no") &&
-    localStorage.getItem("history_page")
-  ) {
-    const historyPage = localStorage.getItem("history_page")
-    localStorage.removeItem("history_page")
-    return <Redirect push to={historyPage} />
-  }
 
   return (
     <div>
