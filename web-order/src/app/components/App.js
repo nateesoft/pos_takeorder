@@ -24,19 +24,12 @@ import ReportPage from "./report/ReportPage"
 import Setting from "./tabs/Setting"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
-import BottomNavigation from "@material-ui/core/BottomNavigation"
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction"
-import MenuBook from "@material-ui/icons/Fastfood"
-import ViewList from "@material-ui/icons/ViewList"
-import ViewModule from "@material-ui/icons/ViewModule"
 import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
-// const moment = require("moment")
 
 export default function App() {
   const classes = useStyles()
   const [open, setOpen] = useState(true)
-  const [value, setValue] = useState(false)
 
   useEffect(() => {
     if (window.innerWidth <= 760) {
@@ -106,24 +99,6 @@ export default function App() {
             </Link>
           </Toolbar>
         </AppBar>
-        {/* <AppBar
-          position="fixed"
-          color="primary"
-          className={classes.appBarFooter}
-        >
-          <BottomNavigation
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue)
-            }}
-            showLabels
-            className={classes.root}
-          >
-            <BottomNavigationAction label="Table" icon={<ViewModule />} />
-            <BottomNavigationAction label="Menu" icon={<MenuBook />} />
-            <BottomNavigationAction label="Order" icon={<ViewList />} />
-          </BottomNavigation>
-        </AppBar> */}
         <Drawer
           variant="permanent"
           classes={{

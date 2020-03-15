@@ -19,7 +19,7 @@ export default function ButtonAction(props) {
   const { code, name, price } = props.item
 
   return (
-    <div>
+    <div align="right">
       <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
         <Button
           variant="outlined"
@@ -37,7 +37,7 @@ export default function ButtonAction(props) {
         style={{ background: "green" }}
         startIcon={<AddIcon />}
       >
-        Add
+        Add Order
       </Button>
     </div>
   )

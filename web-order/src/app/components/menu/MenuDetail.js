@@ -16,6 +16,7 @@ import ButtonAction from "./ButtonAction"
 import { Config } from "../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
+import OptionChip from "./OptionChip"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -94,6 +95,7 @@ export default function MenuDetail(props) {
             image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
+          <OptionChip />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>

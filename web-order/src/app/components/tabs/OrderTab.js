@@ -15,13 +15,9 @@ import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
-import EditIcon from "@material-ui/icons/Edit"
 import { Config } from "../../config"
-// import Fab from "@material-ui/core/Fab"
-// import AddItem from "@material-ui/icons/Add"
 import { useDispatch } from "react-redux"
 import { increment, decrement } from "../../actions"
-// import { Link } from "react-router-dom"
 import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
@@ -49,7 +45,6 @@ export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [rows, setRows] = useState([])
-  const [showCols, setShowCols] = useState(true)
 
   const sendOrderToPOS = () => {
     const order_no = localStorage.getItem("order_no")
@@ -103,7 +98,7 @@ export default function OrderTab() {
   }
 
   const editItem = uid => {
-    // alert("show edit item popup")
+    alert("show edit item popup")
   }
 
   const addItem = (code, name, price) => {
@@ -164,9 +159,6 @@ export default function OrderTab() {
 
   useEffect(() => {
     initLoad()
-    if (window.innerWidth <= 760) {
-      setShowCols(false)
-    }
     return function() {
       setRows([])
     }
@@ -228,7 +220,9 @@ export default function OrderTab() {
                     />
                   )}
                 </TableCell>
-                <TableCell>{row.menu_name}</TableCell>
+                <TableCell onClick={() => editItem()}>
+                  {row.menu_name}
+                </TableCell>
                 <TableCell align="right">{row.qty}</TableCell>
                 <TableCell align="right">{row.price}</TableCell>
                 <TableCell align="right">{row.total_amount}</TableCell>
@@ -247,10 +241,7 @@ export default function OrderTab() {
               <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
                 Total
               </TableCell>
-              <TableCell
-                align="right"
-                style={{ fontWeight: "bold" }}
-              >
+              <TableCell align="right" style={{ fontWeight: "bold" }}>
                 {1 * rows.length}
               </TableCell>
               <TableCell align="right"></TableCell>
@@ -262,11 +253,6 @@ export default function OrderTab() {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <Link to={`/menu/g01`} style={{ textDecoration: "none" }}>
-        <Fab color="primary" className={classes.fab}>
-          <AddItem style={{ color: "white" }} />
-        </Fab>
-      </Link> */}
     </Paper>
   )
 }
