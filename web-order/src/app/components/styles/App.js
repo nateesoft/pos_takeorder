@@ -1,5 +1,5 @@
 import { fade, makeStyles } from "@material-ui/core/styles"
-const drawerWidth = 150
+const drawerWidth = 200
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
   },
   appBarFooter: {
     top: "auto",
-    bottom: 0
+    bottom: 0,
+    zIndex: 99999
   },
   grow: {
     flexGrow: 1

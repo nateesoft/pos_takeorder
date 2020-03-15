@@ -4,7 +4,8 @@ import Typography from "@material-ui/core/Typography"
 import Paper from "@material-ui/core/Paper"
 import Divider from "@material-ui/core/Divider"
 import Grid from "@material-ui/core/Grid"
-import { Redirect } from "react-router"
+import { useDispatch, useSelector } from "react-redux"
+import { chooseTable } from "../../actions"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -39,10 +40,12 @@ const useStyles = makeStyles(theme => ({
 export default function TableTab() {
   const classes = useStyles()
   const [tbSel, setTbSel] = useState(0)
+  const dispatch = useDispatch()
+  const table_no = useSelector(state => state.table.tableNo)
 
   const selectTable = tableNo => {
-    localStorage.setItem("table_no", tableNo)
     setTbSel(tableNo)
+    dispatch(chooseTable(tableNo))
   }
 
   const newClass = no => {
@@ -50,13 +53,13 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    setTbSel(localStorage.getItem("table_no"))
+    setTbSel(table_no)
     return function() {}
-  }, [])
+  }, [table_no])
 
-  if (!localStorage.getItem("order_no")) {
-    return <Redirect push to={`/login`} />
-  }
+  // if (table_no === "") {
+  //   return <Redirect push to={`/login`} />
+  // }
 
   return (
     <div>

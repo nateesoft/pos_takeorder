@@ -46,9 +46,10 @@ export default function LeftMenu(props) {
           button
           selected={selectedIndex === 0}
           onClick={event => handleListItemClick(event, 0)}
+          style={{ backgroundColor: "#0058AB", color: "white" }}
         >
           <ListItemIcon>
-            <ViewModule />
+            <ViewModule style={{ color: "#dddddd" }} />
           </ListItemIcon>
           <ListItemText primary="Table" />
         </ListItem>
@@ -59,22 +60,25 @@ export default function LeftMenu(props) {
           button
           selected={selectedIndex === 1}
           onClick={event => handleListItemClick(event, 1)}
+          style={{ backgroundColor: "#0058AB", color: "white" }}
         >
           <ListItemIcon>
-            <MenuBook />
+            <MenuBook style={{ color: "#dddddd" }} />
           </ListItemIcon>
           <ListItemText primary="Menu" />
         </ListItem>
       </Link>
+      <Divider />
       <Link to="/order" className={classes.listMenu}>
         <ListItem
           button
           selected={selectedIndex === 2}
           onClick={event => handleListItemClick(event, 2)}
+          style={{ backgroundColor: "#0058AB", color: "white" }}
         >
           <ListItemIcon>
             <Badge badgeContent={counter} color="primary">
-              <ViewList />
+              <ViewList style={{ color: "#dddddd" }} />
             </Badge>
           </ListItemIcon>
           <ListItemText primary="Order" />
@@ -91,8 +95,8 @@ export default function LeftMenu(props) {
           </ListItemIcon>
           <ListItemText primary="Bill" />
         </ListItem>
-      </Link> */}
-      {/* <Divider />
+      </Link>
+      <Divider />
       <Link to="/report" className={classes.listMenu}>
         <ListItem
           button

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles, useTheme } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
 import GetMenu from "../../apis/GetMenu"
 import { Redirect } from "react-router"
+import SwipeableViews from "react-swipeable-views"
+import { useSelector } from "react-redux"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -70,7 +72,18 @@ export default function MenuTab(props) {
     (props && props.match && props.match.params && props.match.params.group) ||
     "g01"
   const classes = useStyles()
+  const theme = useTheme()
   const [value, setValue] = React.useState(0)
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
+
+  const handleChangeIndex = index => {
+    setValue(index)
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
 
   useEffect(() => {
     dataGroup.map((item, i) => {
@@ -82,29 +95,23 @@ export default function MenuTab(props) {
     return function() {}
   }, [groupId])
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
-
-  if (!localStorage.getItem("order_no")) {
+  if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (!localStorage.getItem("table_no")) {
+  if (table_no === "") {
     return <Redirect push to={`/table`} />
   }
 
-  localStorage.setItem("current_page", "menu")
-
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Tabs
           value={value}
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="on"
-          indicatorColor="primary"
-          textColor="primary"
+          // indicatorColor="primary"
+          // textColor="primary"
           aria-label="scrollable force"
         >
           <Tab label="Appetizer" {...a11yProps(0)} />
@@ -124,11 +131,17 @@ export default function MenuTab(props) {
           <Tab label="Yourway" {...a11yProps(14)} />
         </Tabs>
       </AppBar>
-      {dataGroup.map((item, i) => (
-        <TabPanel value={value} index={i} key={i}>
-          <GetMenu id={item} />
-        </TabPanel>
-      ))}
+      <SwipeableViews
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        {dataGroup.map((item, i) => (
+          <TabPanel value={value} index={i} key={i}>
+            <GetMenu id={item} />
+          </TabPanel>
+        ))}
+      </SwipeableViews>
     </div>
   )
 }

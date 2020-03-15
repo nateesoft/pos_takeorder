@@ -6,9 +6,10 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
+import { useSelector, useDispatch } from "react-redux"
 import { Config } from "../config"
 import addOrderItem from "./AddOrder"
-import { useDispatch } from "react-redux"
+import { increment } from "../actions"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,11 +29,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function GetMenu(props) {
-  const dispatch = useDispatch()
   const classes = useStyles()
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
+  const emp_code = useSelector(state => state.table.empCode)
+  const dispatch = useDispatch()
 
   const handleOnClick = (code, group) => {
     setRedirect(true)
@@ -40,6 +44,11 @@ export default function GetMenu(props) {
       code: code,
       group: group
     })
+  }
+
+  const addNewItem = (code, name, price) => {
+    addOrderItem({ code, name, price, table_no, order_no, emp_code })
+    dispatch(increment())
   }
 
   useEffect(() => {
@@ -84,14 +93,7 @@ export default function GetMenu(props) {
                   className={classes.icon}
                 >
                   <AddCircle
-                    onClick={() =>
-                      addOrderItem({
-                        code: item.code,
-                        name: item.name,
-                        price: item.price,
-                        dispatch
-                      })
-                    }
+                    onClick={() => addNewItem(item.code, item.name, item.price)}
                   />
                 </IconButton>
               }

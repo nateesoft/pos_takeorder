@@ -6,6 +6,7 @@ import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
 import addOrderItem from "../../apis/AddOrder"
 import { useDispatch } from "react-redux"
+import { increment } from "../../actions"
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -14,9 +15,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ButtonAction(props) {
-  const dispatch = useDispatch()
   const classes = useStyles()
+  const dispatch = useDispatch()
   const { code, name, price } = props.item
+  const { table_no, order_no, emp_code } = props.table
+
+  const addNewItem = (code, name, price) => {
+    addOrderItem({ code, name, price, table_no, order_no, emp_code })
+    dispatch(increment())
+  }
 
   return (
     <div align="right">
@@ -30,7 +37,7 @@ export default function ButtonAction(props) {
         </Button>
       </Link>
       <Button
-        onClick={() => addOrderItem({ code, name, price, dispatch })}
+        onClick={() => addNewItem(code, name, price)}
         variant="contained"
         color="primary"
         className={classes.button}

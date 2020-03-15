@@ -17,6 +17,7 @@ import { Config } from "../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import OptionChip from "./OptionChip"
+import { useSelector } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,9 +45,13 @@ const useStyles = makeStyles(theme => ({
 export default function MenuDetail(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [expanded, setExpanded] = React.useState(true)
+  const [expanded, setExpanded] = useState(true)
   const group = props.match.params.group
   const code = props.match.params.code
+
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
+  const emp_code = useSelector(state => state.table.empCode)
 
   useEffect(() => {
     fetch(`${Config.API_HOST}/product/${group}/${code}`)
@@ -69,10 +74,10 @@ export default function MenuDetail(props) {
     setExpanded(!expanded)
   }
 
-  if (!localStorage.getItem("order_no")) {
+  if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (!localStorage.getItem("table_no")) {
+  if (table_no === "") {
     return <Redirect push to={`/table`} />
   }
 
@@ -118,7 +123,11 @@ export default function MenuDetail(props) {
               </Collapse>
             </div>
           )}
-          <ButtonAction group={item.group_code} item={item} />
+          <ButtonAction
+            group={item.group_code}
+            item={item}
+            table={{ table_no, order_no, emp_code }}
+          />
         </Card>
       ))}
     </div>

@@ -1,13 +1,15 @@
 import React, { useEffect } from "react"
 import { Redirect } from "react-router"
+import { useSelector } from "react-redux"
 
 export default function ReportPage() {
+  const order_no = useSelector(state => state.table.order.orderNo)
+
   useEffect(() => {
-    return function() {
-    }
+    return function() {}
   }, [])
 
-  if (!localStorage.getItem("order_no")) {
+  if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
 

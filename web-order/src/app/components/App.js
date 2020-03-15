@@ -26,10 +26,19 @@ import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
+import { useDispatch, useSelector } from "react-redux"
+import { reset } from "../actions"
 
 export default function App() {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [open, setOpen] = useState(true)
+
+  const tableNo = useSelector(state => state.table.tableNo)
+  const counter = useSelector(state => state.counter)
+  if (counter <= 0) {
+    dispatch(reset())
+  }
 
   useEffect(() => {
     if (window.innerWidth <= 760) {
@@ -99,6 +108,20 @@ export default function App() {
             </Link>
           </Toolbar>
         </AppBar>
+        {tableNo && (
+          <AppBar
+            position="fixed"
+            color="primary"
+            className={classes.appBarFooter}
+          >
+            <div
+              align="center"
+              style={{ backgroundColor: "#123456", height: 30, paddingTop: 5 }}
+            >
+              โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+            </div>
+          </AppBar>
+        )}
         <Drawer
           variant="permanent"
           classes={{

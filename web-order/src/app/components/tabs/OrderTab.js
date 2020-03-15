@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -16,7 +16,7 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Config } from "../../config"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { increment, decrement } from "../../actions"
 import { Redirect } from "react-router"
 
@@ -45,9 +45,41 @@ export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
+
+  const initLoad = () => {
+    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
+          setLoading(false)
+        },
+        error => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+  }
+
+  useEffect(() => {
+    console.log("useEffect")
+    if (loading) {
+      initLoad()
+    }
+  })
 
   const sendOrderToPOS = () => {
-    const order_no = localStorage.getItem("order_no")
+    console.log("sendOrderToPOS")
     fetch(`${Config.API_HOST}/orders/move`, {
       method: "POST",
       headers: {
@@ -60,8 +92,8 @@ export default function OrderTab() {
     })
       .then(
         response => {
-          initLoad()
           dispatch(decrement())
+          initLoad()
         },
         error => {
           console.log(`error: ${error}`)
@@ -73,6 +105,7 @@ export default function OrderTab() {
   }
 
   const removeIndex = uid => {
+    console.log("removeIndex")
     fetch(`${Config.API_HOST}/orders_detail`, {
       method: "DELETE",
       headers: {
@@ -85,8 +118,8 @@ export default function OrderTab() {
     })
       .then(
         response => {
-          initLoad()
           dispatch(decrement())
+          initLoad()
         },
         error => {
           console.log(`error: ${error}`)
@@ -102,8 +135,7 @@ export default function OrderTab() {
   }
 
   const addItem = (code, name, price) => {
-    const order_no = localStorage.getItem("order_no")
-    const table_no = localStorage.getItem("table_no")
+    console.log("addItem")
     fetch(`${Config.API_HOST}/orders_detail/create`, {
       method: "POST",
       headers: {
@@ -122,8 +154,8 @@ export default function OrderTab() {
     })
       .then(
         response => {
-          initLoad()
           dispatch(increment())
+          initLoad()
         },
         error => {
           console.log(`error: ${error}`)
@@ -134,44 +166,12 @@ export default function OrderTab() {
       })
   }
 
-  const initLoad = () => {
-    const order_no = localStorage.getItem("order_no")
-    if (order_no) {
-      fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
-        .then(res => res.json())
-        .then(
-          response => {
-            if (response.status === "not_found") {
-              setRows([])
-            } else {
-              setRows(response)
-            }
-          },
-          error => {
-            console.log("in error found => ", error)
-          }
-        )
-        .catch(error => {
-          console.log("Error: (OrderTab: " + error + ")")
-        })
-    }
-  }
-
-  useEffect(() => {
-    initLoad()
-    return function() {
-      setRows([])
-    }
-  }, [])
-
-  if (!localStorage.getItem("order_no")) {
+  if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (!localStorage.getItem("table_no")) {
+  if (table_no === "") {
     return <Redirect push to={`/table`} />
   }
-
-  localStorage.setItem("current_page", "order")
 
   return (
     <Paper className={classes.root} elevation={10}>

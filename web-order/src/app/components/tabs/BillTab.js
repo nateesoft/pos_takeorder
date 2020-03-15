@@ -15,6 +15,7 @@ import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Config } from "../../config"
 import { Redirect } from "react-router"
+import { useSelector } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,12 +33,38 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const initLoad = order_no => {
+  let rows = []
+  if (order_no) {
+    fetch(`${Config.API_HOST}/bill_detail?order_no=${order_no}`)
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "not_found") {
+            rows = []
+          } else {
+            rows = response
+          }
+        },
+        error => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (BillTab: " + error + ")")
+      })
+  }
+
+  return rows
+}
+
 export default function BillTab() {
+  const order_no = useSelector(state => state.table.order.orderNo)
+  const table_no = useSelector(state => state.table.tableNo)
   const classes = useStyles()
   const [rows, setRows] = useState([])
 
   const sendBillToPOS = () => {
-    const order_no = localStorage.getItem("order_no")
     fetch(`${Config.API_HOST}/bill/move`, {
       method: "POST",
       headers: {
@@ -61,38 +88,17 @@ export default function BillTab() {
       })
   }
 
-  const initLoad = () => {
-    const order_no = localStorage.getItem("order_no")
-    fetch(`${Config.API_HOST}/bill_detail?order_no=${order_no}`)
-      .then(res => res.json())
-      .then(
-        response => {
-          if (response.status === "not_found") {
-            setRows([])
-          } else {
-            setRows(response)
-          }
-        },
-        error => {
-          console.log("in error found => ", error)
-        }
-      )
-      .catch(error => {
-        console.log("Error: (BillTab: " + error + ")")
-      })
-  }
-
   useEffect(() => {
-    initLoad()
+    setRows(initLoad())
     return function() {
       setRows([])
     }
   }, [])
 
-  if (!localStorage.getItem("order_no")) {
+  if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (!localStorage.getItem("table_no")) {
+  if (table_no === "") {
     return <Redirect push to={`/table`} />
   }
 

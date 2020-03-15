@@ -1,11 +1,7 @@
 import { Config } from "../config"
-import { increment } from "../actions"
 
 export default function AddOrder(props) {
-  const { code, name, price, dispatch } = props
-  const table_no = localStorage.getItem("table_no")
-  const order_no = localStorage.getItem("order_no")
-  const emp_code = localStorage.getItem("emp_code")
+  const { code, name, price, table_no, order_no, emp_code } = props
   const cust_count = 0
   const item_count = 0
   const total_amount = 0
@@ -76,7 +72,9 @@ export default function AddOrder(props) {
       })
     })
       .then(
-        response => {},
+        response => {
+          console.log(response)
+        },
         error => {
           console.log("in error found => ", error)
         }
@@ -87,5 +85,4 @@ export default function AddOrder(props) {
   }
 
   checkOrder()
-  dispatch(increment())
 }

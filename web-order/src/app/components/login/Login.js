@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
-import { reset } from "../../actions"
+import { reset, clearTable, newOrder } from "../../actions"
 import { useDispatch } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
 
@@ -37,12 +37,13 @@ export default function Login() {
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const [redirect, setRedirect] = useState(false)
-  useDispatch()(reset())
+  const dispatch = useDispatch()
+  dispatch(reset())
+  dispatch(clearTable())
 
   const validLogin = (user, pass) => {
     if (user === "admin" && pass === "000000") {
-      localStorage.setItem("emp_code", user)
-      localStorage.setItem("order_no", uuidv4())
+      dispatch(newOrder({ order_no: uuidv4(), emp_code: user }))
       setRedirect(true)
     }
   }
@@ -54,10 +55,7 @@ export default function Login() {
   if (redirect) {
     return <Redirect push to="/table" />
   } else {
-    localStorage.removeItem("emp_code")
-    localStorage.removeItem("table_no")
-    localStorage.removeItem("order_no")
-    localStorage.removeItem("current_page")
+    dispatch(clearTable())
   }
 
   return (

@@ -69,7 +69,7 @@ export default function OptionChip() {
           backgroundColor: "#eeeeee"
         }}
       >
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <TextField
             id="options"
             label="เพิ่มข้อความ"
@@ -79,7 +79,7 @@ export default function OptionChip() {
             onChange={evt => setChipOption(evt.target.value)}
           />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={6}>
           <Button
             variant="contained"
             color="primary"
