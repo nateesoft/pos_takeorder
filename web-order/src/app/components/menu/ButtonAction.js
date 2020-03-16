@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import addOrderItem from "../../apis/AddOrder"
 import { useDispatch } from "react-redux"
 import { increment } from "../../actions"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAction(props) {
   const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
   const { code, name, price } = props.item
   const { table_no, order_no, emp_code } = props.table
@@ -23,6 +25,8 @@ export default function ButtonAction(props) {
   const addNewItem = (code, name, price) => {
     addOrderItem({ code, name, price, table_no, order_no, emp_code })
     dispatch(increment())
+    const variant = "success"
+    enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
   return (

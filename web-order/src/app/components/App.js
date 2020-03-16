@@ -28,6 +28,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import InputBase from "@material-ui/core/InputBase"
 import { useDispatch, useSelector } from "react-redux"
 import { reset } from "../actions"
+import { SnackbarProvider } from "notistack"
 
 export default function App() {
   const dispatch = useDispatch()
@@ -56,122 +57,134 @@ export default function App() {
 
   return (
     <Router>
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          style={{ background: "#bc0b06" }}
-          className={clsx(classes.appBar, open && classes.appBarShift)}
-        >
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </div>
-            </Typography>
-            <Link to="/login" style={{ color: "white" }}>
-              <IconButton
-                color="inherit"
-                aria-label="upload picture"
-                component="span"
-              >
-                <ExitToApp />
-              </IconButton>
-            </Link>
-          </Toolbar>
-        </AppBar>
-        {tableNo && (
+      <SnackbarProvider maxSnack={1}>
+        <div className={classes.root}>
+          <CssBaseline />
           <AppBar
-            position="fixed"
-            color="primary"
-            className={classes.appBarFooter}
+            position="absolute"
+            style={{ background: "#bc0b06" }}
+            className={clsx(classes.appBar, open && classes.appBarShift)}
+          >
+            <Toolbar className={classes.toolbar}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                className={clsx(
+                  classes.menuButton,
+                  open && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </div>
+              </Typography>
+              <Link to="/login" style={{ color: "white" }}>
+                <IconButton
+                  color="inherit"
+                  aria-label="upload picture"
+                  component="span"
+                >
+                  <ExitToApp />
+                </IconButton>
+              </Link>
+            </Toolbar>
+          </AppBar>
+          {tableNo && (
+            <AppBar
+              position="fixed"
+              color="primary"
+              className={classes.appBarFooter}
+            >
+              <div
+                align="center"
+                style={{
+                  backgroundColor: "#123456",
+                  height: 30,
+                  paddingTop: 5
+                }}
+              >
+                โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+              </div>
+            </AppBar>
+          )}
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: clsx(
+                classes.drawerPaper,
+                !open && classes.drawerPaperClose
+              )
+            }}
+            open={open}
           >
             <div
-              align="center"
-              style={{ backgroundColor: "#123456", height: 30, paddingTop: 5 }}
+              className={classes.toolbarIcon}
+              style={{
+                backgroundColor: "#bc0b06",
+                color: "white",
+                textAlign: "center"
+              }}
             >
-              โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                  Jeffer LOGO
+                </Link>
+              </Typography>
+              <IconButton
+                onClick={handleDrawerClose}
+                style={{ color: "white" }}
+              >
+                <ChevronLeftIcon />
+              </IconButton>
             </div>
-          </AppBar>
-        )}
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-          }}
-          open={open}
-        >
-          <div
-            className={classes.toolbarIcon}
-            style={{
-              backgroundColor: "#bc0b06",
-              color: "white",
-              textAlign: "center"
-            }}
-          >
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                Jeffer LOGO
-              </Link>
-            </Typography>
-            <IconButton onClick={handleDrawerClose} style={{ color: "white" }}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <Divider />
-          <LeftMenu />
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Switch>
-              <Route exact path="/" component={WelcomePage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/table" component={TableTab} />
-              <Route path="/menu/:group" component={MenuTab} />
-              <Route path="/detail/:group/:code" component={MenuDetail} />
-              <Route path="/order" component={OrderTab} />
-              <Route path="/bill" component={BillTab} />
-              <Route path="/report" component={ReportPage} />
-              <Route path="/setting" component={Setting} />
-            </Switch>
-          </Container>
-        </main>
-      </div>
+            <Divider />
+            <LeftMenu />
+          </Drawer>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <Container maxWidth="lg" className={classes.container}>
+              <Switch>
+                <Route exact path="/" component={WelcomePage} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/table" component={TableTab} />
+                <Route path="/menu/:group" component={MenuTab} />
+                <Route path="/detail/:group/:code" component={MenuDetail} />
+                <Route path="/order" component={OrderTab} />
+                <Route path="/bill" component={BillTab} />
+                <Route path="/report" component={ReportPage} />
+                <Route path="/setting" component={Setting} />
+              </Switch>
+            </Container>
+          </main>
+        </div>
+      </SnackbarProvider>
     </Router>
   )
 }

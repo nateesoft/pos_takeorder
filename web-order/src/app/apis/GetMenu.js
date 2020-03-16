@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Config } from "../config"
 import addOrderItem from "./AddOrder"
 import { increment } from "../actions"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,6 +38,7 @@ export default function GetMenu(props) {
   const order_no = useSelector(state => state.table.order.orderNo)
   const emp_code = useSelector(state => state.table.empCode)
   const dispatch = useDispatch()
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleOnClick = (code, group) => {
     setRedirect(true)
@@ -49,6 +51,8 @@ export default function GetMenu(props) {
   const addNewItem = (code, name, price) => {
     addOrderItem({ code, name, price, table_no, order_no, emp_code })
     dispatch(increment())
+    const variant = "success"
+    enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
   useEffect(() => {
@@ -91,10 +95,9 @@ export default function GetMenu(props) {
                 <IconButton
                   aria-label={`info about ${item.description}`}
                   className={classes.icon}
+                  onClick={() => addNewItem(item.code, item.name, item.price)}
                 >
-                  <AddCircle
-                    onClick={() => addNewItem(item.code, item.name, item.price)}
-                  />
+                  <AddCircle />
                 </IconButton>
               }
             />

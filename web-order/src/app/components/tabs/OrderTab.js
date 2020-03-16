@@ -19,6 +19,7 @@ import { Config } from "../../config"
 import { useDispatch, useSelector } from "react-redux"
 import { increment, decrement } from "../../actions"
 import { Redirect } from "react-router"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,6 +47,7 @@ export default function OrderTab() {
   const classes = useStyles()
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
+  const { enqueueSnackbar } = useSnackbar()
 
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
@@ -120,6 +122,8 @@ export default function OrderTab() {
         response => {
           dispatch(decrement())
           initLoad()
+          const variant = "warning"
+          enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
         },
         error => {
           console.log(`error: ${error}`)
@@ -156,6 +160,8 @@ export default function OrderTab() {
         response => {
           dispatch(increment())
           initLoad()
+          const variant = "success"
+          enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
         },
         error => {
           console.log(`error: ${error}`)

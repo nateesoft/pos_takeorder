@@ -52,7 +52,7 @@ const dataGroup = [
   "g15"
 ]
 
-function a11yProps(index) {
+function getMenu(index) {
   return {
     id: `scrollable-force-tab-${index}`,
     "aria-controls": `scrollable-force-tabpanel-${index}`
@@ -110,25 +110,23 @@ export default function MenuTab(props) {
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="on"
-          // indicatorColor="primary"
-          // textColor="primary"
           aria-label="scrollable force"
         >
-          <Tab label="Appetizer" {...a11yProps(0)} />
-          <Tab label="Beef" {...a11yProps(1)} />
-          <Tab label="Beverage" {...a11yProps(2)} />
-          <Tab label="Burger" {...a11yProps(3)} />
-          <Tab label="Chicken" {...a11yProps(4)} />
-          <Tab label="Delivery" {...a11yProps(5)} />
-          <Tab label="Dessert" {...a11yProps(6)} />
-          <Tab label="Fish" {...a11yProps(7)} />
-          <Tab label="Kids" {...a11yProps(8)} />
-          <Tab label="Pork" {...a11yProps(9)} />
-          <Tab label="Premiumsteak" {...a11yProps(10)} />
-          <Tab label="Salad" {...a11yProps(11)} />
-          <Tab label="Soup" {...a11yProps(12)} />
-          <Tab label="Spaghetti" {...a11yProps(13)} />
-          <Tab label="Yourway" {...a11yProps(14)} />
+          <Tab label="Appetizer" {...getMenu(0)} />
+          <Tab label="Beef" {...getMenu(1)} />
+          <Tab label="Beverage" {...getMenu(2)} />
+          <Tab label="Burger" {...getMenu(3)} />
+          <Tab label="Chicken" {...getMenu(4)} />
+          <Tab label="Delivery" {...getMenu(5)} />
+          <Tab label="Dessert" {...getMenu(6)} />
+          <Tab label="Fish" {...getMenu(7)} />
+          <Tab label="Kids" {...getMenu(8)} />
+          <Tab label="Pork" {...getMenu(9)} />
+          <Tab label="Premiumsteak" {...getMenu(10)} />
+          <Tab label="Salad" {...getMenu(11)} />
+          <Tab label="Soup" {...getMenu(12)} />
+          <Tab label="Spaghetti" {...getMenu(13)} />
+          <Tab label="Yourway" {...getMenu(14)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
