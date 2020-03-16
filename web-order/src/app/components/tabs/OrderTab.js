@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   container: {
-    height: "100%"
+    maxHeight: window.innerHeight - 175
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -135,7 +135,8 @@ export default function OrderTab() {
   }
 
   const editItem = uid => {
-    alert("show edit item popup")
+    // alert("show edit item popup")
+    console.log("show edit item popup")
   }
 
   const addItem = (code, name, price) => {
@@ -204,15 +205,24 @@ export default function OrderTab() {
         </Toolbar>
       </AppBar>
       <TableContainer component={Paper} className={classes.container}>
-        <Table aria-label="spanning table" stickyHeader>
+        <Table aria-label="sticky table" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
-              <TableCell>เมนู</TableCell>
-              <TableCell align="right">จำนวน</TableCell>
-              <TableCell align="right">ราคา</TableCell>
-              <TableCell align="right">รวม</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell style={{ background: "#FFE0B9" }}></TableCell>
+              <TableCell style={{ background: "#FFE0B9" }}>เมนู</TableCell>
+              <TableCell style={{ background: "#FFE0B9" }} align="right">
+                จำนวน
+              </TableCell>
+              <TableCell style={{ background: "#FFE0B9" }} align="right">
+                ราคา
+              </TableCell>
+              <TableCell style={{ background: "#FFE0B9" }} align="right">
+                รวม
+              </TableCell>
+              <TableCell
+                style={{ background: "#FFE0B9" }}
+                align="right"
+              ></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -242,21 +252,20 @@ export default function OrderTab() {
                 </TableCell>
               </TableRow>
             ))}
-
-            <TableRow style={{ background: "pink" }}>
-              <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
-                Total
-              </TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {1 * rows.length}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {199 * rows.length}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
           </TableBody>
+          <TableRow style={{ background: "#FFE0B9" }}>
+            <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
+              Total
+            </TableCell>
+            <TableCell align="right" style={{ fontWeight: "bold" }}>
+              {1 * rows.length}
+            </TableCell>
+            <TableCell align="right"></TableCell>
+            <TableCell align="right" style={{ fontWeight: "bold" }}>
+              {199 * rows.length}
+            </TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
         </Table>
       </TableContainer>
     </Paper>

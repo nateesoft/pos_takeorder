@@ -57,7 +57,7 @@ export default function App() {
 
   return (
     <Router>
-      <SnackbarProvider maxSnack={1}>
+      <SnackbarProvider maxSnack={2} autoHideDuration={500}>
         <div className={classes.root}>
           <CssBaseline />
           <AppBar
