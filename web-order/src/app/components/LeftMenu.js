@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
-import ViewModule from "@material-ui/icons/ViewModule"
-import MenuBook from "@material-ui/icons/Fastfood"
-import ViewList from "@material-ui/icons/ViewList"
-// import BarChartIcon from "@material-ui/icons/BarChart"
-// import SettingIcon from "@material-ui/icons/Settings"
-// import AssignmentIcon from "@material-ui/icons/Assignment"
 import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
@@ -24,6 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function LeftMenu(props) {
   const dispatch = useDispatch()
+  const tableNo = useSelector(state => state.table.tableNo)
   const counter = useSelector(state => state.counter)
   if (counter <= 0) {
     dispatch(reset())
@@ -46,12 +40,12 @@ export default function LeftMenu(props) {
           button
           selected={selectedIndex === 0}
           onClick={event => handleListItemClick(event, 0)}
-          style={{ backgroundColor: "#0058AB", color: "white" }}
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
-          <ListItemIcon>
-            <ViewModule style={{ color: "#dddddd" }} />
-          </ListItemIcon>
-          <ListItemText primary="Table" />
+          <Badge badgeContent={tableNo} color="primary">
+            <img src="img/table.png" alt="table" />
+            <ListItemText primary="Table" />
+          </Badge>
         </ListItem>
       </Link>
       <Divider />
@@ -60,11 +54,9 @@ export default function LeftMenu(props) {
           button
           selected={selectedIndex === 1}
           onClick={event => handleListItemClick(event, 1)}
-          style={{ backgroundColor: "#0058AB", color: "white" }}
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
-          <ListItemIcon>
-            <MenuBook style={{ color: "#dddddd" }} />
-          </ListItemIcon>
+          <img src="img/food.png" alt="menu" />
           <ListItemText primary="Menu" />
         </ListItem>
       </Link>
@@ -74,54 +66,14 @@ export default function LeftMenu(props) {
           button
           selected={selectedIndex === 2}
           onClick={event => handleListItemClick(event, 2)}
-          style={{ backgroundColor: "#0058AB", color: "white" }}
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
-          <ListItemIcon>
-            <Badge badgeContent={counter} color="primary">
-              <ViewList style={{ color: "#dddddd" }} />
-            </Badge>
-          </ListItemIcon>
+          <Badge badgeContent={counter} color="primary">
+            <img src="img/bill.png" alt="bill" />
+          </Badge>
           <ListItemText primary="Order" />
         </ListItem>
       </Link>
-      {/* <Link to="/bill" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 3}
-          onClick={event => handleListItemClick(event, 3)}
-        >
-          <ListItemIcon>
-            <AssignmentIcon />
-          </ListItemIcon>
-          <ListItemText primary="Bill" />
-        </ListItem>
-      </Link>
-      <Divider />
-      <Link to="/report" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 4}
-          onClick={event => handleListItemClick(event, 4)}
-        >
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Report" />
-        </ListItem>
-      </Link>
-      <Divider />
-      <Link to="/setting" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 5}
-          onClick={event => handleListItemClick(event, 5)}
-        >
-          <ListItemIcon>
-            <SettingIcon />
-          </ListItemIcon>
-          <ListItemText primary="Setting" />
-        </ListItem>
-      </Link> */}
     </div>
   )
 }

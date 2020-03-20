@@ -195,79 +195,74 @@ export default function OrderTab() {
           <Typography variant="h6" className={classes.title}>
             อาหารที่สั่ง
           </Typography>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "green", color: "white" }}
-            onClick={() => sendOrderToPOS()}
-          >
-            ยืนยันรายการ
-          </Button>
+          {rows.length > 0 && (
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "green", color: "white" }}
+              onClick={() => sendOrderToPOS()}
+            >
+              ยืนยันรายการ
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
-      <TableContainer component={Paper} className={classes.container}>
-        <Table aria-label="sticky table" stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ background: "#FFE0B9" }}></TableCell>
-              <TableCell style={{ background: "#FFE0B9" }}>เมนู</TableCell>
-              <TableCell style={{ background: "#FFE0B9" }} align="right">
-                จำนวน
-              </TableCell>
-              <TableCell style={{ background: "#FFE0B9" }} align="right">
-                ราคา
-              </TableCell>
-              <TableCell style={{ background: "#FFE0B9" }} align="right">
-                รวม
-              </TableCell>
-              <TableCell
-                style={{ background: "#FFE0B9" }}
-                align="right"
-              ></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.uid}>
-                <TableCell>
-                  {row.send_order === "N" && (
-                    <DeleteIcon
-                      style={{ color: "red" }}
-                      onClick={() => removeIndex(row.uid)}
-                    />
-                  )}
-                </TableCell>
-                <TableCell onClick={() => editItem()}>
-                  {row.menu_name}
-                </TableCell>
-                <TableCell align="right">{row.qty}</TableCell>
-                <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.total_amount}</TableCell>
-                <TableCell align="right">
-                  <AddIcon
-                    style={{ color: "green" }}
-                    onClick={() =>
-                      addItem(row.menu_code, row.menu_name, row.price)
-                    }
-                  />
-                </TableCell>
+      {rows.length > 0 && (
+        <TableContainer component={Paper} className={classes.container}>
+          <Table aria-label="sticky table" stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell>เมนู</TableCell>
+                <TableCell align="right">จำนวน</TableCell>
+                <TableCell align="right">ราคา</TableCell>
+                <TableCell align="right">รวม</TableCell>
+                <TableCell align="right"></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableRow style={{ background: "#FFE0B9" }}>
-            <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
-              Total
-            </TableCell>
-            <TableCell align="right" style={{ fontWeight: "bold" }}>
-              {1 * rows.length}
-            </TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right" style={{ fontWeight: "bold" }}>
-              {199 * rows.length}
-            </TableCell>
-            <TableCell align="right"></TableCell>
-          </TableRow>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows.map(row => (
+                <TableRow key={row.uid}>
+                  <TableCell>
+                    {row.send_order === "N" && (
+                      <DeleteIcon
+                        style={{ color: "red" }}
+                        onClick={() => removeIndex(row.uid)}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell onClick={() => editItem()}>
+                    {row.menu_name}
+                  </TableCell>
+                  <TableCell align="right">{row.qty}</TableCell>
+                  <TableCell align="right">{row.price}</TableCell>
+                  <TableCell align="right">{row.total_amount}</TableCell>
+                  <TableCell align="right">
+                    <AddIcon
+                      style={{ color: "green" }}
+                      onClick={() =>
+                        addItem(row.menu_code, row.menu_name, row.price)
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableRow>
+              <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
+                Total
+              </TableCell>
+              <TableCell align="right" style={{ fontWeight: "bold" }}>
+                {1 * rows.length}
+              </TableCell>
+              <TableCell align="right"></TableCell>
+              <TableCell align="right" style={{ fontWeight: "bold" }}>
+                {199 * rows.length}
+              </TableCell>
+              <TableCell align="right"></TableCell>
+            </TableRow>
+          </Table>
+        </TableContainer>
+      )}
     </Paper>
   )
 }

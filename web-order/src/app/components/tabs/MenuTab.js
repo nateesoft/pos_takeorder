@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import AppBar from "@material-ui/core/AppBar"
@@ -73,7 +73,7 @@ export default function MenuTab(props) {
     "g01"
   const classes = useStyles()
   const theme = useTheme()
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
 

@@ -22,6 +22,7 @@ import LoginPage from "./login/Login"
 import WelcomePage from "./tabs/Welcome"
 import ReportPage from "./report/ReportPage"
 import Setting from "./tabs/Setting"
+import Recommend from "./tabs/Recommend"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
@@ -29,6 +30,7 @@ import InputBase from "@material-ui/core/InputBase"
 import { useDispatch, useSelector } from "react-redux"
 import { reset } from "../actions"
 import { SnackbarProvider } from "notistack"
+require("../components/styles/App.css")
 
 export default function App() {
   const dispatch = useDispatch()
@@ -57,7 +59,11 @@ export default function App() {
 
   return (
     <Router>
-      <SnackbarProvider maxSnack={2} autoHideDuration={500}>
+      <SnackbarProvider
+        maxSnack={2}
+        autoHideDuration={500}
+        anchorOrigin={{ vertical: "top", horizontal: "left" }}
+      >
         <div className={classes.root}>
           <CssBaseline />
           <AppBar
@@ -120,11 +126,13 @@ export default function App() {
                 align="center"
                 style={{
                   backgroundColor: "#123456",
-                  height: 30,
+                  height: 60,
                   paddingTop: 5
                 }}
               >
-                โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+                <h2>
+                  โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+                </h2>
               </div>
             </AppBar>
           )}
@@ -151,10 +159,10 @@ export default function App() {
                 variant="h6"
                 color="inherit"
                 noWrap
-                className={classes.title}
+                className={classes.titleLogo}
               >
                 <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  Jeffer LOGO
+                  <img src="img/jeffer.png" alt="" width="100" />
                 </Link>
               </Typography>
               <IconButton
@@ -180,6 +188,7 @@ export default function App() {
                 <Route path="/bill" component={BillTab} />
                 <Route path="/report" component={ReportPage} />
                 <Route path="/setting" component={Setting} />
+                <Route path="/recommend" component={Recommend} />
               </Switch>
             </Container>
           </main>

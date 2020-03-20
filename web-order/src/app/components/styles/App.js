@@ -5,6 +5,20 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
+  container: {
+    paddingTop: 5,
+    paddingBottom: theme.spacing(4),
+    paddingLeft: 5,
+    paddingRight: 5,
+    background: "linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)",
+    width: "100wh",
+    height: "90vh",
+    color: "#fff",
+    WebkitAnimation: "Gradient 15s ease infinite",
+    MozAnimation: "Gradient 15s ease infinite",
+    backgroundSize: "400% 400%",
+    animation: "Gradient 15s ease infinite"
+  },
   toolbar: {
     paddingRight: 24 // keep right padding when drawer closed
   },
@@ -55,6 +69,10 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1
   },
+  titleLogo: {
+    flexGrow: 0,
+    height: 50
+  },
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
@@ -80,12 +98,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto"
-  },
-  container: {
-    paddingTop: 5,
-    paddingBottom: theme.spacing(4),
-    paddingLeft: 5,
-    paddingRight: 5
   },
   paper: {
     padding: 0,

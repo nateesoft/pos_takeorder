@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+    overflow: "hidden"
   },
   gridList: {
     width: 500,
@@ -56,6 +55,7 @@ export default function GetMenu(props) {
   }
 
   useEffect(() => {
+    console.log(Config.API_HOST)
     fetch(`${Config.API_HOST}/product/${props.id}`)
       .then(res => res.json())
       .then(
