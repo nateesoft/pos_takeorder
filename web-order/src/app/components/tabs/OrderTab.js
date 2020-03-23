@@ -246,20 +246,20 @@ export default function OrderTab() {
                   </TableCell>
                 </TableRow>
               ))}
+              <TableRow>
+                <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
+                  Total
+                </TableCell>
+                <TableCell align="right" style={{ fontWeight: "bold" }}>
+                  {1 * rows.length}
+                </TableCell>
+                <TableCell align="right"></TableCell>
+                <TableCell align="right" style={{ fontWeight: "bold" }}>
+                  {199 * rows.length}
+                </TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
             </TableBody>
-            <TableRow>
-              <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
-                Total
-              </TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {1 * rows.length}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right" style={{ fontWeight: "bold" }}>
-                {199 * rows.length}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
           </Table>
         </TableContainer>
       )}
