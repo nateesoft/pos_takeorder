@@ -29,6 +29,7 @@ const tableReducer = (state = initialState, action) => {
       return state
     case "NEW_ORDER":
       state.empCode = action.payload.emp_code
+      state.tableNo = action.payload.table_no
       state.order = {
         orderNo: action.payload.order_no,
         items: []

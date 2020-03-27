@@ -38,12 +38,12 @@ export default function Login() {
   const [pass, setPass] = useState("")
   const [redirect, setRedirect] = useState(false)
   const dispatch = useDispatch()
-  dispatch(reset())
-  dispatch(clearTable())
 
   const validLogin = (user, pass) => {
     if (user === "admin" && pass === "000000") {
-      dispatch(newOrder({ order_no: uuidv4(), emp_code: user }))
+      dispatch(
+        newOrder({ order_no: uuidv4(), emp_code: user, table_no: "no_select" })
+      )
       setRedirect(true)
     }
   }
@@ -55,6 +55,7 @@ export default function Login() {
   if (redirect) {
     return <Redirect push to="/table" />
   } else {
+    dispatch(reset())
     dispatch(clearTable())
   }
 

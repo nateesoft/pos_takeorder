@@ -135,9 +135,11 @@ export default function MenuTab(props) {
         onChangeIndex={handleChangeIndex}
       >
         {dataGroup.map((item, i) => (
-          <TabPanel value={value} index={i} key={i}>
-            <GetMenu id={item} />
-          </TabPanel>
+          <div style={{ height: window.innerHeight - 175, overflow: "auto" }}>
+            <TabPanel value={value} index={i} key={i}>
+              <GetMenu id={item} />
+            </TabPanel>
+          </div>
         ))}
       </SwipeableViews>
     </div>

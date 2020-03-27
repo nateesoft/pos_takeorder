@@ -116,7 +116,7 @@ export default function App() {
               </Link>
             </Toolbar>
           </AppBar>
-          {tableNo && (
+          {tableNo && tableNo !== "no_select" && (
             <AppBar
               position="fixed"
               color="primary"
