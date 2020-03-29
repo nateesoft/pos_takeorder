@@ -135,7 +135,10 @@ export default function MenuTab(props) {
         onChangeIndex={handleChangeIndex}
       >
         {dataGroup.map((item, i) => (
-          <div style={{ height: window.innerHeight - 175, overflow: "auto" }}>
+          <div
+            style={{ height: window.innerHeight - 175, overflow: "auto" }}
+            key={`dg${i}`}
+          >
             <TabPanel value={value} index={i} key={i}>
               <GetMenu id={item} />
             </TabPanel>

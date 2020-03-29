@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 export default function GetMenu(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
   const table_no = useSelector(state => state.table.tableNo)
@@ -54,23 +55,37 @@ export default function GetMenu(props) {
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
-  useEffect(() => {
-    console.log(Config.API_HOST)
+  const initLoad = () => {
+    console.log("initLoad")
     fetch(`${Config.API_HOST}/product/${props.id}`)
       .then(res => res.json())
       .then(
         response => {
           setData(response)
+          setLoading(false)
         },
         error => {
           console.log("in error found => ", error)
+          setLoading(false)
         }
       )
       .catch(error => {
         console.log("Error: (GetMenu: " + error + ")")
+        setLoading(false)
       })
-    return function() {}
-  }, [props.id])
+  }
+
+  if (loading) {
+    initLoad()
+  }
+
+  useEffect(() => {
+    console.log("get menu page")
+    return function() {
+      setData([])
+      console.log("get menu cleanup")
+    }
+  }, [])
 
   if (redirect) {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />

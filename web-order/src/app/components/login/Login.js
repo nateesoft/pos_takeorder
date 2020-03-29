@@ -9,8 +9,9 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
 import { reset, clearTable, newOrder } from "../../actions"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
+import { Config } from "../../config"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,23 +37,52 @@ export default function Login() {
   const classes = useStyles()
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
-  const [redirect, setRedirect] = useState(false)
+  const order_no = useSelector(state => state.table.order.orderNo)
   const dispatch = useDispatch()
 
   const validLogin = (user, pass) => {
-    if (user === "admin" && pass === "000000") {
-      dispatch(
-        newOrder({ order_no: uuidv4(), emp_code: user, table_no: "no_select" })
+    console.log("validLogin")
+    fetch(`${Config.POS_API_HOST}/employ/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: user,
+        password: pass
+      })
+    })
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "success") {
+            dispatch(
+              newOrder({
+                order_no: uuidv4(),
+                emp_code: user,
+                table_no: "no_select"
+              })
+            )
+          }
+        },
+        error => {
+          console.log("login error found => ", error)
+        }
       )
-      setRedirect(true)
-    }
+      .catch(error => {
+        console.log("Error: (Login: " + error + ")")
+      })
   }
 
   useEffect(() => {
-    return function() {}
+    console.log("use effect - login page")
+    return function() {
+      console.log("Login cleanup")
+    }
   }, [])
 
-  if (redirect) {
+  if (order_no !== "") {
     return <Redirect push to="/table" />
   } else {
     dispatch(reset())
@@ -111,7 +141,6 @@ export default function Login() {
             Sign In
           </Button>
         </form>
-        user:admin, pass:000000
       </div>
     </Container>
   )

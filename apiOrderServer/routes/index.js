@@ -5,5 +5,8 @@ const router = express.Router()
 router.get("/", function(req, res, next) {
   res.render("index", { title: "Express" })
 })
+router.get("/version", function(req, res, next) {
+  res.send("Test")
+})
 
 module.exports = router

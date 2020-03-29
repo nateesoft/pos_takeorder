@@ -30,8 +30,10 @@ const useStyles = makeStyles(theme => ({
 export default function MenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const initLoad = () => {
+    console.log("initLoad")
     fetch(`${Config.API_HOST}/menu_list/${props.code}`)
       .then(res => res.json())
       .then(
@@ -41,16 +43,29 @@ export default function MenuSubList(props) {
           } else {
             setData(response)
           }
+          setLoading(false)
         },
         error => {
           console.log("in error found => ", error)
+          setLoading(false)
         }
       )
       .catch(error => {
         console.log("Error: (MenuSubList: " + error + ")")
+        setLoading(false)
       })
-    return function() {}
-  }, [props.code, props.menuCode])
+  }
+
+  if (loading) {
+    initLoad()
+  }
+
+  useEffect(() => {
+    console.log("MenuSubList - useEffect")
+    return function() {
+      console.log("Menu sublist cleanup")
+    }
+  }, [])
 
   return (
     <div className={classes.root}>

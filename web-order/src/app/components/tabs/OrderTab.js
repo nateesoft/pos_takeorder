@@ -53,6 +53,7 @@ export default function OrderTab() {
   const order_no = useSelector(state => state.table.order.orderNo)
 
   const initLoad = () => {
+    console.log("initLoad: Order tab")
     fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
       .then(res => res.json())
       .then(
@@ -73,12 +74,17 @@ export default function OrderTab() {
       })
   }
 
+  if (loading) {
+    initLoad()
+  }
+
   useEffect(() => {
     console.log("useEffect")
-    if (loading) {
-      initLoad()
+    return function() {
+      setRows([])
+      console.log("Order tab cleanup")
     }
-  })
+  }, [])
 
   const sendOrderToPOS = () => {
     console.log("sendOrderToPOS")

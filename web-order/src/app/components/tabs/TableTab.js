@@ -55,7 +55,9 @@ export default function TableTab() {
 
   useEffect(() => {
     setTbSel(table_no)
-    return function() {}
+    return function() {
+      console.log("table clenup")
+    }
   }, [table_no])
 
   if (table_no === "") {
