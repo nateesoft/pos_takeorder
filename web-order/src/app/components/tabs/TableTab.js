@@ -1,56 +1,64 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
-import Paper from "@material-ui/core/Paper"
+import List from "@material-ui/core/List"
+import ListItem from "@material-ui/core/ListItem"
+import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
-import Grid from "@material-ui/core/Grid"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import AspectRatio from "@material-ui/icons/AspectRatio"
+import { Config } from "../../config"
+import { chooseTable } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
-import { chooseTable } from "../../actions"
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    display: "grid",
-    gridTemplateColumns: "repeat(12, 1fr)",
-    gridGap: theme.spacing(3)
-  },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    whiteSpace: "nowrap",
-    marginBottom: theme.spacing(1),
-    height: 80,
-    fontSize: 36
-  },
-  paperSelect: {
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    whiteSpace: "nowrap",
-    marginBottom: theme.spacing(1),
-    height: 80,
-    fontSize: 36,
-    backgroundColor: "pink"
-  },
-  divider: {
-    margin: theme.spacing(2, 0)
+  root: {
+    width: "100%",
+    backgroundColor: "#FBFDFA",
+    color: "black",
+    maxHeight: window.innerHeight - 80,
+    overflow: "auto"
   }
 }))
 
 export default function TableTab() {
   const classes = useStyles()
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(true)
   const [tbSel, setTbSel] = useState(0)
   const dispatch = useDispatch()
   const table_no = useSelector(state => state.table.tableNo)
 
-  const selectTable = tableNo => {
-    setTbSel(tableNo)
+  const handleListItemClick = (event, index, tableNo) => {
+    setSelectedIndex(index)
     dispatch(chooseTable(tableNo))
   }
 
-  const newClass = no => {
-    return parseInt(tbSel) === no ? classes.paperSelect : classes.paper
+  const initLoad = () => {
+    console.log("initLoad: Table tab")
+    fetch(`${Config.POS_API_HOST}/tablefile`)
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
+          setLoading(false)
+        },
+        error => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+  }
+
+  if (loading) {
+    initLoad()
   }
 
   useEffect(() => {
@@ -65,84 +73,35 @@ export default function TableTab() {
   }
 
   return (
-    <div>
-      <h2 align="center">โต๊ะอาหารภายในร้าน</h2>
-      <Typography variant="subtitle1" gutterBottom>
-        Zone - A
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <Paper className={newClass(1)} onClick={() => selectTable(1)}>
-            1
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={newClass(2)} onClick={() => selectTable(2)}>
-            2
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={newClass(3)} onClick={() => selectTable(3)}>
-            3
-          </Paper>
-        </Grid>
-        <Grid item xs={3}>
-          <Paper className={newClass(4)} onClick={() => selectTable(4)}>
-            4
-          </Paper>
-        </Grid>
-        <Grid item xs={8}>
-          <Paper className={newClass(5)} onClick={() => selectTable(5)}>
-            5
-          </Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={newClass(6)} onClick={() => selectTable(6)}>
-            6
-          </Paper>
-        </Grid>
-      </Grid>
-      <Divider className={classes.divider} />
-      <Typography variant="subtitle1" gutterBottom>
-        Zone - B
-      </Typography>
-      <div className={classes.container}>
-        <div style={{ gridColumnEnd: "span 3" }}>
-          <Paper className={newClass(10)} onClick={() => selectTable(10)}>
-            10
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 3" }}>
-          <Paper className={newClass(11)} onClick={() => selectTable(11)}>
-            11
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 3" }}>
-          <Paper className={newClass(12)} onClick={() => selectTable(12)}>
-            12
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 3" }}>
-          <Paper className={newClass(13)} onClick={() => selectTable(13)}>
-            13
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 4" }}>
-          <Paper className={newClass(14)} onClick={() => selectTable(14)}>
-            14
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 4" }}>
-          <Paper className={newClass(15)} onClick={() => selectTable(15)}>
-            15
-          </Paper>
-        </div>
-        <div style={{ gridColumnEnd: "span 4" }}>
-          <Paper className={newClass(16)} onClick={() => selectTable(16)}>
-            16
-          </Paper>
-        </div>
-      </div>
+    <div className={classes.root}>
+      <List component="nav" aria-label="main mailbox folders">
+        {rows.map((item, index) => (
+          <div>
+            <ListItem
+              button
+              selected={selectedIndex === index}
+              onClick={event => handleListItemClick(event, index, item.Tcode)}
+              key={index}
+            >
+              <ListItemAvatar>
+                <img
+                  src="img/table.png"
+                  alt="table"
+                  style={{ padding: 5, marginRight: 20 }}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={`Table no. ${item.Tcode} : Customer (${item.TCustomer})`}
+                secondary={`Zone : ${item.SoneCode}`}
+              />
+              <span style={{ marginRight: 20 }}>Status: {item.TOnAct}</span>
+              <AspectRatio />
+            </ListItem>
+            <Divider />
+          </div>
+        ))}
+      </List>
+      <Divider />
     </div>
   )
 }
