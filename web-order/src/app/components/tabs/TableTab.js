@@ -76,12 +76,11 @@ export default function TableTab() {
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
         {rows.map((item, index) => (
-          <div>
+          <div key={`div-${index}`}>
             <ListItem
               button
               selected={selectedIndex === index}
               onClick={event => handleListItemClick(event, index, item.Tcode)}
-              key={index}
             >
               <ListItemAvatar>
                 <img

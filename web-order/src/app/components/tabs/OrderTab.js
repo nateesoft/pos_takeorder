@@ -1,50 +1,53 @@
 import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
+import ExpansionPanel from "@material-ui/core/ExpansionPanel"
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
+import Typography from "@material-ui/core/Typography"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import { useSelector, useDispatch } from "react-redux"
+import { Config } from "../../config"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
+import Table from "@material-ui/core/Table"
+import TableBody from "@material-ui/core/TableBody"
+import TableCell from "@material-ui/core/TableCell"
 import Paper from "@material-ui/core/Paper"
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import Fastfood from "@material-ui/icons/Fastfood"
 import DeleteIcon from "@material-ui/icons/Delete"
 import AddIcon from "@material-ui/icons/AddCircle"
-import { Config } from "../../config"
-import { useDispatch, useSelector } from "react-redux"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import IconButton from "@material-ui/core/IconButton"
+import Fastfood from "@material-ui/icons/Fastfood"
+import Button from "@material-ui/core/Button"
 import { increment, decrement } from "../../actions"
-import { Redirect } from "react-router"
 import { useSnackbar } from "notistack"
+import { Redirect } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     flexGrow: 1
   },
-  container: {
-    maxHeight: window.innerHeight - 175
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: "33.33%",
+    flexShrink: 0
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary
   },
   title: {
     flexGrow: 1
-  },
-  fab: {
-    position: "absolute",
-    right: theme.spacing(2),
-    bottom: theme.spacing(5)
   }
 }))
 
 export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
+  const [expanded, setExpanded] = useState(false)
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const { enqueueSnackbar } = useSnackbar()
@@ -52,39 +55,17 @@ export default function OrderTab() {
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
 
-  const initLoad = () => {
-    console.log("initLoad: Order tab")
-    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
-      .then(res => res.json())
-      .then(
-        response => {
-          if (response.status === "not_found") {
-            setRows([])
-          } else {
-            setRows(response)
-          }
-          setLoading(false)
-        },
-        error => {
-          console.log("in error found => ", error)
-        }
-      )
-      .catch(error => {
-        console.log("Error: (OrderTab: " + error + ")")
-      })
+  const handleChange = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false)
   }
 
-  if (loading) {
-    initLoad()
-  }
-
-  useEffect(() => {
-    console.log("useEffect")
-    return function() {
-      setRows([])
-      console.log("Order tab cleanup")
-    }
-  }, [])
+  // useEffect(() => {
+  //   console.log("useEffect")
+  //   return function() {
+  //     setRows([])
+  //     console.log("Order tab cleanup")
+  //   }
+  // }, [])
 
   const sendOrderToPOS = () => {
     console.log("sendOrderToPOS")
@@ -111,7 +92,6 @@ export default function OrderTab() {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
-
   const removeIndex = uid => {
     console.log("removeIndex")
     fetch(`${Config.API_HOST}/orders_detail`, {
@@ -139,12 +119,7 @@ export default function OrderTab() {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
-
-  const editItem = uid => {
-    // alert("show edit item popup")
-    console.log("show edit item popup")
-  }
-
+  const editItem = () => {}
   const addItem = (code, name, price) => {
     console.log("addItem")
     fetch(`${Config.API_HOST}/orders_detail/create`, {
@@ -177,6 +152,32 @@ export default function OrderTab() {
       .catch(error => {
         console.log("Error: (OrderTab: " + error + ")")
       })
+  }
+
+  const initLoad = () => {
+    console.log("initLoad: Order tab")
+    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
+      .then(res => res.json())
+      .then(
+        response => {
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
+          setLoading(false)
+        },
+        error => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch(error => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+  }
+
+  if (loading) {
+    initLoad()
   }
 
   if (order_no === "") {
@@ -212,63 +213,73 @@ export default function OrderTab() {
           )}
         </Toolbar>
       </AppBar>
-      {rows.length > 0 && (
-        <TableContainer component={Paper} className={classes.container}>
-          <Table aria-label="sticky table" stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell>เมนู</TableCell>
-                <TableCell align="right">จำนวน</TableCell>
-                <TableCell align="right">ราคา</TableCell>
-                <TableCell align="right">รวม</TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.uid}>
-                  <TableCell>
-                    {row.send_order === "N" && (
-                      <DeleteIcon
-                        style={{ color: "red" }}
-                        onClick={() => removeIndex(row.uid)}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell onClick={() => editItem()}>
-                    {row.menu_name}
-                  </TableCell>
-                  <TableCell align="right">{row.qty}</TableCell>
-                  <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.total_amount}</TableCell>
-                  <TableCell align="right">
-                    <AddIcon
-                      style={{ color: "green" }}
-                      onClick={() =>
-                        addItem(row.menu_code, row.menu_name, row.price)
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-              <TableRow>
-                <TableCell colSpan={2} style={{ fontWeight: "bold" }}>
-                  Total
-                </TableCell>
-                <TableCell align="right" style={{ fontWeight: "bold" }}>
-                  {1 * rows.length}
-                </TableCell>
-                <TableCell align="right"></TableCell>
-                <TableCell align="right" style={{ fontWeight: "bold" }}>
-                  {199 * rows.length}
-                </TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+      {rows.map((item, data) => (
+        <ExpansionPanel
+          expanded={expanded === item.menu_code}
+          onChange={handleChange(item.menu_code)}
+        >
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography className={classes.heading}>
+              {item.menu_name}
+            </Typography>
+            <Typography className={classes.secondaryHeading}>
+              {item.qty} รายการ
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography style={{ width: "100%" }}>
+              <TableContainer component={Paper} className={classes.root}>
+                <Table
+                  aria-label="sticky table"
+                  stickyHeader
+                  style={{ width: "100%" }}
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell>เมนู</TableCell>
+                      <TableCell>ข้อความพิเศษ</TableCell>
+                      <TableCell>เมนูย่อย</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows.map(row => (
+                      <TableRow key={row.uid}>
+                        <TableCell>
+                          {row.send_order === "N" && (
+                            <DeleteIcon
+                              style={{ color: "red" }}
+                              onClick={() => removeIndex(row.uid)}
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell onClick={() => editItem()}>
+                          {row.menu_name}
+                        </TableCell>
+                        <TableCell onClick={() => editItem()}></TableCell>
+                        <TableCell onClick={() => editItem()}></TableCell>
+                        <TableCell align="right">
+                          <AddIcon
+                            style={{ color: "green" }}
+                            onClick={() =>
+                              addItem(row.menu_code, row.menu_name, row.price)
+                            }
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      ))}
     </Paper>
   )
 }
