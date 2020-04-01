@@ -9,7 +9,7 @@ import { Redirect } from "react-router"
 import { useSelector, useDispatch } from "react-redux"
 import { Config } from "../config"
 import addOrderItem from "./AddOrder"
-import { increment } from "../actions"
+import { increment, addNewItem } from "../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -48,7 +48,16 @@ export default function GetMenu(props) {
     })
   }
 
-  const addNewItem = (code, name, price) => {
+  const onAddNewItem = (code, name, price) => {
+    dispatch(
+      addNewItem({
+        menu_code: code,
+        menu_name: name,
+        price: price,
+        sub_menu_code: null,
+        special_text: null
+      })
+    )
     addOrderItem({ code, name, price, table_no, order_no, emp_code })
     dispatch(increment())
     const variant = "success"
@@ -110,7 +119,7 @@ export default function GetMenu(props) {
                 <IconButton
                   aria-label={`info about ${item.description}`}
                   className={classes.icon}
-                  onClick={() => addNewItem(item.code, item.name, item.price)}
+                  onClick={() => onAddNewItem(item.code, item.name, item.price)}
                 >
                   <AddCircle />
                 </IconButton>

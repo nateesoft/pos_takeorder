@@ -55,3 +55,10 @@ export const newOrder = payload => {
     payload: payload
   }
 }
+
+export const addNewItem = payload => {
+  return {
+    type: "NEW_ITEM",
+    payload: payload
+  }
+}

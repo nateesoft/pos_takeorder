@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: 16,
+    fontWeight: "ิbold",
     flexBasis: "33.33%",
     flexShrink: 0
   },
@@ -51,12 +52,25 @@ export default function OrderTab() {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const { enqueueSnackbar } = useSnackbar()
+  const [expansionItem, setExpansionItem] = useState([])
 
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
 
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false)
+  const handleChange = menu_code => (event, isExpanded) => {
+    setExpanded(isExpanded ? menu_code : false)
+
+    fetch(
+      `${Config.API_HOST}/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
+    )
+      .then(res => res.json())
+      .then(response => {
+        if (response.status === "not_found") {
+          setExpansionItem([])
+        } else {
+          setExpansionItem(response)
+        }
+      })
   }
 
   // useEffect(() => {
@@ -156,7 +170,7 @@ export default function OrderTab() {
 
   const initLoad = () => {
     console.log("initLoad: Order tab")
-    fetch(`${Config.API_HOST}/orders_detail?order_no=${order_no}`)
+    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
       .then(res => res.json())
       .then(
         response => {
@@ -213,7 +227,7 @@ export default function OrderTab() {
           )}
         </Toolbar>
       </AppBar>
-      {rows.map((item, data) => (
+      {rows.map((item, index) => (
         <ExpansionPanel
           expanded={expanded === item.menu_code}
           onChange={handleChange(item.menu_code)}
@@ -224,21 +238,20 @@ export default function OrderTab() {
             id="panel1bh-header"
           >
             <Typography className={classes.heading}>
+              {index + 1} - {item.menu_code}
+            </Typography>
+            <Typography className={classes.heading}>
               {item.menu_name}
             </Typography>
             <Typography className={classes.secondaryHeading}>
-              {item.qty} รายการ
+              {item.total_qty} x {item.price} = {item.total_price}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography style={{ width: "100%" }}>
-              <TableContainer component={Paper} className={classes.root}>
-                <Table
-                  aria-label="sticky table"
-                  stickyHeader
-                  style={{ width: "100%" }}
-                >
-                  <TableHead>
+              <TableContainer className={classes.root}>
+                <Table aria-label="sticky table" style={{ width: "100%" }}>
+                  <TableHead style={{ background: "#dddddd" }}>
                     <TableRow>
                       <TableCell></TableCell>
                       <TableCell>เมนู</TableCell>
@@ -248,7 +261,7 @@ export default function OrderTab() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map(row => (
+                    {expansionItem.map(row => (
                       <TableRow key={row.uid}>
                         <TableCell>
                           {row.send_order === "N" && (

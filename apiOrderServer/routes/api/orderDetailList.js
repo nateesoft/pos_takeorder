@@ -17,6 +17,37 @@ router.get("/", (req, res, next) => {
   })
 })
 
+router.get("/sum", (req, res, next) => {
+  const order_no = req.query.order_no
+  Task.findByOrderNoSummary(order_no, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
+    }
+  })
+})
+
+router.get("/product", (req, res, next) => {
+  const order_no = req.query.order_no
+  const menu_code = req.query.menu_code
+  Task.findByProduct(menu_code, order_no, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
+    }
+  })
+})
+
 router.post("/create", (req, res, next) => {
   OrdersDetail = {
     order_no: req.body.order_no,
