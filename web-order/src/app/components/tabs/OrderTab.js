@@ -197,7 +197,7 @@ export default function OrderTab() {
   if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (table_no === "") {
+  if (table_no === "" || table_no === "no_select") {
     return <Redirect push to={`/table`} />
   }
 

@@ -53,6 +53,8 @@ export default function MenuDetail(props) {
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
   const emp_code = useSelector(state => state.table.empCode)
+  const sub_menu_code = useSelector(state => state.item.sub_menu_code)
+  const special_text = useSelector(state => state.item.special_text)
 
   const initLoad = () => {
     console.log("initLoad")
@@ -93,7 +95,7 @@ export default function MenuDetail(props) {
   if (order_no === "") {
     return <Redirect push to={`/login`} />
   }
-  if (table_no === "") {
+  if (table_no === "" || table_no === "no_select") {
     return <Redirect push to={`/table`} />
   }
 

@@ -4,7 +4,8 @@ import Chip from "@material-ui/core/Chip"
 import TagFacesIcon from "@material-ui/icons/TagFaces"
 import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
-import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { addNewSpecialText } from '../../actions'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +25,7 @@ export default function OptionChip() {
   const [chipIdMax, setChipIdMax] = useState(0)
   const [chipData, setChipData] = useState([])
   const [chipOption, setChipOption] = useState("")
-  // const menu_code = useSelector(state => state.item.menu_code)
+  const dispatch = useDispatch()
 
   const handleAdd = () => {
     if (chipOption !== "") {
@@ -35,6 +36,9 @@ export default function OptionChip() {
       setChipData(chips => chips.concat(options))
       setChipOption("")
       setChipIdMax(chipIdMax + 1)
+      dispatch(addNewSpecialText({
+        special_text: chipData
+      }))
     }
   }
 
@@ -44,7 +48,6 @@ export default function OptionChip() {
 
   return (
     <div>
-      {/* <h1>{menu_code}</h1> */}
       {chipData.map(data => {
         let icon
 

@@ -62,3 +62,17 @@ export const addNewItem = payload => {
     payload: payload
   }
 }
+
+export const addNewSpecialText = payload => {
+  return {
+    type: "ADD_SPECIAL_TEXT",
+    payload: payload
+  }
+}
+
+export const addNewSubMenuCode = payload => {
+  return {
+    type: "ADD_SUB_MENU_CODE",
+    payload: payload
+  }
+}

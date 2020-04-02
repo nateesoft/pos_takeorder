@@ -14,6 +14,12 @@ const itemReducer = (state = initialState, action) => {
       state.sub_menu_code = action.payload.sub_menu_code
       state.special_text = action.payload.special_text
       return state
+    case "ADD_SUB_MENU_CODE":
+      state.sub_menu_code = action.payload.sub_menu_code
+      return state
+    case "ADD_SPECIAL_TEXT":
+      state.special_text = action.payload.special_text
+      return state
     default:
       return state
   }
