@@ -7,9 +7,9 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch } from "react-redux"
-import { Config } from "../config"
+import { Config } from "../../config"
 import addOrderItem from "./AddOrder"
-import { increment, addNewItem } from "../actions"
+import { increment } from "../../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -49,15 +49,6 @@ export default function GetMenu(props) {
   }
 
   const onAddNewItem = (code, name, price) => {
-    dispatch(
-      addNewItem({
-        menu_code: code,
-        menu_name: name,
-        price: price,
-        sub_menu_code: null,
-        special_text: null
-      })
-    )
     addOrderItem({ code, name, price, table_no, order_no, emp_code })
     dispatch(increment())
     const variant = "success"

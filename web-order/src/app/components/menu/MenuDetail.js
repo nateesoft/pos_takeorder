@@ -16,7 +16,7 @@ import ButtonAction from "./ButtonAction"
 import { Config } from "../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
-import OptionChip from "./OptionChip"
+import SpecialTextComp from "./SpecialTextComp"
 import { useSelector } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
@@ -53,8 +53,6 @@ export default function MenuDetail(props) {
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
   const emp_code = useSelector(state => state.table.empCode)
-  const sub_menu_code = useSelector(state => state.item.sub_menu_code)
-  const special_text = useSelector(state => state.item.special_text)
 
   const initLoad = () => {
     console.log("initLoad")
@@ -118,7 +116,7 @@ export default function MenuDetail(props) {
             image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
-          <OptionChip />
+          <SpecialTextComp />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>

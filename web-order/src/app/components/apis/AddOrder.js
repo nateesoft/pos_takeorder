@@ -1,7 +1,16 @@
-import { Config } from "../config"
+import { Config } from "../../config"
 
 export default function AddOrder(props) {
-  const { code, name, price, table_no, order_no, emp_code } = props
+  const {
+    code,
+    name,
+    price,
+    table_no,
+    order_no,
+    emp_code,
+    specialText,
+    subMenuCode
+  } = props
   const cust_count = 0
   const item_count = 0
   const total_amount = 0
@@ -68,7 +77,9 @@ export default function AddOrder(props) {
         menu_name: name,
         price,
         qty: 1,
-        total_amount: price
+        total_amount: price,
+        special_text: specialText,
+        sub_menu_code: subMenuCode
       })
     })
       .then(

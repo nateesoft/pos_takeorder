@@ -36,9 +36,7 @@ export default function OptionChip() {
       setChipData(chips => chips.concat(options))
       setChipOption("")
       setChipIdMax(chipIdMax + 1)
-      dispatch(addNewSpecialText({
-        special_text: chipData
-      }))
+      dispatch(addNewSpecialText(chipOption))
     }
   }
 

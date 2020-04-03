@@ -61,7 +61,9 @@ router.post("/create", (req, res, next) => {
     price: req.body.price,
     qty: req.body.qty,
     total_amount: req.body.total_amount,
-    order_detail_status: req.body.order_detail_status
+    order_detail_status: req.body.order_detail_status,
+    specialText: req.body.special_text,
+    subMenuCode: req.body.sub_menu_code
   }
   Task.add(OrdersDetail, (err, rows) => {
     if (err) {

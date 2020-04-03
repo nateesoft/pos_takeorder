@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
-import addOrderItem from "../../apis/AddOrder"
+import addOrderItem from "../apis/AddOrder"
 import { useDispatch, useSelector } from "react-redux"
 import { increment, addNewItem } from "../../actions"
 import { useSnackbar } from "notistack"
@@ -21,20 +21,18 @@ export default function ButtonAction(props) {
   const dispatch = useDispatch()
   const { code, name, price } = props.item
   const { table_no, order_no, emp_code } = props.table
-  const sub_menu_code = useSelector(state => state.item.sub_menu_code)
-  const special_text = useSelector(state => state.item.special_text)
+  const specialText = useSelector(state => state.specialText)
+  const subMenuCode = useSelector(state => state.subMenuCode)
 
   const onAddNewItem = (code, name, price) => {
     dispatch(
       addNewItem({
         menu_code: code,
         menu_name: name,
-        price: price,
-        sub_menu_code,
-        special_text
+        price: price
       })
     )
-    addOrderItem({ code, name, price, table_no, order_no, emp_code })
+    addOrderItem({ code, name, price, table_no, order_no, emp_code, specialText, subMenuCode })
     dispatch(increment())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
