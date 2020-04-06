@@ -1,4 +1,4 @@
-CREATE TABLE `group_menu` (
+CREATE TABLE IF NOT EXISTS `group_menu` (
   `code` varchar(3) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE `group_menu` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `login` (
+CREATE TABLE IF NOT EXISTS `login` (
   `emp_code` varchar(20) DEFAULT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `login` (
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `open_table` (
+CREATE TABLE IF NOT EXISTS `open_table` (
   `code` varchar(10) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `zone` varchar(20) DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `open_table` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `order_no` varchar(100) NOT NULL,
   `table_code` varchar(10) DEFAULT NULL,
   `emp_code` varchar(20) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `orders_detail` (
+CREATE TABLE IF NOT EXISTS `orders_detail` (
   `index` varchar(20) NOT NULL,
   `order_no` varchar(100) NOT NULL,
   `menu_code` varchar(20) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `orders_detail` (
   `send_order` varchar(1) DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `product_menu` (
+CREATE TABLE IF NOT EXISTS `product_menu` (
   `code` varchar(13) NOT NULL,
   `code_key` varchar(5) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
@@ -77,19 +77,19 @@ CREATE TABLE `product_menu` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `menu_sublist` (
+CREATE TABLE IF NOT EXISTS `menu_sublist` (
   `menu_code` varchar(13) DEFAULT NULL,
   `submenu_code` varchar(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `orders_specialtext` (
+CREATE TABLE IF NOT EXISTS `orders_specialtext` (
   `order_no` varchar(100) NOT NULL,
   `menu_code` varchar(20) NOT NULL,
   `special_text` varchar(100) NOT NULL,
   `menu_index` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `orders_subcode` (
+CREATE TABLE IF NOT EXISTS `orders_subcode` (
   `order_no` varchar(100) NOT NULL,
   `menu_code` varchar(20) NOT NULL,
   `sub_menu_code` varchar(100) NOT NULL,
