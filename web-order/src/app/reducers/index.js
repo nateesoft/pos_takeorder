@@ -1,14 +1,12 @@
 import { combineReducers } from "redux"
 import counterReducer from "./counter"
 import tableReducer from "./table"
-import specialTextReducer from "./specialText"
-import subMenuCodeReducer from "./subMenuCode"
+import itemReducer from "./item"
 
 const allReducers = combineReducers({
   counter: counterReducer,
   table: tableReducer,
-  specialText: specialTextReducer,
-  subMenuCode: subMenuCodeReducer,
+  item: itemReducer
 })
 
 export default allReducers

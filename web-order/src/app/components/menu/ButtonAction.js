@@ -21,8 +21,9 @@ export default function ButtonAction(props) {
   const dispatch = useDispatch()
   const { code, name, price } = props.item
   const { table_no, order_no, emp_code } = props.table
-  const specialText = useSelector(state => state.specialText)
-  const subMenuCode = useSelector(state => state.subMenuCode)
+  
+  const specialText = useSelector(state => state.item.specialText)
+  const subMenuCode = useSelector(state => state.item.subMenuCode)
 
   const onAddNewItem = (code, name, price) => {
     dispatch(

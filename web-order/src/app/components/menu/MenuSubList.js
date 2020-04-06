@@ -4,6 +4,8 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
+import { useDispatch } from "react-redux"
+import { addNewSubMenuCode, clearNewSubMenuCode } from '../../actions'
 import { Config } from "../../config"
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +32,9 @@ const useStyles = makeStyles(theme => ({
 export default function MenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
+  const [subCode, setSubCode] = useState([])
   const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
 
   const initLoad = () => {
     console.log("initLoad")
@@ -60,6 +64,40 @@ export default function MenuSubList(props) {
     initLoad()
   }
 
+  const handleAdd = item => {
+    let hasExist = false
+    for (let i = 0; i < subCode.length; i++) {
+      const iSubCode = subCode[i]
+      if (iSubCode === item.code) {
+        hasExist = true
+      }
+      if (i === subCode.length - 1) {
+        if (hasExist) {
+          setSubCode(sCode => sCode.filter(sc => sc !== item.code))
+          dispatch(clearNewSubMenuCode(item.code))
+        } else {
+          setSubCode(sCode => sCode.concat(item.code))
+          dispatch(addNewSubMenuCode(item.code))
+        }
+      }
+    }
+    if (subCode.length === 0) {
+      setSubCode(sCode => sCode.concat(item.code))
+      dispatch(addNewSubMenuCode(item.code))
+    }
+  }
+
+  const isSelect = code => {
+    console.log("isSelect: ", code)
+    for (let i = 0; i < subCode.length; i++) {
+      const iSubCode = subCode[i]
+      if (iSubCode === code) {
+        return true
+      }
+    }
+    return false
+  }
+
   useEffect(() => {
     console.log("MenuSubList - useEffect")
     return function() {
@@ -75,13 +113,19 @@ export default function MenuSubList(props) {
             <img
               src={`${Config.API_HOST}/images${item.img_url}`}
               alt={item.name}
+              onClick={() => handleAdd(item)}
             />
             <GridListTileBar
               classes={{
                 root: classes.titleBar,
                 title: classes.title
               }}
-              actionIcon={<Checkbox style={{ color: "white" }} />}
+              actionIcon={
+                <Checkbox
+                  style={{ color: "white" }}
+                  checked={isSelect(item.code)}
+                />
+              }
             />
           </GridListTile>
         ))}

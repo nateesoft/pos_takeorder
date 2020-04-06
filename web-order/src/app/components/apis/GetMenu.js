@@ -9,7 +9,7 @@ import { Redirect } from "react-router"
 import { useSelector, useDispatch } from "react-redux"
 import { Config } from "../../config"
 import addOrderItem from "./AddOrder"
-import { increment } from "../../actions"
+import { increment, clearAddItem } from "../../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -37,6 +37,10 @@ export default function GetMenu(props) {
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
   const emp_code = useSelector(state => state.table.empCode)
+
+  const specialText = useSelector(state => state.item.specialText)
+  const subMenuCode = useSelector(state => state.item.subMenuCode)
+
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -49,8 +53,9 @@ export default function GetMenu(props) {
   }
 
   const onAddNewItem = (code, name, price) => {
-    addOrderItem({ code, name, price, table_no, order_no, emp_code })
+    addOrderItem({ code, name, price, table_no, order_no, emp_code, specialText, subMenuCode })
     dispatch(increment())
+    // dispatch(clearAddItem())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }

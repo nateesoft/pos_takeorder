@@ -38,7 +38,7 @@ export default function App() {
   const [open, setOpen] = useState(true)
 
   const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter)
+  const counter = useSelector(state => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }

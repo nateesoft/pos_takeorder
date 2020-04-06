@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 export default function LeftMenu(props) {
   const dispatch = useDispatch()
   const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter)
+  const counter = useSelector(state => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }

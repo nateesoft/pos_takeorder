@@ -61,6 +61,13 @@ export const addNewItem = payload => {
     type: "NEW_ITEM",
     payload: payload
   }
+
+}
+export const clearAddItem = payload => {
+  return {
+    type: "CLEAR_ITEM_ADD",
+    payload: payload
+  }
 }
 
 export const addNewSpecialText = payload => {
@@ -70,9 +77,23 @@ export const addNewSpecialText = payload => {
   }
 }
 
+export const clearSpecialText = payload => {
+  return {
+    type: "DELETE_SPECIAL_TEXT",
+    payload: payload
+  }
+}
+
 export const addNewSubMenuCode = payload => {
   return {
     type: "ADD_SUB_MENU_CODE",
+    payload: payload
+  }
+}
+
+export const clearNewSubMenuCode = payload => {
+  return {
+    type: "DELETE_SUB_MENU_CODE",
     payload: payload
   }
 }

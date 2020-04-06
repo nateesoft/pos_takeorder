@@ -41,7 +41,7 @@ const OrdersDetail = {
     const { specialText = [], subMenuCode = [] } = OrdersDetail
     if (specialText.length > 0) {
       for (let i = 0; i < specialText.length; i += 1) {
-        const text = specialText[i]
+        const text = specialText[i].label
         db.query(`insert into orders_specialtext values(?, ?, ?)`, [
           OrdersDetail.order_no,
           OrdersDetail.menu_code,

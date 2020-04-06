@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Chip from "@material-ui/core/Chip"
-import TagFacesIcon from "@material-ui/icons/TagFaces"
 import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
-import { addNewSpecialText } from '../../actions'
+import { addNewSpecialText, clearSpecialText } from "../../actions"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,27 +35,21 @@ export default function OptionChip() {
       setChipData(chips => chips.concat(options))
       setChipOption("")
       setChipIdMax(chipIdMax + 1)
-      dispatch(addNewSpecialText(chipOption))
+      dispatch(addNewSpecialText(options))
     }
   }
 
   const handleDelete = chipToDelete => () => {
     setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key))
+    dispatch(clearSpecialText(chipToDelete))
   }
 
   return (
     <div>
       {chipData.map(data => {
-        let icon
-
-        if (data.label === "React") {
-          icon = <TagFacesIcon />
-        }
-
         return (
           <Chip
             key={data.key}
-            icon={icon}
             label={data.label}
             onDelete={handleDelete(data)}
             className={classes.chip}

@@ -1,14 +1,24 @@
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1
-    case "DECREMENT":
-      return state - 1
-    case "RESET":
-      return 0
-    default:
-      return state
-  }
+import produce from "immer"
+
+const initialState = {
+  count: 0
 }
+
+const counterReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case "INCREMENT":
+        draft.count += 1
+        break
+      case "DECREMENT":
+        draft.count -= 1
+        break
+      case "RESET":
+        draft.count = 0
+        break
+      default:
+        break
+    }
+  })
 
 export default counterReducer
