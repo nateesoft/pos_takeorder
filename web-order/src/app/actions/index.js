@@ -63,7 +63,7 @@ export const addNewItem = payload => {
   }
 
 }
-export const clearAddItem = payload => {
+export const clearItemAdd = payload => {
   return {
     type: "CLEAR_ITEM_ADD",
     payload: payload

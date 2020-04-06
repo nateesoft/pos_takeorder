@@ -21,7 +21,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import Button from "@material-ui/core/Button"
-import { increment, decrement } from "../../actions"
+import { increment, decrement, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import { Redirect } from "react-router"
 
@@ -155,6 +155,7 @@ export default function OrderTab() {
       .then(
         response => {
           dispatch(increment())
+          dispatch(clearItemAdd())
           initLoad()
           const variant = "success"
           enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
@@ -274,8 +275,12 @@ export default function OrderTab() {
                         <TableCell onClick={() => editItem()}>
                           {row.menu_name}
                         </TableCell>
-                        <TableCell onClick={() => editItem()}></TableCell>
-                        <TableCell onClick={() => editItem()}></TableCell>
+                        <TableCell onClick={() => editItem()}>
+                          {row.s_text}
+                        </TableCell>
+                        <TableCell onClick={() => editItem()}>
+                          {row.sub_code}
+                        </TableCell>
                         <TableCell align="right">
                           <AddIcon
                             style={{ color: "green" }}

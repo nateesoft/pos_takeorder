@@ -61,3 +61,11 @@ CREATE TABLE `tablefile` (
   `CCUseAmt` float(10,2) DEFAULT NULL,
   PRIMARY KEY (`Tcode`)
 );
+
+INSERT INTO pos_softpos.tablefile (Tcode,SoneCode,TLoginDate,MacNo,Cashier,TLoginTime,TCurTime,TCustomer,TItem,TAmount,TOnAct,Service,ServiceAmt,EmpDisc,EmpDiscAmt,FastDisc,FastDiscAmt,TrainDisc,TrainDiscAmt,MemDisc,MemDiscAmt,SubDisc,SubDiscAmt,DiscBath,ProDiscAmt,SpaDiscAmt,CuponDiscAmt,ItemDiscAmt,MemCode,MemCurAmt,MemName,MemBegin,MemEnd,Food,Drink,Product,NetTotal,PrintTotal,PrintChkBill,PrintCnt,PrintTime1,PrintTime2,ChkBill,ChkBillTime,StkCode1,StkCode2,TDesk,TUser,VoidMsg,TPause,CCUseCode,CCUseAmt) VALUES 
+('A10','A',NULL,'','','00:00:00','00:00',0,0,0,'N',0,0,'',0,'',0,'',0,'',0,'',0,0,0,0,0,0,'',0,'','2020-02-26','2020-02-26',0,0,0,0,0,'N',0,'','','N','00:00:00','','',0,'9',NULL,'',NULL,NULL)
+,('A1-1-1','A','2018-01-16',NULL,NULL,'13:21:53','00:00',0,0,0,'N',0,0,'',0,'',0,'',0,'',0,'',0,0,0,0,0,0,'',0,'','2020-02-26','2020-02-26',0,0,0,0,0,'N',0,NULL,'','N','00:00:00','','',0,NULL,NULL,NULL,NULL,NULL)
+,('A1-1','A','2020-02-10',NULL,NULL,'20:00:11','00:00',0,0,0,'N',0,0,'',0,'',0,'',0,'',0,'',0,0,0,0,0,0,'',0,'','2020-02-26','2020-02-26',0,0,0,0,0,'N',0,NULL,'','N','00:00:00','','',0,NULL,NULL,NULL,NULL,NULL)
+,('A1','A','2020-02-25','','','00:00:00','00:00',0,0,0,'N',0,0,'',0,'',0,'',0,'',0,'',0,0,0,0,0,0,'',0,'','2020-02-26','2020-02-26',0,0,0,0,0,'N',0,'','','N','00:00:00','','',0,'',NULL,'N',NULL,NULL)
+,(' B6','B','2019-01-24','','','00:00:00','00:00',0,0,0,'N',0,0,'',0,'',0,'',0,'',0,'',0,0,0,0,0,0,'',0,'','2020-02-26','2020-02-26',0,0,0,0,0,'N',0,'','','N','00:00:00','','',0,'',NULL,'N',NULL,NULL)
+;

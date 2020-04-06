@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
 import addOrderItem from "../apis/AddOrder"
 import { useDispatch, useSelector } from "react-redux"
-import { increment, addNewItem } from "../../actions"
+import { increment, addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +35,7 @@ export default function ButtonAction(props) {
     )
     addOrderItem({ code, name, price, table_no, order_no, emp_code, specialText, subMenuCode })
     dispatch(increment())
+    dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }

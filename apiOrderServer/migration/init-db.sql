@@ -19,7 +19,7 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `open_table` (
-  `code` varchar(3) NOT NULL,
+  `code` varchar(10) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `zone` varchar(20) DEFAULT NULL,
   `reserve_status` varchar(1) DEFAULT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `open_table` (
 
 CREATE TABLE `orders` (
   `order_no` varchar(100) NOT NULL,
-  `table_code` varchar(3) DEFAULT NULL,
+  `table_code` varchar(10) DEFAULT NULL,
   `emp_code` varchar(20) NOT NULL,
   `cust_count` int(2) DEFAULT NULL,
   `item_count` int(2) DEFAULT NULL,
@@ -80,6 +80,20 @@ CREATE TABLE `product_menu` (
 CREATE TABLE `menu_sublist` (
   `menu_code` varchar(13) DEFAULT NULL,
   `submenu_code` varchar(13) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `orders_specialtext` (
+  `order_no` varchar(100) NOT NULL,
+  `menu_code` varchar(20) NOT NULL,
+  `special_text` varchar(100) NOT NULL,
+  `menu_index` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `orders_subcode` (
+  `order_no` varchar(100) NOT NULL,
+  `menu_code` varchar(20) NOT NULL,
+  `sub_menu_code` varchar(100) NOT NULL,
+  `menu_index` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO pos_takeorder.group_menu (code,name,description,status,created_at,updated_at) VALUES 

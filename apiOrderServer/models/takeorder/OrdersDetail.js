@@ -25,7 +25,15 @@ const OrdersDetail = {
   },
   findByProduct: function (menu_code, order_no, callback) {
     return db.query(
-      `select * from ${table_name} where menu_code=? and order_no = ?`,
+      `select t.*,
+      (select group_concat(special_text) 
+      from orders_specialtext ost 
+      where ost.menu_index = t.uid) s_text,
+      (select group_concat(p.name) 
+      from orders_subcode st 
+      left join product_menu p on st.sub_menu_code = p.code 
+      where st.menu_index = t.uid) sub_code  
+      from ${table_name} t where menu_code=? and order_no = ?`,
       [menu_code, order_no],
       callback
     )
@@ -38,14 +46,16 @@ const OrdersDetail = {
     )
   },
   add: function (OrdersDetail, callback) {
+    const new_uuid = uuid.v4()
     const { specialText = [], subMenuCode = [] } = OrdersDetail
     if (specialText.length > 0) {
       for (let i = 0; i < specialText.length; i += 1) {
         const text = specialText[i].label
-        db.query(`insert into orders_specialtext values(?, ?, ?)`, [
+        db.query(`insert into orders_specialtext values(?, ?, ?, ?)`, [
           OrdersDetail.order_no,
           OrdersDetail.menu_code,
           text,
+          new_uuid,
         ])
       }
     }
@@ -53,10 +63,11 @@ const OrdersDetail = {
     if (subMenuCode.length > 0) {
       for (let i = 0; i < subMenuCode.length; i += 1) {
         const code = subMenuCode[i]
-        db.query(`insert into orders_subcode values(?, ?, ?)`, [
+        db.query(`insert into orders_subcode values(?, ?, ?, ?)`, [
           OrdersDetail.order_no,
           OrdersDetail.menu_code,
           code,
+          new_uuid,
         ])
       }
     }
@@ -70,7 +81,7 @@ const OrdersDetail = {
         OrdersDetail.price,
         OrdersDetail.qty,
         OrdersDetail.total_amount,
-        uuid.v4(),
+        new_uuid,
         "N",
       ],
       callback
