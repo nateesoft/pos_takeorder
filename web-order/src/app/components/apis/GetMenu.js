@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function GetMenu(props) {
+  const { id, close } = props
   const classes = useStyles()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
@@ -37,7 +38,7 @@ export default function GetMenu(props) {
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
-  const [groupItem, setGroupItem] = useState(props.id)
+  const [groupItem, setGroupItem] = useState(id)
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
@@ -51,6 +52,7 @@ export default function GetMenu(props) {
       code: code,
       group: group,
     })
+    close()
   }
 
   const onAddNewItem = (code, name, price) => {

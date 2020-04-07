@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import InputBase from "@material-ui/core/InputBase"
@@ -11,6 +11,7 @@ import GetMenu from "../apis/GetMenu"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: "100%",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -67,34 +68,44 @@ export default function SearchPanel(props) {
   const { close } = props
   const [search, setSearch] = useState("g01")
 
+  useEffect(() => {
+    return function () {
+      setSearch("")
+    }
+  }, [])
+
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-          <InputBase
-            placeholder="Search…"
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ "aria-label": "search" }}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <IconButton
+            color="inherit"
+            aria-label="upload picture"
+            component="span"
+            onClick={() => close()}
+          >
+            <ExitToApp />
+          </IconButton>
+        </Toolbar>
+        <div style={{ height: window.innerHeight, overflow: "auto" }}>
+          <GetMenu id={search} close={close} />
         </div>
-        <IconButton
-          color="inherit"
-          aria-label="upload picture"
-          component="span"
-          onClick={() => close()}
-        >
-          <ExitToApp />
-        </IconButton>
-      </Toolbar>
-      <GetMenu id={search} />
-    </AppBar>
+      </AppBar>
+    </div>
   )
 }

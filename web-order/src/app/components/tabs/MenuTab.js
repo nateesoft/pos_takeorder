@@ -140,7 +140,7 @@ export default function MenuTab(props) {
             key={`dg${i}`}
           >
             <TabPanel value={value} index={i} key={i}>
-              <GetMenu id={item} />
+              <GetMenu id={item} close={()=>console.log('close function')} />
             </TabPanel>
           </div>
         ))}
