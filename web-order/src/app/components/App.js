@@ -26,19 +26,32 @@ import Recommend from "./tabs/Recommend"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
-import InputBase from "@material-ui/core/InputBase"
 import { useDispatch, useSelector } from "react-redux"
 import { reset } from "../actions"
 import { SnackbarProvider } from "notistack"
+import Button from "@material-ui/core/Button"
+import SearchPanel from "../components/search"
+import { makeStyles } from "@material-ui/core/styles"
+
 require("../components/styles/App.css")
+
+const useStyles2 = makeStyles({
+  list: {
+    width: 567,
+  },
+  fullList: {
+    width: "auto",
+  },
+})
 
 export default function App() {
   const dispatch = useDispatch()
   const classes = useStyles()
+  const classes2 = useStyles2()
   const [open, setOpen] = useState(true)
-
-  const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter.count)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const tableNo = useSelector((state) => state.table.tableNo)
+  const counter = useSelector((state) => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }
@@ -48,7 +61,7 @@ export default function App() {
       console.log("Set left menu open")
       setOpen(false)
     }
-    return function() {
+    return function () {
       console.log("App cleanup")
     }
   }, [])
@@ -59,6 +72,16 @@ export default function App() {
   const handleDrawerClose = () => {
     setOpen(false)
   }
+
+  const toggleDrawer = (open) => (event) => {
+    setDrawerOpen(open)
+  }
+
+  const list = () => (
+    <div className={clsx(classes2.list)} role="presentation">
+      <SearchPanel close={toggleDrawer(false)} />
+    </div>
+  )
 
   return (
     <Router>
@@ -94,19 +117,22 @@ export default function App() {
                 noWrap
                 className={classes.title}
               >
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </div>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  startIcon={<SearchIcon />}
+                  onClick={toggleDrawer(true)}
+                >
+                  ค้นหารายการอาหาร
+                </Button>
+                <Drawer
+                  anchor="right"
+                  open={drawerOpen}
+                  onClose={toggleDrawer(false)}
+                >
+                  {list("right")}
+                </Drawer>
               </Typography>
               <Link to="/login" style={{ color: "white" }}>
                 <IconButton
@@ -130,7 +156,7 @@ export default function App() {
                 style={{
                   backgroundColor: "#123456",
                   height: 60,
-                  paddingTop: 5
+                  paddingTop: 5,
                 }}
               >
                 <h2>
@@ -145,7 +171,7 @@ export default function App() {
               paper: clsx(
                 classes.drawerPaper,
                 !open && classes.drawerPaperClose
-              )
+              ),
             }}
             open={open}
           >
@@ -154,7 +180,7 @@ export default function App() {
               style={{
                 backgroundColor: "#bc0b06",
                 color: "white",
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               <Typography

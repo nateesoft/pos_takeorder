@@ -6,7 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useDispatch } from "react-redux"
 import { addNewSubMenuCode, clearNewSubMenuCode } from '../../actions'
-import { Config } from "../../config"
+import { Config } from "../../../config"
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -11,7 +11,7 @@ import { Redirect } from "react-router"
 import { reset, clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
-import { Config } from "../../config"
+import { Config } from "../../../config"
 
 const useStyles = makeStyles(theme => ({
   paper: {

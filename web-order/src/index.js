@@ -1,18 +1,29 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import { render } from "react-dom"
 import App from "./app/components/App"
 import * as serviceWorker from "./serviceWorker"
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
 import allReducers from "./app/reducers"
 import { Provider } from "react-redux"
+import createSagaMiddleware from "redux-saga"
+import { logger } from "redux-logger"
+import rootSaga from "./app/sagas"
 
-const store = createStore(allReducers)
-store.subscribe(() => console.log(store.getState()))
+const sagaMiddleware = createSagaMiddleware()
 
-ReactDOM.render(
+const store = createStore(allReducers, applyMiddleware(sagaMiddleware, logger))
+// store.subscribe(() => console.log(store.getState()))
+sagaMiddleware.run(rootSaga)
+
+render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById("root")
 )
+
+if (module.hot) {
+  module.hot.accept(App)
+}
+
 serviceWorker.register()

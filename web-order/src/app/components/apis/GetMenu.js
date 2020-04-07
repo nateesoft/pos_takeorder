@@ -7,25 +7,25 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch } from "react-redux"
-import { Config } from "../../config"
+import { Config } from "../../../config"
 import addOrderItem from "./AddOrder"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   gridList: {
     width: 500,
-    height: 450
+    height: 450,
   },
   icon: {
-    color: "green"
-  }
+    color: "green",
+  },
 }))
 
 export default function GetMenu(props) {
@@ -34,12 +34,13 @@ export default function GetMenu(props) {
   const [loading, setLoading] = useState(true)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
-  const table_no = useSelector(state => state.table.tableNo)
-  const order_no = useSelector(state => state.table.order.orderNo)
-  const emp_code = useSelector(state => state.table.empCode)
+  const table_no = useSelector((state) => state.table.tableNo)
+  const order_no = useSelector((state) => state.table.order.orderNo)
+  const emp_code = useSelector((state) => state.table.empCode)
+  const [groupItem, setGroupItem] = useState(props.id)
 
-  const specialText = useSelector(state => state.item.specialText)
-  const subMenuCode = useSelector(state => state.item.subMenuCode)
+  const specialText = useSelector((state) => state.item.specialText)
+  const subMenuCode = useSelector((state) => state.item.subMenuCode)
 
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
@@ -48,12 +49,21 @@ export default function GetMenu(props) {
     setRedirect(true)
     setSelItem({
       code: code,
-      group: group
+      group: group,
     })
   }
 
   const onAddNewItem = (code, name, price) => {
-    addOrderItem({ code, name, price, table_no, order_no, emp_code, specialText, subMenuCode })
+    addOrderItem({
+      code,
+      name,
+      price,
+      table_no,
+      order_no,
+      emp_code,
+      specialText,
+      subMenuCode,
+    })
     dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"
@@ -62,22 +72,30 @@ export default function GetMenu(props) {
 
   const initLoad = () => {
     console.log("initLoad")
-    fetch(`${Config.API_HOST}/product/${props.id}`)
-      .then(res => res.json())
-      .then(
-        response => {
-          setData(response)
+    if (groupItem === "") {
+      setGroupItem("X")
+    } else {
+      fetch(`${Config.API_HOST}/product/${groupItem}`)
+        .then((res) => res.json())
+        .then(
+          (response) => {
+            if (response.status === "not_found") {
+              setData([])
+            } else {
+              setData(response)
+            }
+            setLoading(false)
+          },
+          (error) => {
+            console.log("in error found => ", error)
+            setLoading(false)
+          }
+        )
+        .catch((error) => {
+          console.log("Error: (GetMenu: " + error + ")")
           setLoading(false)
-        },
-        error => {
-          console.log("in error found => ", error)
-          setLoading(false)
-        }
-      )
-      .catch(error => {
-        console.log("Error: (GetMenu: " + error + ")")
-        setLoading(false)
-      })
+        })
+    }
   }
 
   if (loading) {
@@ -86,7 +104,7 @@ export default function GetMenu(props) {
 
   useEffect(() => {
     console.log("get menu page")
-    return function() {
+    return function () {
       setData([])
       console.log("get menu cleanup")
     }
@@ -99,30 +117,33 @@ export default function GetMenu(props) {
   return (
     <div className={classes.root}>
       <GridList>
-        {data.map(item => (
-          <GridListTile key={item.code_key}>
-            <img
-              src={`${Config.API_HOST}/images${item.img_url}`}
-              alt={item.description}
-              onClick={() =>
-                handleOnClick(`${item.code}`, `${item.group_code}`)
-              }
-            />
-            <GridListTileBar
-              title={item.name}
-              subtitle={<span>Code: {item.code}</span>}
-              actionIcon={
-                <IconButton
-                  aria-label={`info about ${item.description}`}
-                  className={classes.icon}
-                  onClick={() => onAddNewItem(item.code, item.name, item.price)}
-                >
-                  <AddCircle />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
+        {data &&
+          data.map((item) => (
+            <GridListTile key={item.code_key}>
+              <img
+                src={`${Config.API_HOST}/images${item.img_url}`}
+                alt={item.description}
+                onClick={() =>
+                  handleOnClick(`${item.code}`, `${item.group_code}`)
+                }
+              />
+              <GridListTileBar
+                title={item.name}
+                subtitle={<span>Code: {item.code}</span>}
+                actionIcon={
+                  <IconButton
+                    aria-label={`info about ${item.description}`}
+                    className={classes.icon}
+                    onClick={() =>
+                      onAddNewItem(item.code, item.name, item.price)
+                    }
+                  >
+                    <AddCircle />
+                  </IconButton>
+                }
+              />
+            </GridListTile>
+          ))}
       </GridList>
     </div>
   )

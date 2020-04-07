@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Config } from "../../config"
+import { Config } from "../../../config"
 const QRCode = require("qrcode.react")
 
 export default function Welcome() {

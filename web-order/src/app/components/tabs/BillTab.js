@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
-import { Config } from "../../config"
+import { Config } from "../../../config"
 import { Redirect } from "react-router"
 import { useSelector } from "react-redux"
 
