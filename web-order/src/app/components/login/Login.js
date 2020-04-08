@@ -41,7 +41,6 @@ export default function Login() {
   const dispatch = useDispatch()
 
   const validLogin = (user, pass) => {
-    console.log("validLogin")
     fetch(`${Config.POS_API_HOST}/employ/login`, {
       method: "POST",
       headers: {
@@ -76,9 +75,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    console.log("use effect - login page")
     return function() {
-      console.log("Login cleanup")
     }
   }, [])
 

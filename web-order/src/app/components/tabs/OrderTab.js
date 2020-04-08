@@ -73,16 +73,7 @@ export default function OrderTab() {
       })
   }
 
-  // useEffect(() => {
-  //   console.log("useEffect")
-  //   return function() {
-  //     setRows([])
-  //     console.log("Order tab cleanup")
-  //   }
-  // }, [])
-
   const sendOrderToPOS = () => {
-    console.log("sendOrderToPOS")
     fetch(`${Config.API_HOST}/orders/move`, {
       method: "POST",
       headers: {
@@ -107,7 +98,6 @@ export default function OrderTab() {
       })
   }
   const removeIndex = (uid) => {
-    console.log("removeIndex")
     fetch(`${Config.API_HOST}/orders_detail`, {
       method: "DELETE",
       headers: {
@@ -135,7 +125,6 @@ export default function OrderTab() {
   }
   const editItem = () => {}
   const addItem = (code, name, price) => {
-    console.log("addItem")
     fetch(`${Config.API_HOST}/orders_detail/create`, {
       method: "POST",
       headers: {
@@ -170,7 +159,6 @@ export default function OrderTab() {
   }
 
   const initLoad = () => {
-    console.log("initLoad: Order tab")
     fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
       .then((res) => res.json())
       .then(

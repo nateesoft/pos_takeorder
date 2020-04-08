@@ -37,7 +37,6 @@ export default function MenuSubList(props) {
   const dispatch = useDispatch()
 
   const initLoad = () => {
-    console.log("initLoad")
     fetch(`${Config.API_HOST}/menu_list/${props.code}`)
       .then(res => res.json())
       .then(
@@ -88,7 +87,6 @@ export default function MenuSubList(props) {
   }
 
   const isSelect = code => {
-    console.log("isSelect: ", code)
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
       if (iSubCode === code) {
@@ -99,9 +97,7 @@ export default function MenuSubList(props) {
   }
 
   useEffect(() => {
-    console.log("MenuSubList - useEffect")
     return function() {
-      console.log("Menu sublist cleanup")
     }
   }, [])
 

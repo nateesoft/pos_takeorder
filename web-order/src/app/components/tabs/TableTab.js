@@ -35,7 +35,6 @@ export default function TableTab() {
   }
 
   const initLoad = () => {
-    console.log("initLoad: Table tab")
     fetch(`${Config.POS_API_HOST}/tablefile`)
       .then(res => res.json())
       .then(
@@ -61,9 +60,7 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    console.log('useEffect - TableTab')
     return function() {
-      console.log("table clenup")
     }
   }, [table_no])
 

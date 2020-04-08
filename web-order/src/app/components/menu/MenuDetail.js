@@ -55,7 +55,6 @@ export default function MenuDetail(props) {
   const emp_code = useSelector(state => state.table.empCode)
 
   const initLoad = () => {
-    console.log("initLoad")
     fetch(`${Config.API_HOST}/product/${group}/${code}`)
       .then(res => res.json())
       .then(
@@ -79,10 +78,8 @@ export default function MenuDetail(props) {
   }
 
   useEffect(() => {
-    console.log("Menu Detail - useEffect")
     return function() {
       setData([])
-      console.log("Menu detail cleanup")
     }
   }, [])
 

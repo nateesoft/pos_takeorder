@@ -85,6 +85,10 @@ export default function MenuTab(props) {
     setValue(newValue)
   }
 
+  const emptyFunc = () => {
+
+  }
+
   useEffect(() => {
     dataGroup.map((item, i) => {
       if (item === groupId) {
@@ -140,7 +144,7 @@ export default function MenuTab(props) {
             key={`dg${i}`}
           >
             <TabPanel value={value} index={i} key={i}>
-              <GetMenu id={item} close={()=>console.log('close function')} />
+              <GetMenu id={item} close={emptyFunc} />
             </TabPanel>
           </div>
         ))}

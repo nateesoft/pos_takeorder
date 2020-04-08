@@ -84,7 +84,6 @@ export default function AddOrder(props) {
     })
       .then(
         response => {
-          console.log(response)
         },
         error => {
           console.log("in error found => ", error)

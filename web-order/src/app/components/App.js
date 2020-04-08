@@ -58,11 +58,9 @@ export default function App() {
 
   useEffect(() => {
     if (window.innerWidth <= 760) {
-      console.log("Set left menu open")
       setOpen(false)
     }
     return function () {
-      console.log("App cleanup")
     }
   }, [])
 

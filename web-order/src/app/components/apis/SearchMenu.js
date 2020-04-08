@@ -70,9 +70,7 @@ export default function SearchMenu(props) {
   }
 
   useEffect(() => {
-    console.log("get menu page")
     return function () {
-      console.log("get menu cleanup")
     }
   }, [])
 

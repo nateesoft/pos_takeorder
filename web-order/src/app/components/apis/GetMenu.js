@@ -99,10 +99,8 @@ export default function GetMenu(props) {
   }
 
   useEffect(() => {
-    console.log("get menu page")
     return function () {
       setData([])
-      console.log("get menu cleanup")
     }
   }, [])
 
