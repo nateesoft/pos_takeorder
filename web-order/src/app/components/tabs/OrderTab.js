@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import ExpansionPanel from "@material-ui/core/ExpansionPanel"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
@@ -25,24 +25,24 @@ import { increment, decrement, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import { Redirect } from "react-router"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    flexGrow: 1
+    flexGrow: 1,
   },
   heading: {
     fontSize: 16,
     fontWeight: "ิbold",
     flexBasis: "33.33%",
-    flexShrink: 0
+    flexShrink: 0,
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }))
 
 export default function OrderTab() {
@@ -54,17 +54,17 @@ export default function OrderTab() {
   const { enqueueSnackbar } = useSnackbar()
   const [expansionItem, setExpansionItem] = useState([])
 
-  const table_no = useSelector(state => state.table.tableNo)
-  const order_no = useSelector(state => state.table.order.orderNo)
+  const table_no = useSelector((state) => state.table.tableNo)
+  const order_no = useSelector((state) => state.table.order.orderNo)
 
-  const handleChange = menu_code => (event, isExpanded) => {
+  const handleChange = (menu_code) => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
 
     fetch(
       `${Config.API_HOST}/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
     )
-      .then(res => res.json())
-      .then(response => {
+      .then((res) => res.json())
+      .then((response) => {
         if (response.status === "not_found") {
           setExpansionItem([])
         } else {
@@ -87,49 +87,49 @@ export default function OrderTab() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        order_no
-      })
+        order_no,
+      }),
     })
       .then(
-        response => {
+        (response) => {
           dispatch(decrement())
           initLoad()
         },
-        error => {
+        (error) => {
           console.log(`error: ${error}`)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
-  const removeIndex = uid => {
+  const removeIndex = (uid) => {
     console.log("removeIndex")
     fetch(`${Config.API_HOST}/orders_detail`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        uid: uid
-      })
+        uid: uid,
+      }),
     })
       .then(
-        response => {
+        (response) => {
           dispatch(decrement())
           initLoad()
           const variant = "warning"
           enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
         },
-        error => {
+        (error) => {
           console.log(`error: ${error}`)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
@@ -140,7 +140,7 @@ export default function OrderTab() {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         index: table_no + "/" + code,
@@ -149,22 +149,22 @@ export default function OrderTab() {
         menu_name: name,
         price,
         qty: 1,
-        total_amount: price
-      })
+        total_amount: price,
+      }),
     })
       .then(
-        response => {
+        (response) => {
           dispatch(increment())
           dispatch(clearItemAdd())
           initLoad()
           const variant = "success"
           enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
         },
-        error => {
+        (error) => {
           console.log(`error: ${error}`)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
@@ -172,9 +172,9 @@ export default function OrderTab() {
   const initLoad = () => {
     console.log("initLoad: Order tab")
     fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
-        response => {
+        (response) => {
           if (response.status === "not_found") {
             setRows([])
           } else {
@@ -182,11 +182,11 @@ export default function OrderTab() {
           }
           setLoading(false)
         },
-        error => {
+        (error) => {
           console.log("in error found => ", error)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
@@ -232,24 +232,25 @@ export default function OrderTab() {
         <ExpansionPanel
           expanded={expanded === item.menu_code}
           onChange={handleChange(item.menu_code)}
+          key={'expanded-'+index}
         >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography className={classes.heading}>
+            <Typography component={"span"} className={classes.heading}>
               {index + 1} - {item.menu_code}
             </Typography>
-            <Typography className={classes.heading}>
+            <Typography component={"span"} className={classes.heading}>
               {item.menu_name}
             </Typography>
-            <Typography className={classes.secondaryHeading}>
+            <Typography component={"span"} className={classes.secondaryHeading}>
               {item.total_qty} x {item.price} = {item.total_price}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography style={{ width: "100%" }}>
+            <Typography component={"span"} style={{ width: "100%" }}>
               <TableContainer className={classes.root}>
                 <Table aria-label="sticky table" style={{ width: "100%" }}>
                   <TableHead style={{ background: "#dddddd" }}>
@@ -262,7 +263,7 @@ export default function OrderTab() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {expansionItem.map(row => (
+                    {expansionItem.map((row) => (
                       <TableRow key={row.uid}>
                         <TableCell>
                           {row.send_order === "N" && (

@@ -6,7 +6,8 @@ import { fade, makeStyles } from "@material-ui/core/styles"
 import SearchIcon from "@material-ui/icons/Search"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
-import GetMenu from "../apis/GetMenu"
+import SearchMenu from "../apis/SearchMenu"
+import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,13 +67,41 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchPanel(props) {
   const classes = useStyles()
   const { close } = props
-  const [search, setSearch] = useState("g01")
+  const [search, setSearch] = useState("")
+  const [data, setData] = useState([])
+
+  const onSearch = () => {
+    fetch(`${Config.API_HOST}/search/${search}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setData([])
+          } else {
+            setData(response)
+          }
+        },
+        (error) => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (onSearch: " + error + ")")
+      })
+  }
 
   useEffect(() => {
     return function () {
       setSearch("")
     }
   }, [])
+
+  const handleKey = (v) => {
+    setSearch(v)
+    if (search !== "") {
+      onSearch()
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -90,7 +119,8 @@ export default function SearchPanel(props) {
               }}
               inputProps={{ "aria-label": "search" }}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleKey(e.target.value)}
+              onKeyUp={() => handleKey(search)}
             />
           </div>
           <IconButton
@@ -103,7 +133,7 @@ export default function SearchPanel(props) {
           </IconButton>
         </Toolbar>
         <div style={{ height: window.innerHeight, overflow: "auto" }}>
-          <GetMenu id={search} close={close} />
+          <SearchMenu data={data} close={close} />
         </div>
       </AppBar>
     </div>

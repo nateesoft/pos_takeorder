@@ -12,6 +12,7 @@ const billDetailRouter = require("./routes/api/billDetailList")
 const orderRouter = require("./routes/api/orderList")
 const orderDetailRouter = require("./routes/api/orderDetailList")
 const productMenuRouter = require("./routes/api/productMenu")
+const searchRouter = require("./routes/api/search")
 const subMenuRouter = require("./routes/api/menuSubList")
 
 const app = express()
@@ -41,6 +42,7 @@ app.use("/bill_detail", billDetailRouter)
 app.use("/orders", orderRouter)
 app.use("/orders_detail", orderDetailRouter)
 app.use("/product", productMenuRouter)
+app.use("/search", searchRouter)
 app.use("/menu_list", subMenuRouter)
 
 // catch 404 and forward to error handler

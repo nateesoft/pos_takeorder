@@ -26,7 +26,6 @@ export default function TableTab() {
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
-  const [tbSel, setTbSel] = useState(0)
   const dispatch = useDispatch()
   const table_no = useSelector(state => state.table.tableNo)
 
@@ -62,7 +61,7 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    setTbSel(table_no)
+    console.log('useEffect - TableTab')
     return function() {
       console.log("table clenup")
     }
