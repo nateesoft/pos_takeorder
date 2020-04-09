@@ -17,4 +17,19 @@ router.get("/:menu_code", (req, res, next) => {
   })
 })
 
+router.get("/index/:uid", (req, res, next) => {
+  const uid = req.params.uid
+  Task.findSublistByIndex(uid, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
+    }
+  })
+})
+
 module.exports = router

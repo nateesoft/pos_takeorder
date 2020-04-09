@@ -17,6 +17,21 @@ router.get("/", (req, res, next) => {
   })
 })
 
+router.get("/index/:index", (req, res, next) => {
+  const index = req.params.index
+  Task.findByIndex(index, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
+    }
+  })
+})
+
 router.get("/sum", (req, res, next) => {
   const order_no = req.query.order_no
   Task.findByOrderNoSummary(order_no, (err, rows) => {

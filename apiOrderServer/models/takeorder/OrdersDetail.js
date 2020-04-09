@@ -38,10 +38,13 @@ const OrdersDetail = {
       callback
     )
   },
-  findByIndex: function (index, callback) {
+  findByIndex: function (uid, callback) {
     return db.query(
-      `select * from ${table_name} where index=?`,
-      [index],
+      `select p.*, od.* 
+      from orders_detail od 
+      left join product_menu p on od.menu_code = p.code 
+      where od.uid=?`,
+      [uid],
       callback
     )
   },

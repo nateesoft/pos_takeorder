@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { increment, addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
-    margin: theme.spacing(1)
-  }
+    margin: theme.spacing(1),
+  },
 }))
 
 export default function ButtonAction(props) {
@@ -21,19 +21,28 @@ export default function ButtonAction(props) {
   const dispatch = useDispatch()
   const { code, name, price } = props.item
   const { table_no, order_no, emp_code } = props.table
-  
-  const specialText = useSelector(state => state.item.specialText)
-  const subMenuCode = useSelector(state => state.item.subMenuCode)
+
+  const specialText = useSelector((state) => state.item.specialText)
+  const subMenuCode = useSelector((state) => state.item.subMenuCode)
 
   const onAddNewItem = (code, name, price) => {
     dispatch(
       addNewItem({
         menu_code: code,
         menu_name: name,
-        price: price
+        price: price,
       })
     )
-    addOrderItem({ code, name, price, table_no, order_no, emp_code, specialText, subMenuCode })
+    addOrderItem({
+      code,
+      name,
+      price,
+      table_no,
+      order_no,
+      emp_code,
+      specialText,
+      subMenuCode,
+    })
     dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"
@@ -42,15 +51,17 @@ export default function ButtonAction(props) {
 
   return (
     <div align="right">
-      <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
-        <Button
-          variant="outlined"
-          className={classes.button}
-          startIcon={<KeyboardReturn />}
-        >
-          Back
-        </Button>
-      </Link>
+      {props.group && (
+        <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
+          <Button
+            variant="outlined"
+            className={classes.button}
+            startIcon={<KeyboardReturn />}
+          >
+            Back
+          </Button>
+        </Link>
+      )}
       <Button
         onClick={() => onAddNewItem(code, name, price)}
         variant="contained"
