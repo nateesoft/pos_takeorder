@@ -107,7 +107,7 @@ export default function OrderTab() {
   const [expansionItem, setExpansionItem] = useState([])
 
   const [open, setOpen] = useState(false)
-  const [menuIndex, setMenuIndex] = useState("")
+  const [menuItem, setMenuItem] = useState("")
 
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
@@ -178,9 +178,9 @@ export default function OrderTab() {
         console.log("Error: (OrderTab: " + error + ")")
       })
   }
-  const editItem = (uid) => {
+  const editItem = (item) => {
     setOpen(true)
-    setMenuIndex(uid)
+    setMenuItem(item)
   }
   const addItem = (code, name, price) => {
     fetch(`${Config.API_HOST}/orders_detail/create`, {
@@ -319,13 +319,13 @@ export default function OrderTab() {
                             />
                           )}
                         </TableCell>
-                        <TableCell onClick={() => editItem(row.uid)}>
+                        <TableCell onClick={() => editItem(row)}>
                           {row.menu_name}
                         </TableCell>
-                        <TableCell onClick={() => editItem(row.uid)}>
+                        <TableCell onClick={() => editItem(row)}>
                           {row.s_text}
                         </TableCell>
-                        <TableCell onClick={() => editItem(row.uid)}>
+                        <TableCell onClick={() => editItem(row)}>
                           {row.sub_code}
                         </TableCell>
                         <TableCell align="right">
@@ -358,7 +358,7 @@ export default function OrderTab() {
           Edit Menu
         </DialogTitle>
         <DialogContent dividers>
-          <EditMenu index={menuIndex} />
+          <EditMenu item={menuItem} />
         </DialogContent>
         <DialogActions>
           <SaveIcon onClick={() => setOpen(false)} />

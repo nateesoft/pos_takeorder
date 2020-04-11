@@ -14,7 +14,8 @@ const OrdersDetail = {
     return db.query(
       `select od.menu_code, od.menu_name, od.price,
       (select sum(qty) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_qty, 
-      (select sum(price) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_price 
+      (select sum(price) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_price,
+      (select group_code from product_menu p where p.code = od.menu_code) group_code 
       from ${table_name} od 
       where od.order_no = ? and status='Y' 
       group by od.menu_code, od.menu_name, od.price 
@@ -25,7 +26,7 @@ const OrdersDetail = {
   },
   findByProduct: function (menu_code, order_no, callback) {
     return db.query(
-      `select t.*,
+      `select p.group_code, t.*,
       (select group_concat(special_text) 
       from orders_specialtext ost 
       where ost.menu_index = t.uid) s_text,
@@ -33,7 +34,8 @@ const OrdersDetail = {
       from orders_subcode st 
       left join product_menu p on st.sub_menu_code = p.code 
       where st.menu_index = t.uid) sub_code  
-      from ${table_name} t where menu_code=? and order_no = ?`,
+      from ${table_name} t left join product_menu p on t.menu_code = p.code 
+      where menu_code=? and order_no = ?`,
       [menu_code, order_no],
       callback
     )

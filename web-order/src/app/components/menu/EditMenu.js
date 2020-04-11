@@ -16,7 +16,7 @@ import ButtonAction from "./ButtonAction"
 import { Config } from "../../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
-import SpecialTextComp from "./SpecialTextComp"
+import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector } from "react-redux"
 
 const useStyles = makeStyles((theme) => ({
@@ -47,14 +47,14 @@ export default function EditMenu(props) {
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
   const [loading, setLoading] = useState(true)
-  const { index } = props
+  const { item } = props
 
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
 
   const initLoad = () => {
-    fetch(`${Config.API_HOST}/orders_detail/index/${index}`)
+    fetch(`${Config.API_HOST}/orders_detail/index/${item.uid}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -112,7 +112,13 @@ export default function EditMenu(props) {
             image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
-          <SpecialTextComp />
+          <EditSpecialTextComp
+            data={[
+              { key: 1, label: "one" },
+              { key: 2, label: "two" },
+              { key: 3, label: "three" },
+            ]}
+          />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>
@@ -130,15 +136,12 @@ export default function EditMenu(props) {
               </CardActions>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <EditMenuSubList uid={item.uid} />
+                  <EditMenuSubList item={item} />
                 </CardContent>
               </Collapse>
             </div>
           )}
-          <ButtonAction
-            item={item}
-            table={{ table_no, order_no, emp_code }}
-          />
+          <ButtonAction item={item} table={{ table_no, order_no, emp_code }} />
         </Card>
       ))}
     </div>

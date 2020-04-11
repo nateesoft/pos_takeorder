@@ -17,9 +17,9 @@ router.get("/", (req, res, next) => {
   })
 })
 
-router.get("/index/:index", (req, res, next) => {
-  const index = req.params.index
-  Task.findByIndex(index, (err, rows) => {
+router.get("/index/:uid", (req, res, next) => {
+  const uid = req.params.uid
+  Task.findByIndex(uid, (err, rows) => {
     if (err) {
       res.send(err)
     } else {

@@ -6,23 +6,23 @@ import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
-    padding: theme.spacing(0.5)
+    padding: theme.spacing(0.5),
   },
   chip: {
     margin: theme.spacing(0.5),
-    backgroundColor: "orange"
-  }
+    backgroundColor: "orange",
+  },
 }))
 
-export default function SpecialTextComp() {
+export default function EditSpecialTextComp(props) {
   const classes = useStyles()
   const [chipIdMax, setChipIdMax] = useState(0)
-  const [chipData, setChipData] = useState([])
+  const [chipData, setChipData] = useState(props.data)
   const [chipOption, setChipOption] = useState("")
   const dispatch = useDispatch()
 
@@ -30,23 +30,25 @@ export default function SpecialTextComp() {
     if (chipOption !== "") {
       const options = {
         key: chipIdMax + 1,
-        label: chipOption
+        label: chipOption,
       }
-      setChipData(chips => chips.concat(options))
+      setChipData((chips) => chips.concat(options))
       setChipOption("")
       setChipIdMax(chipIdMax + 1)
       dispatch(addNewSpecialText(options))
     }
   }
 
-  const handleDelete = chipToDelete => () => {
-    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key))
+  const handleDelete = (chipToDelete) => () => {
+    setChipData((chips) =>
+      chips.filter((chip) => chip.key !== chipToDelete.key)
+    )
     dispatch(clearSpecialText(chipToDelete))
   }
 
   return (
     <div>
-      {chipData.map(data => {
+      {chipData.map((data) => {
         return (
           <Chip
             key={data.key}
@@ -63,7 +65,7 @@ export default function SpecialTextComp() {
           flexGrow: 1,
           marginTop: 10,
           marginBottom: 10,
-          backgroundColor: "#eeeeee"
+          backgroundColor: "#eeeeee",
         }}
       >
         <Grid item xs={6}>
@@ -73,7 +75,7 @@ export default function SpecialTextComp() {
             variant="outlined"
             style={{ width: 250 }}
             value={chipOption}
-            onChange={evt => setChipOption(evt.target.value)}
+            onChange={(evt) => setChipOption(evt.target.value)}
           />
         </Grid>
         <Grid item xs={6}>

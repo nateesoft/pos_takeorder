@@ -29,39 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function MenuSubList(props) {
+export default function EditMenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
+  const [dataSub, setDataSub] = useState([])
   const [subCode, setSubCode] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingSub, setLoadingSub] = useState(true)
   const dispatch = useDispatch()
-
-  const initLoad = () => {
-    fetch(`${Config.API_HOST}/menu_list/index/${props.uid}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response)
-          }
-          setLoading(false)
-        },
-        (error) => {
-          console.log("in error found => ", error)
-          setLoading(false)
-        }
-      )
-      .catch((error) => {
-        console.log("Error: (MenuSubList: " + error + ")")
-        setLoading(false)
-      })
-  }
-
-  if (loading) {
-    initLoad()
-  }
+  const { item } = props
 
   const handleAdd = (item) => {
     let hasExist = false
@@ -86,9 +62,66 @@ export default function MenuSubList(props) {
     }
   }
 
+  const initLoad = () => {
+    fetch(`${Config.API_HOST}/menu_list/${item.menu_code}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setData([])
+          } else {
+            setData(response)
+          }
+          setLoading(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+          setLoading(false)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (MenuSubList: " + error + ")")
+        setLoading(false)
+      })
+  }
+
+  const sublistExist = () => {
+    fetch(`${Config.API_HOST}/menu_list/index/${item.uid}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setDataSub([])
+          } else {
+            setDataSub(response)
+            for (let i = 0; i < response.length; i++) {
+              const newItem = response[i].code
+              setSubCode((sCode) => sCode.concat(newItem))
+            }
+          }
+          setLoadingSub(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+          setLoadingSub(false)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (MenuSubList: " + error + ")")
+        setLoadingSub(false)
+      })
+  }
+
+  if (loading) {
+    initLoad()
+  }
+  if (loadingSub) {
+    sublistExist()
+  }
+
   const isSelect = (code) => {
-    for (let i = 0; i < data.length; i++) {
-      const iSubCode = data[i]
+    for (let i = 0; i < subCode.length; i++) {
+      const iSubCode = subCode[i]
       if (iSubCode === code) {
         return true
       }
@@ -116,7 +149,10 @@ export default function MenuSubList(props) {
                 title: classes.title,
               }}
               actionIcon={
-                <Checkbox style={{ color: "white" }} checked={true} />
+                <Checkbox
+                  style={{ color: "white" }}
+                  checked={isSelect(item.code)}
+                />
               }
             />
           </GridListTile>
