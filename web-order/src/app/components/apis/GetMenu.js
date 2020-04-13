@@ -71,7 +71,7 @@ export default function GetMenu(props) {
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
-  const initLoad = () => {
+  useEffect(() => {
     fetch(`${Config.API_HOST}/product/${id}`)
       .then((res) => res.json())
       .then(
@@ -92,17 +92,10 @@ export default function GetMenu(props) {
         console.log("Error: (GetMenu: " + error + ")")
         setLoading(false)
       })
-  }
-
-  if (loading) {
-    initLoad()
-  }
-
-  useEffect(() => {
     return function () {
       setData([])
     }
-  }, [])
+  }, [id])
 
   if (redirect) {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />

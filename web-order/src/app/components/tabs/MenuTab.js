@@ -31,7 +31,7 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
+  value: PropTypes.any.isRequired,
 }
 
 const dataGroup = [
@@ -49,22 +49,22 @@ const dataGroup = [
   "g12",
   "g13",
   "g14",
-  "g15"
+  "g15",
 ]
 
 function getMenu(index) {
   return {
     id: `scrollable-force-tab-${index}`,
-    "aria-controls": `scrollable-force-tabpanel-${index}`
+    "aria-controls": `scrollable-force-tabpanel-${index}`,
   }
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 0,
     width: "100%",
-    backgroundColor: "theme.palette.background.paper"
-  }
+    backgroundColor: "theme.palette.background.paper",
+  },
 }))
 
 export default function MenuTab(props) {
@@ -74,10 +74,10 @@ export default function MenuTab(props) {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
-  const table_no = useSelector(state => state.table.tableNo)
-  const order_no = useSelector(state => state.table.order.orderNo)
+  const table_no = useSelector((state) => state.table.tableNo)
+  const order_no = useSelector((state) => state.table.order.orderNo)
 
-  const handleChangeIndex = index => {
+  const handleChangeIndex = (index) => {
     setValue(index)
   }
 
@@ -85,9 +85,7 @@ export default function MenuTab(props) {
     setValue(newValue)
   }
 
-  const emptyFunc = () => {
-
-  }
+  const emptyFunc = () => {}
 
   useEffect(() => {
     dataGroup.map((item, i) => {
@@ -96,7 +94,7 @@ export default function MenuTab(props) {
       }
       return null
     })
-    return function() {}
+    return function () {}
   }, [groupId])
 
   if (order_no === "") {
@@ -138,16 +136,17 @@ export default function MenuTab(props) {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        {dataGroup.map((item, i) => (
-          <div
-            style={{ height: window.innerHeight - 175, overflow: "auto" }}
-            key={`dg${i}`}
-          >
-            <TabPanel value={value} index={i} key={i}>
-              <GetMenu id={item} close={emptyFunc} />
-            </TabPanel>
-          </div>
-        ))}
+        {dataGroup &&
+          dataGroup.map((item, i) => (
+            <div
+              style={{ height: window.innerHeight - 175, overflow: "auto" }}
+              key={`dg${i}`}
+            >
+              <TabPanel value={value} index={i} key={i}>
+                <GetMenu id={item} close={emptyFunc} />
+              </TabPanel>
+            </div>
+          ))}
       </SwipeableViews>
     </div>
   )

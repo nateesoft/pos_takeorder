@@ -11,14 +11,14 @@ import { chooseTable } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     backgroundColor: "#FBFDFA",
     color: "black",
     maxHeight: window.innerHeight - 80,
-    overflow: "auto"
-  }
+    overflow: "auto",
+  },
 }))
 
 export default function TableTab() {
@@ -27,18 +27,18 @@ export default function TableTab() {
   const [rows, setRows] = useState([])
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
-  const table_no = useSelector(state => state.table.tableNo)
+  const table_no = useSelector((state) => state.table.tableNo)
 
   const handleListItemClick = (event, index, tableNo) => {
     setSelectedIndex(index)
     dispatch(chooseTable(tableNo))
   }
 
-  const initLoad = () => {
+  useEffect(() => {
     fetch(`${Config.POS_API_HOST}/tablefile`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
-        response => {
+        (response) => {
           if (response.status === "not_found") {
             setRows([])
           } else {
@@ -46,23 +46,17 @@ export default function TableTab() {
           }
           setLoading(false)
         },
-        error => {
+        (error) => {
           console.log("in error found => ", error)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
-  }
-
-  if (loading) {
-    initLoad()
-  }
-
-  useEffect(() => {
-    return function() {
+    return function () {
+      setRows([])
     }
-  }, [table_no])
+  }, [])
 
   if (table_no === "") {
     return <Redirect push to={`/login`} />
@@ -76,7 +70,7 @@ export default function TableTab() {
             <ListItem
               button
               selected={selectedIndex === index}
-              onClick={event => handleListItemClick(event, index, item.Tcode)}
+              onClick={(event) => handleListItemClick(event, index, item.Tcode)}
             >
               <ListItemAvatar>
                 <img

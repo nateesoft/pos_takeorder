@@ -17,9 +17,24 @@ router.get("/", (req, res, next) => {
   })
 })
 
-router.get("/index/:uid", (req, res, next) => {
+router.get("/sub_menu/:uid", (req, res, next) => {
   const uid = req.params.uid
-  Task.findByIndex(uid, (err, rows) => {
+  Task.findByIndexForSubMenu(uid, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
+      } else {
+        res.json(rows)
+      }
+    }
+  })
+})
+
+router.get("/special_text/:uid", (req, res, next) => {
+  const uid = req.params.uid
+  Task.findByIndexForSpecialText(uid, (err, rows) => {
     if (err) {
       res.send(err)
     } else {

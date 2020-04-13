@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Chip from "@material-ui/core/Chip"
 import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
+import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +23,51 @@ const useStyles = makeStyles((theme) => ({
 export default function EditSpecialTextComp(props) {
   const classes = useStyles()
   const [chipIdMax, setChipIdMax] = useState(0)
-  const [chipData, setChipData] = useState(props.data)
+  const [chipData, setChipData] = useState([])
   const [chipOption, setChipOption] = useState("")
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
+  const { item } = props
+
+  const getDataSplit = (response) => {
+    if (response !== null) {
+      const data = response[0].special_text
+      if (response[0].special_text === null) {
+        return []
+      } else {
+        return data.split(",")
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetch(`${Config.API_HOST}/orders_detail/special_text/${item.uid}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          const data = getDataSplit(response)
+          for (let i = 0; i < data.length; i += 1) {
+            const options = {
+              key: i + 1,
+              label: data[i],
+            }
+            setChipData((chips) => chips.concat(options))
+          }
+          setLoading(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+          setLoading(false)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (MenuDetail: " + error + ")")
+        setLoading(false)
+      })
+    return () => {
+      setChipData([])
+    }
+  }, [item.uid])
 
   const handleAdd = () => {
     if (chipOption !== "") {

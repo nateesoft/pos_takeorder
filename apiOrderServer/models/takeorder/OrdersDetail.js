@@ -40,12 +40,21 @@ const OrdersDetail = {
       callback
     )
   },
-  findByIndex: function (uid, callback) {
+  findByIndexForSubMenu: function (uid, callback) {
     return db.query(
       `select p.*, od.* 
       from orders_detail od 
       left join product_menu p on od.menu_code = p.code 
       where od.uid=?`,
+      [uid],
+      callback
+    )
+  },
+  findByIndexForSpecialText: function (uid, callback) {
+    return db.query(
+      `select group_concat(special_text) special_text 
+      from orders_specialtext os 
+      where menu_index = ?`,
       [uid],
       callback
     )

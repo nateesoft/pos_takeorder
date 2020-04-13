@@ -62,29 +62,6 @@ export default function EditMenuSubList(props) {
     }
   }
 
-  const initLoad = () => {
-    fetch(`${Config.API_HOST}/menu_list/${item.menu_code}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response)
-          }
-          setLoading(false)
-        },
-        (error) => {
-          console.log("in error found => ", error)
-          setLoading(false)
-        }
-      )
-      .catch((error) => {
-        console.log("Error: (MenuSubList: " + error + ")")
-        setLoading(false)
-      })
-  }
-
   const sublistExist = () => {
     fetch(`${Config.API_HOST}/menu_list/index/${item.uid}`)
       .then((res) => res.json())
@@ -112,13 +89,6 @@ export default function EditMenuSubList(props) {
       })
   }
 
-  if (loading) {
-    initLoad()
-  }
-  if (loadingSub) {
-    sublistExist()
-  }
-
   const isSelect = (code) => {
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
@@ -130,8 +100,34 @@ export default function EditMenuSubList(props) {
   }
 
   useEffect(() => {
-    return function () {}
-  }, [])
+    fetch(`${Config.API_HOST}/menu_list/${item.menu_code}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setData([])
+          } else {
+            setData(response)
+          }
+          setLoading(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+          setLoading(false)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (MenuSubList: " + error + ")")
+        setLoading(false)
+      })
+    return function () {
+      setData([])
+    }
+  }, [item.menu_code])
+
+  if (loadingSub) {
+    sublistExist()
+  }
 
   return (
     <div className={classes.root}>

@@ -53,8 +53,8 @@ export default function EditMenu(props) {
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
 
-  const initLoad = () => {
-    fetch(`${Config.API_HOST}/orders_detail/index/${item.uid}`)
+  useEffect(() => {
+    fetch(`${Config.API_HOST}/orders_detail/sub_menu/${item.uid}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -70,17 +70,10 @@ export default function EditMenu(props) {
         console.log("Error: (MenuDetail: " + error + ")")
         setLoading(false)
       })
-  }
-
-  if (loading) {
-    initLoad()
-  }
-
-  useEffect(() => {
     return function () {
       setData([])
     }
-  }, [])
+  }, [item.uid])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -112,13 +105,7 @@ export default function EditMenu(props) {
             image={`${Config.API_HOST}/images${item.img_url}`}
             title="Paella dish"
           />
-          <EditSpecialTextComp
-            data={[
-              { key: 1, label: "one" },
-              { key: 2, label: "two" },
-              { key: 3, label: "three" },
-            ]}
-          />
+          <EditSpecialTextComp item={item} />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>

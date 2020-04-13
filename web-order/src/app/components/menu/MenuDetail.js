@@ -19,27 +19,27 @@ import { Redirect } from "react-router"
 import SpecialTextComp from "./SpecialTextComp"
 import { useSelector } from "react-redux"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%"
+    width: "100%",
   },
   media: {
     height: 0,
-    paddingTop: "56.25%"
+    paddingTop: "56.25%",
   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
+      duration: theme.transitions.duration.shortest,
+    }),
   },
   expandOpen: {
-    transform: "rotate(180deg)"
+    transform: "rotate(180deg)",
   },
   avatar: {
-    backgroundColor: red[500]
-  }
+    backgroundColor: red[500],
+  },
 }))
 
 export default function MenuDetail(props) {
@@ -50,38 +50,31 @@ export default function MenuDetail(props) {
   const group = props.match.params.group
   const code = props.match.params.code
 
-  const table_no = useSelector(state => state.table.tableNo)
-  const order_no = useSelector(state => state.table.order.orderNo)
-  const emp_code = useSelector(state => state.table.empCode)
+  const table_no = useSelector((state) => state.table.tableNo)
+  const order_no = useSelector((state) => state.table.order.orderNo)
+  const emp_code = useSelector((state) => state.table.empCode)
 
-  const initLoad = () => {
+  useEffect(() => {
     fetch(`${Config.API_HOST}/product/${group}/${code}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
-        response => {
+        (response) => {
           setData(response)
           setLoading(false)
         },
-        error => {
+        (error) => {
           console.log("in error found => ", error)
           setLoading(false)
         }
       )
-      .catch(error => {
+      .catch((error) => {
         console.log("Error: (MenuDetail: " + error + ")")
         setLoading(false)
       })
-  }
-
-  if (loading) {
-    initLoad()
-  }
-
-  useEffect(() => {
-    return function() {
+    return function () {
       setData([])
     }
-  }, [])
+  }, [code, group])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -120,7 +113,7 @@ export default function MenuDetail(props) {
                 <h4>เลือกรายการอาหารทานคู่กัน</h4>
                 <IconButton
                   className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded
+                    [classes.expandOpen]: expanded,
                   })}
                   onClick={handleExpandClick}
                   aria-expanded={expanded}

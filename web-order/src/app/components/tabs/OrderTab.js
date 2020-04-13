@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import ExpansionPanel from "@material-ui/core/ExpansionPanel"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
@@ -112,9 +112,53 @@ export default function OrderTab() {
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
 
+  useEffect(() => {
+    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
+          setLoading(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+    return function () {
+      setRows([])
+    }
+  }, [order_no])
+
+  const loadInitData = () => {
+    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
+      .then((res) => res.json())
+      .then(
+        (response) => {
+          if (response.status === "not_found") {
+            setRows([])
+          } else {
+            setRows(response)
+          }
+          setLoading(false)
+        },
+        (error) => {
+          console.log("in error found => ", error)
+        }
+      )
+      .catch((error) => {
+        console.log("Error: (OrderTab: " + error + ")")
+      })
+  }
+
   const handleChange = (menu_code) => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
-
     fetch(
       `${Config.API_HOST}/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
     )
@@ -142,7 +186,7 @@ export default function OrderTab() {
       .then(
         (response) => {
           dispatch(decrement())
-          initLoad()
+          loadInitData()
         },
         (error) => {
           console.log(`error: ${error}`)
@@ -166,7 +210,7 @@ export default function OrderTab() {
       .then(
         (response) => {
           dispatch(decrement())
-          initLoad()
+          loadInitData()
           const variant = "warning"
           enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
         },
@@ -203,7 +247,7 @@ export default function OrderTab() {
         (response) => {
           dispatch(increment())
           dispatch(clearItemAdd())
-          initLoad()
+          loadInitData()
           const variant = "success"
           enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
         },
@@ -214,31 +258,6 @@ export default function OrderTab() {
       .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })
-  }
-
-  const initLoad = () => {
-    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setRows([])
-          } else {
-            setRows(response)
-          }
-          setLoading(false)
-        },
-        (error) => {
-          console.log("in error found => ", error)
-        }
-      )
-      .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
-      })
-  }
-
-  if (loading) {
-    initLoad()
   }
 
   if (order_no === "") {
@@ -360,9 +379,9 @@ export default function OrderTab() {
         <DialogContent dividers>
           <EditMenu item={menuItem} />
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <SaveIcon onClick={() => setOpen(false)} />
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </Paper>
   )
