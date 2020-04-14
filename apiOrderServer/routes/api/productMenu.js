@@ -1,8 +1,6 @@
 const Task = require("../../models/pos/ProductMenu")
 const express = require("express")
 const router = express.Router()
-const redis = require("redis")
-const redisClient = redis.createClient()
 
 router.get("/", (req, res, next) => {
   const searchTxt = req.query.txt
@@ -36,32 +34,17 @@ router.get("/", (req, res, next) => {
 router.get("/:group_code", (req, res, next) => {
   const group_code = req.params.group_code
 
-  redisClient.get(group_code, async (error, data) => {
-    if (error) {
-      res.send(error)
-    }
-    if (data) {
-      return res.json(JSON.parse(data))
-    }
-
-    // find product from group code
-    Task.findByGroup(group_code, (err, rows) => {
-      if (err) {
-        res.send(err)
+  // find product from group code
+  Task.findByGroup(group_code, (err, rows) => {
+    if (err) {
+      res.send(err)
+    } else {
+      if (rows.length === 0) {
+        res.json({ status: "not_found" })
       } else {
-        if (rows.length === 0) {
-          redisClient.setex(
-            group_code,
-            60 * 60,
-            JSON.stringify({ status: "not_found" })
-          )
-          res.json({ status: "not_found" })
-        } else {
-          redisClient.setex(group_code, 60 * 60, JSON.stringify(rows))
-          res.json(rows)
-        }
+        res.json(rows)
       }
-    })
+    }
   })
 })
 

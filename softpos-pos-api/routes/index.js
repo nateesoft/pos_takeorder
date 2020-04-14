@@ -7,7 +7,7 @@ router.get("/", function(req, res, next) {
 })
 
 router.get("/version", function(req, res, next) {
-  res.send("Test")
+  res.send("SOFTPOS-POS-API V-1.0")
 })
 
 module.exports = router

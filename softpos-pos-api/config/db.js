@@ -4,7 +4,8 @@ const connection = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "mysql5password",
-  database: "pos_softpos"
+  database: "pos_softpos",
+  port: "3307",
 })
 
 module.exports = connection
