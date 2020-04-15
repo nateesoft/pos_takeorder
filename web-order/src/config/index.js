@@ -1,4 +1,6 @@
-const HOST = process.env.HOST || 'localhost'
+const ipAddress = require("ip").address()
+console.log("get ip: ", ipAddress)
+const HOST = process.env.HOST || window.location.hostname
 
 export const Config = {
   POS_API_HOST: `http://${HOST}:5000`,
