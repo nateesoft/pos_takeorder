@@ -25,7 +25,6 @@ export default function EditSpecialTextComp(props) {
   const [chipIdMax, setChipIdMax] = useState(0)
   const [chipData, setChipData] = useState([])
   const [chipOption, setChipOption] = useState("")
-  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
   const { item } = props
 
@@ -52,22 +51,20 @@ export default function EditSpecialTextComp(props) {
               label: data[i],
             }
             setChipData((chips) => chips.concat(options))
+            dispatch(addNewSpecialText(options))
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (MenuDetail: " + error + ")")
-        setLoading(false)
       })
     return () => {
       setChipData([])
     }
-  }, [item.uid])
+  }, [dispatch, item.uid])
 
   const handleAdd = () => {
     if (chipOption !== "") {

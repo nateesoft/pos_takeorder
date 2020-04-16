@@ -25,7 +25,6 @@ export default function TableTab() {
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [rows, setRows] = useState([])
-  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
   const table_no = useSelector((state) => state.table.tableNo)
 
@@ -44,7 +43,6 @@ export default function TableTab() {
           } else {
             setRows(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)

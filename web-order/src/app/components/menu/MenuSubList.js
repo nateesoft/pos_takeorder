@@ -33,7 +33,6 @@ export default function MenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
   const [subCode, setSubCode] = useState([])
-  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
 
   const handleAdd = (item) => {
@@ -79,16 +78,13 @@ export default function MenuSubList(props) {
           } else {
             setData(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (MenuSubList: " + error + ")")
-        setLoading(false)
       })
     return function () {
       setData([])

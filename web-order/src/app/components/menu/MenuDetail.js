@@ -46,7 +46,6 @@ export default function MenuDetail(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
-  const [loading, setLoading] = useState(true)
   const group = props.match.params.group
   const code = props.match.params.code
 
@@ -60,16 +59,13 @@ export default function MenuDetail(props) {
       .then(
         (response) => {
           setData(response)
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (MenuDetail: " + error + ")")
-        setLoading(false)
       })
     return function () {
       setData([])

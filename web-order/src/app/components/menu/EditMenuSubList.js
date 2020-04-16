@@ -32,9 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EditMenuSubList(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [dataSub, setDataSub] = useState([])
   const [subCode, setSubCode] = useState([])
-  const [loading, setLoading] = useState(true)
   const [loadingSub, setLoadingSub] = useState(true)
   const dispatch = useDispatch()
   const { item } = props
@@ -67,14 +65,10 @@ export default function EditMenuSubList(props) {
       .then((res) => res.json())
       .then(
         (response) => {
-          if (response.status === "not_found") {
-            setDataSub([])
-          } else {
-            setDataSub(response)
-            for (let i = 0; i < response.length; i++) {
-              const newItem = response[i].code
-              setSubCode((sCode) => sCode.concat(newItem))
-            }
+          for (let i = 0; i < response.length; i++) {
+            const newItem = response[i].code
+            setSubCode((sCode) => sCode.concat(newItem))
+            dispatch(addNewSubMenuCode(newItem))
           }
           setLoadingSub(false)
         },
@@ -109,16 +103,13 @@ export default function EditMenuSubList(props) {
           } else {
             setData(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (MenuSubList: " + error + ")")
-        setLoading(false)
       })
     return function () {
       setData([])
@@ -126,6 +117,7 @@ export default function EditMenuSubList(props) {
   }, [item.menu_code])
 
   if (loadingSub) {
+    console.log("load sublistExist")
     sublistExist()
   }
 

@@ -15,13 +15,7 @@ import { useSnackbar } from "notistack"
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-  },
-  gridList: {
-    width: 500,
-    height: 450,
+    flexDirection: "row",
   },
   icon: {
     color: "green",
@@ -32,7 +26,6 @@ export default function GetMenu(props) {
   const { id, close } = props
   const classes = useStyles()
   const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
   const table_no = useSelector((state) => state.table.tableNo)
@@ -81,16 +74,13 @@ export default function GetMenu(props) {
           } else {
             setData(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (GetMenu: " + error + ")")
-        setLoading(false)
       })
     return function () {
       setData([])

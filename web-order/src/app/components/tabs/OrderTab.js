@@ -28,8 +28,6 @@ import { withStyles } from "@material-ui/core/styles"
 import Dialog from "@material-ui/core/Dialog"
 import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
-import MuiDialogActions from "@material-ui/core/DialogActions"
-import SaveIcon from "@material-ui/icons/Save"
 import CloseIcon from "@material-ui/icons/Close"
 import EditMenu from "../menu/EditMenu"
 
@@ -70,13 +68,6 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent)
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions)
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -102,7 +93,6 @@ export default function OrderTab() {
   const classes = useStyles()
   const [expanded, setExpanded] = useState(false)
   const [rows, setRows] = useState([])
-  const [loading, setLoading] = useState(true)
   const { enqueueSnackbar } = useSnackbar()
   const [expansionItem, setExpansionItem] = useState([])
 
@@ -122,7 +112,6 @@ export default function OrderTab() {
           } else {
             setRows(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
@@ -146,7 +135,6 @@ export default function OrderTab() {
           } else {
             setRows(response)
           }
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)

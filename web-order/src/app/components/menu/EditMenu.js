@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import EditMenuSubList from "./EditMenuSubList"
-import ButtonAction from "./ButtonAction"
+import EditButtonAction from "./EditButtonAction"
 import { Config } from "../../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
@@ -46,7 +46,6 @@ export default function EditMenu(props) {
   const classes = useStyles()
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
-  const [loading, setLoading] = useState(true)
   const { item } = props
 
   const table_no = useSelector((state) => state.table.tableNo)
@@ -59,16 +58,13 @@ export default function EditMenu(props) {
       .then(
         (response) => {
           setData(response)
-          setLoading(false)
         },
         (error) => {
           console.log("in error found => ", error)
-          setLoading(false)
         }
       )
       .catch((error) => {
         console.log("Error: (MenuDetail: " + error + ")")
-        setLoading(false)
       })
     return function () {
       setData([])
@@ -128,7 +124,7 @@ export default function EditMenu(props) {
               </Collapse>
             </div>
           )}
-          <ButtonAction item={item} table={{ table_no, order_no, emp_code }} />
+          <EditButtonAction item={item} table={{ table_no, order_no, emp_code }} />
         </Card>
       ))}
     </div>
