@@ -63,6 +63,7 @@ const OrdersDetail = {
     const new_uuid = uuid.v4()
     const {
       order_no,
+      index,
       menu_code,
       menu_name,
       price,
@@ -122,7 +123,8 @@ const OrdersDetail = {
       for (let i = 0; i < specialText.length; i += 1) {
         const text = specialText[i].label
         db.query(
-          `delete from orders_specialtext where menu_index=${index}`,
+          `delete from orders_specialtext where menu_index=?`,
+          [index],
           (err, result, fields) => {
             if (err) throw err
             db.query(
@@ -141,7 +143,8 @@ const OrdersDetail = {
       for (let i = 0; i < subMenuCode.length; i += 1) {
         const code = subMenuCode[i]
         db.query(
-          `delete from orders_subcode where menu_index=${index}`,
+          `delete from orders_subcode where menu_index=?`,
+          [index],
           (err, result, fields) => {
             if (err) throw err
             db.query(
@@ -157,20 +160,22 @@ const OrdersDetail = {
       }
     }
     return db.query(
-      `update ${table_name} set qty=qty+1, total_amount=(total_amount+${price}) where index=?`,
-      [qty, total_amount, index],
+      `update ${table_name} set qty=qty+1, total_amount=(total_amount+?) where uid=?`,
+      [price, index],
       callback
     )
   },
   delete: function (index, callback) {
     db.query(
-      `delete from orders_specialtext where menu_index=${index}`,
+      `delete from orders_specialtext where menu_index=?`,
+      [index],
       (err, result, fields) => {
         if (err) throw err
       }
     )
     db.query(
-      `delete from orders_subcode where menu_index=${index}`,
+      `delete from orders_subcode where menu_index=?`,
+      [index],
       (err, result, fields) => {
         if (err) throw err
       }

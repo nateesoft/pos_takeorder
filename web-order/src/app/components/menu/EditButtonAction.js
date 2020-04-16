@@ -19,19 +19,19 @@ export default function EditButtonAction(props) {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { code, price, index } = props.item
+  const { code, price, uid } = props.item
   const { order_no } = props.table
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
 
   const onUpdateItem = () => {
-    dispatch(updateItem(index))
+    dispatch(updateItem(uid))
     updateOrderItem({
       order_no,
       code,
       price,
-      index,
+      uid,
       specialText,
       subMenuCode,
     })
