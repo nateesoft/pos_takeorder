@@ -93,29 +93,30 @@ router.post("/create", (req, res, next) => {
     total_amount: req.body.total_amount,
     order_detail_status: req.body.order_detail_status,
     specialText: req.body.special_text,
-    subMenuCode: req.body.sub_menu_code
+    subMenuCode: req.body.sub_menu_code,
   }
   Task.add(OrdersDetail, (err, rows) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.json("Insert item success")
     }
   })
 })
 
-router.put("/:order_no/update", (req, res, next) => {
-  const order_no = req.params.order_no
-  Orders = {
-    cust_count: req.body.cust_count,
-    item_count: req.body.item_count,
-    total_amount: req.body.total_amount
+router.put("/:index/update", (req, res, next) => {
+  const index = req.params.index
+  OrdersDetail = {
+    order_no: req.body.order_no,
+    menu_code: req.body.menu_code,
+    specialText: req.body.special_text,
+    subMenuCode: req.body.sub_menu_code,
   }
-  Task.update(order_no, Orders, (err, rows) => {
+  Task.update(index, OrdersDetail, (err, rows) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.json("Update item success")
     }
   })
 })
@@ -126,18 +127,17 @@ router.delete("/", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.json("Delete item success")
     }
   })
 })
 
 router.delete("/empty", (req, res, next) => {
-  const order_no = req.params.order_no
   Task.empty((err, rows) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.json("Truncate data empty success")
     }
   })
 })

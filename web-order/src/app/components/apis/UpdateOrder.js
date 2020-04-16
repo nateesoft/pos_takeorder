@@ -1,7 +1,7 @@
 import { Config } from "../../../config"
 
 export default function UpdateOrder(props) {
-  const { index, specialText, subMenuCode } = props
+  const { order_no, code, price, index, specialText, subMenuCode } = props
 
   const updateOrderDetail = () => {
     fetch(`${Config.API_HOST}/orders_detail/${index}/update`, {
@@ -11,6 +11,9 @@ export default function UpdateOrder(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        order_no,
+        menu_code: code,
+        price,
         index,
         qty: 1,
         special_text: specialText,
