@@ -18,6 +18,8 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector } from "react-redux"
+import { clearItemAdd } from "../../actions"
+import { useDispatch } from "react-redux"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EditMenu(props) {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
@@ -53,6 +56,7 @@ export default function EditMenu(props) {
   const emp_code = useSelector((state) => state.table.empCode)
 
   useEffect(() => {
+    dispatch(clearItemAdd())
     fetch(`${Config.API_HOST}/orders_detail/sub_menu/${item.uid}`)
       .then((res) => res.json())
       .then(
@@ -69,7 +73,7 @@ export default function EditMenu(props) {
     return function () {
       setData([])
     }
-  }, [item.uid])
+  }, [dispatch, item.uid])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -124,7 +128,10 @@ export default function EditMenu(props) {
               </Collapse>
             </div>
           )}
-          <EditButtonAction item={item} table={{ table_no, order_no, emp_code }} />
+          <EditButtonAction
+            item={item}
+            table={{ table_no, order_no, emp_code }}
+          />
         </Card>
       ))}
     </div>

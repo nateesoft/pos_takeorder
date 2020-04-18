@@ -5,7 +5,11 @@ import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useDispatch } from "react-redux"
-import { addNewSubMenuCode, clearNewSubMenuCode } from "../../actions"
+import {
+  addNewSubMenuCode,
+  clearNewSubMenuCode,
+  emptySubMenuCode,
+} from "../../actions"
 import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
@@ -65,10 +69,13 @@ export default function EditMenuSubList(props) {
       .then((res) => res.json())
       .then(
         (response) => {
+          dispatch(emptySubMenuCode())
           for (let i = 0; i < response.length; i++) {
             const newItem = response[i].code
             setSubCode((sCode) => sCode.concat(newItem))
-            dispatch(addNewSubMenuCode(newItem))
+          }
+          for (let i = 0; i < subCode.length; i += 1) {
+            dispatch(addNewSubMenuCode(subCode[i]))
           }
           setLoadingSub(false)
         },

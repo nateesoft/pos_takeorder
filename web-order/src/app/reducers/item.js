@@ -24,6 +24,12 @@ const itemReducer = (state = initialState, action) =>
           element => element !== action.payload
         )
         break
+      case "EMPTY_SPECIAL_TEXT":
+        draft.specialText = []
+        break
+      case "EMPTY_SUB_MENU_CODE":
+        draft.subMenuCode = []
+        break
       case "CLEAR_ITEM_ADD":
         draft.specialText = []
         draft.subMenuCode = []

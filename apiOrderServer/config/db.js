@@ -1,7 +1,7 @@
 const mysql = require("mysql")
 
 const connection = mysql.createPool({
-  host: "172.17.0.7",
+  host: "localhost",
   user: "root",
   password: "mysql5password",
   database: "pos_takeorder",

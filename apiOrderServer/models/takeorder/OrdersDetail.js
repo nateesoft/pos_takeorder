@@ -115,53 +115,53 @@ const OrdersDetail = {
     const {
       order_no,
       menu_code,
-      price,
       specialText = [],
       subMenuCode = [],
     } = OrdersDetail
-    if (specialText.length > 0) {
-      for (let i = 0; i < specialText.length; i += 1) {
-        const text = specialText[i].label
-        db.query(
-          `delete from orders_specialtext where menu_index=?`,
-          [index],
-          (err, result, fields) => {
-            if (err) throw err
-            db.query(
-              `insert into orders_specialtext values(?, ?, ?, ?)`,
-              [order_no, menu_code, text, index],
-              (err, result, fields) => {
-                if (err) throw err
-                console.log("update orders_specialtext success")
-              }
-            )
-          }
-        )
+
+    db.query(
+      `delete from orders_specialtext where menu_index=?`,
+      [index],
+      (err, result, fields) => {
+        if (err) throw err
+        console.log("truncate from orders_specialtext success")
+        for (let i = 0; i < specialText.length; i += 1) {
+          const text = specialText[i].label
+          db.query(
+            `insert into orders_specialtext values(?, ?, ?, ?)`,
+            [order_no, menu_code, text, index],
+            (err, result, fields) => {
+              if (err) throw err
+              console.log("update orders_specialtext success")
+            }
+          )
+        }
       }
-    }
-    if (subMenuCode.length > 0) {
-      for (let i = 0; i < subMenuCode.length; i += 1) {
-        const code = subMenuCode[i]
-        db.query(
-          `delete from orders_subcode where menu_index=?`,
-          [index],
-          (err, result, fields) => {
-            if (err) throw err
-            db.query(
-              `insert into orders_subcode values(?, ?, ?, ?)`,
-              [order_no, menu_code, code, index],
-              (err, result, fields) => {
-                if (err) throw err
-                console.log("update orders_subcode success")
-              }
-            )
-          }
-        )
+    )
+
+    db.query(
+      `delete from orders_subcode where menu_index=?`,
+      [index],
+      (err, result, fields) => {
+        if (err) throw err
+        console.log("truncate from orders_subcode success")
+        for (let i = 0; i < subMenuCode.length; i += 1) {
+          const code = subMenuCode[i]
+          db.query(
+            `insert into orders_subcode values(?, ?, ?, ?)`,
+            [order_no, menu_code, code, index],
+            (err, result, fields) => {
+              if (err) throw err
+              console.log("update orders_subcode success")
+            }
+          )
+        }
       }
-    }
+    )
+
     return db.query(
-      `update ${table_name} set qty=qty+1, total_amount=(total_amount+?) where uid=?`,
-      [price, index],
+      `select * from ${table_name} where uid=?`,
+      [index],
       callback
     )
   },

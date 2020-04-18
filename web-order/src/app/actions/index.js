@@ -70,10 +70,9 @@ export const updateItem = (payload) => {
   }
 }
 
-export const clearItemAdd = (payload) => {
+export const clearItemAdd = () => {
   return {
     type: "CLEAR_ITEM_ADD",
-    payload: payload,
   }
 }
 
@@ -102,5 +101,17 @@ export const clearNewSubMenuCode = (payload) => {
   return {
     type: "DELETE_SUB_MENU_CODE",
     payload: payload,
+  }
+}
+
+export const emptySubMenuCode = () => {
+  return {
+    type: "EMPTY_SUB_MENU_CODE",
+  }
+}
+
+export const emptySpecialText = () => {
+  return {
+    type: "EMPTY_SPECIAL_TEXT",
   }
 }

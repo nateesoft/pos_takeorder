@@ -61,7 +61,7 @@ export default function EditButtonAction(props) {
         style={{ background: "green" }}
         startIcon={<AddIcon />}
       >
-        Add Order
+        Update Order
       </Button>
     </div>
   )

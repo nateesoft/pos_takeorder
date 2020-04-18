@@ -51,6 +51,7 @@ export default function EditSpecialTextComp(props) {
               label: data[i],
             }
             setChipData((chips) => chips.concat(options))
+            setChipIdMax(i + 1)
             dispatch(addNewSpecialText(options))
           }
         },
