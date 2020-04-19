@@ -92,6 +92,7 @@ export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [expanded, setExpanded] = useState(false)
+  const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
   const [rows, setRows] = useState([])
   const { enqueueSnackbar } = useSnackbar()
   const [expansionItem, setExpansionItem] = useState([])
@@ -109,6 +110,7 @@ export default function OrderTab() {
         (response) => {
           if (response.status === "not_found") {
             setRows([])
+            setShowButtonSendOrder(false)
           } else {
             setRows(response)
           }
@@ -175,6 +177,9 @@ export default function OrderTab() {
         (response) => {
           dispatch(decrement())
           loadInitData()
+          const variant = "success"
+          enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
+          setShowButtonSendOrder(false)
         },
         (error) => {
           console.log(`error: ${error}`)
@@ -270,7 +275,7 @@ export default function OrderTab() {
           <Typography variant="h6" className={classes.title}>
             อาหารที่สั่ง
           </Typography>
-          {rows.length > 0 && (
+          {rows.length > 0 && showButtonSendOrder > 0 && (
             <Button
               variant="contained"
               style={{ backgroundColor: "green", color: "white" }}
@@ -367,9 +372,6 @@ export default function OrderTab() {
         <DialogContent dividers>
           <EditMenu item={menuItem} />
         </DialogContent>
-        {/* <DialogActions>
-          <SaveIcon onClick={() => setOpen(false)} />
-        </DialogActions> */}
       </Dialog>
     </Paper>
   )
