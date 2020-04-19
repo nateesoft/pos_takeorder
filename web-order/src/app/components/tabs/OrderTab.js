@@ -175,7 +175,6 @@ export default function OrderTab() {
     })
       .then(
         (response) => {
-          dispatch(decrement())
           loadInitData()
           const variant = "success"
           enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })

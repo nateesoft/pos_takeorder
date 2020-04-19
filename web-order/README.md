@@ -69,6 +69,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 # pull images from Dockerfile
 
+rm -rf build
+yarn build
 docker stop web_takeorder
 docker rm web_takeorder
 docker build -t web_takeorder .
