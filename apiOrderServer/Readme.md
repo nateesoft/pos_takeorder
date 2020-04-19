@@ -1,5 +1,6 @@
 # pull images from Dockerfile
 
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql5 > './config/mysql-ip'
 docker stop api_takeorder
 docker rm api_takeorder
 docker build -t api_takeorder .
