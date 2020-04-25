@@ -13,7 +13,6 @@ import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MenuSubList from "./MenuSubList"
 import ButtonAction from "./ButtonAction"
-import { Config } from "../../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import SpecialTextComp from "./SpecialTextComp"
@@ -54,7 +53,7 @@ export default function MenuDetail(props) {
   const emp_code = useSelector((state) => state.table.empCode)
 
   useEffect(() => {
-    fetch(`${Config.API_HOST}/product/${group}/${code}`)
+    fetch(`/api/product/${group}/${code}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -99,7 +98,7 @@ export default function MenuDetail(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`${Config.API_HOST}/images${item.img_url}`}
+            image={`/api/images${item.img_url}`}
             title="Paella dish"
           />
           <SpecialTextComp />

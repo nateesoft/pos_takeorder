@@ -13,7 +13,6 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
-import { Config } from "../../../config"
 import { Redirect } from "react-router"
 import { useSelector } from "react-redux"
 
@@ -36,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 const initLoad = order_no => {
   let rows = []
   if (order_no) {
-    fetch(`${Config.API_HOST}/bill_detail?order_no=${order_no}`)
+    fetch(`/api/bill_detail?order_no=${order_no}`)
       .then(res => res.json())
       .then(
         response => {
@@ -65,7 +64,7 @@ export default function BillTab() {
   const [rows, setRows] = useState([])
 
   const sendBillToPOS = () => {
-    fetch(`${Config.API_HOST}/bill/move`, {
+    fetch(`/api/bill/move`, {
       method: "POST",
       headers: {
         Accept: "application/json",

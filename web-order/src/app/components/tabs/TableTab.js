@@ -6,7 +6,6 @@ import ListItemText from "@material-ui/core/ListItemText"
 import Divider from "@material-ui/core/Divider"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import AspectRatio from "@material-ui/icons/AspectRatio"
-import { Config } from "../../../config"
 import { chooseTable } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
@@ -34,7 +33,7 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    fetch(`${Config.POS_API_HOST}/tablefile`)
+    fetch(`/pos/tablefile`)
       .then((res) => res.json())
       .then(
         (response) => {

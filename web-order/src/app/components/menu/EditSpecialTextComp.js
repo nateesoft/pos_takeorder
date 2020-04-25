@@ -5,7 +5,6 @@ import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
-import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +39,7 @@ export default function EditSpecialTextComp(props) {
   }
 
   useEffect(() => {
-    fetch(`${Config.API_HOST}/orders_detail/special_text/${item.uid}`)
+    fetch(`/api/orders_detail/special_text/${item.uid}`)
       .then((res) => res.json())
       .then(
         (response) => {

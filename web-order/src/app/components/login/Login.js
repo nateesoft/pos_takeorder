@@ -11,7 +11,6 @@ import { Redirect } from "react-router"
 import { reset, clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
-import { Config } from "../../../config"
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,7 +40,7 @@ export default function Login() {
   const dispatch = useDispatch()
 
   const validLogin = (user, pass) => {
-    fetch(`${Config.POS_API_HOST}/employ/login`, {
+    fetch(`/pos/employ/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",

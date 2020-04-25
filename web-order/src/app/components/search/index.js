@@ -7,7 +7,6 @@ import SearchIcon from "@material-ui/icons/Search"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
 import SearchMenu from "../apis/SearchMenu"
-import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +70,7 @@ export default function SearchPanel(props) {
   const [data, setData] = useState([])
 
   const onSearch = () => {
-    fetch(`${Config.API_HOST}/search/${search}`)
+    fetch(`/api/search/${search}`)
       .then((res) => res.json())
       .then(
         (response) => {

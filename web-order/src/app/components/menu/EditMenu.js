@@ -13,7 +13,6 @@ import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import EditMenuSubList from "./EditMenuSubList"
 import EditButtonAction from "./EditButtonAction"
-import { Config } from "../../../config"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import EditSpecialTextComp from "./EditSpecialTextComp"
@@ -57,7 +56,7 @@ export default function EditMenu(props) {
 
   useEffect(() => {
     dispatch(clearItemAdd())
-    fetch(`${Config.API_HOST}/orders_detail/sub_menu/${item.uid}`)
+    fetch(`/api/orders_detail/sub_menu/${item.uid}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -102,7 +101,7 @@ export default function EditMenu(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`${Config.API_HOST}/images${item.img_url}`}
+            image={`/api/images${item.img_url}`}
             title="Paella dish"
           />
           <EditSpecialTextComp item={item} />

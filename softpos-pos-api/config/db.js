@@ -9,9 +9,9 @@ const mysqlIp =
 
 console.log("connect mysql ip: ", mysqlIp)
 const connection = mysql.createPool({
-  host: mysqlIp,
+  host: "mysql_db",
   user: "root",
-  password: "mysql5password",
+  password: "myPassword",
   database: "pos_softpos",
   port: "3306",
 })

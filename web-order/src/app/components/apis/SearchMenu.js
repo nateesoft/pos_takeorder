@@ -7,7 +7,6 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch } from "react-redux"
-import { Config } from "../../../config"
 import addOrderItem from "./AddOrder"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
@@ -75,7 +74,7 @@ export default function SearchMenu(props) {
   }, [])
 
   if (redirect) {
-    return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />
+    return <Redirect push to={`/api/detail/${selItem.group}/${selItem.code}`} />
   }
 
   return (
@@ -85,7 +84,7 @@ export default function SearchMenu(props) {
           data.map((item) => (
             <GridListTile key={item.code_key}>
               <img
-                src={`${Config.API_HOST}/images${item.img_url}`}
+                src={`/api/images${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)

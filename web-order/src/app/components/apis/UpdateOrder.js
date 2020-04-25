@@ -1,10 +1,9 @@
-import { Config } from "../../../config"
 
 export default function UpdateOrder(props) {
   const { order_no, code, price, uid, specialText, subMenuCode } = props
 
   const updateOrderDetail = () => {
-    fetch(`${Config.API_HOST}/orders_detail/${uid}/update`, {
+    fetch(`/api/orders_detail/${uid}/update`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

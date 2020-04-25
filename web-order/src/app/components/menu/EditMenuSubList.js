@@ -10,7 +10,6 @@ import {
   clearNewSubMenuCode,
   emptySubMenuCode,
 } from "../../actions"
-import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +64,7 @@ export default function EditMenuSubList(props) {
   }
 
   const sublistExist = () => {
-    fetch(`${Config.API_HOST}/menu_list/index/${item.uid}`)
+    fetch(`/api/menu_list/index/${item.uid}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -101,7 +100,7 @@ export default function EditMenuSubList(props) {
   }
 
   useEffect(() => {
-    fetch(`${Config.API_HOST}/menu_list/${item.menu_code}`)
+    fetch(`/api/menu_list/${item.menu_code}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -134,7 +133,7 @@ export default function EditMenuSubList(props) {
         {data.map((item) => (
           <GridListTile key={item.code}>
             <img
-              src={`${Config.API_HOST}/images${item.img_url}`}
+              src={`/api/images${item.img_url}`}
               alt={item.name}
               onClick={() => handleAdd(item)}
             />

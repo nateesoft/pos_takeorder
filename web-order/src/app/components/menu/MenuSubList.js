@@ -6,7 +6,6 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useDispatch } from "react-redux"
 import { addNewSubMenuCode, clearNewSubMenuCode } from "../../actions"
-import { Config } from "../../../config"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +68,7 @@ export default function MenuSubList(props) {
   }
 
   useEffect(() => {
-    fetch(`${Config.API_HOST}/menu_list/${props.code}`)
+    fetch(`/api/menu_list/${props.code}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -97,7 +96,7 @@ export default function MenuSubList(props) {
         {data.map((item) => (
           <GridListTile key={item.code}>
             <img
-              src={`${Config.API_HOST}/images${item.img_url}`}
+              src={`/api/images${item.img_url}`}
               alt={item.name}
               onClick={() => handleAdd(item)}
             />

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `group_menu` (
+CREATE TABLE `group_menu` (
   `code` varchar(3) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -8,30 +8,12 @@ CREATE TABLE IF NOT EXISTS `group_menu` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `login` (
-  `emp_code` varchar(20) DEFAULT NULL,
-  `username` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `active` varchar(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`username`)
+CREATE TABLE `menu_sublist` (
+  `menu_code` varchar(13) DEFAULT NULL,
+  `submenu_code` varchar(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `open_table` (
-  `code` varchar(10) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `zone` varchar(20) DEFAULT NULL,
-  `reserve_status` varchar(1) DEFAULT NULL,
-  `max_customer` int(2) DEFAULT NULL,
-  `available_customer` int(2) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `orders` (
+CREATE TABLE `orders` (
   `order_no` varchar(100) NOT NULL,
   `table_code` varchar(10) DEFAULT NULL,
   `emp_code` varchar(20) NOT NULL,
@@ -44,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `orders_detail` (
+CREATE TABLE `orders_detail` (
   `index` varchar(20) NOT NULL,
   `order_no` varchar(100) NOT NULL,
   `menu_code` varchar(20) NOT NULL,
@@ -59,7 +41,21 @@ CREATE TABLE IF NOT EXISTS `orders_detail` (
   `send_order` varchar(1) DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `product_menu` (
+CREATE TABLE `orders_specialtext` (
+  `order_no` varchar(100) NOT NULL,
+  `menu_code` varchar(20) NOT NULL,
+  `special_text` varchar(100) NOT NULL,
+  `menu_index` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `orders_subcode` (
+  `order_no` varchar(100) NOT NULL,
+  `menu_code` varchar(20) NOT NULL,
+  `sub_menu_code` varchar(100) NOT NULL,
+  `menu_index` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `product_menu` (
   `code` varchar(13) NOT NULL,
   `code_key` varchar(5) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
@@ -75,25 +71,6 @@ CREATE TABLE IF NOT EXISTS `product_menu` (
   `updated_at` datetime DEFAULT NULL,
   `show_sublist` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `menu_sublist` (
-  `menu_code` varchar(13) DEFAULT NULL,
-  `submenu_code` varchar(13) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `orders_specialtext` (
-  `order_no` varchar(100) NOT NULL,
-  `menu_code` varchar(20) NOT NULL,
-  `special_text` varchar(100) NOT NULL,
-  `menu_index` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `orders_subcode` (
-  `order_no` varchar(100) NOT NULL,
-  `menu_code` varchar(20) NOT NULL,
-  `sub_menu_code` varchar(100) NOT NULL,
-  `menu_index` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO pos_takeorder.group_menu (code,name,description,status,created_at,updated_at) VALUES 
@@ -117,28 +94,48 @@ INSERT INTO pos_takeorder.group_menu (code,name,description,status,created_at,up
 ,('g16','Recommend','Recommend','Y','2020-02-19 15:18:28.0','2020-02-19 15:18:28.0')
 ;
 
+INSERT INTO pos_takeorder.menu_sublist (menu_code,submenu_code) VALUES 
+('P100','P01')
+,('P100','P02')
+,('P100','P03')
+,('P76','P04')
+,('P76','P05')
+,('P76','P06')
+,('P76','P07')
+,('P76','P08')
+,('P78','P09')
+,('P78','P10')
+;
+INSERT INTO pos_takeorder.menu_sublist (menu_code,submenu_code) VALUES 
+('P79','P11')
+,('P79','P12')
+,('P80','P13')
+,('P80','P14')
+,('P81','P15')
+;
+
 INSERT INTO pos_takeorder.product_menu (code,code_key,name,description,price,group_code,img_url,img_url_thumbnail,status,star_count,show_recommend,created_at,updated_at,show_sublist) VALUES 
-('p01','1','appitizer','appitizer',199,'g01','/appitizer/appitizer1.jpg','/appitizer/appitizer1.jpg','Y',NULL,'Y','2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p02','2','appitizer','appitizer',199,'g01','/appitizer/appitizer2.jpg','/appitizer/appitizer2.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p03','3','appitizer','appitizer',199,'g01','/appitizer/appitizer3.jpg','/appitizer/appitizer3.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p04','4','appitizer','appitizer',199,'g01','/appitizer/appitizer4.jpg','/appitizer/appitizer4.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p05','5','appitizer','appitizer',199,'g01','/appitizer/appitizer5.jpg','/appitizer/appitizer5.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p06','6','appitizer','appitizer',199,'g01','/appitizer/appitizer6.jpg','/appitizer/appitizer6.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p07','7','appitizer','appitizer',199,'g01','/appitizer/appitizer7.jpg','/appitizer/appitizer7.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p08','8','appitizer','appitizer',199,'g01','/appitizer/appitizer8.jpg','/appitizer/appitizer8.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p09','9','appitizer','appitizer',199,'g01','/appitizer/appitizer9.jpg','/appitizer/appitizer9.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p10','10','appitizer','appitizer',199,'g01','/appitizer/appitizer10.jpg','/appitizer/appitizer10.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+('p01','1','appitizer1','appitizer',199,'g01','/appitizer/appitizer1.jpg','/appitizer/appitizer1.jpg','Y',NULL,'Y','2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p02','2','appitizer2','appitizer',199,'g01','/appitizer/appitizer2.jpg','/appitizer/appitizer2.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p03','3','appitizer3','appitizer',199,'g01','/appitizer/appitizer3.jpg','/appitizer/appitizer3.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p04','4','appitizer4','appitizer',199,'g01','/appitizer/appitizer4.jpg','/appitizer/appitizer4.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p05','5','appitizer5','appitizer',199,'g01','/appitizer/appitizer5.jpg','/appitizer/appitizer5.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p06','6','appitizer6','appitizer',199,'g01','/appitizer/appitizer6.jpg','/appitizer/appitizer6.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p07','7','appitizer7','appitizer',199,'g01','/appitizer/appitizer7.jpg','/appitizer/appitizer7.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p08','8','appitizer8','appitizer',199,'g01','/appitizer/appitizer8.jpg','/appitizer/appitizer8.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p09','9','appitizer9','appitizer',199,'g01','/appitizer/appitizer9.jpg','/appitizer/appitizer9.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p10','10','appitizer10','appitizer',199,'g01','/appitizer/appitizer10.jpg','/appitizer/appitizer10.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
 ;
 INSERT INTO pos_takeorder.product_menu (code,code_key,name,description,price,group_code,img_url,img_url_thumbnail,status,star_count,show_recommend,created_at,updated_at,show_sublist) VALUES 
 ('p100','100','yourway','yourway',199,'g15','/yourway/yourway25.jpg','/yourway/yourway25.jpg','Y',NULL,'Y','2020-02-19 16:57:48.0','2020-02-19 16:57:48.0','Y')
-,('p11','11','appitizer','appitizer',199,'g01','/appitizer/appitizer11.jpg','/appitizer/appitizer11.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p12','12','appitizer','appitizer',199,'g01','/appitizer/appitizer12.jpg','/appitizer/appitizer12.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p13','13','appitizer','appitizer',199,'g01','/appitizer/appitizer13.jpg','/appitizer/appitizer13.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p14','14','appitizer','appitizer',199,'g01','/appitizer/appitizer14.jpg','/appitizer/appitizer14.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p15','15','appitizer','appitizer',199,'g01','/appitizer/appitizer15.jpg','/appitizer/appitizer15.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
-,('p16','16','beef','beef',199,'g02','/beef/beef1.jpg','/beef/beef1.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
-,('p17','17','beef','beef',199,'g02','/beef/beef2.jpg','/beef/beef2.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
-,('p18','18','beef','beef',199,'g02','/beef/beef3.jpg','/beef/beef3.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
+,('p11','11','appitizer11','appitizer',199,'g01','/appitizer/appitizer11.jpg','/appitizer/appitizer11.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p12','12','appitizer12','appitizer',199,'g01','/appitizer/appitizer12.jpg','/appitizer/appitizer12.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p13','13','appitizer13','appitizer',199,'g01','/appitizer/appitizer13.jpg','/appitizer/appitizer13.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p14','14','appitizer14','appitizer',199,'g01','/appitizer/appitizer14.jpg','/appitizer/appitizer14.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p15','15','appitizer15','appitizer',199,'g01','/appitizer/appitizer15.jpg','/appitizer/appitizer15.jpg','Y',NULL,NULL,'2020-02-19 15:29:06.0','2020-02-19 15:29:06.0','N')
+,('p16','16','beef1','beef',199,'g02','/beef/beef1.jpg','/beef/beef1.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
+,('p17','17','beef2','beef',199,'g02','/beef/beef2.jpg','/beef/beef2.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
+,('p18','18','beef3','beef',199,'g02','/beef/beef3.jpg','/beef/beef3.jpg','Y',NULL,NULL,'2020-02-19 16:27:46.0','2020-02-19 16:27:46.0','N')
 ,('p19','19','beverage','beverage',159,'g03','/beverage/beverage1.jpg','/beverage/beverage1.jpg','Y',NULL,NULL,'2020-02-19 16:11:51.0','2020-02-19 16:11:51.0','N')
 ;
 INSERT INTO pos_takeorder.product_menu (code,code_key,name,description,price,group_code,img_url,img_url_thumbnail,status,star_count,show_recommend,created_at,updated_at,show_sublist) VALUES 
@@ -236,24 +233,4 @@ INSERT INTO pos_takeorder.product_menu (code,code_key,name,description,price,gro
 ,('p97','97','yourway','yourway',199,'g15','/yourway/yourway22.jpg','/yourway/yourway22.jpg','Y',NULL,NULL,'2020-02-19 16:57:48.0','2020-02-19 16:57:48.0','Y')
 ,('p98','98','yourway','yourway',199,'g15','/yourway/yourway23.jpg','/yourway/yourway23.jpg','Y',NULL,NULL,'2020-02-19 16:57:48.0','2020-02-19 16:57:48.0','Y')
 ,('p99','99','yourway','yourway',199,'g15','/yourway/yourway24.jpg','/yourway/yourway24.jpg','Y',NULL,NULL,'2020-02-19 16:57:48.0','2020-02-19 16:57:48.0','Y')
-;
-
-INSERT INTO pos_takeorder.menu_sublist (menu_code,submenu_code) VALUES 
-('P100','P01')
-,('P100','P02')
-,('P100','P03')
-,('P76','P04')
-,('P76','P05')
-,('P76','P06')
-,('P76','P07')
-,('P76','P08')
-,('P78','P09')
-,('P78','P10')
-;
-INSERT INTO pos_takeorder.menu_sublist (menu_code,submenu_code) VALUES 
-('P79','P11')
-,('P79','P12')
-,('P80','P13')
-,('P80','P14')
-,('P81','P15')
 ;

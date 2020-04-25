@@ -1,4 +1,3 @@
-import { Config } from "../../../config"
 
 export default function AddOrder(props) {
   const {
@@ -16,7 +15,7 @@ export default function AddOrder(props) {
   const total_amount = 0
 
   const checkOrder = () => {
-    fetch(`${Config.API_HOST}/orders?order_no=${order_no}`)
+    fetch(`/api/orders?order_no=${order_no}`)
       .then(res => res.json())
       .then(
         response => {
@@ -36,7 +35,7 @@ export default function AddOrder(props) {
   }
 
   const addOrder = () => {
-    fetch(`${Config.API_HOST}/orders/create`, {
+    fetch(`/api/orders/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -64,7 +63,7 @@ export default function AddOrder(props) {
       })
   }
   const addOrderDetail = () => {
-    fetch(`${Config.API_HOST}/orders_detail/create`, {
+    fetch(`/api/orders_detail/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",

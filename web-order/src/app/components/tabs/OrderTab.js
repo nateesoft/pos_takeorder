@@ -6,7 +6,6 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import { useSelector, useDispatch } from "react-redux"
-import { Config } from "../../../config"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
@@ -104,7 +103,7 @@ export default function OrderTab() {
   const order_no = useSelector((state) => state.table.order.orderNo)
 
   useEffect(() => {
-    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
+    fetch(`/api/orders_detail/sum?order_no=${order_no}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -128,7 +127,7 @@ export default function OrderTab() {
   }, [order_no])
 
   const loadInitData = () => {
-    fetch(`${Config.API_HOST}/orders_detail/sum?order_no=${order_no}`)
+    fetch(`/api/orders_detail/sum?order_no=${order_no}`)
       .then((res) => res.json())
       .then(
         (response) => {
@@ -150,7 +149,7 @@ export default function OrderTab() {
   const handleChange = (menu_code) => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
     fetch(
-      `${Config.API_HOST}/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
+      `/api/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
     )
       .then((res) => res.json())
       .then((response) => {
@@ -163,7 +162,7 @@ export default function OrderTab() {
   }
 
   const sendOrderToPOS = () => {
-    fetch(`${Config.API_HOST}/orders/move`, {
+    fetch(`/api/orders/move`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -189,7 +188,7 @@ export default function OrderTab() {
       })
   }
   const removeIndex = (uid) => {
-    fetch(`${Config.API_HOST}/orders_detail`, {
+    fetch(`/api/orders_detail`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -219,7 +218,7 @@ export default function OrderTab() {
     setMenuItem(item)
   }
   const addItem = (code, name, price) => {
-    fetch(`${Config.API_HOST}/orders_detail/create`, {
+    fetch(`/api/orders_detail/create`, {
       method: "POST",
       headers: {
         Accept: "application/json",

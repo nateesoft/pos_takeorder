@@ -3,7 +3,6 @@ const express = require("express")
 const path = require("path")
 const cookieParser = require("cookie-parser")
 const logger = require("morgan")
-const cors = require("cors")
 
 const indexRouter = require("./routes/index")
 const tableRouter = require("./routes/api/tableList")
@@ -17,14 +16,6 @@ const subMenuRouter = require("./routes/api/menuSubList")
 
 const app = express()
 
-app.use(
-  cors({
-    origin: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-)
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
@@ -35,23 +26,23 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "public")))
 
-app.use("/", indexRouter)
-app.use("/tables", tableRouter)
-app.use("/bills", billRouter)
-app.use("/bill_detail", billDetailRouter)
-app.use("/orders", orderRouter)
-app.use("/orders_detail", orderDetailRouter)
-app.use("/product", productMenuRouter)
-app.use("/search", searchRouter)
-app.use("/menu_list", subMenuRouter)
+app.use("/api/", indexRouter)
+app.use("/api/tables", tableRouter)
+app.use("/api/bills", billRouter)
+app.use("/api/bill_detail", billDetailRouter)
+app.use("/api/orders", orderRouter)
+app.use("/api/orders_detail", orderDetailRouter)
+app.use("/api/product", productMenuRouter)
+app.use("/api/search", searchRouter)
+app.use("/api/menu_list", subMenuRouter)
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404))
 })
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get("env") === "development" ? err : {}

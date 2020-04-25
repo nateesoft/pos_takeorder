@@ -73,5 +73,5 @@ rm -rf build
 yarn build
 docker stop web_takeorder
 docker rm web_takeorder
-docker build -t web_takeorder .
-docker run --name web_takeorder -d -p 80:80 web_takeorder
+docker build -t web_takeorder --rm .
+docker run --name web_takeorder -d -p 80:3000 web_takeorder
