@@ -80,15 +80,20 @@ export default function LeftMenu(props) {
           <ListItemText primary="Order" />
         </ListItem>
       </Link>
-      <Divider />
-      <ListItem
-        button
-        onClick={() => logout()}
-        style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
-      >
-        <img src="img/logout.png" alt="bill" />
-        <ListItemText primary="Logout" />
-      </ListItem>
+      {
+        tableNo && 
+        <div>
+          <Divider />
+          <ListItem
+            button
+            onClick={() => logout()}
+            style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
+          >
+            <img src="img/logout.png" alt="bill" />
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </div>
+      }
     </div>
   )
 }
