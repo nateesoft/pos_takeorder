@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS `employ` (
   PRIMARY KEY (`Code`)
 );
 
+insert into employ values('admin', 'admin', 0, '');
+
 CREATE TABLE IF NOT EXISTS `tablefile` (
   `Tcode` varchar(15) NOT NULL DEFAULT '',
   `SoneCode` char(3) NOT NULL DEFAULT 'N',
@@ -663,14 +665,6 @@ CREATE TABLE IF NOT EXISTS branch (
   INVCheckAuto char(1) ,
   AS400BranchCode char(4) 
 );
-
-
-
-#
-# Dumping data for table 'branch'
-#
-
-INSERT INTO branch VALUES("001", "MARE", "129", "50000", "", "", "", "", "01", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "N", "0.00", "N", NULL, "5", "0", "5", "2010-06-04", "N", "2", "N", "T", "T", "N", "N", "N", "N", "N", "N", "N", "N", NULL, NULL, NULL, "1", "1", "57", "1", "Y", NULL, NULL, "0", "0", "1001", "", "", "", "", "1", "1", "1", "T", "N", "N", "0", "N", "2", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "N", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, "N", "N", "N", "N", "N", "N", "N", "N", "N", "0", "N", "0", NULL, NULL, "N", "N", "N", "N", "N", "N", "N", "N", "N", "N", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "/img/small_avt.jpg", NULL, NULL, "101R");
 
 CREATE TABLE IF NOT EXISTS t_sale (
   R_Index varchar(20) NOT NULL DEFAULT '0' ,

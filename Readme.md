@@ -33,7 +33,7 @@ docker run --name api_pos -d -p 5000:5000 api_pos
 
 ## mysql5
 
-docker run --name mysql5db -e MYSQL_ROOT_PASSWORD=mysql5password -d -p 3307:3306 mysql:5
+docker run --name mysql5db -e MYSQL_ROOT_PASSWORD=mysql5password -e MYSQL_DATABASE=pos_takeorder -d -p 3307:3306 mysql:5
 
 ## stop all docker
 

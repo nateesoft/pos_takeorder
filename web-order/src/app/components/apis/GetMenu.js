@@ -87,7 +87,7 @@ export default function GetMenu(props) {
   }, [id])
 
   if (redirect) {
-    return <Redirect push to={`/api/detail/${selItem.group}/${selItem.code}`} />
+    return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />
   }
 
   return (
@@ -97,7 +97,7 @@ export default function GetMenu(props) {
           data.map((item) => (
             <GridListTile key={item.code_key}>
               <img
-                src={`/api/images${item.img_url}`}
+                src={`/images${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)

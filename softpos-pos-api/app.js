@@ -11,13 +11,13 @@ var tableFileRouter = require('./routes/tablefile');
 
 var app = express();
 
-app.use(
-  cors({
-    origin: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-)
+// app.use(
+//   cors({
+//     origin: true,
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"]
+//   })
+// )
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

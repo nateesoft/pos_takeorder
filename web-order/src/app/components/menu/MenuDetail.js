@@ -98,7 +98,7 @@ export default function MenuDetail(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`/api/images${item.img_url}`}
+            image={`/images${item.img_url}`}
             title="Paella dish"
           />
           <SpecialTextComp />

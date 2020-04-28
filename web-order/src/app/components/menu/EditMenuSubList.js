@@ -133,7 +133,7 @@ export default function EditMenuSubList(props) {
         {data.map((item) => (
           <GridListTile key={item.code}>
             <img
-              src={`/api/images${item.img_url}`}
+              src={`/images${item.img_url}`}
               alt={item.name}
               onClick={() => handleAdd(item)}
             />
