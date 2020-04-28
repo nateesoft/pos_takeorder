@@ -52,7 +52,7 @@ export default function ButtonAction(props) {
   return (
     <div align="right">
       {props.group && (
-        <Link to={`/api/menu/${props.group}`} style={{ textDecoration: "none" }}>
+        <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
           <Button
             variant="outlined"
             className={classes.button}

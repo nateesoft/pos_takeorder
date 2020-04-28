@@ -8,17 +8,17 @@ import Badge from "@material-ui/core/Badge"
 import { useDispatch, useSelector } from "react-redux"
 import { reset } from "../actions"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   listMenu: {
     textDecoration: "none",
-    color: "black"
-  }
+    color: "black",
+  },
 }))
 
 export default function LeftMenu(props) {
   const dispatch = useDispatch()
-  const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter.count)
+  const tableNo = useSelector((state) => state.table.tableNo)
+  const counter = useSelector((state) => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }
@@ -26,11 +26,17 @@ export default function LeftMenu(props) {
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
   useEffect(() => {
-    return function() {}
+    return function () {
+      
+    }
   }, [])
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
+  }
+
+  const logout = () => {
+    window.location = '/'
   }
 
   return (
@@ -39,7 +45,7 @@ export default function LeftMenu(props) {
         <ListItem
           button
           selected={selectedIndex === 0}
-          onClick={event => handleListItemClick(event, 0)}
+          onClick={(event) => handleListItemClick(event, 0)}
           style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
           <Badge badgeContent={tableNo} color="primary">
@@ -53,7 +59,7 @@ export default function LeftMenu(props) {
         <ListItem
           button
           selected={selectedIndex === 1}
-          onClick={event => handleListItemClick(event, 1)}
+          onClick={(event) => handleListItemClick(event, 1)}
           style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
           <img src="img/food.png" alt="menu" />
@@ -65,7 +71,7 @@ export default function LeftMenu(props) {
         <ListItem
           button
           selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 2)}
+          onClick={(event) => handleListItemClick(event, 2)}
           style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
           <Badge badgeContent={counter} color="primary">
@@ -74,6 +80,15 @@ export default function LeftMenu(props) {
           <ListItemText primary="Order" />
         </ListItem>
       </Link>
+      <Divider />
+      <ListItem
+        button
+        onClick={() => logout()}
+        style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
+      >
+        <img src="img/logout.png" alt="bill" />
+        <ListItemText primary="Logout" />
+      </ListItem>
     </div>
   )
 }

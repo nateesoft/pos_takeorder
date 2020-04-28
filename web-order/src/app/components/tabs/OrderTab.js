@@ -204,6 +204,7 @@ export default function OrderTab() {
           loadInitData()
           const variant = "warning"
           enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
+          setExpanded(false)
         },
         (error) => {
           console.log(`error: ${error}`)
@@ -216,6 +217,7 @@ export default function OrderTab() {
   const editItem = (item) => {
     setOpen(true)
     setMenuItem(item)
+    setExpanded(false)
   }
   const addItem = (code, name, price) => {
     fetch(`/api/orders_detail/create`, {
@@ -241,6 +243,7 @@ export default function OrderTab() {
           loadInitData()
           const variant = "success"
           enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
+          setExpanded(false)
         },
         (error) => {
           console.log(`error: ${error}`)
@@ -313,8 +316,8 @@ export default function OrderTab() {
                     <TableRow>
                       <TableCell></TableCell>
                       <TableCell>เมนู</TableCell>
-                      <TableCell>ข้อความพิเศษ</TableCell>
                       <TableCell>เมนูย่อย</TableCell>
+                      <TableCell>พิเศษ</TableCell>
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
@@ -333,10 +336,10 @@ export default function OrderTab() {
                           {row.menu_name}
                         </TableCell>
                         <TableCell onClick={() => editItem(row)}>
-                          {row.s_text}
+                          {row.sub_code}
                         </TableCell>
                         <TableCell onClick={() => editItem(row)}>
-                          {row.sub_code}
+                          {row.s_text}
                         </TableCell>
                         <TableCell align="right">
                           <AddIcon
