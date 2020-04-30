@@ -3,21 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require("cors")
 
 var indexRouter = require('./routes/index');
 var employRouter = require('./routes/employ');
 var tableFileRouter = require('./routes/tablefile');
+var balanceRouter = require('./routes/balance');
 
 var app = express();
-
-// app.use(
-//   cors({
-//     origin: true,
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"]
-//   })
-// )
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/pos/', indexRouter);
 app.use('/pos/employ', employRouter);
 app.use('/pos/tablefile', tableFileRouter);
+app.use('/pos/balance', balanceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

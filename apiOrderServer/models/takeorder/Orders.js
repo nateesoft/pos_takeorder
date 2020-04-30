@@ -74,8 +74,11 @@ const Orders = {
     )
   },
   updateOrderDetailAfterMove: function(order_no, callback) {
+    db.query(`update orders_detail set send_order='Y' where order_no=? and send_order='N'`, [order_no])
     return db.query(
-      `update orders_detail set send_order='Y' where order_no=? and send_order='N'`,
+      `select o.*, od.*  
+        from orders_detail od inner join orders o on od.order_no = o.order_no 
+        where od.order_no = ?`,
       [order_no],
       callback
     )

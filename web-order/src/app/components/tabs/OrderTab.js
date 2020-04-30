@@ -162,6 +162,7 @@ export default function OrderTab() {
   }
 
   const sendOrderToPOS = () => {
+    console.log('sendOrderToPOS')
     fetch(`/api/orders/move`, {
       method: "POST",
       headers: {
@@ -171,15 +172,25 @@ export default function OrderTab() {
       body: JSON.stringify({
         order_no,
       }),
-    })
-      .then(
-        (response) => {
-          loadInitData()
-          const variant = "success"
-          enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
-          setShowButtonSendOrder(false)
-        },
-        (error) => {
+    }).then((res)=>res.json())
+      .then((response) => {
+          // send to POS
+          fetch(`/pos/balance/create`, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              balance: response
+            }),
+          }).then((resp) => {
+            loadInitData()
+            const variant = "success"
+            enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
+            setShowButtonSendOrder(false)
+          })
+        }, (error) => {
           console.log(`error: ${error}`)
         }
       )

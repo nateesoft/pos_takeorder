@@ -1,5 +1,4 @@
 const Task = require("../../models/takeorder/Orders")
-const TaskBill = require("../../models/takeorder/Bill")
 const express = require("express")
 const router = express.Router()
 
@@ -69,7 +68,7 @@ router.post("/move", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.json(rows)
     }
   })
 })
