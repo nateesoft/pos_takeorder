@@ -10,9 +10,9 @@ router.get("/", (req, res, next) => {
         res.send(err)
       } else {
         if (rows.length === 0) {
-          res.json({ status: "not_found" })
+          res.status(200).json({ status: "not_found" })
         } else {
-          res.json(rows)
+          res.status(200).json(rows)
         }
       }
     })
@@ -22,9 +22,9 @@ router.get("/", (req, res, next) => {
         res.send(err)
       } else {
         if (rows.length === 0) {
-          res.json({ status: "not_found" })
+          res.status(200).json({ status: "not_found" })
         } else {
-          res.json(rows)
+          res.status(200).json(rows)
         }
       }
     })
@@ -40,9 +40,9 @@ router.get("/:group_code", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -56,9 +56,9 @@ router.get("/:group_code/:product_code", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -70,9 +70,9 @@ router.get("/top/recommend", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })

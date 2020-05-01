@@ -10,9 +10,9 @@ router.get("/:search", (req, res, next) => {
         res.send(err)
       } else {
         if (rows.length === 0) {
-          res.json({ status: "not_found" })
+          res.status(200).json({ status: "not_found" })
         } else {
-          res.json(rows)
+          res.status(200).json(rows)
         }
       }
     })
@@ -22,9 +22,9 @@ router.get("/:search", (req, res, next) => {
         res.send(err)
       } else {
         if (rows.length === 0) {
-          res.json({ status: "not_found" })
+          res.status(200).json({ status: "not_found" })
         } else {
-          res.json(rows)
+          res.status(200).json(rows)
         }
       }
     })

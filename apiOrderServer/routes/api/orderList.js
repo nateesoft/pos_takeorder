@@ -9,9 +9,9 @@ router.get("/", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -30,7 +30,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.status(200).json("Success")
     }
   })
 })
@@ -46,7 +46,7 @@ router.put("/:order_no/update", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.status(200).json("Success")
     }
   })
 })
@@ -57,7 +57,7 @@ router.delete("/:order_no/delete", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Success")
+      res.status(200).json("Success")
     }
   })
 })
@@ -68,7 +68,7 @@ router.post("/move", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json(rows)
+      res.status(200).json(rows)
     }
   })
 })

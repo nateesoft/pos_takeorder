@@ -9,9 +9,9 @@ router.get("/", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -24,9 +24,9 @@ router.get("/sub_menu/:uid", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -39,9 +39,9 @@ router.get("/special_text/:uid", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -54,9 +54,9 @@ router.get("/sum", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -70,9 +70,9 @@ router.get("/product", (req, res, next) => {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.json({ status: "not_found" })
+        res.status(200).json({ status: "not_found" })
       } else {
-        res.json(rows)
+        res.status(200).json(rows)
       }
     }
   })
@@ -99,7 +99,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Insert item success")
+      res.status(200).json("Insert item success")
     }
   })
 })
@@ -116,7 +116,7 @@ router.put("/:index/update", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Update item success")
+      res.status(200).json("Update item success")
     }
   })
 })
@@ -127,7 +127,7 @@ router.delete("/", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Delete item success")
+      res.status(200).json("Delete item success")
     }
   })
 })
@@ -137,7 +137,7 @@ router.delete("/empty", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      res.json("Truncate data empty success")
+      res.status(200).json("Truncate data empty success")
     }
   })
 })
