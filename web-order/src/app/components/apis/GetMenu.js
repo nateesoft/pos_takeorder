@@ -71,7 +71,7 @@ export default function GetMenu(props) {
           if (response.status === "not_found") {
             setData([])
           } else {
-            setData(response)
+            setData(response.data)
           }
         },
         (error) => {
@@ -97,7 +97,7 @@ export default function GetMenu(props) {
           data.map((item) => (
             <GridListTile key={item.code_key}>
               <img
-                src={`/images${item.img_url}`}
+                src={`${item.img_host}${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)

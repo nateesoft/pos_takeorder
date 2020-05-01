@@ -60,7 +60,7 @@ export default function EditMenu(props) {
       .then((res) => res.json())
       .then(
         (response) => {
-          setData(response)
+          setData(response.data)
         },
         (error) => {
           console.log("in error found => ", error)
@@ -101,7 +101,7 @@ export default function EditMenu(props) {
           />
           <CardMedia
             className={classes.media}
-            image={`/images${item.img_url}`}
+            image={`${item.img_host}${item.img_url}`}
             title="Paella dish"
           />
           <EditSpecialTextComp item={item} />

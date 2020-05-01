@@ -1,14 +1,7 @@
 
 export default function AddOrder(props) {
-  const {
-    code,
-    name,
-    price,
-    table_no,
-    order_no,
-    emp_code,
-    specialText,
-    subMenuCode
+  const { 
+    code, name, price, table_no, order_no, emp_code, specialText, subMenuCode 
   } = props
   const cust_count = 0
   const item_count = 0

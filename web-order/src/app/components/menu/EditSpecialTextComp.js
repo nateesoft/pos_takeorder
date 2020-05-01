@@ -43,7 +43,7 @@ export default function EditSpecialTextComp(props) {
       .then((res) => res.json())
       .then(
         (response) => {
-          const data = getDataSplit(response)
+          const data = getDataSplit(response.data)
           for (let i = 0; i < data.length; i += 1) {
             const options = {
               key: i + 1,

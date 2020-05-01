@@ -77,7 +77,7 @@ export default function SearchPanel(props) {
           if (response.status === "not_found") {
             setData([])
           } else {
-            setData(response)
+            setData(response.data)
           }
         },
         (error) => {

@@ -69,8 +69,8 @@ export default function EditMenuSubList(props) {
       .then(
         (response) => {
           dispatch(emptySubMenuCode())
-          for (let i = 0; i < response.length; i++) {
-            const newItem = response[i].code
+          for (let i = 0; i < response.data.length; i++) {
+            const newItem = response.data[i].code
             setSubCode((sCode) => sCode.concat(newItem))
           }
           for (let i = 0; i < subCode.length; i += 1) {
@@ -107,7 +107,7 @@ export default function EditMenuSubList(props) {
           if (response.status === "not_found") {
             setData([])
           } else {
-            setData(response)
+            setData(response.data)
           }
         },
         (error) => {
@@ -133,7 +133,7 @@ export default function EditMenuSubList(props) {
         {data.map((item) => (
           <GridListTile key={item.code}>
             <img
-              src={`/images${item.img_url}`}
+              src={`${item.img_host}${item.img_url}`}
               alt={item.name}
               onClick={() => handleAdd(item)}
             />

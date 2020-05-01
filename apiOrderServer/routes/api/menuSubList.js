@@ -8,11 +8,7 @@ router.get("/:menu_code", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      if (rows.length === 0) {
-        res.status(200).json({ status: "not_found" })
-      } else {
-        res.status(200).json(rows)
-      }
+      res.status(200).json({ data: rows })
     }
   })
 })
@@ -23,11 +19,7 @@ router.get("/index/:uid", (req, res, next) => {
     if (err) {
       res.send(err)
     } else {
-      if (rows.length === 0) {
-        res.status(200).json({ status: "not_found" })
-      } else {
-        res.status(200).json(rows)
-      }
+      res.status(200).json({ data: rows })
     }
   })
 })

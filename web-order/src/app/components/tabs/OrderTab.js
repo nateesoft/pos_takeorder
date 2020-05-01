@@ -111,7 +111,7 @@ export default function OrderTab() {
             setRows([])
             setShowButtonSendOrder(false)
           } else {
-            setRows(response)
+            setRows(response.data)
           }
         },
         (error) => {
@@ -134,7 +134,7 @@ export default function OrderTab() {
           if (response.status === "not_found") {
             setRows([])
           } else {
-            setRows(response)
+            setRows(response.data)
           }
         },
         (error) => {
@@ -156,7 +156,7 @@ export default function OrderTab() {
         if (response.status === "not_found") {
           setExpansionItem([])
         } else {
-          setExpansionItem(response)
+          setExpansionItem(response.data)
         }
       })
   }
@@ -182,7 +182,7 @@ export default function OrderTab() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              balance: response
+              balance: response.data
             }),
           }).then((resp) => {
             loadInitData()
