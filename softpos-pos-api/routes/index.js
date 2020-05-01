@@ -7,7 +7,7 @@ router.get("/", function(req, res, next) {
 })
 
 router.get("/version", function(req, res, next) {
-  res.send("API Point of Sale V-1.0")
+  res.status(200).send("API Point of Sale V-1.0")
 })
 
 module.exports = router

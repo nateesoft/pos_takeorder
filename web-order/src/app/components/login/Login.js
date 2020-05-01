@@ -12,6 +12,13 @@ import { reset, clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = props => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -34,10 +41,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login() {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const order_no = useSelector(state => state.table.order.orderNo)
   const dispatch = useDispatch()
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setMsgError("");
+  };
 
   const validLogin = (user, pass) => {
     fetch(`/pos/employ/login`, {
@@ -45,32 +60,31 @@ export default function Login() {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+      }, body: JSON.stringify({
         username: user,
         password: pass
       })
-    })
-      .then(res => res.json())
-      .then(
-        response => {
-          if (response.status === "success") {
-            dispatch(
-              newOrder({
-                order_no: uuidv4(),
-                emp_code: user,
-                table_no: "no_select"
-              })
-            )
-          }
-        },
-        error => {
-          console.log("login error found => ", error)
+    }).then(res => {
+      if (res.status !== 200) {
+        setMsgError(`${res.status} - ${res.statusText}`)
+      } else {
+        if (res.status === 200) {
+          res.json().then(res => {
+            dispatch(newOrder({
+              order_no: uuidv4(),
+              emp_code: user,
+              table_no: "no_select"
+            }))
+          })
+        } else if (res.status === 403) {
+          setMsgError('Username or Password invalid')
+        } else {
+          setMsgError('Server internal error')
         }
-      )
-      .catch(error => {
-        console.log("Error: (Login: " + error + ")")
-      })
+      }
+    }).catch(error => {
+      setMsgError(`${error}`)
+    })
   }
 
   useEffect(() => {
@@ -137,6 +151,12 @@ export default function Login() {
             Sign In
           </Button>
         </form>
+
+        <Snackbar open={msgError!==""} anchorOrigin={{vertical: "top", horizontal: "right"}} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error">
+            {msgError}
+          </Alert>
+        </Snackbar>
       </div>
     </Container>
   )

@@ -34,19 +34,19 @@ export default function TableTab() {
 
   useEffect(() => {
     fetch(`/pos/tablefile`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setRows([])
+      .then(res => {
+        if (res.status !== 200) {
+          // setMsgError(`${res.status} - ${res.statusText}`)
+        } else {
+          if (res.status===200) {
+            res.json().then(res => {
+              setRows(res.data)
+            })
           } else {
-            setRows(response)
+            setRows([])
           }
-        },
-        (error) => {
-          console.log("in error found => ", error)
         }
-      )
+      })
       .catch((error) => {
         console.log("Error: (OrderTab: " + error + ")")
       })

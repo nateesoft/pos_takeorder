@@ -8,7 +8,7 @@ router.get("/", function(req, res, next) {
     if (err) {
       res.send(err)
     } else {
-      res.json(rows)
+      res.status(200).json({ data: rows })
     }
   })
 })
@@ -32,9 +32,9 @@ router.post("/create", function(req, res, next) {
     }
     Task.create(Balance, (err, rows) => {
       if (err) {
-        console.err(err)
+        res.send(err)
       } else {
-        console.info(rows)
+        res.status(200).json({ data: rows })
       }
     })
   }
