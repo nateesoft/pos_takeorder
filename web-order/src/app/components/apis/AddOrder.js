@@ -12,7 +12,7 @@ export default function AddOrder(props) {
       .then(res => res.json())
       .then(
         response => {
-          if (response.status === "not_found") {
+          if (response.data.length === 0) {
             addOrder()
           } else {
             addOrderDetail()

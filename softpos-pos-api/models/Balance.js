@@ -10,13 +10,13 @@ const Balance = {
   },
   create: function(Balance, callback) {
     const { 
-      index, table, macno, emp, plucode, pname, unit, group, stock, price, qty, total
+      index, table, emp, plucode, pname, unit, group, price, qty, total
     } = Balance
     return db.query(
-      `insert into ${table_name} (r_index, r_table, macno, 
-        r_emp, r_plucode, r_pname, r_unit, r_group, r_stock, r_price, r_quan, r_total)
-      values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [index, table, macno, emp, plucode, pname, unit, group, stock, price, qty, total],
+      `insert into ${table_name} (r_index, r_table, r_emp, r_plucode, 
+        r_pname, r_unit, r_group, r_price, r_quan, r_total) 
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [index, table, emp, plucode, pname, unit, group, price, qty, total],
       callback
     )
   },

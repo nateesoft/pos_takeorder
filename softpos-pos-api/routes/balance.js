@@ -19,22 +19,20 @@ router.post("/create", function(req, res, next) {
     Balance = {
       index: balance.index.substring(0, 10), 
       table: balance.table_code, 
-      macno: "001",
       emp: balance.emp_code, 
       plucode: balance.menu_code, 
       pname: balance.menu_name, 
       unit: balance.unit, 
       group: balance.group, 
-      stock: "A1", 
       price: balance.price, 
       qty: balance.qty,
       total: balance.total_amount
     }
     Task.create(Balance, (err, rows) => {
       if (err) {
-        res.send(err)
+        console.error(err)
       } else {
-        res.status(200).json({ data: rows })
+        console.info('add to balance +1')
       }
     })
   }
