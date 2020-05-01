@@ -7,6 +7,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
 import SearchMenu from "../apis/SearchMenu"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchPanel(props) {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const { close } = props
   const [search, setSearch] = useState("")
   const [data, setData] = useState([])
@@ -81,11 +83,10 @@ export default function SearchPanel(props) {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
-      )
-      .catch((error) => {
-        console.log("Error: (onSearch: " + error + ")")
+      ).catch((error) => {
+        setMsgError(`${error}`)
       })
   }
 
@@ -136,6 +137,7 @@ export default function SearchPanel(props) {
           <SearchMenu data={data} close={close} />
         </div>
       </AppBar>
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

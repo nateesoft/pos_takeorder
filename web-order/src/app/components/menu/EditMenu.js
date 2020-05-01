@@ -19,6 +19,7 @@ import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector } from "react-redux"
 import { clearItemAdd } from "../../actions"
 import { useDispatch } from "react-redux"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function EditMenu(props) {
   const dispatch = useDispatch()
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
   const { item } = props
@@ -63,11 +65,11 @@ export default function EditMenu(props) {
           setData(response.data)
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (MenuDetail: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setData([])
@@ -133,6 +135,7 @@ export default function EditMenu(props) {
           />
         </Card>
       ))}
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

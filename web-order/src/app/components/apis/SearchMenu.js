@@ -84,7 +84,7 @@ export default function SearchMenu(props) {
           data.map((item) => (
             <GridListTile key={item.code_key}>
               <img
-                src={`${item.img_host}${item.img_url}`}
+                src={`/images${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)

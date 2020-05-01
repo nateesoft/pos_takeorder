@@ -11,13 +11,7 @@ import { Redirect } from "react-router"
 import { reset, clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
-
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-
-const Alert = props => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,13 +40,6 @@ export default function Login() {
   const [pass, setPass] = useState("")
   const order_no = useSelector(state => state.table.order.orderNo)
   const dispatch = useDispatch()
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setMsgError("");
-  };
 
   const validLogin = (user, pass) => {
     fetch(`/pos/employ/login`, {
@@ -109,11 +96,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           เข้าสู่ระบบ
         </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={e => e.preventDefault()}
-        >
+        <form className={classes.form} noValidate onSubmit={e => e.preventDefault()}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -140,23 +123,11 @@ export default function Login() {
             value={pass}
             onChange={e => setPass(e.target.value)}
           />
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={() => validLogin(user, pass)}
-          >
-            Sign In
+          <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}
+            onClick={() => validLogin(user, pass)}>Sign In
           </Button>
         </form>
-
-        <Snackbar open={msgError!==""} anchorOrigin={{vertical: "top", horizontal: "right"}} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
-            {msgError}
-          </Alert>
-        </Snackbar>
+        {msgError && <MessageUtil message={msgError} />}
       </div>
     </Container>
   )

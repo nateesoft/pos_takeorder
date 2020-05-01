@@ -5,6 +5,7 @@ import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditSpecialTextComp(props) {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [chipIdMax, setChipIdMax] = useState(0)
   const [chipData, setChipData] = useState([])
   const [chipOption, setChipOption] = useState("")
@@ -55,11 +57,11 @@ export default function EditSpecialTextComp(props) {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (MenuDetail: " + error + ")")
+        setMsgError(`${error}`)
       })
     return () => {
       setChipData([])
@@ -129,6 +131,7 @@ export default function EditSpecialTextComp(props) {
           </Button>
         </Grid>
       </Grid>
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

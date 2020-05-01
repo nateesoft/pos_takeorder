@@ -17,6 +17,7 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import SpecialTextComp from "./SpecialTextComp"
 import { useSelector } from "react-redux"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuDetail(props) {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
   const group = props.match.params.group
@@ -60,11 +62,10 @@ export default function MenuDetail(props) {
           setData(response.data)
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
-      )
-      .catch((error) => {
-        console.log("Error: (MenuDetail: " + error + ")")
+      ).catch((error) => {
+        setMsgError(`${error}`)
       })
     return function () {
       setData([])
@@ -131,6 +132,7 @@ export default function MenuDetail(props) {
           />
         </Card>
       ))}
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

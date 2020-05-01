@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux"
 import addOrderItem from "./AddOrder"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function GetMenu(props) {
   const { id, close } = props
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [data, setData] = useState([])
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
@@ -75,11 +77,11 @@ export default function GetMenu(props) {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (GetMenu: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setData([])
@@ -121,6 +123,7 @@ export default function GetMenu(props) {
             </GridListTile>
           ))}
       </GridList>
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

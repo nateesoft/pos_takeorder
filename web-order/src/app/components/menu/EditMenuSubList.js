@@ -10,6 +10,7 @@ import {
   clearNewSubMenuCode,
   emptySubMenuCode,
 } from "../../actions"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMenuSubList(props) {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [data, setData] = useState([])
   const [subCode, setSubCode] = useState([])
   const [loadingSub, setLoadingSub] = useState(true)
@@ -79,12 +81,12 @@ export default function EditMenuSubList(props) {
           setLoadingSub(false)
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
           setLoadingSub(false)
         }
       )
       .catch((error) => {
-        console.log("Error: (MenuSubList: " + error + ")")
+        setMsgError(`${error}`)
         setLoadingSub(false)
       })
   }
@@ -111,11 +113,11 @@ export default function EditMenuSubList(props) {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (MenuSubList: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setData([])
@@ -152,6 +154,7 @@ export default function EditMenuSubList(props) {
           </GridListTile>
         ))}
       </GridList>
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

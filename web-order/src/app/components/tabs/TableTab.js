@@ -9,6 +9,7 @@ import AspectRatio from "@material-ui/icons/AspectRatio"
 import { chooseTable } from "../../actions"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TableTab() {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [rows, setRows] = useState([])
   const dispatch = useDispatch()
@@ -36,7 +38,7 @@ export default function TableTab() {
     fetch(`/pos/tablefile`)
       .then(res => {
         if (res.status !== 200) {
-          // setMsgError(`${res.status} - ${res.statusText}`)
+          setMsgError(`${res.status} - ${res.statusText}`)
         } else {
           if (res.status===200) {
             res.json().then(res => {
@@ -48,7 +50,7 @@ export default function TableTab() {
         }
       })
       .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setRows([])
@@ -88,6 +90,7 @@ export default function TableTab() {
         ))}
       </List>
       <Divider />
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

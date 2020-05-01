@@ -29,6 +29,7 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import CloseIcon from "@material-ui/icons/Close"
 import EditMenu from "../menu/EditMenu"
+import MessageUtil from '../../util/alertMsg'
 
 const styles = (theme) => ({
   root: {
@@ -90,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 export default function OrderTab() {
   const dispatch = useDispatch()
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [expanded, setExpanded] = useState(false)
   const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
   const [rows, setRows] = useState([])
@@ -115,11 +117,11 @@ export default function OrderTab() {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setRows([])
@@ -138,19 +140,16 @@ export default function OrderTab() {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
-      )
-      .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
+      ).catch((error) => {
+        setMsgError(`${error}`)
       })
   }
 
   const handleChange = (menu_code) => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
-    fetch(
-      `/api/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`
-    )
+    fetch(`/api/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`)
       .then((res) => res.json())
       .then((response) => {
         if (response.status === "not_found") {
@@ -158,6 +157,8 @@ export default function OrderTab() {
         } else {
           setExpansionItem(response.data)
         }
+      }).catch((error)=>{
+        setMsgError(`${error}`)
       })
   }
 
@@ -191,7 +192,7 @@ export default function OrderTab() {
             setShowButtonSendOrder(false)
           })
         }, (error) => {
-          console.log(`error: ${error}`)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
@@ -208,8 +209,7 @@ export default function OrderTab() {
       body: JSON.stringify({
         uid: uid,
       }),
-    })
-      .then(
+    }).then(
         (response) => {
           dispatch(decrement())
           loadInitData()
@@ -218,11 +218,10 @@ export default function OrderTab() {
           setExpanded(false)
         },
         (error) => {
-          console.log(`error: ${error}`)
+          setMsgError(`${error}`)
         }
-      )
-      .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
+      ).catch((error) => {
+        setMsgError(`${error}`)
       })
   }
   const editItem = (item) => {
@@ -246,8 +245,7 @@ export default function OrderTab() {
         qty: 1,
         total_amount: price,
       }),
-    })
-      .then(
+    }).then(
         (response) => {
           dispatch(increment())
           dispatch(clearItemAdd())
@@ -255,13 +253,11 @@ export default function OrderTab() {
           const variant = "success"
           enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
           setExpanded(false)
-        },
-        (error) => {
-          console.log(`error: ${error}`)
+        }, (error) => {
+          setMsgError(`${error}`)
         }
-      )
-      .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
+      ).catch((error) => {
+        setMsgError(`${error}`)
       })
   }
 
@@ -385,6 +381,7 @@ export default function OrderTab() {
           <EditMenu item={menuItem} />
         </DialogContent>
       </Dialog>
+      {msgError && <MessageUtil message={msgError} />}
     </Paper>
   )
 }

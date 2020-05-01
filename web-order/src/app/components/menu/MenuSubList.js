@@ -6,6 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useDispatch } from "react-redux"
 import { addNewSubMenuCode, clearNewSubMenuCode } from "../../actions"
+import MessageUtil from '../../util/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuSubList(props) {
   const classes = useStyles()
+  const [msgError, setMsgError] = useState("")
   const [data, setData] = useState([])
   const [subCode, setSubCode] = useState([])
   const dispatch = useDispatch()
@@ -79,11 +81,11 @@ export default function MenuSubList(props) {
           }
         },
         (error) => {
-          console.log("in error found => ", error)
+          setMsgError(`${error}`)
         }
       )
       .catch((error) => {
-        console.log("Error: (MenuSubList: " + error + ")")
+        setMsgError(`${error}`)
       })
     return function () {
       setData([])
@@ -115,6 +117,7 @@ export default function MenuSubList(props) {
           </GridListTile>
         ))}
       </GridList>
+      {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }

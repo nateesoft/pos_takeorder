@@ -17,12 +17,9 @@ import TableTab from "./tabs/TableTab"
 import MenuTab from "./tabs/MenuTab"
 import MenuDetail from "./menu/MenuDetail"
 import OrderTab from "./tabs/OrderTab"
-import BillTab from "./tabs/BillTab"
 import LoginPage from "./login/Login"
 import WelcomePage from "./tabs/Welcome"
-import ReportPage from "./report/ReportPage"
 import Setting from "./tabs/Setting"
-import Recommend from "./tabs/Recommend"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
@@ -212,10 +209,7 @@ export default function App() {
                 <Route path="/menu/:group" component={MenuTab} />
                 <Route path="/detail/:group/:code" component={MenuDetail} />
                 <Route path="/order" component={OrderTab} />
-                <Route path="/bill" component={BillTab} />
-                <Route path="/report" component={ReportPage} />
                 <Route path="/setting" component={Setting} />
-                <Route path="/recommend" component={Recommend} />
               </Switch>
             </Container>
           </main>
