@@ -7,11 +7,19 @@ const initialState = {
     orderNo: "",
     items: []
   },
-  billNo: ""
+  billNo: "",
+  tableFileList: [],
 }
 const tableReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case 'LOAD_TABLE_FILE':
+        break
+      case 'LOAD_TABLE_FILE_SUCCESS':
+        draft.tableFileList = action.payload
+        break
+      case 'LOAD_TABLE_FILE_FAIL':
+        break
       case "CHOOSE_TABLE":
         draft.tableNo = action.payload
         break

@@ -29,7 +29,7 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import CloseIcon from "@material-ui/icons/Close"
 import EditMenu from "../menu/EditMenu"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const styles = (theme) => ({
   root: {

@@ -19,7 +19,7 @@ import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector } from "react-redux"
 import { clearItemAdd } from "../../actions"
 import { useDispatch } from "react-redux"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {

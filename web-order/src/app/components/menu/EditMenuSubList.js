@@ -10,7 +10,7 @@ import {
   clearNewSubMenuCode,
   emptySubMenuCode,
 } from "../../actions"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {

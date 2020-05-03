@@ -11,9 +11,9 @@ router.post("/login", function(req, res, next) {
       res.send(err)
     } else {
       if (rows.length === 0) {
-        res.status(403).json({ msg: "Invalid" })
+        res.status(403).json({ data: false, msg: "Invalid" })
       } else {
-        res.status(200).json({ msg: "Success" })
+        res.status(200).json({ data: true, msg: "Success" })
       }
     }
   })

@@ -17,7 +17,7 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import SpecialTextComp from "./SpecialTextComp"
 import { useSelector } from "react-redux"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {

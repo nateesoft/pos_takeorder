@@ -1,17 +1,59 @@
-import { put, takeLatest, all } from "redux-saga/effects"
+import { takeLatest, all, call, put} from "redux-saga/effects"
+import request from '../utils/request'
+import { 
+  loadTablefileSuccess, 
+  loadTablefileFail,
+  checkLoginSuccess,
+  checkLoginFail
+} from '../actions'
 
-function* fetchNews() {
-  const json = yield fetch(
-    "https://newsapi.org/v1/articles?source=cnn&apiKey=c39a26d9c12f48dba2a5c00e35684ecc"
-  ).then((response) => response.json())
-
-  yield put({ type: "NEWS_RECEIVED", json: json.articles })
+function* fetchLogin(action) {
+  const { username, password } = action.payload
+  const requestURL = `/pos/employ/login`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+    yield put(checkLoginSuccess(response.data))
+  } catch(err) {
+    yield put(checkLoginFail(err))
+  }
 }
 
-function* actionWatcher() {
-  yield takeLatest("GET_NEWS", fetchNews)
+function* fetchTablefile() {
+  const requestURL = `/pos/tablefile`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadTablefileSuccess(response.data))
+  } catch(err) {
+    yield put(loadTablefileFail(err))
+  }
+}
+
+function* actionFetchTablefile() {
+  yield takeLatest("LOAD_TABLE_FILE", fetchTablefile)
+}
+function* actionFetchLogin() {
+  yield takeLatest("CHECK_LOGIN", fetchLogin)
 }
 
 export default function* rootSaga() {
-  yield all([actionWatcher])
+  yield all([
+    actionFetchTablefile(),
+    actionFetchLogin()
+  ])
 }

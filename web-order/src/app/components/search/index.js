@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
 import SearchMenu from "../apis/SearchMenu"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {

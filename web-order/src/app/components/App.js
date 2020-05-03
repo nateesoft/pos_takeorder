@@ -41,7 +41,7 @@ const useStyles2 = makeStyles({
   },
 })
 
-export default function App() {
+const App = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const classes2 = useStyles2()
@@ -189,10 +189,7 @@ export default function App() {
                   <img src="img/jeffer.png" alt="" width="100" />
                 </Link>
               </Typography>
-              <IconButton
-                onClick={handleDrawerClose}
-                style={{ color: "white" }}
-              >
+              <IconButton onClick={handleDrawerClose} style={{ color: "white" }}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -218,3 +215,5 @@ export default function App() {
     </Router>
   )
 }
+
+export default App;

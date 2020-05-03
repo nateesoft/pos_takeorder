@@ -1,3 +1,38 @@
+export const loadTablefile = () => {
+  return {
+    type: 'LOAD_TABLE_FILE',
+  }
+}
+export const loadTablefileSuccess = (payload) => {
+  return {
+    type: 'LOAD_TABLE_FILE_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadTablefileFail = () => {
+  return {
+    type: 'LOAD_TABLE_FILE_FAIL',
+  }
+}
+
+export const checkLogin = (payload) => {
+  return {
+    type: 'CHECK_LOGIN',
+    payload: payload,
+  }
+}
+export const checkLoginSuccess = (payload) => {
+  return {
+    type: 'CHECK_LOGIN_SUCCESS',
+    payload: payload,
+  }
+}
+export const checkLoginFail = () => {
+  return {
+    type: 'CHECK_LOGIN_FAIL',
+  }
+}
+
 export const increment = () => {
   return {
     type: "INCREMENT",

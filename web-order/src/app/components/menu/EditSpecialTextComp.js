@@ -5,7 +5,7 @@ import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
