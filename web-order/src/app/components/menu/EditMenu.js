@@ -16,9 +16,7 @@ import EditButtonAction from "./EditButtonAction"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import EditSpecialTextComp from "./EditSpecialTextComp"
-import { useSelector } from "react-redux"
-import { clearItemAdd } from "../../actions"
-import { useDispatch } from "react-redux"
+import { useSelector, connect } from "react-redux"
 import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles((theme) => ({
@@ -44,37 +42,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function EditMenu(props) {
-  const dispatch = useDispatch()
+const EditMenu = (props) => {
+  const { getOrderDetail, item } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
-  const { item } = props
-
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
 
+  const subMenuList = useSelector((state) => state.item.subMenuList)
+
   useEffect(() => {
-    dispatch(clearItemAdd())
-    fetch(`/api/orders_detail/sub_menu/${item.uid}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          setData(response.data)
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
+    getOrderDetail(item.uid)
     return function () {
-      setData([])
+      setMsgError('')
     }
-  }, [dispatch, item.uid])
+  }, [getOrderDetail, item.uid])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -89,7 +73,7 @@ export default function EditMenu(props) {
 
   return (
     <div>
-      {data.map((item, index) => (
+      {subMenuList && subMenuList.map((item, index) => (
         <Card className={classes.root} key={index}>
           <CardHeader
             avatar={
@@ -139,3 +123,20 @@ export default function EditMenu(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getOrderDetail: (uid) => dispatch({
+      type: 'LOAD_ORDER_DETAIL',
+      payload: {
+        uid: uid
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMenu)

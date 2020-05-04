@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
 import SearchMenu from "../apis/SearchMenu"
 import MessageUtil from '../../utils/alertMsg'
+import { connect, useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,43 +65,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SearchPanel(props) {
+const SearchPanel = (props) => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const { close } = props
+  const { close, onSearch } = props
   const [search, setSearch] = useState("")
-  const [data, setData] = useState([])
-
-  const onSearch = () => {
-    fetch(`/api/search/${search}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      ).catch((error) => {
-        setMsgError(`${error}`)
-      })
-  }
+  const productList = useSelector((state) => state.product.productSearchList)
 
   useEffect(() => {
+    setMsgError('')
     return function () {
       setSearch("")
-      setData([])
     }
   }, [])
 
   const handleKey = (v) => {
     setSearch(v)
     if (search !== "") {
-      onSearch()
+      onSearch(search)
     }
   }
 
@@ -134,10 +116,27 @@ export default function SearchPanel(props) {
           </IconButton>
         </Toolbar>
         <div style={{ height: window.innerHeight, overflow: "auto" }}>
-          <SearchMenu data={data} close={close} />
+          <SearchMenu data={productList} close={close} />
         </div>
       </AppBar>
       {msgError && <MessageUtil message={msgError} />}
     </div>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearch: (search) => dispatch({
+      type: 'SEARCH_DATA',
+      payload: {
+        search: search,
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel)

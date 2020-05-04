@@ -5,7 +5,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import Typography from "@material-ui/core/Typography"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch, connect } from "react-redux"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
@@ -88,15 +88,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function OrderTab() {
+const OrderTab = (props) => {
+  const { 
+    loadListOrderDetail, 
+    loadExpansionProduct, 
+    sendToPOS, 
+    removeItemIndex, 
+    addOrderItem
+  }= props
   const dispatch = useDispatch()
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [expanded, setExpanded] = useState(false)
   const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
-  const [rows, setRows] = useState([])
   const { enqueueSnackbar } = useSnackbar()
-  const [expansionItem, setExpansionItem] = useState([])
 
   const [open, setOpen] = useState(false)
   const [menuItem, setMenuItem] = useState("")
@@ -104,125 +109,45 @@ export default function OrderTab() {
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
 
+  const orderList = useSelector((state) => state.table.order.items)
+  const expansionItem = useSelector((state) => state.table.product.expansionItem)
+  const statusSendToPOS = useSelector((state) => state.table.order.sendToPOS)
+  const statusOrderRemove = useSelector((state) => state.table.order.removeItem)
+  const statusAddNewOrderItem = useSelector((state) => state.table.order.addNewItem)
+
   useEffect(() => {
-    fetch(`/api/orders_detail/sum?order_no=${order_no}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setRows([])
-            setShowButtonSendOrder(false)
-          } else {
-            setRows(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
+    loadListOrderDetail(order_no)
     return function () {
-      setRows([])
     }
-  }, [order_no])
+  }, [loadListOrderDetail, order_no])
 
   const loadInitData = () => {
-    fetch(`/api/orders_detail/sum?order_no=${order_no}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setRows([])
-          } else {
-            setRows(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      ).catch((error) => {
-        setMsgError(`${error}`)
-      })
+    loadListOrderDetail(order_no)
   }
 
   const handleChange = (menu_code) => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
-    fetch(`/api/orders_detail/product?order_no=${order_no}&menu_code=${menu_code}`)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.status === "not_found") {
-          setExpansionItem([])
-        } else {
-          setExpansionItem(response.data)
-        }
-      }).catch((error)=>{
-        setMsgError(`${error}`)
-      })
+    loadExpansionProduct(order_no, menu_code)
   }
 
   const sendOrderToPOS = () => {
-    console.log('sendOrderToPOS')
-    fetch(`/api/orders/move`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order_no,
-      }),
-    }).then((res)=>res.json())
-      .then((response) => {
-          // send to POS
-          fetch(`/pos/balance/create`, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              balance: response.data
-            }),
-          }).then((resp) => {
-            loadInitData()
-            const variant = "success"
-            enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
-            setShowButtonSendOrder(false)
-          })
-        }, (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        console.log("Error: (OrderTab: " + error + ")")
-      })
+    sendToPOS(order_no)
+    if (statusSendToPOS === 'Success') {
+      loadInitData()
+      const variant = "success"
+      enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
+      setShowButtonSendOrder(false)
+    }
   }
   const removeIndex = (uid) => {
-    fetch(`/api/orders_detail`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uid: uid,
-      }),
-    }).then(
-        (response) => {
-          dispatch(decrement())
-          loadInitData()
-          const variant = "warning"
-          enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
-          setExpanded(false)
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      ).catch((error) => {
-        setMsgError(`${error}`)
-      })
+    removeItemIndex(uid)
+    if (statusOrderRemove === 'Success') {
+      dispatch(decrement())
+      loadInitData()
+      const variant = "warning"
+      enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
+      setExpanded(false)
+    }
   }
   const editItem = (item) => {
     setOpen(true)
@@ -230,35 +155,15 @@ export default function OrderTab() {
     setExpanded(false)
   }
   const addItem = (code, name, price) => {
-    fetch(`/api/orders_detail/create`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        index: table_no + "/" + code,
-        order_no,
-        menu_code: code,
-        menu_name: name,
-        price,
-        qty: 1,
-        total_amount: price,
-      }),
-    }).then(
-        (response) => {
-          dispatch(increment())
-          dispatch(clearItemAdd())
-          loadInitData()
-          const variant = "success"
-          enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
-          setExpanded(false)
-        }, (error) => {
-          setMsgError(`${error}`)
-        }
-      ).catch((error) => {
-        setMsgError(`${error}`)
-      })
+    addOrderItem(table_no, order_no, code, name, price, 1, price)
+    if (statusAddNewOrderItem === 'Success') {
+      dispatch(increment())
+      dispatch(clearItemAdd())
+      loadInitData()
+      const variant = "success"
+      enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
+      setExpanded(false)
+    }
   }
 
   if (order_no === "") {
@@ -283,7 +188,7 @@ export default function OrderTab() {
           <Typography variant="h6" className={classes.title}>
             อาหารที่สั่ง
           </Typography>
-          {rows.length > 0 && showButtonSendOrder > 0 && (
+          {orderList.length > 0 && showButtonSendOrder > 0 && (
             <Button
               variant="contained"
               style={{ backgroundColor: "green", color: "white" }}
@@ -294,7 +199,7 @@ export default function OrderTab() {
           )}
         </Toolbar>
       </AppBar>
-      {rows.map((item, index) => (
+      {orderList && orderList.map((item, index) => (
         <ExpansionPanel
           expanded={expanded === item.menu_code}
           onChange={handleChange(item.menu_code)}
@@ -385,3 +290,51 @@ export default function OrderTab() {
     </Paper>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadListOrderDetail: (orderNo) => dispatch({
+      type: 'LOAD_LIST_ORDER_DETAIL',
+      payload: {
+        orderNo: orderNo
+      }
+    }),
+    loadExpansionProduct: (orderNo, menuCode) => dispatch({
+      type: 'LOAD_EXPANSION_PRODUCT',
+      payload: {
+        orderNo: orderNo,
+        menuCode: menuCode,
+      }
+    }),
+    sendToPOS: (orderNo) => dispatch({
+      type: 'SEND_ORDER_TO_POS',
+      payload: {
+        orderNo: orderNo
+      }
+    }),
+    removeItemIndex: (uid) => dispatch({
+      type: 'REMOVE_ORDER_INDEX',
+      payload: {
+        uid: uid
+      }
+    }),
+    addOrderItem: (tableNo, orderNo, menuCode, menuName, price, qty, totalAmount) => dispatch({
+      type: 'REMOVE_ORDER_INDEX',
+      payload: {
+        tableNo, 
+        orderNo, 
+        menuCode, 
+        menuName, 
+        price, 
+        qty, 
+        totalAmount
+      }
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderTab)
