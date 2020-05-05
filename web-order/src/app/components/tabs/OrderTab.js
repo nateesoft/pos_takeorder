@@ -133,22 +133,18 @@ const OrderTab = props => {
 
   const sendOrderToPOS = () => {
     sendToPOS(order_no)
-    if (statusSendToPOS === 'Success') {
-      loadInitData()
-      const variant = "success"
-      enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
-      setShowButtonSendOrder(false)
-    }
+    loadInitData()
+    const variant = "success"
+    enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
+    setShowButtonSendOrder(false)
   }
   const removeIndex = uid => {
     removeItemIndex(uid)
-    if (statusOrderRemove === 'Success') {
-      dispatch(decrement())
-      loadInitData()
-      const variant = "warning"
-      enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
-      setExpanded(false)
-    }
+    dispatch(decrement())
+    loadInitData()
+    const variant = "warning"
+    enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
+    setExpanded(false)
   }
   const editItem = item => {
     setOpen(true)
@@ -157,14 +153,12 @@ const OrderTab = props => {
   }
   const addItem = (code, name, price) => {
     addOrderItem(table_no, order_no, code, name, price, 1, price)
-    if (statusAddNewOrderItem === 'Success') {
-      dispatch(increment())
-      dispatch(clearItemAdd())
-      loadInitData()
-      const variant = "success"
-      enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
-      setExpanded(false)
-    }
+    dispatch(increment())
+    dispatch(clearItemAdd())
+    loadInitData()
+    const variant = "success"
+    enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
+    setExpanded(false)
   }
 
   if (order_no === "") {
@@ -324,7 +318,7 @@ const mapDispatchToProps = dispatch => {
       }
     }),
     addOrderItem: (tableNo, orderNo, menuCode, menuName, price, qty, totalAmount) => dispatch({
-      type: 'REMOVE_ORDER_INDEX',
+      type: 'ADD_NEW_ORDER_ITEM',
       payload: {
         tableNo, 
         orderNo, 

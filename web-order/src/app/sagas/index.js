@@ -342,7 +342,7 @@ function* actionRemoveOrderIndex() {
   yield takeLatest("REMOVE_ORDER_INDEX", removeOrderIndex)
 }
 function* actionAddNewOrderItem() {
-  yield takeLatest("ADD_NEW_ITEM", addNewOrderItem)
+  yield takeLatest("ADD_NEW_ORDER_ITEM", addNewOrderItem)
 }
 function* actionSearchData() {
   yield takeLatest("SEARCH_DATA", searchData)
