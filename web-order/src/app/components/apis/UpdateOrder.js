@@ -1,5 +1,5 @@
 
-export default function UpdateOrder(props) {
+const UpdateOrder = props => {
   const { order_no, code, price, uid, specialText, subMenuCode } = props
 
   const updateOrderDetail = () => {
@@ -32,3 +32,5 @@ export default function UpdateOrder(props) {
 
   updateOrderDetail()
 }
+
+export default UpdateOrder

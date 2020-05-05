@@ -13,6 +13,5 @@ function parseJSON(response) {
 }
 
 export default function request(url, options, timeout) {
-  return fetchWithTimeout(url, options, timeout)
-    .then(parseJSON);
+  return fetchWithTimeout(url, options, timeout).then(parseJSON);
 }

@@ -3,6 +3,7 @@ import produce from "immer"
 const initialState = {
   uid: '',
   specialText: [],
+  specialList: [],
   subMenuCode: [],
   subMenuList: [],
 }
@@ -10,6 +11,14 @@ const initialState = {
 const itemReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case "LOAD_ORDER_SPECIAL":
+        draft.uid = action.payload.uid
+        break;
+      case "LOAD_ORDER_SPECIAL_SUCCESS":
+        draft.specialList = action.payload
+        break;
+      case "LOAD_ORDER_SPECIAL_FAIL":
+        break;
       case "LOAD_ORDER_DETAIL":
         draft.uid = action.payload.uid
         break;

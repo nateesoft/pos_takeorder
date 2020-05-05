@@ -19,6 +19,13 @@ const initialState = {
     qty: 1,
     totalAmount: 0
   },
+  orderSubMenu: {
+    uid: '',
+    subMenuList: [],
+    orderSubMenuList: [],
+    productCode: '',
+    productGroup: '',
+  },
   product: {
     orderNo: '',
     menuCode: '',
@@ -30,6 +37,22 @@ const initialState = {
 const tableReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case 'LOAD_SUB_MENU_INDEX':
+        draft.orderSubMenu.uid = action.payload.uid
+        break;
+      case 'LOAD_SUB_MENU_INDEX_SUCCESS':
+        draft.orderSubMenu.subMenuList = action.payload
+        break;
+      case 'LOAD_SUB_MENU_INDEX_FAIL':
+        break;
+      case 'LOAD_SUB_MENU_LIST':
+        draft.orderSubMenu.productCode = action.payload.code
+        break;
+      case 'LOAD_SUB_MENU_LIST_SUCCESS':
+        draft.orderSubMenu.subMenuList = action.payload
+        break;
+      case 'LOAD_SUB_MENU_LIST_FAIL':
+        break;
       case 'ADD_NEW_ORDER_ITEM':
         draft.orderDetail.tableNo = action.payload.tableNo
         draft.orderDetail.orderNo = action.payload.orderNo

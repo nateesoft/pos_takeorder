@@ -31,7 +31,7 @@ import CloseIcon from "@material-ui/icons/Close"
 import EditMenu from "../menu/EditMenu"
 import MessageUtil from '../../utils/alertMsg'
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
@@ -44,7 +44,7 @@ const styles = (theme) => ({
   },
 })
 
-const DialogTitle = withStyles(styles)((props) => {
+const DialogTitle = withStyles(styles)(props => {
   const { children, classes, onClose, ...other } = props
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -62,13 +62,13 @@ const DialogTitle = withStyles(styles)((props) => {
   )
 })
 
-const DialogContent = withStyles((theme) => ({
+const DialogContent = withStyles(theme => ({
   root: {
     padding: theme.spacing(2),
   },
 }))(MuiDialogContent)
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     flexGrow: 1,
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const OrderTab = (props) => {
+const OrderTab = props => {
   const { 
     loadListOrderDetail, 
     loadExpansionProduct, 
@@ -106,16 +106,17 @@ const OrderTab = (props) => {
   const [open, setOpen] = useState(false)
   const [menuItem, setMenuItem] = useState("")
 
-  const table_no = useSelector((state) => state.table.tableNo)
-  const order_no = useSelector((state) => state.table.order.orderNo)
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
 
-  const orderList = useSelector((state) => state.table.order.items)
-  const expansionItem = useSelector((state) => state.table.product.expansionItem)
-  const statusSendToPOS = useSelector((state) => state.table.order.sendToPOS)
-  const statusOrderRemove = useSelector((state) => state.table.order.removeItem)
-  const statusAddNewOrderItem = useSelector((state) => state.table.order.addNewItem)
+  const orderList = useSelector(state => state.table.order.items)
+  const expansionItem = useSelector(state => state.table.product.expansionItem)
+  const statusSendToPOS = useSelector(state => state.table.order.sendToPOS)
+  const statusOrderRemove = useSelector(state => state.table.order.removeItem)
+  const statusAddNewOrderItem = useSelector(state => state.table.order.addNewItem)
 
   useEffect(() => {
+    setMsgError('')
     loadListOrderDetail(order_no)
     return function () {
     }
@@ -125,7 +126,7 @@ const OrderTab = (props) => {
     loadListOrderDetail(order_no)
   }
 
-  const handleChange = (menu_code) => (event, isExpanded) => {
+  const handleChange = menu_code => (event, isExpanded) => {
     setExpanded(isExpanded ? menu_code : false)
     loadExpansionProduct(order_no, menu_code)
   }
@@ -139,7 +140,7 @@ const OrderTab = (props) => {
       setShowButtonSendOrder(false)
     }
   }
-  const removeIndex = (uid) => {
+  const removeIndex = uid => {
     removeItemIndex(uid)
     if (statusOrderRemove === 'Success') {
       dispatch(decrement())
@@ -149,7 +150,7 @@ const OrderTab = (props) => {
       setExpanded(false)
     }
   }
-  const editItem = (item) => {
+  const editItem = item => {
     setOpen(true)
     setMenuItem(item)
     setExpanded(false)
@@ -234,7 +235,7 @@ const OrderTab = (props) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {expansionItem.map((row) => (
+                    {expansionItem && expansionItem.map(row => (
                       <TableRow key={row.uid}>
                         <TableCell>
                           {row.send_order === "N" && (
@@ -297,7 +298,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadListOrderDetail: (orderNo) => dispatch({
+    loadListOrderDetail: orderNo => dispatch({
       type: 'LOAD_LIST_ORDER_DETAIL',
       payload: {
         orderNo: orderNo
@@ -310,13 +311,13 @@ const mapDispatchToProps = dispatch => {
         menuCode: menuCode,
       }
     }),
-    sendToPOS: (orderNo) => dispatch({
+    sendToPOS: orderNo => dispatch({
       type: 'SEND_ORDER_TO_POS',
       payload: {
         orderNo: orderNo
       }
     }),
-    removeItemIndex: (uid) => dispatch({
+    removeItemIndex: uid => dispatch({
       type: 'REMOVE_ORDER_INDEX',
       payload: {
         uid: uid

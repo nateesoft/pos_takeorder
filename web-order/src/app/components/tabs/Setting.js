@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Redirect } from "react-router"
 import { useSelector } from "react-redux"
 
-export default function Setting() {
+const Setting = () => {
   const order_no = useSelector(state => state.table.order.orderNo)
 
   useEffect(() => {
@@ -19,3 +19,5 @@ export default function Setting() {
     </div>
   )
 }
+
+export default Setting

@@ -11,7 +11,7 @@ import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     backgroundColor: "#FBFDFA",
@@ -27,8 +27,8 @@ const TableTab = props => {
   const [msgError, setMsgError] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const dispatch = useDispatch()
-  const table_no = useSelector((state) => state.table.tableNo)
-  const tableFileList = useSelector((state) => state.table.tableFileList)
+  const table_no = useSelector(state => state.table.tableNo)
+  const tableFileList = useSelector(state => state.table.tableFileList)
 
   const handleListItemClick = (event, index, tableNo) => {
     setSelectedIndex(index)
@@ -49,12 +49,12 @@ const TableTab = props => {
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
-        {tableFileList.map((item, index) => (
+        {tableFileList && tableFileList.map((item, index) => (
           <div key={`div-${index}`}>
             <ListItem
               button
               selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index, item.Tcode)}
+              onClick={event => handleListItemClick(event, index, item.Tcode)}
             >
               <ListItemAvatar>
                 <img

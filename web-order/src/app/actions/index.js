@@ -1,10 +1,95 @@
-export const searchData = (payload) => {
+export const loadProductSubList = payload => {
+  return {
+    type: 'LOAD_PRODUCT_SUB_LIST',
+    payload: payload,
+  }
+}
+export const loadProductSubListSuccess = payload => {
+  return {
+    type: 'LOAD_PRODUCT_SUB_LIST_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadProductSubListFail = () => {
+  return {
+    type: 'LOAD_PRODUCT_SUB_LIST_FAIL',
+  }
+}
+export const loadSubMenuIndex = payload => {
+  return {
+    type: 'LOAD_SUB_MENU_INDEX',
+    payload: payload,
+  }
+}
+export const loadSubMenuIndexSuccess = payload => {
+  return {
+    type: 'LOAD_SUB_MENU_INDEX_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadSubMenuIndexFail = () => {
+  return {
+    type: 'LOAD_SUB_MENU_INDEX_FAIL',
+  }
+}
+export const loadOrderSpecial = payload => {
+  return {
+    type: 'LOAD_ORDER_SPECIAL',
+    payload: payload,
+  }
+}
+export const loadOrderSpecialSuccess = payload => {
+  return {
+    type: 'LOAD_ORDER_SPECIAL_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadOrderSpecialFail = () => {
+  return {
+    type: 'LOAD_ORDER_SPECIAL_FAIL',
+  }
+}
+export const loadProductDetail = payload => {
+  return {
+    type: 'LOAD_PRODUCT_DETAIL',
+    payload: payload,
+  }
+}
+export const loadProductDetailSuccess = payload => {
+  return {
+    type: 'LOAD_PRODUCT_DETAIL_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadProductDetailFail = () => {
+  return {
+    type: 'LOAD_PRODUCT_DETAIL_FAIL',
+  }
+}
+export const loadSubMenuList = payload => {
+  return {
+    type: 'LOAD_SUB_MENU_LIST',
+    payload: payload,
+  }
+}
+export const loadSubMenuListSuccess = payload => {
+  return {
+    type: 'LOAD_SUB_MENU_LIST_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadSubMenuListFail = () => {
+  return {
+    type: 'LOAD_SUB_MENU_LIST_FAIL',
+  }
+}
+export const searchData = payload => {
   return {
     type: 'SEARCH_DATA',
     payload: payload,
   }
 }
-export const searchDataSuccess = (payload) => {
+export const searchDataSuccess = payload => {
   return {
     type: 'SEARCH_DATA_SUCCESS',
     payload: payload,
@@ -15,13 +100,13 @@ export const searchDataFail = () => {
     type: 'SEARCH_DATA_FAIL',
   }
 }
-export const addNewOrderItem = (payload) => {
+export const addNewOrderItem = payload => {
   return {
     type: 'ADD_NEW_ORDER_ITEM',
     payload: payload,
   }
 }
-export const addNewOrderItemSuccess = (payload) => {
+export const addNewOrderItemSuccess = payload => {
   return {
     type: 'ADD_NEW_ORDER_ITEM_SUCCESS',
     payload: payload,
@@ -32,13 +117,13 @@ export const addNewOrderItemFail = () => {
     type: 'ADD_NEW_ORDER_ITEM_FAIL',
   }
 }
-export const removeOrderIndex = (payload) => {
+export const removeOrderIndex = payload => {
   return {
     type: 'REMOVE_ORDER_INDEX',
     payload: payload,
   }
 }
-export const removeOrderIndexSuccess = (payload) => {
+export const removeOrderIndexSuccess = payload => {
   return {
     type: 'REMOVE_ORDER_INDEX_SUCCESS',
     payload: payload,
@@ -49,13 +134,13 @@ export const removeOrderIndexFail = () => {
     type: 'REMOVE_ORDER_INDEX_FAIL',
   }
 }
-export const sendOrderToPOS = (payload) => {
+export const sendOrderToPOS = payload => {
   return {
     type: 'SEND_ORDER_TO_POS',
     payload: payload,
   }
 }
-export const sendOrderToPOSSuccess = (payload) => {
+export const sendOrderToPOSSuccess = payload => {
   return {
     type: 'SEND_ORDER_TO_POS_SUCCESS',
     payload: payload,
@@ -66,13 +151,13 @@ export const sendOrderToPOSFail = () => {
     type: 'SEND_ORDER_TO_POS_FAIL',
   }
 }
-export const loadExpansionProduct = (payload) => {
+export const loadExpansionProduct = payload => {
   return {
     type: 'LOAD_EXPANSION_PRODUCT',
     payload: payload,
   }
 }
-export const loadExpansionProductSuccess = (payload) => {
+export const loadExpansionProductSuccess = payload => {
   return {
     type: 'LOAD_EXPANSION_PRODUCT_SUCCESS',
     payload: payload,
@@ -83,13 +168,13 @@ export const loadExpansionProductFail = () => {
     type: 'LOAD_EXPANSION_PRODUCT_FAIL',
   }
 }
-export const loadListOrderDetail = (payload) => {
+export const loadListOrderDetail = payload => {
   return {
     type: 'LOAD_LIST_ORDER_DETAIL',
     payload: payload,
   }
 }
-export const loadListOrderDetailSuccess = (payload) => {
+export const loadListOrderDetailSuccess = payload => {
   return {
     type: 'LOAD_LIST_ORDER_DETAIL_SUCCESS',
     payload: payload,
@@ -100,13 +185,13 @@ export const loadListOrderDetailFail = () => {
     type: 'LOAD_LIST_ORDER_DETAIL_FAIL',
   }
 }
-export const loadOrderDetail = (payload) => {
+export const loadOrderDetail = payload => {
   return {
     type: 'LOAD_ORDER_DETAIL',
     payload: payload,
   }
 }
-export const loadOrderDetailSuccess = (payload) => {
+export const loadOrderDetailSuccess = payload => {
   return {
     type: 'LOAD_ORDER_DETAIL_SUCCESS',
     payload: payload,
@@ -117,21 +202,21 @@ export const loadOrderDetailFail = () => {
     type: 'LOAD_ORDER_DETAIL_FAIL',
   }
 }
-export const loadProduct = (payload) => {
+export const loadProductList = payload => {
   return {
-    type: 'LOAD_PRODUCT',
+    type: 'LOAD_PRODUCT_LIST',
     payload: payload,
   }
 }
-export const loadProductSuccess = (payload) => {
+export const loadProductListSuccess = payload => {
   return {
-    type: 'LOAD_PRODUCT_SUCCESS',
+    type: 'LOAD_PRODUCT_LIST_SUCCESS',
     payload: payload,
   }
 }
-export const loadProductFail = () => {
+export const loadProductListFail = () => {
   return {
-    type: 'LOAD_PRODUCT_FAIL',
+    type: 'LOAD_PRODUCT_LIST_FAIL',
   }
 }
 
@@ -140,7 +225,7 @@ export const loadTablefile = () => {
     type: 'LOAD_TABLE_FILE',
   }
 }
-export const loadTablefileSuccess = (payload) => {
+export const loadTablefileSuccess = payload => {
   return {
     type: 'LOAD_TABLE_FILE_SUCCESS',
     payload: payload,
@@ -152,13 +237,13 @@ export const loadTablefileFail = () => {
   }
 }
 
-export const checkLogin = (payload) => {
+export const checkLogin = payload => {
   return {
     type: 'CHECK_LOGIN',
     payload: payload,
   }
 }
-export const checkLoginSuccess = (payload) => {
+export const checkLoginSuccess = payload => {
   return {
     type: 'CHECK_LOGIN_SUCCESS',
     payload: payload,
@@ -188,7 +273,7 @@ export const reset = () => {
   }
 }
 
-export const chooseTable = (tableNo) => {
+export const chooseTable = tableNo => {
   return {
     type: "CHOOSE_TABLE",
     payload: tableNo,
@@ -201,14 +286,14 @@ export const clearTable = () => {
   }
 }
 
-export const currentOrder = (payload) => {
+export const currentOrder = payload => {
   return {
     type: "CURRENT_ORDER",
     payload: payload,
   }
 }
 
-export const addOrder = (payload) => {
+export const addOrder = payload => {
   return {
     type: "ADD_ORDER",
     payload: payload,
@@ -221,21 +306,21 @@ export const clearOrder = () => {
   }
 }
 
-export const newOrder = (payload) => {
+export const newOrder = payload => {
   return {
     type: "NEW_ORDER",
     payload: payload,
   }
 }
 
-export const addNewItem = (payload) => {
+export const addNewItem = payload => {
   return {
     type: "NEW_ITEM",
     payload: payload,
   }
 }
 
-export const updateItem = (payload) => {
+export const updateItem = payload => {
   return {
     type: "UPDATE_ITEM",
     payload: payload,
@@ -248,28 +333,28 @@ export const clearItemAdd = () => {
   }
 }
 
-export const addNewSpecialText = (payload) => {
+export const addNewSpecialText = payload => {
   return {
     type: "ADD_SPECIAL_TEXT",
     payload: payload,
   }
 }
 
-export const clearSpecialText = (payload) => {
+export const clearSpecialText = payload => {
   return {
     type: "DELETE_SPECIAL_TEXT",
     payload: payload,
   }
 }
 
-export const addNewSubMenuCode = (payload) => {
+export const addNewSubMenuCode = payload => {
   return {
     type: "ADD_SUB_MENU_CODE",
     payload: payload,
   }
 }
 
-export const clearNewSubMenuCode = (payload) => {
+export const clearNewSubMenuCode = payload => {
   return {
     type: "DELETE_SUB_MENU_CODE",
     payload: payload,

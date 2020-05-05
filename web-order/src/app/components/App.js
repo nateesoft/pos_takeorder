@@ -47,8 +47,8 @@ const App = () => {
   const classes2 = useStyles2()
   const [open, setOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const tableNo = useSelector((state) => state.table.tableNo)
-  const counter = useSelector((state) => state.counter.count)
+  const tableNo = useSelector(state => state.table.tableNo)
+  const counter = useSelector(state => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }
@@ -68,7 +68,7 @@ const App = () => {
     setOpen(false)
   }
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = open => event => {
     setDrawerOpen(open)
   }
 

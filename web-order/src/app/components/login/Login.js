@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Login = (props) => {
+const Login = props => {
   const { checkLogin } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")

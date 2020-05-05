@@ -12,7 +12,7 @@ import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const GetMenu = (props) => {
+const GetMenu = props => {
   const { id, close, getProduct } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState('')
@@ -81,7 +81,7 @@ const GetMenu = (props) => {
     <div className={classes.root}>
       <GridList>
         {productList &&
-          productList.map((item) => (
+          productList.map(item => (
             <GridListTile key={item.code_key}>
               <img
                 src={`${item.img_host}${item.img_url}`}
@@ -117,10 +117,10 @@ const mapStateToProps = state => {
   return {}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getProduct: (groupId) => dispatch({
-      type: 'LOAD_PRODUCT',
+    getProduct: groupId => dispatch({
+      type: 'LOAD_PRODUCT_LIST',
       payload: {
         groupId: groupId
       }

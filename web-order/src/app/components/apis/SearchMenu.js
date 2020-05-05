@@ -11,7 +11,7 @@ import addOrderItem from "./AddOrder"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SearchMenu(props) {
+const SearchMenu = props => {
   const { data, close } = props
   const classes = useStyles()
   const [redirect, setRedirect] = useState(false)
@@ -81,7 +81,7 @@ export default function SearchMenu(props) {
     <div className={classes.root}>
       <GridList>
         {data &&
-          data.map((item) => (
+          data.map(item => (
             <GridListTile key={item.code_key}>
               <img
                 src={`${item.img_host}${item.img_url}`}
@@ -111,3 +111,5 @@ export default function SearchMenu(props) {
     </div>
   )
 }
+
+export default SearchMenu

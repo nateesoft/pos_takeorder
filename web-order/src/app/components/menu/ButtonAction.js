@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { increment, addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
 }))
 
-export default function ButtonAction(props) {
+const ButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
@@ -75,3 +75,5 @@ export default function ButtonAction(props) {
     </div>
   )
 }
+
+export default ButtonAction

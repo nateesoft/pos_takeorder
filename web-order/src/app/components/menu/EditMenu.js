@@ -19,7 +19,7 @@ import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector, connect } from "react-redux"
 import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
   },
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const EditMenu = (props) => {
+const EditMenu = props => {
   const { getOrderDetail, item } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
@@ -51,7 +51,7 @@ const EditMenu = (props) => {
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
 
-  const subMenuList = useSelector((state) => state.item.subMenuList)
+  const subMenuList = useSelector(state => state.item.subMenuList)
 
   useEffect(() => {
     getOrderDetail(item.uid)
@@ -130,7 +130,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrderDetail: (uid) => dispatch({
+    getOrderDetail: uid => dispatch({
       type: 'LOAD_ORDER_DETAIL',
       payload: {
         uid: uid

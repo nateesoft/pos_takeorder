@@ -1,5 +1,5 @@
 
-export default function AddOrder(props) {
+const AddOrder = props => {
   const { 
     code, name, price, table_no, order_no, emp_code, specialText, subMenuCode 
   } = props
@@ -42,9 +42,7 @@ export default function AddOrder(props) {
         item_count,
         total_amount
       })
-    })
-      .then(
-        response => {
+    }).then(response => {
           addOrderDetail()
         },
         error => {
@@ -88,3 +86,5 @@ export default function AddOrder(props) {
 
   checkOrder()
 }
+
+export default AddOrder

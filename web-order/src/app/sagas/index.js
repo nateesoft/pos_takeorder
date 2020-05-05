@@ -1,12 +1,12 @@
 import { takeLatest, all, call, put} from "redux-saga/effects"
 import request from '../utils/request'
-import { 
+import {
   loadTablefileSuccess, 
   loadTablefileFail,
   checkLoginSuccess,
   checkLoginFail,
-  loadProductSuccess,
-  loadProductFail,
+  loadProductListSuccess,
+  loadProductListFail,
   loadOrderDetailSuccess,
   loadOrderDetailFail,
   loadListOrderDetailSuccess,
@@ -20,8 +20,103 @@ import {
   addNewOrderItemSuccess,
   addNewOrderItemFail,
   searchDataSuccess,
-  searchDataFail
+  searchDataFail,
+  loadSubMenuListSuccess,
+  loadSubMenuListFail,
+  loadProductDetailSuccess,
+  loadProductDetailFail,
+  loadOrderSpecialSuccess,
+  loadOrderSpecialFail,
+  loadSubMenuIndexSuccess,
+  loadSubMenuIndexFail,
+  loadProductSubListSuccess,
+  loadProductSubListFail,
 } from '../actions'
+
+function* fetchSubMenuIndex(action) {
+  const { uid } = action.payload
+  const requestURL = `/api/menu_list/index/${uid}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadSubMenuIndexSuccess(response.data))
+  } catch(err) {
+    yield put(loadSubMenuIndexFail(err))
+  }
+}
+
+function* fetchOrderSpecial(action) {
+  const { uid } = action.payload
+  const requestURL = `/api/orders_detail/special_text/${uid}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadOrderSpecialSuccess(response.data))
+  } catch(err) {
+    yield put(loadOrderSpecialFail(err))
+  }
+}
+
+function* fetchProductDetail(action) {
+  const { group, code } = action.payload
+  const requestURL = `/api/product/${group}/${code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadProductDetailSuccess(response.data))
+  } catch(err) {
+    yield put(loadProductDetailFail(err))
+  }
+}
+
+function* fetchSubMenuList(action) {
+  const { code } = action.payload
+  const requestURL = `/api/menu_list/${code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadSubMenuListSuccess(response.data))
+  } catch(err) {
+    yield put(loadSubMenuListFail(err))
+  }
+}
+
+function* fetchProductSubList(action) {
+  const { code } = action.payload
+  const requestURL = `/api/menu_list/${code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadProductSubListSuccess(response.data))
+  } catch(err) {
+    yield put(loadProductSubListFail(err))
+  }
+}
 
 function* searchData(action) {
   const { search } = action.payload
@@ -168,7 +263,7 @@ function* fetchOrderDetail(action) {
   }
 }
 
-function* fetchProduct(action) {
+function* fetchProductList(action) {
   const { groupId } = action.payload
   const requestURL = `/api/product/${groupId}`
   try {
@@ -179,9 +274,9 @@ function* fetchProduct(action) {
         'Content-Type': 'application/json',
       },
     })
-    yield put(loadProductSuccess(response.data))
+    yield put(loadProductListSuccess(response.data))
   } catch(err) {
-    yield put(loadProductFail(err))
+    yield put(loadProductListFail(err))
   }
 }
 
@@ -228,8 +323,8 @@ function* actionFetchTablefile() {
 function* actionFetchLogin() {
   yield takeLatest("CHECK_LOGIN", fetchLogin)
 }
-function* actionLoadProduct() {
-  yield takeLatest("LOAD_PRODUCT", fetchProduct)
+function* actionLoadProductList() {
+  yield takeLatest("LOAD_PRODUCT_LIST", fetchProductList)
 }
 function* actionLoadOrderDetail() {
   yield takeLatest("LOAD_ORDER_DETAIL", fetchOrderDetail)
@@ -252,18 +347,38 @@ function* actionAddNewOrderItem() {
 function* actionSearchData() {
   yield takeLatest("SEARCH_DATA", searchData)
 }
+function* actionFetchSubMenuList() {
+  yield takeLatest("LOAD_SUB_MENU_LIST", fetchSubMenuList)
+}
+function* actionFetchProductDetail() {
+  yield takeLatest("LOAD_PRODUCT_DETAIL", fetchProductDetail)
+}
+function* actionFetchOrderSpecial() {
+  yield takeLatest("LOAD_ORDER_SPECIAL", fetchOrderSpecial)
+}
+function* actionFetchSubMenuIndex() {
+  yield takeLatest("LOAD_SUB_MENU_INDEX", fetchSubMenuIndex)
+}
+function* actionFetchProductSubList() {
+  yield takeLatest("LOAD_PRODUCT_SUB_LIST", fetchProductSubList)
+}
 
 export default function* rootSaga() {
   yield all([
     actionFetchTablefile(),
     actionFetchLogin(),
-    actionLoadProduct(),
+    actionLoadProductList(),
     actionLoadOrderDetail(),
     actionLoadListOrderDetail(),
     actionLoadExpansionProduct(),
     actionSendOrderToPOS(),
     actionRemoveOrderIndex(),
     actionAddNewOrderItem(),
-    actionSearchData()
+    actionSearchData(),
+    actionFetchSubMenuList(),
+    actionFetchProductDetail(),
+    actionFetchOrderSpecial(),
+    actionFetchSubMenuIndex(),
+    actionFetchProductSubList(),
   ])
 }

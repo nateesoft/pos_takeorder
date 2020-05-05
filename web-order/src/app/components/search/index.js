@@ -10,7 +10,7 @@ import SearchMenu from "../apis/SearchMenu"
 import MessageUtil from '../../utils/alertMsg'
 import { connect, useSelector } from 'react-redux'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     width: "100%",
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SearchPanel = (props) => {
+const SearchPanel = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const { close, onSearch } = props
@@ -79,7 +79,7 @@ const SearchPanel = (props) => {
     }
   }, [])
 
-  const handleKey = (v) => {
+  const handleKey = v => {
     setSearch(v)
     if (search !== "") {
       onSearch(search)
@@ -102,7 +102,7 @@ const SearchPanel = (props) => {
               }}
               inputProps={{ "aria-label": "search" }}
               value={search}
-              onChange={(e) => handleKey(e.target.value)}
+              onChange={e => handleKey(e.target.value)}
               onKeyUp={() => handleKey(search)}
             />
           </div>
@@ -124,13 +124,13 @@ const SearchPanel = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {}
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSearch: (search) => dispatch({
+    onSearch: search => dispatch({
       type: 'SEARCH_DATA',
       payload: {
         search: search,

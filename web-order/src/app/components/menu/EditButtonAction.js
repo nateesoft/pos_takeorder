@@ -9,21 +9,21 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
 }))
 
-export default function EditButtonAction(props) {
+const EditButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
   const { code, price, uid } = props.item
   const { order_no } = props.table
 
-  const specialText = useSelector((state) => state.item.specialText)
-  const subMenuCode = useSelector((state) => state.item.subMenuCode)
+  const specialText = useSelector(state => state.item.specialText)
+  const subMenuCode = useSelector(state => state.item.subMenuCode)
 
   const onUpdateItem = () => {
     dispatch(updateItem(uid))
@@ -66,3 +66,5 @@ export default function EditButtonAction(props) {
     </div>
   )
 }
+
+export default EditButtonAction
