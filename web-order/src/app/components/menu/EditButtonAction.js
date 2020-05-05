@@ -4,8 +4,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
-import updateOrderItem from "../apis/UpdateOrder"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, connect } from "react-redux"
 import { updateItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
@@ -19,7 +18,7 @@ const EditButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { code, price, uid } = props.item
+  const { code, price, uid, updateOrderItem } = props.item
   const { order_no } = props.table
 
   const specialText = useSelector(state => state.item.specialText)
@@ -27,14 +26,7 @@ const EditButtonAction = props => {
 
   const onUpdateItem = () => {
     dispatch(updateItem(uid))
-    updateOrderItem({
-      order_no,
-      code,
-      price,
-      uid,
-      specialText,
-      subMenuCode,
-    })
+    updateOrderItem({ order_no, code, price, uid, specialText, subMenuCode })
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("อัพเดตรายการอาหาร", { variant })
@@ -67,4 +59,19 @@ const EditButtonAction = props => {
   )
 }
 
-export default EditButtonAction
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateOrderItem: (orderNo, code, price, uid, specialText, subMenuCode) => dispatch({
+      type: 'UPDATE_ORDER_ITEM',
+      payload: {
+        orderNo, code, price, uid, specialText, subMenuCode
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditButtonAction)

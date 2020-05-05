@@ -80,8 +80,7 @@ const SearchMenu = props => {
   return (
     <div className={classes.root}>
       <GridList>
-        {data &&
-          data.map(item => (
+        {data && data.map(item => (
             <GridListTile key={item.code_key}>
               <img
                 src={`${item.img_host}${item.img_url}`}

@@ -1,3 +1,20 @@
+export const updateOrderItem = payload => {
+  return {
+    type: 'UPDATE_ORDER_ITEM',
+    payload: payload,
+  }
+}
+export const updateOrderItemSuccess = payload => {
+  return {
+    type: 'UPDATE_ORDER_ITEM_SUCCESS',
+    payload: payload,
+  }
+}
+export const updateOrderItemFail = () => {
+  return {
+    type: 'UPDATE_ORDER_ITEM_FAIL',
+  }
+}
 export const loadProductSubList = payload => {
   return {
     type: 'LOAD_PRODUCT_SUB_LIST',

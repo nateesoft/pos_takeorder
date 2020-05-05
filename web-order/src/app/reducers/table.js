@@ -9,15 +9,20 @@ const initialState = {
     sendToPOS: '',
     removeItem: '',
     addNewItem: '',
+    updateItem: '',
   },
   orderDetail: {
+    code: '',
     tableNo: '',
     orderNo: '',
     menuCode: '',
     menuName: '',
     price: 0,
     qty: 1,
-    totalAmount: 0
+    totalAmount: 0,
+    uid: '',
+    specialText: [],
+    subMenuCode: [],
   },
   orderSubMenu: {
     uid: '',
@@ -37,6 +42,19 @@ const initialState = {
 const tableReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case "UPDATE_ORDER_ITEM":
+        draft.orderDetail.orderNo = action.payload.orderNo
+        draft.orderDetail.code = action.payload.code
+        draft.orderDetail.price = action.payload.price
+        draft.orderDetail.uid = action.payload.uid
+        draft.specialText = action.payload.specialText
+        draft.subMenuCode = action.payload.subMenuCode
+        break;
+      case "UPDATE_ORDER_ITEM_SUCCESS":
+        draft.order.updateItem = action.payload.msg
+        break;
+      case "UPDATE_ORDER_ITEM_FAIL":
+        break;
       case 'LOAD_SUB_MENU_INDEX':
         draft.orderSubMenu.uid = action.payload.uid
         break;

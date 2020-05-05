@@ -31,7 +31,37 @@ import {
   loadSubMenuIndexFail,
   loadProductSubListSuccess,
   loadProductSubListFail,
+  updateOrderItemSuccess,
+  updateOrderItemFail,
 } from '../actions'
+
+function* updateOrderItem(action) {
+  const { 
+    orderNo, code, price, uid, specialText, subMenuCode 
+  } = action.payload
+  const requestURL = `/api/orders_detail/${uid}/update`
+  try {
+    yield call(request, requestURL, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        order_no: orderNo,
+        menu_code: code,
+        price,
+        uid,
+        qty: 1,
+        special_text: specialText,
+        sub_menu_code: subMenuCode,
+      }),
+    })
+    yield put(updateOrderItemSuccess({status: true, msg: 'Success'}))
+  } catch(err) {
+    yield put(updateOrderItemFail({status: false, msg: err}))
+  }
+}
 
 function* fetchSubMenuIndex(action) {
   const { uid } = action.payload
@@ -362,6 +392,9 @@ function* actionFetchSubMenuIndex() {
 function* actionFetchProductSubList() {
   yield takeLatest("LOAD_PRODUCT_SUB_LIST", fetchProductSubList)
 }
+function* actionUpdateOrderItem() {
+  yield takeLatest("UPDATE_ORDER_ITEM", updateOrderItem)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -380,5 +413,6 @@ export default function* rootSaga() {
     actionFetchOrderSpecial(),
     actionFetchSubMenuIndex(),
     actionFetchProductSubList(),
+    actionUpdateOrderItem(),
   ])
 }
