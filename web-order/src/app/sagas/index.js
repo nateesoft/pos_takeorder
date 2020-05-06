@@ -33,7 +33,70 @@ import {
   loadProductSubListFail,
   updateOrderItemSuccess,
   updateOrderItemFail,
+  addNewOrderSuccess,
+  addNewOrderFail,
 } from '../actions'
+
+function* addNewOrder(action) {
+  const { 
+    code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode 
+  } = action.payload
+  const cust_count = 0
+  const item_count = 0
+  const total_amount = 0
+
+  const urlCheckOrder = `/api/orders?order_no=${orderNo}`
+  try {
+    const response = yield call(request, urlCheckOrder, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    if (response.data.length === 0) {
+      const urlAddOrder = `/api/orders/create`
+      yield call(request, urlAddOrder, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order_no: orderNo,
+          table_code: tableNo,
+          emp_code: empCode,
+          cust_count,
+          item_count,
+          total_amount
+        })
+      })
+    } else {
+      const urlUpdateOrder = `/api/orders_detail/create`
+      yield call(request, urlUpdateOrder, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          index: tableNo + "_" + code,
+          order_no: orderNo,
+          menu_code: code,
+          menu_name: name,
+          price,
+          qty: 1,
+          total_amount: price,
+          special_text: specialText,
+          sub_menu_code: subMenuCode
+        })
+      })
+    }
+    yield put(addNewOrderSuccess(response.data))
+  } catch(err) {
+    yield put(addNewOrderFail(err))
+  }
+}
 
 function* updateOrderItem(action) {
   const { 
@@ -395,6 +458,9 @@ function* actionFetchProductSubList() {
 function* actionUpdateOrderItem() {
   yield takeLatest("UPDATE_ORDER_ITEM", updateOrderItem)
 }
+function* actionAddNewOrder() {
+  yield takeLatest("ADD_NEW_ORDER", addNewOrder)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -414,5 +480,6 @@ export default function* rootSaga() {
     actionFetchSubMenuIndex(),
     actionFetchProductSubList(),
     actionUpdateOrderItem(),
+    actionAddNewOrder(),
   ])
 }

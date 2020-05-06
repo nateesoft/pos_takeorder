@@ -7,7 +7,6 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch, connect } from "react-redux"
-import addOrderItem from "./AddOrder"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import MessageUtil from '../../utils/alertMsg'
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const GetMenu = props => {
-  const { id, close, getProduct } = props
+  const { id, close, getProduct, addOrderItem } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState('')
   const [redirect, setRedirect] = useState(false)
@@ -124,7 +123,22 @@ const mapDispatchToProps = dispatch => {
       payload: {
         groupId: groupId
       }
-    })
+    }),
+    addOrderItem: (
+      code,name,price,table_no,order_no,
+      emp_code,specialText,subMenuCode) => dispatch({
+      type: 'ADD_NEW_ORDER',
+      payload: {
+        code,
+        name,
+        price,
+        tableNo: table_no,
+        orderNo: order_no,
+        empCode: emp_code,
+        specialText,
+        subMenuCode,
+      }
+    }),
   }
 }
 

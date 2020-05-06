@@ -68,7 +68,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const MenuTab = props => {
-  const groupId = (props && props.match && props.match.params && props.match.params.group) || "g01"
+  const { match } = props
+  const groupId = (match && match.params && match.params.group) || "g01"
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)

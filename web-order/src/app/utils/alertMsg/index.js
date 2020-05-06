@@ -8,9 +8,10 @@ const Alert = props => {
 }
 
 const AlertMsg = props => {
-  const [open, setOpen] = useState(props.open || true)
-  const [message, setMessage] = useState(props.message || "")
-  const [type, setType] = useState(props.messageType || "error")
+  const { open: openProps, message: messageProps, messageType } = props
+  const [open, setOpen] = useState(openProps || true)
+  const [message, setMessage] = useState(messageProps || "")
+  const [type, setType] = useState(messageType || "error")
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {

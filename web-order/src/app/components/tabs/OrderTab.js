@@ -111,9 +111,6 @@ const OrderTab = props => {
 
   const orderList = useSelector(state => state.table.order.items)
   const expansionItem = useSelector(state => state.table.product.expansionItem)
-  const statusSendToPOS = useSelector(state => state.table.order.sendToPOS)
-  const statusOrderRemove = useSelector(state => state.table.order.removeItem)
-  const statusAddNewOrderItem = useSelector(state => state.table.order.addNewItem)
 
   useEffect(() => {
     setMsgError('')

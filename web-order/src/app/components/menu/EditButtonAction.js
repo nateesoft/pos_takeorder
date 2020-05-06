@@ -18,8 +18,9 @@ const EditButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { code, price, uid, updateOrderItem } = props.item
-  const { order_no } = props.table
+  const { group, item, table } = props
+  const { code, price, uid, updateOrderItem } = item
+  const { order_no } = table
 
   const specialText = useSelector(state => state.item.specialText)
   const subMenuCode = useSelector(state => state.item.subMenuCode)
@@ -34,8 +35,8 @@ const EditButtonAction = props => {
 
   return (
     <div align="right">
-      {props.group && (
-        <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
+      {group && (
+        <Link to={`/menu/${group}`} style={{ textDecoration: "none" }}>
           <Button
             variant="outlined"
             className={classes.button}

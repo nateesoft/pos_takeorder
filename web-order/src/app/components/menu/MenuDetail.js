@@ -46,9 +46,9 @@ const MenuDetail = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [expanded, setExpanded] = useState(true)
-  const { loadProductDetail } = props
-  const group = props.match.params.group
-  const code = props.match.params.code
+  const { loadProductDetail, match } = props
+  const group = match.params.group
+  const code = match.params.code
 
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)

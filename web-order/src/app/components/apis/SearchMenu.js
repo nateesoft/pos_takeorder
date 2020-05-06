@@ -6,8 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
-import { useSelector, useDispatch } from "react-redux"
-import addOrderItem from "./AddOrder"
+import { useSelector, useDispatch, connect } from "react-redux"
 import { increment, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SearchMenu = props => {
-  const { data, close } = props
+  const { data, close, addOrderItem } = props
   const classes = useStyles()
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
@@ -111,4 +110,28 @@ const SearchMenu = props => {
   )
 }
 
-export default SearchMenu
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addOrderItem: (
+      code,name,price,table_no,order_no,
+      emp_code,specialText,subMenuCode) => dispatch({
+      type: 'ADD_NEW_ORDER',
+      payload: {
+        code,
+        name,
+        price,
+        tableNo: table_no,
+        orderNo: order_no,
+        empCode: emp_code,
+        specialText,
+        subMenuCode,
+      }
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchMenu)
