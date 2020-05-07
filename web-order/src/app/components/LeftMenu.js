@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
 import Badge from "@material-ui/core/Badge"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, connect } from "react-redux"
 import { reset } from "../actions"
 
 const useStyles = makeStyles(theme => ({
@@ -84,9 +84,7 @@ const LeftMenu = props => {
         tableNo && 
         <div>
           <Divider />
-          <ListItem
-            button
-            onClick={() => logout()}
+          <ListItem button onClick={() => logout()}
             style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
           >
             <img src="img/logout.png" alt="bill" />
@@ -98,4 +96,16 @@ const LeftMenu = props => {
   )
 }
 
-export default LeftMenu
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch({
+      type: 'LOGOUT',
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftMenu)

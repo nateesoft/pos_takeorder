@@ -31,16 +31,7 @@ const ButtonAction = props => {
         price: price,
       })
     )
-    addOrderItem({
-      code,
-      name,
-      price,
-      table_no,
-      order_no,
-      emp_code,
-      specialText,
-      subMenuCode,
-    })
+    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
     dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"

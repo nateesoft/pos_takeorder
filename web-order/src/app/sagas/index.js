@@ -71,30 +71,30 @@ function* addNewOrder(action) {
           total_amount
         })
       })
-    } else {
-      const urlUpdateOrder = `/api/orders_detail/create`
-      yield call(request, urlUpdateOrder, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          index: tableNo + "_" + code,
-          order_no: orderNo,
-          menu_code: code,
-          menu_name: name,
-          price,
-          qty: 1,
-          total_amount: price,
-          special_text: specialText,
-          sub_menu_code: subMenuCode
-        })
-      })
     }
+
+    const urlUpdateOrder = `/api/orders_detail/create`
+    yield call(request, urlUpdateOrder, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        index: tableNo + "_" + code,
+        order_no: orderNo,
+        menu_code: code,
+        menu_name: name,
+        price,
+        qty: 1,
+        total_amount: price,
+        special_text: specialText,
+        sub_menu_code: subMenuCode
+      })
+    })
     yield put(addNewOrderSuccess(response.data))
   } catch(err) {
-    yield put(addNewOrderFail(err))
+    yield put(addNewOrderFail({ status: "Error", msg: err }))
   }
 }
 
@@ -139,7 +139,7 @@ function* fetchSubMenuIndex(action) {
     })
     yield put(loadSubMenuIndexSuccess(response.data))
   } catch(err) {
-    yield put(loadSubMenuIndexFail(err))
+    yield put(loadSubMenuIndexFail({ status: "Error", msg: err }))
   }
 }
 
@@ -156,7 +156,7 @@ function* fetchOrderSpecial(action) {
     })
     yield put(loadOrderSpecialSuccess(response.data))
   } catch(err) {
-    yield put(loadOrderSpecialFail(err))
+    yield put(loadOrderSpecialFail({ status: "Error", msg: err }))
   }
 }
 
@@ -173,7 +173,7 @@ function* fetchProductDetail(action) {
     })
     yield put(loadProductDetailSuccess(response.data))
   } catch(err) {
-    yield put(loadProductDetailFail(err))
+    yield put(loadProductDetailFail({ status: "Error", msg: err }))
   }
 }
 
@@ -190,7 +190,7 @@ function* fetchSubMenuList(action) {
     })
     yield put(loadSubMenuListSuccess(response.data))
   } catch(err) {
-    yield put(loadSubMenuListFail(err))
+    yield put(loadSubMenuListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -207,7 +207,7 @@ function* fetchProductSubList(action) {
     })
     yield put(loadProductSubListSuccess(response.data))
   } catch(err) {
-    yield put(loadProductSubListFail(err))
+    yield put(loadProductSubListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -224,7 +224,7 @@ function* searchData(action) {
     })
     yield put(searchDataSuccess(response.data))
   } catch(err) {
-    yield put(searchDataFail(err))
+    yield put(searchDataFail({ status: "Error", msg: err }))
   }
 }
 
@@ -318,7 +318,7 @@ function* listExpansionProduct(action) {
     })
     yield put(loadExpansionProductSuccess(response.data))
   } catch(err) {
-    yield put(loadExpansionProductFail(err))
+    yield put(loadExpansionProductFail({ status: "Error", msg: err }))
   }
 }
 
@@ -335,7 +335,7 @@ function* fetchListOrderDetail(action) {
     })
     yield put(loadListOrderDetailSuccess(response.data))
   } catch(err) {
-    yield put(loadListOrderDetailFail(err))
+    yield put(loadListOrderDetailFail({ status: "Error", msg: err }))
   }
 }
 
@@ -352,7 +352,7 @@ function* fetchOrderDetail(action) {
     })
     yield put(loadOrderDetailSuccess(response.data))
   } catch(err) {
-    yield put(loadOrderDetailFail(err))
+    yield put(loadOrderDetailFail({ status: "Error", msg: err }))
   }
 }
 
@@ -369,7 +369,7 @@ function* fetchProductList(action) {
     })
     yield put(loadProductListSuccess(response.data))
   } catch(err) {
-    yield put(loadProductListFail(err))
+    yield put(loadProductListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -388,9 +388,9 @@ function* fetchLogin(action) {
         password: password,
       }),
     })
-    yield put(checkLoginSuccess(response.data))
+    yield put(checkLoginSuccess({ status: response.status, msg: response.msg }))
   } catch(err) {
-    yield put(checkLoginFail(err))
+    yield put(checkLoginFail({ status: "Error", msg: err }))
   }
 }
 
@@ -406,7 +406,7 @@ function* fetchTablefile() {
     })
     yield put(loadTablefileSuccess(response.data))
   } catch(err) {
-    yield put(loadTablefileFail(err))
+    yield put(loadTablefileFail({ status: "Error", msg: err }))
   }
 }
 

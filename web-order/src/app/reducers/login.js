@@ -3,7 +3,9 @@ import produce from "immer"
 const initialState = {
   username: "",
   password: "",
-  valid: false,
+  status: "",
+  message: '',
+  errMessage: '',
 }
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -13,9 +15,12 @@ const loginReducer = (state = initialState, action) =>
         draft.password = action.payload.password
         break
       case 'CHECK_LOGIN_SUCCESS':
-        draft.valid = action.payload
+        draft.status = action.payload.status
+        draft.message = action.payload.msg
         break
       case 'CHECK_LOGIN_FAIL':
+        draft.status = action.payload.status
+        draft.errMessage = action.payload.msg
         break
       default:
         break
