@@ -6,7 +6,7 @@ router.get("/", (req, res, next) => {
   const order_no = req.query.order_no
   Task.findByOrderNo(order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -24,7 +24,7 @@ router.post("/create", (req, res, next) => {
   }
   Task.add(Orders, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json("Success")
     }
@@ -40,7 +40,7 @@ router.put("/:order_no/update", (req, res, next) => {
   }
   Task.update(order_no, Orders, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json("Success")
     }
@@ -51,7 +51,7 @@ router.delete("/:order_no/delete", (req, res, next) => {
   const order_no = req.params.order_no
   Task.delete(order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json("Success")
     }
@@ -62,7 +62,7 @@ router.post("/move", (req, res, next) => {
   const order_no = req.body.order_no
   Task.updateOrderDetailAfterMove(order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }

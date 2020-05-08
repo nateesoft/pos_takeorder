@@ -7,7 +7,7 @@ router.get("/:search", (req, res, next) => {
   if (searchTxt) {
     Task.search(searchTxt, (err, rows) => {
       if (err) {
-        res.send(err)
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
         res.status(200).json({ data: rows })
       }
@@ -15,7 +15,7 @@ router.get("/:search", (req, res, next) => {
   } else {
     Task.findAll((err, rows) => {
       if (err) {
-        res.send(err)
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
         res.status(200).json({ data: rows })
       }

@@ -6,7 +6,7 @@ const Task = require("../models/Balance")
 router.get("/", function(req, res, next) {
   Task.findAll((err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
