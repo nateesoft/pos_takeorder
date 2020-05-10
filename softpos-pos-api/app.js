@@ -1,15 +1,18 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var employRouter = require('./routes/employ');
-var tableFileRouter = require('./routes/tablefile');
-var balanceRouter = require('./routes/balance');
+const indexRouter = require('./routes/index');
+const employRouter = require('./routes/employ');
+const tableFileRouter = require('./routes/tablefile');
+const balanceRouter = require('./routes/balance');
 
-var app = express();
+const cors = require('cors')
+
+const app = express();
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

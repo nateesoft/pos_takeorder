@@ -37,6 +37,9 @@ import {
   addNewOrderFail,
 } from '../actions'
 
+const POS_API = 'http://localhost:5000'
+const TAKEORDER_API = 'http://localhost:4000'
+
 function* addNewOrder(action) {
   const { 
     code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode 
@@ -45,7 +48,7 @@ function* addNewOrder(action) {
   const item_count = 0
   const total_amount = 0
 
-  const urlCheckOrder = `/api/orders?order_no=${orderNo}`
+  const urlCheckOrder = `${TAKEORDER_API}/api/orders?order_no=${orderNo}`
   try {
     const response = yield call(request, urlCheckOrder, {
       method: 'GET',
@@ -55,7 +58,7 @@ function* addNewOrder(action) {
       },
     })
     if (response.data.length === 0) {
-      const urlAddOrder = `/api/orders/create`
+      const urlAddOrder = `${TAKEORDER_API}/api/orders/create`
       yield call(request, urlAddOrder, {
         method: 'POST',
         headers: {
@@ -73,7 +76,7 @@ function* addNewOrder(action) {
       })
     }
 
-    const urlUpdateOrder = `/api/orders_detail/create`
+    const urlUpdateOrder = `${TAKEORDER_API}/api/orders_detail/create`
     yield call(request, urlUpdateOrder, {
       method: 'POST',
       headers: {
@@ -102,7 +105,7 @@ function* updateOrderItem(action) {
   const { 
     orderNo, code, price, uid, specialText, subMenuCode 
   } = action.payload
-  const requestURL = `/api/orders_detail/${uid}/update`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/${uid}/update`
   try {
     yield call(request, requestURL, {
       method: 'PUT',
@@ -128,7 +131,7 @@ function* updateOrderItem(action) {
 
 function* fetchSubMenuIndex(action) {
   const { uid } = action.payload
-  const requestURL = `/api/menu_list/index/${uid}`
+  const requestURL = `${TAKEORDER_API}/api/menu_list/index/${uid}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -145,7 +148,7 @@ function* fetchSubMenuIndex(action) {
 
 function* fetchOrderSpecial(action) {
   const { uid } = action.payload
-  const requestURL = `/api/orders_detail/special_text/${uid}`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/special_text/${uid}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -162,7 +165,7 @@ function* fetchOrderSpecial(action) {
 
 function* fetchProductDetail(action) {
   const { group, code } = action.payload
-  const requestURL = `/api/product/${group}/${code}`
+  const requestURL = `${TAKEORDER_API}/api/product/${group}/${code}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -179,7 +182,7 @@ function* fetchProductDetail(action) {
 
 function* fetchSubMenuList(action) {
   const { code } = action.payload
-  const requestURL = `/api/menu_list/${code}`
+  const requestURL = `${TAKEORDER_API}/api/menu_list/${code}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -196,7 +199,7 @@ function* fetchSubMenuList(action) {
 
 function* fetchProductSubList(action) {
   const { code } = action.payload
-  const requestURL = `/api/menu_list/${code}`
+  const requestURL = `${TAKEORDER_API}/api/menu_list/${code}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -213,7 +216,7 @@ function* fetchProductSubList(action) {
 
 function* searchData(action) {
   const { search } = action.payload
-  const requestURL = `/api/search/${search}`
+  const requestURL = `${TAKEORDER_API}/api/search/${search}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -230,7 +233,7 @@ function* searchData(action) {
 
 function* addNewOrderItem(action) {
   const { tableNo, orderNo, menuCode, menuName, price, qty, totalAmount } = action.payload
-  const requestURL = `/api/orders_detail/create`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/create`
   try {
     yield call(request, requestURL, {
       method: 'POST',
@@ -256,7 +259,7 @@ function* addNewOrderItem(action) {
 
 function* removeOrderIndex(action) {
   const { uid } = action.payload
-  const requestURL = `/api/orders_detail`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail`
   try {
     yield call(request, requestURL, {
       method: 'DELETE',
@@ -276,7 +279,7 @@ function* removeOrderIndex(action) {
 
 function* sendOrderToPOS(action) {
   const { orderNo } = action.payload
-  const requestURL = `/api/orders/move`
+  const requestURL = `${TAKEORDER_API}/api/orders/move`
   try {
     const response = yield call(request, requestURL, {
       method: 'POST',
@@ -289,7 +292,7 @@ function* sendOrderToPOS(action) {
       }),
     })
 
-    yield call(request, `/pos/balance/create`, {
+    yield call(request, `${POS_API}/pos/balance/create`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -307,7 +310,7 @@ function* sendOrderToPOS(action) {
 
 function* listExpansionProduct(action) {
   const { orderNo, menuCode } = action.payload
-  const requestURL = `/api/orders_detail/product?order_no=${orderNo}&menu_code=${menuCode}`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/product?order_no=${orderNo}&menu_code=${menuCode}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -324,7 +327,7 @@ function* listExpansionProduct(action) {
 
 function* fetchListOrderDetail(action) {
   const { orderNo } = action.payload
-  const requestURL = `/api/orders_detail/sum?order_no=${orderNo}`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/sum?order_no=${orderNo}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -341,7 +344,7 @@ function* fetchListOrderDetail(action) {
 
 function* fetchOrderDetail(action) {
   const { uid } = action.payload
-  const requestURL = `/api/orders_detail/sub_menu/${uid}`
+  const requestURL = `${TAKEORDER_API}/api/orders_detail/sub_menu/${uid}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -358,7 +361,7 @@ function* fetchOrderDetail(action) {
 
 function* fetchProductList(action) {
   const { groupId } = action.payload
-  const requestURL = `/api/product/${groupId}`
+  const requestURL = `${TAKEORDER_API}/api/product/${groupId}`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -375,7 +378,7 @@ function* fetchProductList(action) {
 
 function* fetchLogin(action) {
   const { username, password } = action.payload
-  const requestURL = `/pos/employ/login`
+  const requestURL = `${POS_API}/pos/employ/login`
   try {
     const response = yield call(request, requestURL, {
       method: 'POST',
@@ -395,7 +398,7 @@ function* fetchLogin(action) {
 }
 
 function* fetchTablefile() {
-  const requestURL = `/pos/tablefile`
+  const requestURL = `${POS_API}/pos/tablefile`
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
