@@ -283,9 +283,10 @@ export const checkLoginSuccess = payload => {
     payload: payload,
   }
 }
-export const checkLoginFail = () => {
+export const checkLoginFail = payload => {
   return {
     type: 'CHECK_LOGIN_FAIL',
+    payload: payload,
   }
 }
 
