@@ -70,6 +70,7 @@ CREATE TABLE `product_menu` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `show_sublist` varchar(1) DEFAULT NULL,
+  `img_host` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

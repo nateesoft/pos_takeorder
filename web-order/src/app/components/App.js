@@ -41,14 +41,14 @@ const useStyles2 = makeStyles({
   },
 })
 
-export default function App() {
+const App = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const classes2 = useStyles2()
   const [open, setOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const tableNo = useSelector((state) => state.table.tableNo)
-  const counter = useSelector((state) => state.counter.count)
+  const tableNo = useSelector(state => state.table.tableNo)
+  const counter = useSelector(state => state.counter.count)
   if (counter <= 0) {
     dispatch(reset())
   }
@@ -68,7 +68,7 @@ export default function App() {
     setOpen(false)
   }
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = open => event => {
     setDrawerOpen(open)
   }
 
@@ -189,10 +189,7 @@ export default function App() {
                   <img src="img/jeffer.png" alt="" width="100" />
                 </Link>
               </Typography>
-              <IconButton
-                onClick={handleDrawerClose}
-                style={{ color: "white" }}
-              >
+              <IconButton onClick={handleDrawerClose} style={{ color: "white" }}>
                 <ChevronLeftIcon />
               </IconButton>
             </div>
@@ -218,3 +215,5 @@ export default function App() {
     </Router>
   )
 }
+
+export default App;

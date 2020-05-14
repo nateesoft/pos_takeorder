@@ -7,11 +7,11 @@ import Divider from "@material-ui/core/Divider"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import AspectRatio from "@material-ui/icons/AspectRatio"
 import { chooseTable } from "../../actions"
-import { useDispatch, useSelector } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     backgroundColor: "#FBFDFA",
@@ -21,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function TableTab() {
+const TableTab = props => {
+  const { onLoadTablefile } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [rows, setRows] = useState([])
   const dispatch = useDispatch()
-  const table_no = useSelector((state) => state.table.tableNo)
+  const table_no = useSelector(state => state.table.tableNo)
+  const tableFileList = useSelector(state => state.table.tableFileList)
 
   const handleListItemClick = (event, index, tableNo) => {
     setSelectedIndex(index)
@@ -35,27 +36,11 @@ export default function TableTab() {
   }
 
   useEffect(() => {
-    fetch(`/pos/tablefile`)
-      .then(res => {
-        if (res.status !== 200) {
-          setMsgError(`${res.status} - ${res.statusText}`)
-        } else {
-          if (res.status===200) {
-            res.json().then(res => {
-              setRows(res.data)
-            })
-          } else {
-            setRows([])
-          }
-        }
-      })
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
+      onLoadTablefile()
+      setMsgError('')
     return function () {
-      setRows([])
     }
-  }, [])
+  }, [onLoadTablefile])
 
   if (table_no === "") {
     return <Redirect push to={`/login`} />
@@ -64,12 +49,12 @@ export default function TableTab() {
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="main mailbox folders">
-        {rows.map((item, index) => (
+        {tableFileList && tableFileList.map((item, index) => (
           <div key={`div-${index}`}>
             <ListItem
               button
               selected={selectedIndex === index}
-              onClick={(event) => handleListItemClick(event, index, item.Tcode)}
+              onClick={event => handleListItemClick(event, index, item.Tcode)}
             >
               <ListItemAvatar>
                 <img
@@ -94,3 +79,17 @@ export default function TableTab() {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadTablefile: () => dispatch({ type: 'LOAD_TABLE_FILE' })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableTab)

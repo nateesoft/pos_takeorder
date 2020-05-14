@@ -2,13 +2,20 @@ const db = require("../config/db")
 const table_name = "balance"
 
 const Balance = {
-  findAll: function(callback) {
+  findAll: (callback) => {
     return db.query(
       `select *  from ${table_name}`,
       callback
     )
   },
-  create: function(Balance, callback) {
+  findByTable: (tableNo, callback) => {
+    return db.query(
+      `select *  from ${table_name} where r_table=?`,
+      [tableNo],
+      callback
+    )
+  },
+  create: (Balance, callback) => {
     const { 
       index, table, emp, plucode, pname, unit, group, price, qty, total
     } = Balance
@@ -20,6 +27,9 @@ const Balance = {
       callback
     )
   },
+  empty: (callback) => {
+    return db.query(`delete from ${table_name}`, callback)
+  }
 }
 
 module.exports = Balance
