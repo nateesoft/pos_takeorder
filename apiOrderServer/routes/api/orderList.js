@@ -69,4 +69,14 @@ router.post("/move", (req, res, next) => {
   })
 })
 
+router.post("/reset_order", (req, res, next) => {
+  Task.empty((err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ delete_count: rows.affectedRows })
+    }
+  })
+})
+
 module.exports = router

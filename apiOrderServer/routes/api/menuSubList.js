@@ -1,4 +1,4 @@
-const Task = require("../../models/pos/MenuSubList")
+const Task = require("../../models/takeorder/MenuSubList")
 const express = require("express")
 const router = express.Router()
 

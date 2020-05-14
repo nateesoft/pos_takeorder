@@ -2,8 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Task = require("../models/Balance")
 
-/* GET employ listing. */
-router.get("/", function(req, res, next) {
+router.get("/", (req, res, next) => {
   Task.findAll((err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
@@ -12,7 +11,8 @@ router.get("/", function(req, res, next) {
     }
   })
 })
-router.post("/create", function(req, res, next) {
+
+router.post("/create", (req, res, next) => {
   const { balance: balanceRequest } = req.body
   for(let i=0;i<balanceRequest.length;i++){
     const balance = balanceRequest[i]
@@ -36,6 +36,16 @@ router.post("/create", function(req, res, next) {
       }
     })
   }
+})
+
+router.post("/reset_balance", (req, res, next) => {
+    Task.empty((err, rows) => {
+      if (err) {
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      } else {
+        res.status(200).json({ delete_count: rows.affectedRows })
+      }
+    })
 })
 
 module.exports = router

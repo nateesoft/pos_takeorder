@@ -3,14 +3,14 @@ const table_name = "orders_detail"
 const uuid = require("react-native-uuid")
 
 const OrdersDetail = {
-  findByOrderNo: function (order_no, callback) {
+  findByOrderNo: (order_no, callback) => {
     return db.query(
       `select * from ${table_name} where order_no=? and status='Y' order by created_at`,
       [order_no],
       callback
     )
   },
-  findByOrderNoSummary: function (order_no, callback) {
+  findByOrderNoSummary: (order_no, callback) => {
     return db.query(
       `select od.menu_code, od.menu_name, od.price,
       (select sum(qty) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_qty, 
@@ -24,7 +24,7 @@ const OrdersDetail = {
       callback
     )
   },
-  findByProduct: function (menu_code, order_no, callback) {
+  findByProduct: (menu_code, order_no, callback) => {
     return db.query(
       `select p.group_code, t.*,
       (select group_concat(special_text) 
@@ -40,7 +40,7 @@ const OrdersDetail = {
       callback
     )
   },
-  findByIndexForSubMenu: function (uid, callback) {
+  findByIndexForSubMenu: (uid, callback) => {
     return db.query(
       `select p.*, od.* 
       from orders_detail od 
@@ -50,7 +50,7 @@ const OrdersDetail = {
       callback
     )
   },
-  findByIndexForSpecialText: function (uid, callback) {
+  findByIndexForSpecialText: (uid, callback) => {
     return db.query(
       `select group_concat(special_text) special_text 
       from orders_specialtext os 
@@ -59,7 +59,7 @@ const OrdersDetail = {
       callback
     )
   },
-  add: function (OrdersDetail, callback) {
+  add: (OrdersDetail, callback) => {
     const new_uuid = uuid.v4()
     const {
       order_no,
@@ -111,7 +111,7 @@ const OrdersDetail = {
       callback
     )
   },
-  update: function (index, OrdersDetail, callback) {
+  update: (index, OrdersDetail, callback) => {
     const {
       order_no,
       menu_code,
@@ -144,7 +144,7 @@ const OrdersDetail = {
       [index],
       (err, result, fields) => {
         if (err) throw err
-        console.log("truncate from orders_subcode success")
+          console.log("truncate from orders_subcode success")
         for (let i = 0; i < subMenuCode.length; i += 1) {
           const code = subMenuCode[i]
           db.query(
@@ -165,7 +165,7 @@ const OrdersDetail = {
       callback
     )
   },
-  delete: function (index, callback) {
+  delete: (index, callback) => {
     db.query(
       `delete from orders_specialtext where menu_index=?`,
       [index],
@@ -181,19 +181,7 @@ const OrdersDetail = {
       }
     )
     return db.query(`delete from ${table_name} where uid=?`, [index], callback)
-  },
-  empty: function (callback) {
-    db.query(`delete from orders_detail`, (err, result, fields) => {
-      if (err) throw err
-    })
-    db.query(`delete from orders_specialtext`, (err, result, fields) => {
-      if (err) throw err
-    })
-    db.query(`delete from orders_subcode`, (err, result, fields) => {
-      if (err) throw err
-    })
-    return db.query(`delete from orders`, callback)
-  },
+  }
 }
 
 module.exports = OrdersDetail

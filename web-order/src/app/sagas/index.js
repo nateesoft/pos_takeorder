@@ -37,6 +37,8 @@ import {
   addNewOrderFail,
 } from '../actions'
 
+// const POS_API = 'http://localhost:5000'
+// const TAKEORDER_API = 'http://localhost:4000'
 const POS_API = 'http://localhost:5000'
 const TAKEORDER_API = 'http://localhost:4000'
 
