@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SpecialTextComp() {
+const SpecialTextComp = () => {
   const classes = useStyles()
   const [chipIdMax, setChipIdMax] = useState(0)
   const [chipData, setChipData] = useState([])
@@ -90,3 +90,5 @@ export default function SpecialTextComp() {
     </div>
   )
 }
+
+export default SpecialTextComp

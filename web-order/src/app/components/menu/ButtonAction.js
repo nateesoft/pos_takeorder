@@ -4,23 +4,21 @@ import { makeStyles } from "@material-ui/core/styles"
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
-import addOrderItem from "../apis/AddOrder"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, connect } from "react-redux"
 import { increment, addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
 }))
 
-export default function ButtonAction(props) {
+const ButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { code, name, price } = props.item
-  const { table_no, order_no, emp_code } = props.table
+  const { group, code, name, price, table_no, order_no, emp_code, addOrderItem } = props
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
@@ -33,16 +31,7 @@ export default function ButtonAction(props) {
         price: price,
       })
     )
-    addOrderItem({
-      code,
-      name,
-      price,
-      table_no,
-      order_no,
-      emp_code,
-      specialText,
-      subMenuCode,
-    })
+    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
     dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"
@@ -51,8 +40,8 @@ export default function ButtonAction(props) {
 
   return (
     <div align="right">
-      {props.group && (
-        <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
+      {group && (
+        <Link to={`/menu/${group}`} style={{ textDecoration: "none" }}>
           <Button
             variant="outlined"
             className={classes.button}
@@ -75,3 +64,29 @@ export default function ButtonAction(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addOrderItem: (
+      code,name,price,table_no,order_no,
+      emp_code,specialText,subMenuCode) => dispatch({
+      type: 'ADD_NEW_ORDER',
+      payload: {
+        code,
+        name,
+        price,
+        tableNo: table_no,
+        orderNo: order_no,
+        empCode: emp_code,
+        specialText,
+        subMenuCode,
+      }
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonAction)

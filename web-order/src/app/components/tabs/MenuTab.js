@@ -11,7 +11,7 @@ import { Redirect } from "react-router"
 import SwipeableViews from "react-swipeable-views"
 import { useSelector } from "react-redux"
 
-function TabPanel(props) {
+const TabPanel = props => {
   const { children, value, index, ...other } = props
 
   return (
@@ -52,14 +52,14 @@ const dataGroup = [
   "g15",
 ]
 
-function getMenu(index) {
+const getMenu = index => {
   return {
     id: `scrollable-force-tab-${index}`,
     "aria-controls": `scrollable-force-tabpanel-${index}`,
   }
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 0,
     width: "100%",
@@ -67,17 +67,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function MenuTab(props) {
-  const groupId =
-    (props && props.match && props.match.params && props.match.params.group) ||
-    "g01"
+const MenuTab = props => {
+  const { match } = props
+  const groupId = (match && match.params && match.params.group) || "g01"
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
 
-  const handleChangeIndex = (index) => {
+  const handleChangeIndex = index => {
     setValue(index)
   }
 
@@ -151,3 +150,5 @@ export default function MenuTab(props) {
     </div>
   )
 }
+
+export default MenuTab
