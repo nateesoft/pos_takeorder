@@ -26,7 +26,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -42,7 +42,7 @@ router.put("/:order_no/update", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -53,7 +53,7 @@ router.delete("/:order_no/delete", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })

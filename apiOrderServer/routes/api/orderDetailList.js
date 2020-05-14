@@ -60,6 +60,7 @@ router.get("/product", (req, res, next) => {
 
 router.post("/create", (req, res, next) => {
   OrdersDetail = {
+    uid: req.body.uid,
     order_no: req.body.order_no,
     table_code: req.body.table_code,
     emp_code: req.body.emp_code,
@@ -79,7 +80,7 @@ router.post("/create", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Insert item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -96,7 +97,7 @@ router.put("/:index/update", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Update item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -107,7 +108,7 @@ router.delete("/", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Delete item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -117,7 +118,7 @@ router.delete("/empty", (req, res, next) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Truncate data empty success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })

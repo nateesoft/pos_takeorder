@@ -8,6 +8,13 @@ const Balance = {
       callback
     )
   },
+  findByTable: (tableNo, callback) => {
+    return db.query(
+      `select *  from ${table_name} where r_table=?`,
+      [tableNo],
+      callback
+    )
+  },
   create: (Balance, callback) => {
     const { 
       index, table, emp, plucode, pname, unit, group, price, qty, total

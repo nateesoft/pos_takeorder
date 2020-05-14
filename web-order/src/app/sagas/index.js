@@ -37,6 +37,8 @@ import {
   addNewOrderFail,
 } from '../actions'
 
+const uuid = require("react-native-uuid")
+
 // const POS_API = 'http://localhost:5000'
 // const TAKEORDER_API = 'http://localhost:4000'
 const POS_API = 'http://localhost:5000'
@@ -86,6 +88,7 @@ function* addNewOrder(action) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        uid: uuid.v4(),
         index: tableNo + "_" + code,
         order_no: orderNo,
         menu_code: code,
@@ -234,7 +237,7 @@ function* searchData(action) {
 }
 
 function* addNewOrderItem(action) {
-  const { tableNo, orderNo, menuCode, menuName, price, qty, totalAmount } = action.payload
+  const { tableNo, orderNo, menuCode, menuName, price, qty, totalAmount, specialText, subMenuCode } = action.payload
   const requestURL = `${TAKEORDER_API}/api/orders_detail/create`
   try {
     yield call(request, requestURL, {
@@ -244,13 +247,16 @@ function* addNewOrderItem(action) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        index: tableNo + "/" + menuCode,
+        uid: uuid.v4(),
+        index: tableNo + "_" + menuCode,
         order_no: orderNo,
         menu_code: menuCode,
         menu_name: menuName,
         price,
         qty: qty,
         total_amount: totalAmount,
+        special_text: specialText,
+        sub_menu_code: subMenuCode
       }),
     })
     yield put(addNewOrderItemSuccess({status: true, msg: 'Success'}))
@@ -294,16 +300,19 @@ function* sendOrderToPOS(action) {
       }),
     })
 
-    yield call(request, `${POS_API}/pos/balance/create`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        balance: response.data,
-      }),
-    })
+    for(let i = 0; i < response.data.length; i += 1) {
+      const data = response.data[i]
+      yield call(request, `${POS_API}/pos/balance/create`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          balance: data,
+        }),
+      })
+    }
     yield put(sendOrderToPOSSuccess({status: true, msg: 'Success'}))
   } catch(err) {
     yield put(sendOrderToPOSFail({status: false, msg: err}))

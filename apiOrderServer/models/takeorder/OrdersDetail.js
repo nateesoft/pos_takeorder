@@ -1,6 +1,5 @@
 const db = require("../../config/db")
 const table_name = "orders_detail"
-const uuid = require("react-native-uuid")
 
 const OrdersDetail = {
   findByOrderNo: (order_no, callback) => {
@@ -60,7 +59,6 @@ const OrdersDetail = {
     )
   },
   add: (OrdersDetail, callback) => {
-    const new_uuid = uuid.v4()
     const {
       order_no,
       index,
@@ -71,6 +69,7 @@ const OrdersDetail = {
       total_amount,
       specialText = [],
       subMenuCode = [],
+      uid
     } = OrdersDetail
     if (specialText.length > 0) {
       for (let i = 0; i < specialText.length; i += 1) {
@@ -79,7 +78,7 @@ const OrdersDetail = {
           order_no,
           menu_code,
           text,
-          new_uuid,
+          uid,
         ])
       }
     }
@@ -91,7 +90,7 @@ const OrdersDetail = {
           order_no,
           menu_code,
           code,
-          new_uuid,
+          uid,
         ])
       }
     }
@@ -105,7 +104,7 @@ const OrdersDetail = {
         price,
         qty,
         total_amount,
-        new_uuid,
+        uid,
         "N",
       ],
       callback

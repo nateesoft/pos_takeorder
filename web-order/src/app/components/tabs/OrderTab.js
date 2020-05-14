@@ -323,7 +323,9 @@ const mapDispatchToProps = dispatch => {
         menuName, 
         price, 
         qty, 
-        totalAmount
+        totalAmount,
+        specialText: [],
+        subMenuCode: []
       }
     }),
   }
