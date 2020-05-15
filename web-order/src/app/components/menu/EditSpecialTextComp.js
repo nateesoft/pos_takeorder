@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Chip from "@material-ui/core/Chip"
 import SaveIcon from "@material-ui/icons/Add"
 import { TextField, Button, Grid } from "@material-ui/core"
-import { useSelector, useDispatch, connect } from "react-redux"
+import { useDispatch, connect } from "react-redux"
 import { addNewSpecialText, clearSpecialText } from "../../actions"
 import MessageUtil from '../../utils/alertMsg'
 
@@ -28,38 +28,14 @@ const EditSpecialTextComp = props => {
   const [chipOption, setChipOption] = useState("")
   const dispatch = useDispatch()
   const { item, loadOrderSpecial } = props
-  const specialList = useSelector(state=> state.item.specialList)
-
-  const getDataSplit = response => {
-    if (response !== null && response.length > 0) {
-      const data = response[0].special_text
-      if (response[0].special_text === null) {
-        return []
-      } else {
-        return data.split(",")
-      }
-    } else {
-      return []
-    }
-  }
 
   useEffect(() => {
     setMsgError('')
     loadOrderSpecial(item.uid)
-    const data = getDataSplit(specialList)
-    for (let i = 0; i < data.length; i += 1) {
-      const options = {
-        key: i + 1,
-        label: data[i],
-      }
-      setChipData(chips => chips.concat(options))
-      setChipIdMax(i + 1)
-      dispatch(addNewSpecialText(options))
-    }
     return () => {
       setChipData([])
     }
-  }, [dispatch, item.uid, loadOrderSpecial, specialList])
+  }, [item.uid, loadOrderSpecial])
 
   const handleAdd = () => {
     if (chipOption !== "") {
