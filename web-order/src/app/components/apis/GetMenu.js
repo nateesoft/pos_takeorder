@@ -115,9 +115,7 @@ const mapDispatchToProps = dispatch => {
         groupId: groupId
       }
     }),
-    addOrderItem: (
-      code,name,price,table_no,order_no,
-      emp_code,specialText,subMenuCode) => dispatch({
+    addOrderItem: (code,name,price,table_no,order_no,emp_code,specialText,subMenuCode) => dispatch({
       type: 'ADD_NEW_ORDER',
       payload: {
         code,

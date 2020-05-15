@@ -18,7 +18,9 @@ const ButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { group, code, name, price, table_no, order_no, emp_code, addOrderItem } = props
+  const { group, item, table, addOrderItem } = props
+  const { code, name, price } = item
+  const { table_no, order_no, emp_code } = table
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
