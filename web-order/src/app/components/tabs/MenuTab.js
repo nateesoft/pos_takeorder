@@ -93,7 +93,7 @@ const MenuTab = props => {
       }
       return null
     })
-    return function () {}
+    return () => {}
   }, [groupId])
 
   if (order_no === "") {

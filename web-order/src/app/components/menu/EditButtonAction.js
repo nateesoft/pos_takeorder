@@ -18,8 +18,8 @@ const EditButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { group, item, table } = props
-  const { code, price, uid, updateOrderItem } = item
+  const { group, item, table, updateOrderItem } = props
+  const { code, price, uid } = item
   const { order_no } = table
 
   const specialText = useSelector(state => state.item.specialText)

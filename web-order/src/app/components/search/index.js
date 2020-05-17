@@ -74,7 +74,7 @@ const SearchPanel = props => {
 
   useEffect(() => {
     setMsgError('')
-    return function () {
+    return () => {
       setSearch("")
     }
   }, [])

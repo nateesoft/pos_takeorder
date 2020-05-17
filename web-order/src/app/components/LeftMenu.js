@@ -5,8 +5,7 @@ import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
 import Badge from "@material-ui/core/Badge"
-import { useDispatch, useSelector, connect } from "react-redux"
-import { reset } from "../actions"
+import { useSelector, connect } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   listMenu: {
@@ -16,17 +15,14 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const LeftMenu = props => {
-  const dispatch = useDispatch()
+  const orderList = useSelector(state => state.table.order.items)
   const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter.count)
-  if (counter <= 0) {
-    dispatch(reset())
-  }
+
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
   useEffect(() => {
-    return function () {
+    return () => {
       
     }
   }, [])
@@ -74,7 +70,7 @@ const LeftMenu = props => {
           onClick={event => handleListItemClick(event, 2)}
           style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
         >
-          <Badge badgeContent={counter} color="primary">
+          <Badge badgeContent={orderList.length} color="primary">
             <img src="img/bill.png" alt="bill" />
           </Badge>
           <ListItemText primary="Order" />

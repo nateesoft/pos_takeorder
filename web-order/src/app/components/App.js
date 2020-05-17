@@ -23,8 +23,7 @@ import Setting from "./tabs/Setting"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
-import { useDispatch, useSelector } from "react-redux"
-import { reset } from "../actions"
+import { useSelector } from "react-redux"
 import { SnackbarProvider } from "notistack"
 import Button from "@material-ui/core/Button"
 import SearchPanel from "../components/search"
@@ -42,22 +41,17 @@ const useStyles2 = makeStyles({
 })
 
 const App = () => {
-  const dispatch = useDispatch()
   const classes = useStyles()
   const classes2 = useStyles2()
   const [open, setOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const tableNo = useSelector(state => state.table.tableNo)
-  const counter = useSelector(state => state.counter.count)
-  if (counter <= 0) {
-    dispatch(reset())
-  }
 
   useEffect(() => {
     if (window.innerWidth <= 760) {
       setOpen(false)
     }
-    return function () {
+    return () => {
     }
   }, [])
 
@@ -155,7 +149,7 @@ const App = () => {
                 }}
               >
                 <h2>
-                  โต๊ะ: {tableNo}&nbsp; จำนวน: {counter} รายการ
+                  โต๊ะ: {tableNo}
                 </h2>
               </div>
             </AppBar>

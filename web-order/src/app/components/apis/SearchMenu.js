@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch, connect } from "react-redux"
-import { increment, clearItemAdd } from "../../actions"
+import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -52,14 +52,13 @@ const SearchMenu = props => {
 
   const onAddNewItem = (code, name, price) => {
     addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
-    dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
   useEffect(() => {
-    return function () {
+    return () => {
     }
   }, [])
 

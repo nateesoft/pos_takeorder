@@ -58,7 +58,7 @@ const MenuDetail = props => {
   useEffect(() => {
     setMsgError('')
     loadProductDetail(group, code)
-    return function () {
+    return () => {
     }
   }, [code, group, loadProductDetail])
 
