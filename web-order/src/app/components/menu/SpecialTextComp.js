@@ -51,7 +51,7 @@ const SpecialTextComp = () => {
           <Chip
             key={data.key}
             label={data.label}
-            onDelete={handleDelete(data)}
+            onDelete={()=>handleDelete(data)}
             className={classes.chip}
           />
         )

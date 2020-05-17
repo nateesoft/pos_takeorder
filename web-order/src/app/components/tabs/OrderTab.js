@@ -112,13 +112,6 @@ const OrderTab = props => {
   const orderList = useSelector(state => state.table.order.items)
   const expansionItem = useSelector(state => state.table.product.expansionItem)
 
-  useEffect(() => {
-    setMsgError('')
-    loadListOrderDetail(order_no)
-    return () => {
-    }
-  }, [loadListOrderDetail, order_no])
-
   const loadInitData = () => {
     loadListOrderDetail(order_no)
   }
@@ -155,6 +148,13 @@ const OrderTab = props => {
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
     setExpanded(false)
   }
+
+  useEffect(() => {
+    setMsgError('')
+    loadListOrderDetail(order_no)
+    return () => {
+    }
+  }, [loadListOrderDetail, order_no])
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />
@@ -270,7 +270,7 @@ const OrderTab = props => {
           id="customized-dialog-title"
           onClose={() => setOpen(false)}
         >
-          Edit Menu
+          Edit Menu Popup
         </DialogTitle>
         <DialogContent dividers>
           <EditMenu item={menuItem} />

@@ -68,16 +68,14 @@ const EditSpecialTextComp = props => {
 
   return (
     <div>
-      {chipData && chipData.map(data => {
-        return (
-          <Chip
-            key={data.key}
-            label={data.label}
-            onDelete={handleDelete(data)}
-            className={classes.chip}
-          />
-        )
-      })}
+      {chipData.map(data => 
+        <Chip 
+          key={data.key} 
+          label={data.label} 
+          className={classes.chip} 
+          onDelete={()=>handleDelete(data)}
+        />
+      )}
       <Grid
         container
         spacing={2}
