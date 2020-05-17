@@ -5,7 +5,7 @@ const HOST = process.env.HOST || window.location.hostname
 
 const Welcome = () => {
   useEffect(() => {
-    return function() {
+    return () => {
     }
   }, [])
   return (

@@ -5,7 +5,7 @@ import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector, connect } from "react-redux"
-import { increment, addNewItem, clearItemAdd } from "../../actions"
+import { addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +18,9 @@ const ButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { group, code, name, price, table_no, order_no, emp_code, addOrderItem } = props
+  const { group, item, table, addOrderItem } = props
+  const { code, name, price } = item
+  const { table_no, order_no, emp_code } = table
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
@@ -32,7 +34,6 @@ const ButtonAction = props => {
       })
     )
     addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
-    dispatch(increment())
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })

@@ -290,24 +290,6 @@ export const checkLoginFail = payload => {
   }
 }
 
-export const increment = () => {
-  return {
-    type: "INCREMENT",
-  }
-}
-
-export const decrement = () => {
-  return {
-    type: "DECREMENT",
-  }
-}
-
-export const reset = () => {
-  return {
-    type: "RESET",
-  }
-}
-
 export const chooseTable = tableNo => {
   return {
     type: "CHOOSE_TABLE",
