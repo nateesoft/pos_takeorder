@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
-import { reset, clearTable, newOrder } from "../../actions"
+import { clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector, connect } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
 import MessageUtil from '../../utils/alertMsg'
@@ -64,7 +64,6 @@ const Login = props => {
   if (order_no !== "") {
     return <Redirect push to="/table" />
   } else {
-    dispatch(reset())
     dispatch(clearTable())
   }
 

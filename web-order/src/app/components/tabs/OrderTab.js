@@ -20,7 +20,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import Button from "@material-ui/core/Button"
-import { increment, decrement, clearItemAdd } from "../../actions"
+import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import { Redirect } from "react-router"
 import { withStyles } from "@material-ui/core/styles"
@@ -137,7 +137,6 @@ const OrderTab = props => {
   }
   const removeIndex = uid => {
     removeItemIndex(uid)
-    dispatch(decrement())
     loadInitData()
     const variant = "warning"
     enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
@@ -150,7 +149,6 @@ const OrderTab = props => {
   }
   const addItem = (code, name, price) => {
     addOrderItem(table_no, order_no, code, name, price, 1, price)
-    dispatch(increment())
     dispatch(clearItemAdd())
     loadInitData()
     const variant = "success"
