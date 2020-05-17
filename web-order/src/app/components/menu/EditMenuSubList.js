@@ -5,11 +5,7 @@ import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
 import { useSelector, useDispatch, connect } from "react-redux"
-import {
-  addNewSubMenuCode,
-  clearNewSubMenuCode,
-  emptySubMenuCode,
-} from "../../actions"
+import { addNewSubMenuCode, clearNewSubMenuCode, emptySubMenuCode } from "../../actions"
 import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles(theme => ({
@@ -37,11 +33,10 @@ const EditMenuSubList = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [subCode, setSubCode] = useState([])
-  const [loadingSub, setLoadingSub] = useState(true)
   const dispatch = useDispatch()
-  const { item, loadSubMenuList, loadSubMenuIndex } = props
+  const [loadingSub, setLoadingSub] = useState(true)
+  const { menu_code, sub_code_list, loadSubMenuList } = props
   const productList = useSelector(state => state.table.orderSubMenu.subMenuList)
-  const orderSubMenuList = useSelector(state => state.table.orderSubMenu.orderSubMenuList)
 
   const handleAdd = item => {
     let hasExist = false
@@ -66,19 +61,6 @@ const EditMenuSubList = props => {
     }
   }
 
-  const sublistExist = () => {
-    loadSubMenuIndex(item.uid)
-    dispatch(emptySubMenuCode())
-    for (let i = 0; i < orderSubMenuList.length; i++) {
-      const newItem = orderSubMenuList[i].code
-      setSubCode(sCode => sCode.concat(newItem))
-    }
-    for (let i = 0; i < subCode.length; i += 1) {
-      dispatch(addNewSubMenuCode(subCode[i]))
-    }
-    setLoadingSub(false)
-  }
-
   const isSelect = code => {
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
@@ -89,12 +71,27 @@ const EditMenuSubList = props => {
     return false
   }
 
-  useEffect(() => {
-    loadSubMenuList(item.menu_code)
-    return function () {
-      setMsgError('')
+  const sublistExist = () => {
+    dispatch(emptySubMenuCode())
+    if (sub_code_list) {
+      const data = sub_code_list.split(',')
+      for (let i = 0; i < data.length; i++) {
+        setSubCode(sCode => sCode.concat(data[i]))
+        dispatch(addNewSubMenuCode(data[i]))
+      }
+      setLoadingSub(false)
+    } else {
+      setLoadingSub(false)
     }
-  }, [item.menu_code, loadSubMenuList])
+  }
+
+  useEffect(() => {
+    setMsgError('')
+    loadSubMenuList(menu_code)
+    return () => {
+      setSubCode([])
+    }
+  }, [loadSubMenuList, menu_code])
 
   if (loadingSub) {
     sublistExist()
@@ -141,13 +138,7 @@ const mapDispatchToProps = dispatch => {
       payload: {
         code
       }
-    }),
-    loadSubMenuIndex: uid => dispatch({
-      type: 'LOAD_SUB_MENU_INDEX',
-      payload: {
-        uid
-      }
-    }),
+    })
   }
 }
 

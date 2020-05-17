@@ -52,13 +52,14 @@ const EditMenu = props => {
   const emp_code = useSelector((state) => state.table.empCode)
 
   const subMenuList = useSelector(state => state.item.subMenuList)
+  const { uid, menu_code, s_text, sub_code_list } = item
 
   useEffect(() => {
-    getOrderDetail(item.uid)
-    return function () {
+    getOrderDetail(uid)
+    return () => {
       setMsgError('')
     }
-  }, [getOrderDetail, item.uid])
+  }, [getOrderDetail, uid])
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -90,7 +91,7 @@ const EditMenu = props => {
             image={`${item.img_host}${item.img_url}`}
             title="Paella dish"
           />
-          <EditSpecialTextComp item={item} />
+          <EditSpecialTextComp uid={uid} special={s_text} />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>
@@ -108,7 +109,7 @@ const EditMenu = props => {
               </CardActions>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <EditMenuSubList item={item} />
+                  <EditMenuSubList menu_code={menu_code} sub_code_list={sub_code_list} />
                 </CardContent>
               </Collapse>
             </div>

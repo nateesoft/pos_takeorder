@@ -32,7 +32,11 @@ const OrdersDetail = {
       (select group_concat(p.name) 
       from orders_subcode st 
       left join product_menu p on st.sub_menu_code = p.code 
-      where st.menu_index = t.uid) sub_code  
+      where st.menu_index = t.uid) sub_code,  
+      (select group_concat(p.code) 
+      from orders_subcode st 
+      left join product_menu p on st.sub_menu_code = p.code 
+      where st.menu_index = t.uid) sub_code_list   
       from ${table_name} t left join product_menu p on t.menu_code = p.code 
       where menu_code=? and order_no = ?`,
       [menu_code, order_no],

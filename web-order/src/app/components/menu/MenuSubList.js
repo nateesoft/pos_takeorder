@@ -72,7 +72,7 @@ const MenuSubList = props => {
 
   useEffect(() => {
     loadSubMenuList(code)
-    return function () {
+    return () => {
       setMsgError('')
     }
   }, [code, loadSubMenuList])

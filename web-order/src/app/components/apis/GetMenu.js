@@ -57,7 +57,7 @@ const GetMenu = props => {
 
   useEffect(() => {
     getProduct(id)
-    return function () {
+    return () => {
       setMsgError('')
     }
   }, [getProduct, id])

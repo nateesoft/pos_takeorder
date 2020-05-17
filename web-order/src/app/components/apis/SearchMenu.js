@@ -58,7 +58,7 @@ const SearchMenu = props => {
   }
 
   useEffect(() => {
-    return function () {
+    return () => {
     }
   }, [])
 

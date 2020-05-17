@@ -38,7 +38,7 @@ const TableTab = props => {
   useEffect(() => {
       onLoadTablefile()
       setMsgError('')
-    return function () {
+    return () => {
     }
   }, [onLoadTablefile])
 

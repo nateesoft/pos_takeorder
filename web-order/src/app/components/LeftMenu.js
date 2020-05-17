@@ -22,7 +22,7 @@ const LeftMenu = props => {
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
   useEffect(() => {
-    return function () {
+    return () => {
       
     }
   }, [])

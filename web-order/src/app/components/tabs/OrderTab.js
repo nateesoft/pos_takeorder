@@ -115,7 +115,7 @@ const OrderTab = props => {
   useEffect(() => {
     setMsgError('')
     loadListOrderDetail(order_no)
-    return function () {
+    return () => {
     }
   }, [loadListOrderDetail, order_no])
 

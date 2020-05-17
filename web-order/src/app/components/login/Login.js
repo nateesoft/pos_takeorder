@@ -57,7 +57,7 @@ const Login = props => {
     } else if (status === 'Error') {
       setMsgError(errMessage)
     }
-    return function() {
+    return () => {
     }
   }, [dispatch, errMessage, status, user])
 

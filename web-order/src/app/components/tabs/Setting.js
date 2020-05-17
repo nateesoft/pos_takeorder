@@ -6,7 +6,7 @@ const Setting = () => {
   const order_no = useSelector(state => state.table.order.orderNo)
 
   useEffect(() => {
-    return function() {}
+    return () => {}
   }, [])
 
   if (order_no === "") {

@@ -51,7 +51,7 @@ const App = () => {
     if (window.innerWidth <= 760) {
       setOpen(false)
     }
-    return function () {
+    return () => {
     }
   }, [])
 
