@@ -47,14 +47,6 @@ const App = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const tableNo = useSelector(state => state.table.tableNo)
 
-  useEffect(() => {
-    if (window.innerWidth <= 760) {
-      setOpen(false)
-    }
-    return () => {
-    }
-  }, [])
-
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -71,6 +63,14 @@ const App = () => {
       <SearchPanel close={toggleDrawer(false)} />
     </div>
   )
+
+  useEffect(() => {
+    if (window.innerWidth <= 760) {
+      setOpen(false)
+    }
+    return () => {
+    }
+  }, [])
 
   return (
     <Router>

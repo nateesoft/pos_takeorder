@@ -29,6 +29,24 @@ const EditSpecialTextComp = props => {
   const dispatch = useDispatch()
   const { special } = props
 
+  const handleAdd = () => {
+    if (chipOption !== "") {
+      const options = {
+        key: chipIdMax + 1,
+        label: chipOption,
+      }
+      setChipData(chips => chips.concat(options))
+      setChipOption("")
+      setChipIdMax(chipIdMax + 1)
+      dispatch(addNewSpecialText(options))
+    }
+  }
+
+  const handleDelete = chipToDelete => {
+    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key))
+    dispatch(clearSpecialText(chipToDelete))
+  }
+
   useEffect(() => {
     setMsgError('')
     if (special) {
@@ -47,24 +65,6 @@ const EditSpecialTextComp = props => {
       setChipData([])
     }
   }, [dispatch, special])
-
-  const handleAdd = () => {
-    if (chipOption !== "") {
-      const options = {
-        key: chipIdMax + 1,
-        label: chipOption,
-      }
-      setChipData(chips => chips.concat(options))
-      setChipOption("")
-      setChipIdMax(chipIdMax + 1)
-      dispatch(addNewSpecialText(options))
-    }
-  }
-
-  const handleDelete = chipToDelete => {
-    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key))
-    dispatch(clearSpecialText(chipToDelete))
-  }
 
   return (
     <div>
