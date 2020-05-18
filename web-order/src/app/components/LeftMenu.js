@@ -21,12 +21,6 @@ const LeftMenu = props => {
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
-  useEffect(() => {
-    return () => {
-      
-    }
-  }, [])
-
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
   }
@@ -34,6 +28,12 @@ const LeftMenu = props => {
   const logout = () => {
     window.location = '/'
   }
+  
+  useEffect(() => {
+    return () => {
+      
+    }
+  }, [])
 
   return (
     <div>

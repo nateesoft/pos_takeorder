@@ -54,6 +54,10 @@ const EditMenu = props => {
   const subMenuList = useSelector(state => state.item.subMenuList)
   const { uid, menu_code, s_text, sub_code_list } = item
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
+
   useEffect(() => {
     getOrderDetail(uid)
     return () => {
@@ -61,9 +65,6 @@ const EditMenu = props => {
     }
   }, [getOrderDetail, uid])
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />

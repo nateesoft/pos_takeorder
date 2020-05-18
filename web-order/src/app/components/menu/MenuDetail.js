@@ -55,16 +55,16 @@ const MenuDetail = props => {
   const emp_code = useSelector(state => state.table.empCode)
   const product = useSelector(state => state.product.product)
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
+
   useEffect(() => {
     setMsgError('')
     loadProductDetail(group, code)
     return () => {
     }
   }, [code, group, loadProductDetail])
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />
