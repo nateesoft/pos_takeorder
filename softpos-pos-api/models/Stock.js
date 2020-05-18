@@ -2,7 +2,7 @@ const db = require("../config/db")
 const table_name = "stockfile"
 
 const Stock = {
-  getStockName: (pCode, tableNo, macNo, callback) => {
+  getStockName: (pCode, macNo, callback) => {
       let stockName = ''
       db.query(`select PCode,PGroup,PDesc,POSStk, MSStk 
       from product where PActive = 'Y' and PStock = 'Y' and PCode = ?`, 
@@ -87,7 +87,7 @@ const Stock = {
         }
     })
   },
-  saveSTCard: (STCardBean, ETD, callback) => {
+  saveSTCard: (STCardBean, callback) => {
       const {
         S_Date, S_No, S_SubNo, S_Que, S_PCode, S_Stk, S_In, S_Out, S_InCost, S_OutCost,
         S_ACost, S_Rem, S_User, S_EntryDate, S_EntryTime, S_Link
