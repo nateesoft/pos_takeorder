@@ -72,19 +72,19 @@ const SearchPanel = props => {
   const [search, setSearch] = useState("")
   const productList = useSelector((state) => state.product.productSearchList)
 
-  useEffect(() => {
-    setMsgError('')
-    return () => {
-      setSearch("")
-    }
-  }, [])
-
   const handleKey = v => {
     setSearch(v)
     if (search !== "") {
       onSearch(search)
     }
   }
+
+  useEffect(() => {
+    setMsgError('')
+    return () => {
+      setSearch("")
+    }
+  }, [])
 
   return (
     <div className={classes.root}>

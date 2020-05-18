@@ -27,7 +27,7 @@ const EditButtonAction = props => {
 
   const onUpdateItem = () => {
     dispatch(updateItem(uid))
-    updateOrderItem({ order_no, code, price, uid, specialText, subMenuCode })
+    updateOrderItem(order_no, code, price, uid, specialText, subMenuCode)
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("อัพเดตรายการอาหาร", { variant })
