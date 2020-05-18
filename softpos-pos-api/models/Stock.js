@@ -67,6 +67,40 @@ const Stock = {
             }
         })
     })
+  },
+  updateSTKFileAdd: (bpCode, stockCode, qty, callback) => {
+    const month = 12 + new Date().getMonth() + 1
+    db.query(`select BPCode from stkfile where BPCode = ? and BStk = ?`, (err, results, fields) => {
+        if (err) throw err
+        results.map(row => {
+            const strBqtyCol = `BQty${month}`
+            const strBqtyData = `BQty${month}-${qty}`
+            return db.query(`UPDATE stkfile 
+            set ${strBqtyCol}=? where BPCode=? and BStk=?`,
+            [strBqtyData, bpCode, stockCode], callback)
+        })
+        if (results.length === 0) {
+            const strBqtyCol = `BQty${month}`
+            const strBqtyData = `BQty${month}-${qty}`
+            return db.query(`INSERT INTO stkfile (BPCode, BStk, ${strBqtyCol}) 
+                values(?, ?, ?)`, [bpCode, stockCode, strBqtyData], callback)
+        }
+    })
+  },
+  saveSTCard: (STCardBean, ETD, callback) => {
+      const {
+        S_Date, S_No, S_SubNo, S_Que, S_PCode, S_Stk, S_In, S_Out, S_InCost, S_OutCost,
+        S_ACost, S_Rem, S_User, S_EntryDate, S_EntryTime, S_Link
+      } = STCardBean
+
+      return db.query(
+          `insert into stcard 
+          (S_Date, S_No, S_SubNo, S_Que, S_PCode, S_Stk, S_In, S_Out, S_InCost, S_OutCost,
+           S_ACost, S_Rem, S_User, S_EntryDate, S_EntryTime, S_Link) 
+          values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `, 
+          [S_Date, S_No, S_SubNo, S_Que, S_PCode, S_Stk, S_In, S_Out, S_InCost, S_OutCost,
+            S_ACost, S_Rem, S_User, S_EntryDate, S_EntryTime, S_Link], 
+          callback)
   }
 }
 
