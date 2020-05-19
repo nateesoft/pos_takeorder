@@ -77,13 +77,18 @@ const MenuSubList = props => {
     }
   }, [code, loadSubMenuList])
 
+  const HOST = process.env.HOST || window.location.hostname
+  const rHost = url => {
+    return url.replace('localhost', HOST)
+  }
+
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList}>
         {productSubList && productSubList.map(item => (
           <GridListTile key={item.code}>
             <img
-              src={`${item.img_host}${item.img_url}`}
+              src={`${rHost(item.img_host)}${item.img_url}`}
               alt={item.name}
               onClick={() => handleAdd(item)}
             />

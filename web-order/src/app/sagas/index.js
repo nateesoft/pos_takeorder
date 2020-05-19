@@ -38,11 +38,9 @@ import {
 } from '../actions'
 
 const uuid = require("react-native-uuid")
-
-// const POS_API = 'http://localhost:5000'
-// const TAKEORDER_API = 'http://localhost:4000'
-const POS_API = 'http://localhost:5000'
-const TAKEORDER_API = 'http://localhost:4000'
+const HOST = process.env.HOST || window.location.hostname
+const POS_API = `http://${HOST}:5000`
+const TAKEORDER_API = `http://${HOST}:4000`
 
 function* addNewOrder(action) {
   const { 

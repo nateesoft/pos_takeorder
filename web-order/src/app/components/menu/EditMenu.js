@@ -73,6 +73,11 @@ const EditMenu = props => {
     return <Redirect push to={`/table`} />
   }
 
+  const HOST = process.env.HOST || window.location.hostname
+  const rHost = url => {
+    return url.replace('localhost', HOST)
+  }
+
   return (
     <div>
       {subMenuList && subMenuList.map((item, index) => (
@@ -89,7 +94,7 @@ const EditMenu = props => {
           />
           <CardMedia
             className={classes.media}
-            image={`${item.img_host}${item.img_url}`}
+            image={`${rHost(item.img_host)}${item.img_url}`}
             title="Paella dish"
           />
           <EditSpecialTextComp uid={uid} special={s_text} />

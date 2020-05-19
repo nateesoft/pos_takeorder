@@ -66,6 +66,11 @@ const GetMenu = props => {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />
   }
 
+  const HOST = process.env.HOST || window.location.hostname
+  const rHost = url => {
+    return url.replace('localhost', HOST)
+  }
+
   return (
     <div className={classes.root}>
       <GridList>
@@ -73,7 +78,7 @@ const GetMenu = props => {
           productList.map(item => (
             <GridListTile key={item.code_key}>
               <img
-                src={`${item.img_host}${item.img_url}`}
+                src={`${rHost(item.img_host)}${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)
