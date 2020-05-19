@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const employRouter = require('./routes/employ');
 const tableFileRouter = require('./routes/tablefile');
 const balanceRouter = require('./routes/balance');
+const stockRouter = require('./routes/stock');
 
 const cors = require('cors')
 
@@ -28,6 +29,7 @@ app.use('/pos/', indexRouter);
 app.use('/pos/employ', employRouter);
 app.use('/pos/tablefile', tableFileRouter);
 app.use('/pos/balance', balanceRouter);
+app.use('/pos/stock', stockRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
