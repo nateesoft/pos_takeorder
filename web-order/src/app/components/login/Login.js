@@ -8,10 +8,10 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
-import { reset, clearTable, newOrder } from "../../actions"
-import { useDispatch, useSelector } from "react-redux"
+import { clearTable, newOrder } from "../../actions"
+import { useDispatch, useSelector, connect } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -33,56 +33,37 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Login() {
+const Login = props => {
+  const { checkLogin } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const order_no = useSelector(state => state.table.order.orderNo)
+  const status = useSelector(state => state.login.status)
+  const errMessage = useSelector(state => state.login.errMessage)
   const dispatch = useDispatch()
 
-  const validLogin = (user, pass) => {
-    fetch(`/pos/employ/login`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }, body: JSON.stringify({
-        username: user,
-        password: pass
-      })
-    }).then(res => {
-      if (res.status !== 200) {
-        setMsgError(`${res.status} - ${res.statusText}`)
-      } else {
-        if (res.status === 200) {
-          res.json().then(res => {
-            dispatch(newOrder({
-              order_no: uuidv4(),
-              emp_code: user,
-              table_no: "no_select"
-            }))
-          })
-        } else if (res.status === 403) {
-          setMsgError('Username or Password invalid')
-        } else {
-          setMsgError('Server internal error')
-        }
-      }
-    }).catch(error => {
-      setMsgError(`${error}`)
-    })
-  }
-
   useEffect(() => {
-    return function() {
+    setMsgError('')
+    if (status === "Success") {
+      dispatch(newOrder({
+        order_no: uuidv4(),
+        emp_code: user,
+        table_no: "no_select"
+      }))
+    } else if (status === "Invalid") {
+      setMsgError('Username/Password invalid !')
+    } else if (status === 'Error') {
+      setMsgError(errMessage)
     }
-  }, [])
+    return () => {
+    }
+  }, [dispatch, errMessage, status, user])
 
   if (order_no !== "") {
     return <Redirect push to="/table" />
   } else {
-    dispatch(reset())
     dispatch(clearTable())
   }
 
@@ -124,7 +105,7 @@ export default function Login() {
             onChange={e => setPass(e.target.value)}
           />
           <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}
-            onClick={() => validLogin(user, pass)}>Sign In
+            onClick={() => checkLogin(user, pass)}>Sign In
           </Button>
         </form>
         {msgError && <MessageUtil message={msgError} />}
@@ -132,3 +113,21 @@ export default function Login() {
     </Container>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    checkLogin: (user, pass) => dispatch({ 
+      type: 'CHECK_LOGIN', 
+      payload: {
+        username: user, 
+        password: pass
+      } 
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

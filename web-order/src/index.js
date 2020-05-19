@@ -3,10 +3,11 @@ import { render } from "react-dom"
 import App from "./app/components/App"
 import * as serviceWorker from "./serviceWorker"
 import { createStore, applyMiddleware } from "redux"
-import allReducers from "./app/reducers"
 import { Provider } from "react-redux"
 import createSagaMiddleware from "redux-saga"
 // import { logger } from "redux-logger"
+
+import allReducers from "./app/reducers"
 import rootSaga from "./app/sagas"
 
 const sagaMiddleware = createSagaMiddleware()

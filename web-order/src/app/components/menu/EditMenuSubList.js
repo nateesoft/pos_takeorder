@@ -4,15 +4,11 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
-import { useDispatch } from "react-redux"
-import {
-  addNewSubMenuCode,
-  clearNewSubMenuCode,
-  emptySubMenuCode,
-} from "../../actions"
-import MessageUtil from '../../util/alertMsg'
+import { useSelector, useDispatch, connect } from "react-redux"
+import { addNewSubMenuCode, clearNewSubMenuCode, emptySubMenuCode } from "../../actions"
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -33,16 +29,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function EditMenuSubList(props) {
+const EditMenuSubList = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
   const [subCode, setSubCode] = useState([])
-  const [loadingSub, setLoadingSub] = useState(true)
   const dispatch = useDispatch()
-  const { item } = props
+  const [loadingSub, setLoadingSub] = useState(true)
+  const { menu_code, sub_code_list, loadSubMenuList } = props
+  const productList = useSelector(state => state.table.orderSubMenu.subMenuList)
 
-  const handleAdd = (item) => {
+  const handleAdd = item => {
     let hasExist = false
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
@@ -51,47 +47,21 @@ export default function EditMenuSubList(props) {
       }
       if (i === subCode.length - 1) {
         if (hasExist) {
-          setSubCode((sCode) => sCode.filter((sc) => sc !== item.code))
+          setSubCode(sCode => sCode.filter(sc => sc !== item.code))
           dispatch(clearNewSubMenuCode(item.code))
         } else {
-          setSubCode((sCode) => sCode.concat(item.code))
+          setSubCode(sCode => sCode.concat(item.code))
           dispatch(addNewSubMenuCode(item.code))
         }
       }
     }
     if (subCode.length === 0) {
-      setSubCode((sCode) => sCode.concat(item.code))
+      setSubCode(sCode => sCode.concat(item.code))
       dispatch(addNewSubMenuCode(item.code))
     }
   }
 
-  const sublistExist = () => {
-    fetch(`/api/menu_list/index/${item.uid}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          dispatch(emptySubMenuCode())
-          for (let i = 0; i < response.data.length; i++) {
-            const newItem = response.data[i].code
-            setSubCode((sCode) => sCode.concat(newItem))
-          }
-          for (let i = 0; i < subCode.length; i += 1) {
-            dispatch(addNewSubMenuCode(subCode[i]))
-          }
-          setLoadingSub(false)
-        },
-        (error) => {
-          setMsgError(`${error}`)
-          setLoadingSub(false)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-        setLoadingSub(false)
-      })
-  }
-
-  const isSelect = (code) => {
+  const isSelect = code => {
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
       if (iSubCode === code) {
@@ -101,38 +71,36 @@ export default function EditMenuSubList(props) {
     return false
   }
 
-  useEffect(() => {
-    fetch(`/api/menu_list/${item.menu_code}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
-    return function () {
-      setData([])
+  const sublistExist = () => {
+    dispatch(emptySubMenuCode())
+    if (sub_code_list) {
+      const data = sub_code_list.split(',')
+      for (let i = 0; i < data.length; i++) {
+        setSubCode(sCode => sCode.concat(data[i]))
+        dispatch(addNewSubMenuCode(data[i]))
+      }
+      setLoadingSub(false)
+    } else {
+      setLoadingSub(false)
     }
-  }, [item.menu_code])
+  }
+
+  useEffect(() => {
+    setMsgError('')
+    loadSubMenuList(menu_code)
+    return () => {
+      setSubCode([])
+    }
+  }, [loadSubMenuList, menu_code])
 
   if (loadingSub) {
-    console.log("load sublistExist")
     sublistExist()
   }
 
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList}>
-        {data.map((item) => (
+        {productList && productList.map(item => (
           <GridListTile key={item.code}>
             <img
               src={`${item.img_host}${item.img_url}`}
@@ -158,3 +126,20 @@ export default function EditMenuSubList(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadSubMenuList: code => dispatch({
+      type: 'LOAD_SUB_MENU_LIST',
+      payload: {
+        code
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMenuSubList)

@@ -4,37 +4,30 @@ import { makeStyles } from "@material-ui/core/styles"
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn"
 import AddIcon from "@material-ui/icons/AddCircle"
 import { Link } from "react-router-dom"
-import updateOrderItem from "../apis/UpdateOrder"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, connect } from "react-redux"
 import { updateItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
   },
 }))
 
-export default function EditButtonAction(props) {
+const EditButtonAction = props => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const dispatch = useDispatch()
-  const { code, price, uid } = props.item
-  const { order_no } = props.table
+  const { group, item, table, updateOrderItem } = props
+  const { code, price, uid } = item
+  const { order_no } = table
 
-  const specialText = useSelector((state) => state.item.specialText)
-  const subMenuCode = useSelector((state) => state.item.subMenuCode)
+  const specialText = useSelector(state => state.item.specialText)
+  const subMenuCode = useSelector(state => state.item.subMenuCode)
 
   const onUpdateItem = () => {
     dispatch(updateItem(uid))
-    updateOrderItem({
-      order_no,
-      code,
-      price,
-      uid,
-      specialText,
-      subMenuCode,
-    })
+    updateOrderItem(order_no, code, price, uid, specialText, subMenuCode)
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("อัพเดตรายการอาหาร", { variant })
@@ -42,8 +35,8 @@ export default function EditButtonAction(props) {
 
   return (
     <div align="right">
-      {props.group && (
-        <Link to={`/menu/${props.group}`} style={{ textDecoration: "none" }}>
+      {group && (
+        <Link to={`/menu/${group}`} style={{ textDecoration: "none" }}>
           <Button
             variant="outlined"
             className={classes.button}
@@ -66,3 +59,20 @@ export default function EditButtonAction(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateOrderItem: (orderNo, code, price, uid, specialText, subMenuCode) => dispatch({
+      type: 'UPDATE_ORDER_ITEM',
+      payload: {
+        orderNo, code, price, uid, specialText, subMenuCode
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditButtonAction)

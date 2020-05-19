@@ -6,13 +6,12 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
-import { useSelector, useDispatch } from "react-redux"
-import addOrderItem from "./AddOrder"
-import { increment, clearItemAdd } from "../../actions"
+import { useSelector, useDispatch, connect } from "react-redux"
+import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
@@ -22,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function GetMenu(props) {
-  const { id, close } = props
+const GetMenu = props => {
+  const { id, close, getProduct, addOrderItem } = props
   const classes = useStyles()
-  const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
+  const [msgError, setMsgError] = useState('')
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
   const table_no = useSelector((state) => state.table.tableNo)
@@ -35,6 +33,8 @@ export default function GetMenu(props) {
 
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
+
+  const productList = useSelector((state) => state.product.productList)
 
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
@@ -49,44 +49,18 @@ export default function GetMenu(props) {
   }
 
   const onAddNewItem = (code, name, price) => {
-    addOrderItem({
-      code,
-      name,
-      price,
-      table_no,
-      order_no,
-      emp_code,
-      specialText,
-      subMenuCode,
-    })
-    dispatch(increment())
+    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
   useEffect(() => {
-    fetch(`/api/product/${id}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
-    return function () {
-      setData([])
+    getProduct(id)
+    return () => {
+      setMsgError('')
     }
-  }, [id])
+  }, [getProduct, id])
 
   if (redirect) {
     return <Redirect push to={`/detail/${selItem.group}/${selItem.code}`} />
@@ -95,8 +69,8 @@ export default function GetMenu(props) {
   return (
     <div className={classes.root}>
       <GridList>
-        {data &&
-          data.map((item) => (
+        {productList &&
+          productList.map(item => (
             <GridListTile key={item.code_key}>
               <img
                 src={`${item.img_host}${item.img_url}`}
@@ -127,3 +101,33 @@ export default function GetMenu(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProduct: groupId => dispatch({
+      type: 'LOAD_PRODUCT_LIST',
+      payload: {
+        groupId: groupId
+      }
+    }),
+    addOrderItem: (code,name,price,table_no,order_no,emp_code,specialText,subMenuCode) => dispatch({
+      type: 'ADD_NEW_ORDER',
+      payload: {
+        code,
+        name,
+        price,
+        tableNo: table_no,
+        orderNo: order_no,
+        empCode: emp_code,
+        specialText,
+        subMenuCode,
+      }
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GetMenu)

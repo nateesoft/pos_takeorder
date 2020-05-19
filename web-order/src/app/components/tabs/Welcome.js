@@ -3,9 +3,9 @@ const QRCode = require("qrcode.react")
 
 const HOST = process.env.HOST || window.location.hostname
 
-export default function Welcome() {
+const Welcome = () => {
   useEffect(() => {
-    return function() {
+    return () => {
     }
   }, [])
   return (
@@ -16,3 +16,5 @@ export default function Welcome() {
     </div>
   )
 }
+
+export default Welcome

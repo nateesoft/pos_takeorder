@@ -1,41 +1,59 @@
-var express = require("express")
-var router = express.Router()
+const express = require("express")
+const router = express.Router()
 const Task = require("../models/Balance")
 
-/* GET employ listing. */
-router.get("/", function(req, res, next) {
+router.get("/", (req, res, next) => {
   Task.findAll((err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
   })
 })
-router.post("/create", function(req, res, next) {
-  const { balance: balanceRequest } = req.body
-  for(let i=0;i<balanceRequest.length;i++){
-    const balance = balanceRequest[i]
-    Balance = {
-      index: balance.index.substring(0, 10), 
-      table: balance.table_code, 
-      emp: balance.emp_code, 
-      plucode: balance.menu_code, 
-      pname: balance.menu_name, 
-      unit: balance.unit, 
-      group: balance.group, 
-      price: balance.price, 
-      qty: balance.qty,
-      total: balance.total_amount
+
+router.get("/table/:tableNo", (req, res, next) => {
+  const tableNo = req.params.tableNo
+  Task.findByTable(tableNo, (err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows })
     }
-    Task.create(Balance, (err, rows) => {
+  })
+})
+
+router.post("/create", (req, res, next) => {
+  const { balance } = req.body
+  const Balance = {
+    index: balance.index, 
+    table: balance.table_code, 
+    emp: balance.emp_code, 
+    plucode: balance.menu_code, 
+    pname: balance.menu_name, 
+    unit: balance.unit, 
+    group: balance.group, 
+    price: balance.price, 
+    qty: balance.qty,
+    total: balance.total_amount
+  }
+  Task.create(Balance, (err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ "Success": rows.affectedRows })
+    }
+  })
+})
+
+router.post("/reset_balance", (req, res, next) => {
+    Task.empty((err, rows) => {
       if (err) {
-        console.error(err)
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
-        console.info('add to balance +1')
+        res.status(200).json({ delete_count: rows.affectedRows })
       }
     })
-  }
 })
 
 module.exports = router

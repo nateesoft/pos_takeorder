@@ -6,7 +6,7 @@ router.get("/", (req, res, next) => {
   const order_no = req.query.order_no
   Task.findByOrderNo(order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -17,7 +17,7 @@ router.get("/sub_menu/:uid", (req, res, next) => {
   const uid = req.params.uid
   Task.findByIndexForSubMenu(uid, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -28,7 +28,7 @@ router.get("/special_text/:uid", (req, res, next) => {
   const uid = req.params.uid
   Task.findByIndexForSpecialText(uid, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -39,7 +39,7 @@ router.get("/sum", (req, res, next) => {
   const order_no = req.query.order_no
   Task.findByOrderNoSummary(order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -51,7 +51,7 @@ router.get("/product", (req, res, next) => {
   const menu_code = req.query.menu_code
   Task.findByProduct(menu_code, order_no, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -60,6 +60,7 @@ router.get("/product", (req, res, next) => {
 
 router.post("/create", (req, res, next) => {
   OrdersDetail = {
+    uid: req.body.uid,
     order_no: req.body.order_no,
     table_code: req.body.table_code,
     emp_code: req.body.emp_code,
@@ -77,9 +78,9 @@ router.post("/create", (req, res, next) => {
   }
   Task.add(OrdersDetail, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Insert item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -94,9 +95,9 @@ router.put("/:index/update", (req, res, next) => {
   }
   Task.update(index, OrdersDetail, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Update item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -105,9 +106,9 @@ router.delete("/", (req, res, next) => {
   const uid = req.body.uid
   Task.delete(uid, (err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Delete item success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })
@@ -115,9 +116,9 @@ router.delete("/", (req, res, next) => {
 router.delete("/empty", (req, res, next) => {
   Task.empty((err, rows) => {
     if (err) {
-      res.send(err)
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json("Truncate data empty success")
+      res.status(200).json({"Success": rows.affectedRows})
     }
   })
 })

@@ -16,10 +16,10 @@ import ButtonAction from "./ButtonAction"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import SpecialTextComp from "./SpecialTextComp"
-import { useSelector } from "react-redux"
-import MessageUtil from '../../util/alertMsg'
+import { useSelector, connect } from "react-redux"
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
   },
@@ -42,39 +42,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function MenuDetail(props) {
+const MenuDetail = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
-  const group = props.match.params.group
-  const code = props.match.params.code
+  const { loadProductDetail, match } = props
+  const group = match.params.group
+  const code = match.params.code
 
-  const table_no = useSelector((state) => state.table.tableNo)
-  const order_no = useSelector((state) => state.table.order.orderNo)
-  const emp_code = useSelector((state) => state.table.empCode)
-
-  useEffect(() => {
-    fetch(`/api/product/${group}/${code}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          setData(response.data)
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      ).catch((error) => {
-        setMsgError(`${error}`)
-      })
-    return function () {
-      setData([])
-    }
-  }, [code, group])
+  const table_no = useSelector(state => state.table.tableNo)
+  const order_no = useSelector(state => state.table.order.orderNo)
+  const emp_code = useSelector(state => state.table.empCode)
+  const product = useSelector(state => state.product.product)
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
+
+  useEffect(() => {
+    setMsgError('')
+    loadProductDetail(group, code)
+    return () => {
+    }
+  }, [code, group, loadProductDetail])
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />
@@ -85,7 +75,7 @@ export default function MenuDetail(props) {
 
   return (
     <div>
-      {data.map((item, index) => (
+      {product && product.map((item, index) => (
         <Card className={classes.root} key={index}>
           <CardHeader
             avatar={
@@ -136,3 +126,21 @@ export default function MenuDetail(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadProductDetail: (group, code) => dispatch({
+      type: 'LOAD_PRODUCT_DETAIL',
+      payload: {
+        group: group,
+        code: code,
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuDetail)

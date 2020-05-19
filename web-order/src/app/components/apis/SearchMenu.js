@@ -6,12 +6,11 @@ import GridListTileBar from "@material-ui/core/GridListTileBar"
 import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
-import { useSelector, useDispatch } from "react-redux"
-import addOrderItem from "./AddOrder"
-import { increment, clearItemAdd } from "../../actions"
+import { useSelector, useDispatch, connect } from "react-redux"
+import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -27,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SearchMenu(props) {
-  const { data, close } = props
+const SearchMenu = props => {
+  const { data, close, addOrderItem } = props
   const classes = useStyles()
   const [redirect, setRedirect] = useState(false)
   const [selItem, setSelItem] = useState({})
@@ -52,24 +51,14 @@ export default function SearchMenu(props) {
   }
 
   const onAddNewItem = (code, name, price) => {
-    addOrderItem({
-      code,
-      name,
-      price,
-      table_no,
-      order_no,
-      emp_code,
-      specialText,
-      subMenuCode,
-    })
-    dispatch(increment())
+    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
   }
 
   useEffect(() => {
-    return function () {
+    return () => {
     }
   }, [])
 
@@ -80,11 +69,10 @@ export default function SearchMenu(props) {
   return (
     <div className={classes.root}>
       <GridList>
-        {data &&
-          data.map((item) => (
+        {data && data.map(item => (
             <GridListTile key={item.code_key}>
               <img
-                src={`/images${item.img_url}`}
+                src={`${item.img_host}${item.img_url}`}
                 alt={item.description}
                 onClick={() =>
                   handleOnClick(`${item.code}`, `${item.group_code}`)
@@ -111,3 +99,29 @@ export default function SearchMenu(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addOrderItem: (
+      code,name,price,table_no,order_no,
+      emp_code,specialText,subMenuCode) => dispatch({
+      type: 'ADD_NEW_ORDER',
+      payload: {
+        code,
+        name,
+        price,
+        tableNo: table_no,
+        orderNo: order_no,
+        empCode: emp_code,
+        specialText,
+        subMenuCode,
+      }
+    }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchMenu)

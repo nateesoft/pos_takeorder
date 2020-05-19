@@ -4,11 +4,11 @@ import GridList from "@material-ui/core/GridList"
 import GridListTile from "@material-ui/core/GridListTile"
 import GridListTileBar from "@material-ui/core/GridListTileBar"
 import Checkbox from "@material-ui/core/Checkbox"
-import { useDispatch } from "react-redux"
+import { useDispatch, connect, useSelector } from "react-redux"
 import { addNewSubMenuCode, clearNewSubMenuCode } from "../../actions"
-import MessageUtil from '../../util/alertMsg'
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
@@ -29,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function MenuSubList(props) {
+const MenuSubList = props => {
+  const { code, loadSubMenuList } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
   const [subCode, setSubCode] = useState([])
   const dispatch = useDispatch()
+  const productSubList = useSelector(state => state.product.productSubList)
 
-  const handleAdd = (item) => {
+  const handleAdd = item => {
     let hasExist = false
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
@@ -45,21 +46,21 @@ export default function MenuSubList(props) {
       }
       if (i === subCode.length - 1) {
         if (hasExist) {
-          setSubCode((sCode) => sCode.filter((sc) => sc !== item.code))
+          setSubCode(sCode => sCode.filter(sc => sc !== item.code))
           dispatch(clearNewSubMenuCode(item.code))
         } else {
-          setSubCode((sCode) => sCode.concat(item.code))
+          setSubCode(sCode => sCode.concat(item.code))
           dispatch(addNewSubMenuCode(item.code))
         }
       }
     }
     if (subCode.length === 0) {
-      setSubCode((sCode) => sCode.concat(item.code))
+      setSubCode(sCode => sCode.concat(item.code))
       dispatch(addNewSubMenuCode(item.code))
     }
   }
 
-  const isSelect = (code) => {
+  const isSelect = code => {
     for (let i = 0; i < subCode.length; i++) {
       const iSubCode = subCode[i]
       if (iSubCode === code) {
@@ -70,32 +71,16 @@ export default function MenuSubList(props) {
   }
 
   useEffect(() => {
-    fetch(`/api/menu_list/${props.code}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          if (response.status === "not_found") {
-            setData([])
-          } else {
-            setData(response.data)
-          }
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
-    return function () {
-      setData([])
+    loadSubMenuList(code)
+    return () => {
+      setMsgError('')
     }
-  }, [props.code])
+  }, [code, loadSubMenuList])
 
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList}>
-        {data.map((item) => (
+        {productSubList && productSubList.map(item => (
           <GridListTile key={item.code}>
             <img
               src={`${item.img_host}${item.img_url}`}
@@ -121,3 +106,20 @@ export default function MenuSubList(props) {
     </div>
   )
 }
+
+const mapStatetoProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadSubMenuList: code => dispatch({
+      type: 'LOAD_PRODUCT_SUB_LIST',
+      payload: {
+        code
+      }
+    })
+  }
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(MenuSubList)

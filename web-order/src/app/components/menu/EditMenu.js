@@ -16,12 +16,10 @@ import EditButtonAction from "./EditButtonAction"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import EditSpecialTextComp from "./EditSpecialTextComp"
-import { useSelector } from "react-redux"
-import { clearItemAdd } from "../../actions"
-import { useDispatch } from "react-redux"
-import MessageUtil from '../../util/alertMsg'
+import { useSelector, connect } from "react-redux"
+import MessageUtil from '../../utils/alertMsg'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
   },
@@ -44,41 +42,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function EditMenu(props) {
-  const dispatch = useDispatch()
+const EditMenu = props => {
+  const { getOrderDetail, item } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [data, setData] = useState([])
   const [expanded, setExpanded] = useState(true)
-  const { item } = props
-
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
   const emp_code = useSelector((state) => state.table.empCode)
 
-  useEffect(() => {
-    dispatch(clearItemAdd())
-    fetch(`/api/orders_detail/sub_menu/${item.uid}`)
-      .then((res) => res.json())
-      .then(
-        (response) => {
-          setData(response.data)
-        },
-        (error) => {
-          setMsgError(`${error}`)
-        }
-      )
-      .catch((error) => {
-        setMsgError(`${error}`)
-      })
-    return function () {
-      setData([])
-    }
-  }, [dispatch, item.uid])
+  const subMenuList = useSelector(state => state.item.subMenuList)
+  const { uid, menu_code, s_text, sub_code_list } = item
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
+
+  useEffect(() => {
+    getOrderDetail(uid)
+    return () => {
+      setMsgError('')
+    }
+  }, [getOrderDetail, uid])
+
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />
@@ -89,7 +75,7 @@ export default function EditMenu(props) {
 
   return (
     <div>
-      {data.map((item, index) => (
+      {subMenuList && subMenuList.map((item, index) => (
         <Card className={classes.root} key={index}>
           <CardHeader
             avatar={
@@ -106,7 +92,7 @@ export default function EditMenu(props) {
             image={`${item.img_host}${item.img_url}`}
             title="Paella dish"
           />
-          <EditSpecialTextComp item={item} />
+          <EditSpecialTextComp uid={uid} special={s_text} />
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>
@@ -124,7 +110,7 @@ export default function EditMenu(props) {
               </CardActions>
               <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                  <EditMenuSubList item={item} />
+                  <EditMenuSubList menu_code={menu_code} sub_code_list={sub_code_list} />
                 </CardContent>
               </Collapse>
             </div>
@@ -139,3 +125,20 @@ export default function EditMenu(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getOrderDetail: uid => dispatch({
+      type: 'LOAD_ORDER_DETAIL',
+      payload: {
+        uid: uid
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMenu)
