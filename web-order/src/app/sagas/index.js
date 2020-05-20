@@ -7,6 +7,8 @@ import {
   checkLoginFail,
   loadProductListSuccess,
   loadProductListFail,
+  loadGroupListSuccess,
+  loadGroupListFail,
   loadOrderDetailSuccess,
   loadOrderDetailFail,
   loadListOrderDetailSuccess,
@@ -36,6 +38,28 @@ import {
   addNewOrderSuccess,
   addNewOrderFail,
 } from '../actions'
+
+const { 
+  ADD_NEW_ORDER,
+  UPDATE_ORDER_ITEM,
+  LOAD_PRODUCT_SUB_LIST,
+  LOAD_SUB_MENU_INDEX,
+  LOAD_ORDER_SPECIAL,
+  LOAD_PRODUCT_DETAIL,
+  LOAD_SUB_MENU_LIST,
+  SEARCH_DATA,
+  ADD_NEW_ORDER_ITEM,
+  REMOVE_ORDER_INDEX,
+  SEND_ORDER_TO_POS,
+  LOAD_EXPANSION_PRODUCT,
+  LOAD_LIST_ORDER_DETAIL,
+  LOAD_ORDER_DETAIL,
+  LOAD_PRODUCT_LIST,
+  LOAD_GROUP_LIST,
+  LOAD_TABLE_FILE,
+  CHECK_LOGIN
+} = require('../actions/constants')
+
 
 const uuid = require("react-native-uuid")
 const HOST = process.env.HOST || window.location.hostname
@@ -297,9 +321,32 @@ function* sendOrderToPOS(action) {
         order_no: orderNo,
       }),
     })
+    yield call(request, `${TAKEORDER_API}/api/orders/move_update`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        order_no: orderNo,
+      }),
+    })
 
     for(let i = 0; i < response.data.length; i += 1) {
       const data = response.data[i]
+
+      const newIndex = yield call(request, `${POS_API}/pos/balance/getIndex`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          table_no: data.table_code,
+        }),
+      })
+
+      data.index = newIndex.data
       yield call(request, `${POS_API}/pos/balance/create`, {
         method: 'POST',
         headers: {
@@ -385,6 +432,22 @@ function* fetchProductList(action) {
   }
 }
 
+function* fetchGroupList() {
+  const requestURL = `${TAKEORDER_API}/api/group`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadGroupListSuccess(response.data))
+  } catch(err) {
+    yield put(loadGroupListFail({ status: "Error", msg: err }))
+  }
+}
+
 function* fetchLogin(action) {
   const { username, password } = action.payload
   const requestURL = `${POS_API}/pos/employ/login`
@@ -423,55 +486,58 @@ function* fetchTablefile() {
 }
 
 function* actionFetchTablefile() {
-  yield takeLatest("LOAD_TABLE_FILE", fetchTablefile)
+  yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
 }
 function* actionFetchLogin() {
-  yield takeLatest("CHECK_LOGIN", fetchLogin)
+  yield takeLatest(CHECK_LOGIN, fetchLogin)
 }
 function* actionLoadProductList() {
-  yield takeLatest("LOAD_PRODUCT_LIST", fetchProductList)
+  yield takeLatest(LOAD_PRODUCT_LIST, fetchProductList)
+}
+function* actionLoadGroupList() {
+  yield takeLatest(LOAD_GROUP_LIST, fetchGroupList)
 }
 function* actionLoadOrderDetail() {
-  yield takeLatest("LOAD_ORDER_DETAIL", fetchOrderDetail)
+  yield takeLatest(LOAD_ORDER_DETAIL, fetchOrderDetail)
 }
 function* actionLoadListOrderDetail() {
-  yield takeLatest("LOAD_LIST_ORDER_DETAIL", fetchListOrderDetail)
+  yield takeLatest(LOAD_LIST_ORDER_DETAIL, fetchListOrderDetail)
 }
 function* actionLoadExpansionProduct() {
-  yield takeLatest("LOAD_EXPANSION_PRODUCT", listExpansionProduct)
+  yield takeLatest(LOAD_EXPANSION_PRODUCT, listExpansionProduct)
 }
 function* actionSendOrderToPOS() {
-  yield takeLatest("SEND_ORDER_TO_POS", sendOrderToPOS)
+  yield takeLatest(SEND_ORDER_TO_POS, sendOrderToPOS)
 }
 function* actionRemoveOrderIndex() {
-  yield takeLatest("REMOVE_ORDER_INDEX", removeOrderIndex)
+  yield takeLatest(REMOVE_ORDER_INDEX, removeOrderIndex)
 }
 function* actionAddNewOrderItem() {
-  yield takeLatest("ADD_NEW_ORDER_ITEM", addNewOrderItem)
+  yield takeLatest(ADD_NEW_ORDER_ITEM, addNewOrderItem)
 }
 function* actionSearchData() {
-  yield takeLatest("SEARCH_DATA", searchData)
+  yield takeLatest(SEARCH_DATA, searchData)
 }
 function* actionFetchSubMenuList() {
-  yield takeLatest("LOAD_SUB_MENU_LIST", fetchSubMenuList)
+  yield takeLatest(LOAD_SUB_MENU_LIST, fetchSubMenuList)
 }
 function* actionFetchProductDetail() {
-  yield takeLatest("LOAD_PRODUCT_DETAIL", fetchProductDetail)
+  yield takeLatest(LOAD_PRODUCT_DETAIL, fetchProductDetail)
 }
 function* actionFetchOrderSpecial() {
-  yield takeLatest("LOAD_ORDER_SPECIAL", fetchOrderSpecial)
+  yield takeLatest(LOAD_ORDER_SPECIAL, fetchOrderSpecial)
 }
 function* actionFetchSubMenuIndex() {
-  yield takeLatest("LOAD_SUB_MENU_INDEX", fetchSubMenuIndex)
+  yield takeLatest(LOAD_SUB_MENU_INDEX, fetchSubMenuIndex)
 }
 function* actionFetchProductSubList() {
-  yield takeLatest("LOAD_PRODUCT_SUB_LIST", fetchProductSubList)
+  yield takeLatest(LOAD_PRODUCT_SUB_LIST, fetchProductSubList)
 }
 function* actionUpdateOrderItem() {
-  yield takeLatest("UPDATE_ORDER_ITEM", updateOrderItem)
+  yield takeLatest(UPDATE_ORDER_ITEM, updateOrderItem)
 }
 function* actionAddNewOrder() {
-  yield takeLatest("ADD_NEW_ORDER", addNewOrder)
+  yield takeLatest(ADD_NEW_ORDER, addNewOrder)
 }
 
 export default function* rootSaga() {
@@ -479,6 +545,7 @@ export default function* rootSaga() {
     actionFetchTablefile(),
     actionFetchLogin(),
     actionLoadProductList(),
+    actionLoadGroupList(),
     actionLoadOrderDetail(),
     actionLoadListOrderDetail(),
     actionLoadExpansionProduct(),

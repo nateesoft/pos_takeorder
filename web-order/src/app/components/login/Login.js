@@ -13,6 +13,8 @@ import { useDispatch, useSelector, connect } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
 import MessageUtil from '../../utils/alertMsg'
 
+const { CHECK_LOGIN } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -47,11 +49,13 @@ const Login = props => {
   useEffect(() => {
     setMsgError('')
     if (status === "Success") {
-      dispatch(newOrder({
-        order_no: uuidv4(),
-        emp_code: user,
-        table_no: "no_select"
-      }))
+      if (!order_no) {
+        dispatch(newOrder({
+          order_no: uuidv4(),
+          emp_code: user,
+          table_no: "no_select"
+        }))
+      }
     } else if (status === "Invalid") {
       setMsgError('Username/Password invalid !')
     } else if (status === 'Error') {
@@ -59,7 +63,7 @@ const Login = props => {
     }
     return () => {
     }
-  }, [dispatch, errMessage, status, user])
+  }, [dispatch, errMessage, order_no, status, user])
 
   if (order_no !== "") {
     return <Redirect push to="/table" />
@@ -121,7 +125,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     checkLogin: (user, pass) => dispatch({ 
-      type: 'CHECK_LOGIN', 
+      type: CHECK_LOGIN, 
       payload: {
         username: user, 
         password: pass

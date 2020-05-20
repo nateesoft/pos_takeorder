@@ -11,6 +11,8 @@ import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_PRODUCT_LIST, ADD_NEW_ORDER } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -114,13 +116,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getProduct: groupId => dispatch({
-      type: 'LOAD_PRODUCT_LIST',
+      type: LOAD_PRODUCT_LIST,
       payload: {
         groupId: groupId
       }
     }),
     addOrderItem: (code,name,price,table_no,order_no,emp_code,specialText,subMenuCode) => dispatch({
-      type: 'ADD_NEW_ORDER',
+      type: ADD_NEW_ORDER,
       payload: {
         code,
         name,

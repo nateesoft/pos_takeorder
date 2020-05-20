@@ -1,5 +1,41 @@
 import produce from "immer"
 
+const { 
+  UPDATE_ORDER_ITEM,
+  UPDATE_ORDER_ITEM_SUCCESS,
+  UPDATE_ORDER_ITEM_FAIL,
+  LOAD_SUB_MENU_INDEX,
+  LOAD_SUB_MENU_INDEX_SUCCESS,
+  LOAD_SUB_MENU_INDEX_FAIL,
+  LOAD_SUB_MENU_LIST,
+  LOAD_SUB_MENU_LIST_SUCCESS,
+  LOAD_SUB_MENU_LIST_FAIL,
+  ADD_NEW_ORDER_ITEM,
+  ADD_NEW_ORDER_ITEM_SUCCESS,
+  ADD_NEW_ORDER_ITEM_FAIL,
+  REMOVE_ORDER_INDEX,
+  REMOVE_ORDER_INDEX_SUCCESS,
+  REMOVE_ORDER_INDEX_FAIL,
+  SEND_ORDER_TO_POS,
+  SEND_ORDER_TO_POS_SUCCESS,
+  SEND_ORDER_TO_POS_FAIL,
+  LOAD_EXPANSION_PRODUCT,
+  LOAD_EXPANSION_PRODUCT_SUCCESS,
+  LOAD_EXPANSION_PRODUCT_FAIL,
+  LOAD_LIST_ORDER_DETAIL,
+  LOAD_LIST_ORDER_DETAIL_SUCCESS,
+  LOAD_LIST_ORDER_DETAIL_FAIL,
+  LOAD_TABLE_FILE,
+  LOAD_TABLE_FILE_SUCCESS,
+  LOAD_TABLE_FILE_FAIL,
+  CHOOSE_TABLE,
+  CLEAR_TABLE,
+  CURRENT_ORDER,
+  ADD_ORDER,
+  CLEAR_ORDER,
+  NEW_ORDER,
+} = require('../actions/constants')
+
 const initialState = {
   empCode: "",
   tableNo: "",
@@ -42,7 +78,7 @@ const initialState = {
 const tableReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case "UPDATE_ORDER_ITEM":
+      case UPDATE_ORDER_ITEM:
         draft.orderDetail.orderNo = action.payload.orderNo
         draft.orderDetail.code = action.payload.code
         draft.orderDetail.price = action.payload.price
@@ -50,28 +86,28 @@ const tableReducer = (state = initialState, action) =>
         draft.specialText = action.payload.specialText
         draft.subMenuCode = action.payload.subMenuCode
         break;
-      case "UPDATE_ORDER_ITEM_SUCCESS":
+      case UPDATE_ORDER_ITEM_SUCCESS:
         draft.order.updateItem = action.payload.msg
         break;
-      case "UPDATE_ORDER_ITEM_FAIL":
+      case UPDATE_ORDER_ITEM_FAIL:
         break;
-      case 'LOAD_SUB_MENU_INDEX':
+      case LOAD_SUB_MENU_INDEX:
         draft.orderSubMenu.uid = action.payload.uid
         break;
-      case 'LOAD_SUB_MENU_INDEX_SUCCESS':
+      case LOAD_SUB_MENU_INDEX_SUCCESS:
         draft.orderSubMenu.subMenuList = action.payload
         break;
-      case 'LOAD_SUB_MENU_INDEX_FAIL':
+      case LOAD_SUB_MENU_INDEX_FAIL:
         break;
-      case 'LOAD_SUB_MENU_LIST':
+      case LOAD_SUB_MENU_LIST:
         draft.orderSubMenu.productCode = action.payload.code
         break;
-      case 'LOAD_SUB_MENU_LIST_SUCCESS':
+      case LOAD_SUB_MENU_LIST_SUCCESS:
         draft.orderSubMenu.subMenuList = action.payload
         break;
-      case 'LOAD_SUB_MENU_LIST_FAIL':
+      case LOAD_SUB_MENU_LIST_FAIL:
         break;
-      case 'ADD_NEW_ORDER_ITEM':
+      case ADD_NEW_ORDER_ITEM:
         draft.orderDetail.tableNo = action.payload.tableNo
         draft.orderDetail.orderNo = action.payload.orderNo
         draft.orderDetail.menuCode = action.payload.menuCode
@@ -80,79 +116,76 @@ const tableReducer = (state = initialState, action) =>
         draft.orderDetail.qty = action.payload.qty
         draft.orderDetail.totalAmount = action.payload.totalAmount
         break
-      case 'ADD_NEW_ORDER_ITEM_SUCCESS':
+      case ADD_NEW_ORDER_ITEM_SUCCESS:
         draft.order.addNewItem = action.payload.msg
         break
-      case 'ADD_NEW_ORDER_ITEM_FAIL':
+      case ADD_NEW_ORDER_ITEM_FAIL:
         break
-      case 'REMOVE_ORDER_INDEX':
+      case REMOVE_ORDER_INDEX:
         draft.order.uid = action.payload.uid
         break
-      case 'REMOVE_ORDER_INDEX_SUCCESS':
+      case REMOVE_ORDER_INDEX_SUCCESS:
         draft.order.removeItem = action.payload.msg
         break
-      case 'REMOVE_ORDER_INDEX_FAIL':
+      case REMOVE_ORDER_INDEX_FAIL:
         break
-      case 'SEND_ORDER_TO_POS':
+      case SEND_ORDER_TO_POS:
         draft.order.orderNo = action.payload.orderNo
         break
-      case 'SEND_ORDER_TO_POS_SUCCESS':
+      case SEND_ORDER_TO_POS_SUCCESS:
         draft.order.sendToPOS = action.payload.msg
         break
-      case 'SEND_ORDER_TO_POS_FAIL':
+      case SEND_ORDER_TO_POS_FAIL:
         break
-      case 'LOAD_EXPANSION_PRODUCT':
+      case LOAD_EXPANSION_PRODUCT:
         draft.product.orderNo = action.payload.orderNo
         draft.product.menuCode = action.payload.menuCode
         break
-      case 'LOAD_EXPANSION_PRODUCT_SUCCESS':
+      case LOAD_EXPANSION_PRODUCT_SUCCESS:
         draft.product.expansionItem = action.payload
         break
-      case 'LOAD_EXPANSION_PRODUCT_FAIL':
+      case LOAD_EXPANSION_PRODUCT_FAIL:
         break
-      case 'LOAD_LIST_ORDER_DETAIL':
+      case LOAD_LIST_ORDER_DETAIL:
         draft.order.orderNo = action.payload.orderNo
         break
-      case 'LOAD_LIST_ORDER_DETAIL_SUCCESS':
+      case LOAD_LIST_ORDER_DETAIL_SUCCESS:
         draft.order.items = action.payload
         break
-      case 'LOAD_LIST_ORDER_DETAIL_FAIL':
+      case LOAD_LIST_ORDER_DETAIL_FAIL:
         break
-      case 'LOAD_TABLE_FILE':
+      case LOAD_TABLE_FILE:
         break
-      case 'LOAD_TABLE_FILE_SUCCESS':
+      case LOAD_TABLE_FILE_SUCCESS:
         draft.tableFileList = action.payload
         break
-      case 'LOAD_TABLE_FILE_FAIL':
+      case LOAD_TABLE_FILE_FAIL:
         break
-      case "CHOOSE_TABLE":
+      case CHOOSE_TABLE:
         draft.tableNo = action.payload
         break
-      case "CLEAR_TABLE":
+      case CLEAR_TABLE:
         draft.tableNo = ""
         break
-      case "CURRENT_ORDER":
+      case CURRENT_ORDER:
         draft.order = action.payload
         break
-      case "ADD_ORDER":
+      case ADD_ORDER:
         draft.order.items = state.order.items.concat(action.payload)
         break
-      case "CLEAR_ORDER":
+      case CLEAR_ORDER:
         draft.order = {
           orderNo: "",
           items: []
         }
         break
-      case "NEW_ORDER":
+      case NEW_ORDER:
         draft.empCode = action.payload.emp_code
         draft.tableNo = action.payload.table_no
         draft.order = {
           orderNo: action.payload.order_no,
           items: []
         }
-        break
-      case "NEW_TABLE":
-        draft.tableNo = action.payload.table_no
         break
       default:
         break

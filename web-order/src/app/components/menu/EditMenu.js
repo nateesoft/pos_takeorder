@@ -19,6 +19,8 @@ import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector, connect } from "react-redux"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_ORDER_DETAIL } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -138,7 +140,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getOrderDetail: uid => dispatch({
-      type: 'LOAD_ORDER_DETAIL',
+      type: LOAD_ORDER_DETAIL,
       payload: {
         uid: uid
       }

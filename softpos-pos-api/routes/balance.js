@@ -35,7 +35,9 @@ router.post("/create", (req, res, next) => {
     group: balance.group, 
     price: balance.price, 
     qty: balance.qty,
-    total: balance.total_amount
+    total: balance.total_amount,
+    s_text: balance.s_text,
+    sub_code: balance.sub_code,
   }
   Task.create(Balance, (err, rows) => {
     if (err) {
@@ -52,6 +54,17 @@ router.post("/reset_balance", (req, res, next) => {
         res.send({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
         res.status(200).json({ delete_count: rows.affectedRows })
+      }
+    })
+})
+
+router.post("/getIndex", (req, res, next) => {
+  const tableNo = req.body.table_no
+    Task.getIndexBalance(tableNo, (err, newIndex) => {
+      if (err) {
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      } else {
+        res.status(200).json({ data: newIndex })
       }
     })
 })
