@@ -13,6 +13,8 @@ import { useDispatch, useSelector, connect } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
 import MessageUtil from '../../utils/alertMsg'
 
+const { CHECK_LOGIN } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -121,7 +123,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     checkLogin: (user, pass) => dispatch({ 
-      type: 'CHECK_LOGIN', 
+      type: CHECK_LOGIN, 
       payload: {
         username: user, 
         password: pass

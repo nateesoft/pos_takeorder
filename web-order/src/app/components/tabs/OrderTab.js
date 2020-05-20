@@ -31,6 +31,14 @@ import CloseIcon from "@material-ui/icons/Close"
 import EditMenu from "../menu/EditMenu"
 import MessageUtil from '../../utils/alertMsg'
 
+const { 
+  LOAD_LIST_ORDER_DETAIL,
+  LOAD_EXPANSION_PRODUCT,
+  SEND_ORDER_TO_POS,
+  REMOVE_ORDER_INDEX,
+  ADD_NEW_ORDER_ITEM
+} = require('../../actions/constants')
+
 const styles = theme => ({
   root: {
     margin: 0,
@@ -288,32 +296,32 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadListOrderDetail: orderNo => dispatch({
-      type: 'LOAD_LIST_ORDER_DETAIL',
+      type: LOAD_LIST_ORDER_DETAIL,
       payload: {
         orderNo: orderNo
       }
     }),
     loadExpansionProduct: (orderNo, menuCode) => dispatch({
-      type: 'LOAD_EXPANSION_PRODUCT',
+      type: LOAD_EXPANSION_PRODUCT,
       payload: {
         orderNo: orderNo,
         menuCode: menuCode,
       }
     }),
     sendToPOS: orderNo => dispatch({
-      type: 'SEND_ORDER_TO_POS',
+      type: SEND_ORDER_TO_POS,
       payload: {
         orderNo: orderNo
       }
     }),
     removeItemIndex: uid => dispatch({
-      type: 'REMOVE_ORDER_INDEX',
+      type: REMOVE_ORDER_INDEX,
       payload: {
         uid: uid
       }
     }),
     addOrderItem: (tableNo, orderNo, menuCode, menuName, price, qty, totalAmount) => dispatch({
-      type: 'ADD_NEW_ORDER_ITEM',
+      type: ADD_NEW_ORDER_ITEM,
       payload: {
         tableNo, 
         orderNo, 

@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles"
 import Badge from "@material-ui/core/Badge"
 import { useSelector, connect } from "react-redux"
 
+const { LOGOUT } = require('../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   listMenu: {
     textDecoration: "none",
@@ -99,7 +101,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch({
-      type: 'LOGOUT',
+      type: LOGOUT,
     })
   }
 }

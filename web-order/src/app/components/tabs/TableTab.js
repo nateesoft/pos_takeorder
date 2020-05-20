@@ -11,6 +11,8 @@ import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_TABLE_FILE } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -88,7 +90,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadTablefile: () => dispatch({ type: 'LOAD_TABLE_FILE' })
+    onLoadTablefile: () => dispatch({ type: LOAD_TABLE_FILE })
   }
 }
 
