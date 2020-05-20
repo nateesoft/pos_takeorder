@@ -11,6 +11,8 @@ import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_TABLE_FILE } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -25,13 +27,11 @@ const TableTab = props => {
   const { onLoadTablefile } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [selectedIndex, setSelectedIndex] = useState(-1)
   const dispatch = useDispatch()
   const table_no = useSelector(state => state.table.tableNo)
   const tableFileList = useSelector(state => state.table.tableFileList)
 
   const handleListItemClick = (event, index, tableNo) => {
-    setSelectedIndex(index)
     dispatch(chooseTable(tableNo))
   }
 
@@ -53,7 +53,7 @@ const TableTab = props => {
           <div key={`div-${index}`}>
             <ListItem
               button
-              selected={selectedIndex === index}
+              selected={table_no === item.Tcode}
               onClick={event => handleListItemClick(event, index, item.Tcode)}
             >
               <ListItemAvatar>
@@ -88,7 +88,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadTablefile: () => dispatch({ type: 'LOAD_TABLE_FILE' })
+    onLoadTablefile: () => dispatch({ type: LOAD_TABLE_FILE })
   }
 }
 

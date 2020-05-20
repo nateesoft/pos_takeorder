@@ -19,6 +19,8 @@ import SpecialTextComp from "./SpecialTextComp"
 import { useSelector, connect } from "react-redux"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_PRODUCT_DETAIL } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -139,7 +141,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadProductDetail: (group, code) => dispatch({
-      type: 'LOAD_PRODUCT_DETAIL',
+      type: LOAD_PRODUCT_DETAIL,
       payload: {
         group: group,
         code: code,
