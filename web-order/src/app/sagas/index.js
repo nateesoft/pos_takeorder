@@ -299,9 +299,32 @@ function* sendOrderToPOS(action) {
         order_no: orderNo,
       }),
     })
+    yield call(request, `${TAKEORDER_API}/api/orders/move_update`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        order_no: orderNo,
+      }),
+    })
 
     for(let i = 0; i < response.data.length; i += 1) {
       const data = response.data[i]
+
+      const newIndex = yield call(request, `${POS_API}/pos/balance/getIndex`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          table_no: data.table_code,
+        }),
+      })
+
+      data.index = newIndex.data
       yield call(request, `${POS_API}/pos/balance/create`, {
         method: 'POST',
         headers: {
