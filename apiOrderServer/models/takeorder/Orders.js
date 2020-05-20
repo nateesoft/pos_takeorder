@@ -53,35 +53,17 @@ const Orders = {
       callback
     )
   },
-  moveToBill: (order_no, callback) => {
-    return db.query(
-      `insert into bill
-      (bill_no, table_code, emp_code, cust_count, item_count, total_amount, status, created_at ,updated_at) 
-      select od.order_no, od.table_code, od.emp_code, od.cust_count, od.item_count, od.total_amount, 
-      "Y", now(), now() from orders od where od.order_no=?`,
-      [order_no],
-      callback
-    )
+  move: (order_no, callback) => {
+    return db.query(`select o.*, od.*  from orders_detail od 
+      inner join orders o on od.order_no = o.order_no 
+      where od.send_order='N' and od.order_no = ?`, 
+      [order_no], callback)
   },
-  moveToBillDetail: (order_no, callback) => {
+  updatAfterMove: (order_no, callback) => {
     return db.query(
-      `insert into bill_detail
-      (\`index\`, bill_no, menu_code, menu_name, price, qty, total_amount, status, created_at ,updated_at, uid) 
-      select \`index\`, od.order_no, od.menu_code, od.menu_name, od.price, od.qty, od.total_amount, 
-      "Y", now(), now(), od.uid from orders_detail od where od.order_no=? and od.send_order='N'`,
-      [order_no],
-      callback
-    )
-  },
-  updateOrderDetailAfterMove: (order_no, callback) => {
-    db.query(`update orders_detail set send_order='Y' where order_no=? and send_order='N'`, [order_no])
-    return db.query(
-      `select o.*, od.*  
-        from orders_detail od inner join orders o on od.order_no = o.order_no 
-        where od.order_no = ?`,
-      [order_no],
-      callback
-    )
+      `update orders_detail set send_order='Y' 
+      where order_no=? and send_order='N'`, 
+      [order_no], callback)
   },
   empty: (callback) => {
     db.query(`delete from orders_detail`, (err, result, fields) => {
