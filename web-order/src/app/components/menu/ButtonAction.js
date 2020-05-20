@@ -8,6 +8,8 @@ import { useDispatch, useSelector, connect } from "react-redux"
 import { addNewItem, clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 
+const { ADD_NEW_ORDER } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
@@ -75,7 +77,7 @@ const mapDispatchToProps = dispatch => {
     addOrderItem: (
       code,name,price,table_no,order_no,
       emp_code,specialText,subMenuCode) => dispatch({
-      type: 'ADD_NEW_ORDER',
+      type: ADD_NEW_ORDER,
       payload: {
         code,
         name,

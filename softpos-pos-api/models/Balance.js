@@ -89,6 +89,11 @@ const BalanceModel = {
         return callback(null, [])
       }
       rows.map(product => {
+        const s_text = balance.s_text ? balance.s_text.split(','): []
+        const opt = ['','','','','']
+        s_text.map((data, id) => {
+          opt[id] = data
+        })
         return db.query(
           `insert into balance 
               (r_index, r_table, r_emp, r_plucode, r_pname, 
@@ -99,7 +104,8 @@ const BalanceModel = {
               R_PrAmt, R_DiscBath, R_PrCuQuan, R_PrCuAmt, R_Redule,
               R_PItemNo, R_PKicQue, 
               R_Stock, R_Set, R_Vat, R_Status,
-              R_Service, R_Discount, R_Normal, R_Type, R_Kic) 
+              R_Service, R_Discount, R_Normal, R_Type, R_Kic, 
+              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5) 
             values 
               (?, ?, ?, ?, ?, 
               ?, ?, ?, ?, ?,
@@ -109,12 +115,14 @@ const BalanceModel = {
               0, 0, 0, 0, 0, 
               0, 0, 
               ?, ?, ?, ?,
+              ?, ?, ?, ?, ?,
               ?, ?, ?, ?, ?)`,
           [
             balance.index, balance.table, balance.emp, balance.plucode, balance.pname, 
             product.PUnit1, product.PGroup, balance.price, balance.qty, balance.total, 
             balance.macno, product.PStock, product.PSet, product.PVat, product.PStatus,
-            product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic
+            product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic,
+            opt[0],opt[1],opt[2],opt[3],opt[4]
           ], 
           callback)
       })

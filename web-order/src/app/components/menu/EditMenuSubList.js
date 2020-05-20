@@ -8,6 +8,8 @@ import { useSelector, useDispatch, connect } from "react-redux"
 import { addNewSubMenuCode, clearNewSubMenuCode, emptySubMenuCode } from "../../actions"
 import MessageUtil from '../../utils/alertMsg'
 
+const { LOAD_SUB_MENU_LIST } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -134,7 +136,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadSubMenuList: code => dispatch({
-      type: 'LOAD_SUB_MENU_LIST',
+      type: LOAD_SUB_MENU_LIST,
       payload: {
         code
       }

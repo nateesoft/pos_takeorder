@@ -10,6 +10,8 @@ import SearchMenu from "../apis/SearchMenu"
 import MessageUtil from '../../utils/alertMsg'
 import { connect, useSelector } from 'react-redux'
 
+const { SEARCH_DATA } = require('../../actions/constants')
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -131,7 +133,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSearch: search => dispatch({
-      type: 'SEARCH_DATA',
+      type: SEARCH_DATA,
       payload: {
         search: search,
       }

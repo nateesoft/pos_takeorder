@@ -54,7 +54,15 @@ const Orders = {
     )
   },
   move: (order_no, callback) => {
-    return db.query(`select o.*, od.*  from orders_detail od 
+    return db.query(`select o.*, od.*,
+      (select group_concat(special_text) 
+        from orders_specialtext ost 
+        where ost.menu_index = od.uid) s_text,
+      (select group_concat(p.name) 
+        from orders_subcode st 
+        left join product_menu p on st.sub_menu_code = p.code 
+        where st.menu_index = od.uid) sub_code 
+      from orders_detail od 
       inner join orders o on od.order_no = o.order_no 
       where od.send_order='N' and od.order_no = ?`, 
       [order_no], callback)
