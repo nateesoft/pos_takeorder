@@ -1,4 +1,4 @@
-const db = require("../../config/db")
+const db = require("../../config")
 const table_name = "orders_detail"
 
 const OrdersDetail = {

@@ -1,4 +1,4 @@
-const db = require("../config/db")
+const db = require("../config")
 const Stock = require("./Stock")
 const table_name = "balance"
 
