@@ -35,7 +35,9 @@ router.post("/create", (req, res, next) => {
     group: balance.group, 
     price: balance.price, 
     qty: balance.qty,
-    total: balance.total_amount
+    total: balance.total_amount,
+    s_text: balance.s_text,
+    sub_code: balance.sub_code,
   }
   Task.create(Balance, (err, rows) => {
     if (err) {
