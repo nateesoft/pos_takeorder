@@ -23,11 +23,12 @@ import Setting from "./tabs/Setting"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { SnackbarProvider } from "notistack"
 import Button from "@material-ui/core/Button"
 import SearchPanel from "../components/search"
 import { makeStyles } from "@material-ui/core/styles"
+import { loadGroupList } from '../actions'
 
 require("../components/styles/App.css")
 
@@ -46,6 +47,7 @@ const App = () => {
   const [open, setOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const tableNo = useSelector(state => state.table.tableNo)
+  const dispatch = useDispatch()
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -65,12 +67,13 @@ const App = () => {
   )
 
   useEffect(() => {
+    dispatch(loadGroupList())
     if (window.innerWidth <= 760) {
       setOpen(false)
     }
     return () => {
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <Router>

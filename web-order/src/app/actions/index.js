@@ -253,6 +253,22 @@ export const loadProductListFail = () => {
     type: 'LOAD_PRODUCT_LIST_FAIL',
   }
 }
+export const loadGroupList = payload => {
+  return {
+    type: 'LOAD_GROUP_LIST',
+  }
+}
+export const loadGroupListSuccess = payload => {
+  return {
+    type: 'LOAD_GROUP_LIST_SUCCESS',
+    payload: payload,
+  }
+}
+export const loadGroupListFail = () => {
+  return {
+    type: 'LOAD_GROUP_LIST_FAIL',
+  }
+}
 
 export const loadTablefile = () => {
   return {

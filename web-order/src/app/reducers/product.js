@@ -7,6 +7,7 @@ const initialState = {
   productList: [],
   productSubList: [],
   productSearchList: [],
+  groupList: [],
 }
 
 const productReducer = (state = initialState, action) =>
@@ -27,6 +28,13 @@ const productReducer = (state = initialState, action) =>
         draft.productList = action.payload
         break
       case 'LOAD_PRODUCT_LIST_FAIL':
+        break
+      case 'LOAD_GROUP_LIST':
+        break
+      case 'LOAD_GROUP_LIST_SUCCESS':
+        draft.groupList = action.payload
+        break
+      case 'LOAD_GROUP_LIST_FAIL':
         break
       case 'LOAD_PRODUCT_DETAIL':
         draft.code = action.payload.code

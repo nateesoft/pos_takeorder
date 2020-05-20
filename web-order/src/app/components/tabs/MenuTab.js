@@ -34,24 +34,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 }
 
-const dataGroup = [
-  "g01",
-  "g02",
-  "g03",
-  "g04",
-  "g05",
-  "g06",
-  "g07",
-  "g08",
-  "g09",
-  "g10",
-  "g11",
-  "g12",
-  "g13",
-  "g14",
-  "g15",
-]
-
 const getMenu = index => {
   return {
     id: `scrollable-force-tab-${index}`,
@@ -69,12 +51,12 @@ const useStyles = makeStyles(theme => ({
 
 const MenuTab = props => {
   const { match } = props
-  const groupId = (match && match.params && match.params.group) || "g01"
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
   const table_no = useSelector((state) => state.table.tableNo)
   const order_no = useSelector((state) => state.table.order.orderNo)
+  const dataGroup = useSelector((state) => state.product.groupList)
 
   const handleChangeIndex = index => {
     setValue(index)
@@ -87,14 +69,15 @@ const MenuTab = props => {
   const emptyFunc = () => {}
 
   useEffect(() => {
+    const groupId = (match && match.params && match.params.group) || dataGroup[0].code
     dataGroup.map((item, i) => {
-      if (item === groupId) {
+      if (item.code === groupId) {
         setValue(i)
       }
       return null
     })
     return () => {}
-  }, [groupId])
+  }, [dataGroup, match])
 
   if (order_no === "") {
     return <Redirect push to={`/login`} />
@@ -113,21 +96,9 @@ const MenuTab = props => {
           scrollButtons="on"
           aria-label="scrollable force"
         >
-          <Tab label="Appetizer" {...getMenu(0)} />
-          <Tab label="Beef" {...getMenu(1)} />
-          <Tab label="Beverage" {...getMenu(2)} />
-          <Tab label="Burger" {...getMenu(3)} />
-          <Tab label="Chicken" {...getMenu(4)} />
-          <Tab label="Delivery" {...getMenu(5)} />
-          <Tab label="Dessert" {...getMenu(6)} />
-          <Tab label="Fish" {...getMenu(7)} />
-          <Tab label="Kids" {...getMenu(8)} />
-          <Tab label="Pork" {...getMenu(9)} />
-          <Tab label="Premiumsteak" {...getMenu(10)} />
-          <Tab label="Salad" {...getMenu(11)} />
-          <Tab label="Soup" {...getMenu(12)} />
-          <Tab label="Spaghetti" {...getMenu(13)} />
-          <Tab label="Yourway" {...getMenu(14)} />
+          {dataGroup && dataGroup.map((item, i) => (
+            <Tab key={'iTab'+i} label={item.name} {...getMenu(i)} />
+          ))}
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -142,7 +113,7 @@ const MenuTab = props => {
               key={`dg${i}`}
             >
               <TabPanel value={value} index={i} key={i}>
-                <GetMenu id={item} close={emptyFunc} />
+                <GetMenu id={item.code} close={emptyFunc} />
               </TabPanel>
             </div>
           ))}
