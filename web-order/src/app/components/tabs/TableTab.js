@@ -27,13 +27,11 @@ const TableTab = props => {
   const { onLoadTablefile } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
-  const [selectedIndex, setSelectedIndex] = useState(-1)
   const dispatch = useDispatch()
   const table_no = useSelector(state => state.table.tableNo)
   const tableFileList = useSelector(state => state.table.tableFileList)
 
   const handleListItemClick = (event, index, tableNo) => {
-    setSelectedIndex(index)
     dispatch(chooseTable(tableNo))
   }
 
@@ -55,7 +53,7 @@ const TableTab = props => {
           <div key={`div-${index}`}>
             <ListItem
               button
-              selected={selectedIndex === index}
+              selected={table_no === item.Tcode}
               onClick={event => handleListItemClick(event, index, item.Tcode)}
             >
               <ListItemAvatar>
