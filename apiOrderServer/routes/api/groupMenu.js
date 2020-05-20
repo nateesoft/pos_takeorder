@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get("/", (req, res, next) => {
 
-  // find product from group code
+  // find all group menu
   Task.findAll((err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
