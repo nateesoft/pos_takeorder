@@ -3,10 +3,9 @@ const router = express.Router()
 const Task = require("../models/Stock")
 
 router.get("/getName", (req, res, next) => {
-  const pCode = '08001'
-  const tableNo = 'A1'
-  const macNo = '001'
-  Task.getStockName(pCode, tableNo, macNo, (err, rows) => {
+  const pCode = req.query.pCode
+  const macNo = req.query.macNo
+  Task.getStockName(pCode, macNo, (err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
@@ -30,23 +29,20 @@ router.post("/stkfile", (req, res, next) => {
 
 router.post("/stcard", (req, res, next) => {
   const { stcard } = req.body
+  const currDate = new Date()
   const STCardBean = {
-    S_Date: stcard.S_Date, 
-    S_No: stcard.S_No, 
-    S_SubNo: stcard.S_SubNo, 
-    S_Que: stcard.S_Que, 
+    S_No: `1 ${currDate.getHours()}:${currDate.getMinutes()}:${currDate.getSeconds()}`, 
+    S_SubNo: '', 
+    S_Que: 0, 
     S_PCode: stcard.S_PCode, 
     S_Stk: stcard.S_Stk, 
-    S_In: stcard.S_In, 
     S_Out: stcard.S_Out, 
-    S_InCost: stcard.S_InCost, 
+    S_InCost: 0, 
     S_OutCost: stcard.S_OutCost,
-    S_ACost: stcard.S_ACost, 
-    S_Rem: stcard.S_Rem, 
+    S_ACost: 0, 
+    S_Rem: 'SAL', 
     S_User: stcard.S_User, 
-    S_EntryDate: stcard.S_EntryDate, 
-    S_EntryTime: stcard.S_EntryTime, 
-    S_Link: stcard.S_Link
+    S_Link: ''
   }
   Task.saveSTCard(STCardBean, (err, rows) => {
     if (err) {
