@@ -60,11 +60,22 @@ router.delete("/:order_no/delete", (req, res, next) => {
 
 router.post("/move", (req, res, next) => {
   const order_no = req.body.order_no
-  Task.updateOrderDetailAfterMove(order_no, (err, rows) => {
+  Task.move(order_no, (err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
+    }
+  })
+})
+
+router.post("/move_update", (req, res, next) => {
+  const order_no = req.body.order_no
+  Task.updatAfterMove(order_no, (err1, rows1) => {
+    if (err1) {
+      res.send({ status: "Error", msg: err1.sqlMessage || err1.errno })
+    } else {
+      res.status(200).json({ data: rows1 })
     }
   })
 })

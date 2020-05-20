@@ -56,4 +56,15 @@ router.post("/reset_balance", (req, res, next) => {
     })
 })
 
+router.post("/getIndex", (req, res, next) => {
+  const tableNo = req.body.table_no
+    Task.getIndexBalance(tableNo, (err, newIndex) => {
+      if (err) {
+        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      } else {
+        res.status(200).json({ data: newIndex })
+      }
+    })
+})
+
 module.exports = router
