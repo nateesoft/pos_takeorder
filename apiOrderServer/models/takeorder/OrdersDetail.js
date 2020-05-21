@@ -110,8 +110,13 @@ const OrdersDetail = {
         total_amount,
         uid,
         "N",
-      ],
-      callback
+      ], (err, rows) => {
+        if (err) throw err
+        return db.query(`update orders o 
+          set total_amount = (select sum(total_amount) from orders_detail od where od.order_no=o.order_no) 
+          where order_no=?`, 
+          [order_no], callback)
+      }
     )
   },
   update: (index, OrdersDetail, callback) => {
@@ -161,14 +166,12 @@ const OrdersDetail = {
         }
       }
     )
-
-    return db.query(
-      `select * from ${table_name} where uid=?`,
-      [index],
-      callback
-    )
+    return db.query(`update orders o 
+      set total_amount = (select sum(total_amount) from orders_detail od where od.order_no=o.order_no) 
+      where order_no=?`, 
+      [order_no], callback)
   },
-  delete: (index, callback) => {
+  delete: (index, order_no, callback) => {
     db.query(
       `delete from orders_specialtext where menu_index=?`,
       [index],
@@ -183,7 +186,13 @@ const OrdersDetail = {
         if (err) throw err
       }
     )
-    return db.query(`delete from ${table_name} where uid=?`, [index], callback)
+    db.query(`delete from ${table_name} where uid=?`, [index], (err, rows)=>{
+      if (err) throw err
+      return db.query(`update orders o 
+        set total_amount = (select sum(total_amount) from orders_detail od where od.order_no=o.order_no) 
+        where order_no=?`, 
+        [order_no], callback)
+    })
   }
 }
 

@@ -47,6 +47,7 @@ const initialState = {
     removeItem: '',
     addNewItem: '',
     updateItem: '',
+    totalAmount: 0,
   },
   orderDetail: {
     code: '',
@@ -124,6 +125,7 @@ const tableReducer = (state = initialState, action) =>
         break
       case REMOVE_ORDER_INDEX:
         draft.order.uid = action.payload.uid
+        draft.order.orderNo = action.payload.order_no
         break
       case REMOVE_ORDER_INDEX_SUCCESS:
         draft.order.removeItem = action.payload.msg
@@ -151,7 +153,8 @@ const tableReducer = (state = initialState, action) =>
         draft.order.orderNo = action.payload.orderNo
         break
       case LOAD_LIST_ORDER_DETAIL_SUCCESS:
-        draft.order.items = action.payload
+        draft.order.items = action.payload.item
+        draft.order.totalAmount = action.payload.total
         break
       case LOAD_LIST_ORDER_DETAIL_FAIL:
         break

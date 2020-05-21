@@ -290,7 +290,7 @@ function* addNewOrderItem(action) {
 }
 
 function* removeOrderIndex(action) {
-  const { uid } = action.payload
+  const { uid, order_no } = action.payload
   const requestURL = `${TAKEORDER_API}/api/orders_detail`
   try {
     yield call(request, requestURL, {
@@ -301,6 +301,7 @@ function* removeOrderIndex(action) {
       },
       body: JSON.stringify({
         uid: uid,
+        order_no: order_no,
       }),
     })
     yield put(removeOrderIndexSuccess({status: true, msg: 'Success'}))
@@ -394,7 +395,17 @@ function* fetchListOrderDetail(action) {
         'Content-Type': 'application/json',
       },
     })
-    yield put(loadListOrderDetailSuccess(response.data))
+    const responseOrder = yield call(request, `${TAKEORDER_API}/api/orders?order_no=${orderNo}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadListOrderDetailSuccess({
+      item: response.data,
+      total: responseOrder.data[0].total_amount
+    }))
   } catch(err) {
     yield put(loadListOrderDetailFail({ status: "Error", msg: err }))
   }
