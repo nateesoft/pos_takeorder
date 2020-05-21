@@ -53,6 +53,9 @@ const {
   CHECK_LOGIN,
   CHECK_LOGIN_SUCCESS,
   CHECK_LOGIN_FAIL,
+  CHECK_LOGOUT,
+  CHECK_LOGOUT_SUCCESS,
+  CHECK_LOGOUT_FAIL,
   CHOOSE_TABLE,
   CLEAR_TABLE,
   CURRENT_ORDER,
@@ -374,6 +377,24 @@ export const checkLoginSuccess = payload => {
 export const checkLoginFail = payload => {
   return {
     type: CHECK_LOGIN_FAIL,
+    payload: payload,
+  }
+}
+export const checkLogut = payload => {
+  return {
+    type: CHECK_LOGOUT,
+    payload: payload,
+  }
+}
+export const checkLogoutSuccess = payload => {
+  return {
+    type: CHECK_LOGOUT_SUCCESS,
+    payload: payload,
+  }
+}
+export const checkLogoutFail = payload => {
+  return {
+    type: CHECK_LOGOUT_FAIL,
     payload: payload,
   }
 }

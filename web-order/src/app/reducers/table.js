@@ -1,4 +1,5 @@
 import produce from "immer"
+import { CHECK_LOGOUT, CHECK_LOGOUT_SUCCESS } from "../actions/constants"
 
 const { 
   UPDATE_ORDER_ITEM,
@@ -184,6 +185,16 @@ const tableReducer = (state = initialState, action) =>
         draft.tableNo = action.payload.table_no
         draft.order = {
           orderNo: action.payload.order_no,
+          items: []
+        }
+        break
+      case CHECK_LOGOUT:
+        break
+      case CHECK_LOGOUT_SUCCESS:
+        draft.empCode = ''
+        draft.tableNo = ''
+        draft.order = {
+          orderNo: '',
           items: []
         }
         break

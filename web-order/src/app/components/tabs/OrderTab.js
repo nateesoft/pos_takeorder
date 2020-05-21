@@ -135,6 +135,7 @@ const OrderTab = props => {
     const variant = "success"
     enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
     setShowButtonSendOrder(false)
+    setExpanded(false)
   }
   const removeIndex = uid => {
     removeItemIndex(uid)
@@ -158,8 +159,8 @@ const OrderTab = props => {
   }
 
   useEffect(() => {
-    setMsgError('')
     loadListOrderDetail(order_no)
+    setMsgError('')
     return () => {
     }
   }, [loadListOrderDetail, order_no])

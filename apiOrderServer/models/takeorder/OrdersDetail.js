@@ -11,13 +11,13 @@ const OrdersDetail = {
   },
   findByOrderNoSummary: (order_no, callback) => {
     return db.query(
-      `select od.menu_code, od.menu_name, od.price,
+      `select od.send_order, od.menu_code, od.menu_name, od.price,
       (select sum(qty) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_qty, 
       (select sum(price) from orders_detail d where d.menu_code = od.menu_code and d.order_no=od.order_no) total_price,
       (select group_code from product_menu p where p.code = od.menu_code) group_code 
       from ${table_name} od 
       where od.order_no = ? and status='Y' 
-      group by od.menu_code, od.menu_name, od.price 
+      group by od.send_order, od.menu_code, od.menu_name, od.price 
       order by od.menu_name`,
       [order_no],
       callback

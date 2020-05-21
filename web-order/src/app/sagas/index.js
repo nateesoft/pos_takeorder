@@ -5,6 +5,7 @@ import {
   loadTablefileFail,
   checkLoginSuccess,
   checkLoginFail,
+  checkLogoutSuccess,
   loadProductListSuccess,
   loadProductListFail,
   loadGroupListSuccess,
@@ -57,7 +58,8 @@ const {
   LOAD_PRODUCT_LIST,
   LOAD_GROUP_LIST,
   LOAD_TABLE_FILE,
-  CHECK_LOGIN
+  CHECK_LOGIN,
+  CHECK_LOGOUT,
 } = require('../actions/constants')
 
 
@@ -468,6 +470,9 @@ function* fetchLogin(action) {
     yield put(checkLoginFail({ status: "Error", msg: err }))
   }
 }
+function* fetchLogout(action) {
+    yield put(checkLogoutSuccess({ status: 'Success', msg: 'Logout Success' }))
+}
 
 function* fetchTablefile() {
   const requestURL = `${POS_API}/pos/tablefile`
@@ -490,6 +495,9 @@ function* actionFetchTablefile() {
 }
 function* actionFetchLogin() {
   yield takeLatest(CHECK_LOGIN, fetchLogin)
+}
+function* actionFetchLogout() {
+  yield takeLatest(CHECK_LOGOUT, fetchLogout)
 }
 function* actionLoadProductList() {
   yield takeLatest(LOAD_PRODUCT_LIST, fetchProductList)
@@ -544,6 +552,7 @@ export default function* rootSaga() {
   yield all([
     actionFetchTablefile(),
     actionFetchLogin(),
+    actionFetchLogout(),
     actionLoadProductList(),
     actionLoadGroupList(),
     actionLoadOrderDetail(),

@@ -18,6 +18,7 @@ import MenuTab from "./tabs/MenuTab"
 import MenuDetail from "./menu/MenuDetail"
 import OrderTab from "./tabs/OrderTab"
 import LoginPage from "./login/Login"
+import LogoutPage from "./login/Logout"
 import WelcomePage from "./tabs/Welcome"
 import Setting from "./tabs/Setting"
 import { Link } from "react-router-dom"
@@ -34,7 +35,7 @@ require("../components/styles/App.css")
 
 const useStyles2 = makeStyles({
   list: {
-    width: 567,
+    width: window.innerWidth >= 650 ? window.innerWidth - 200 : window.innerWidth - 55,
   },
   fullList: {
     width: "auto",
@@ -68,7 +69,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(loadGroupList())
-    if (window.innerWidth <= 760) {
+    if (window.innerWidth <= 650) {
       setOpen(false)
     }
     return () => {
@@ -126,15 +127,16 @@ const App = () => {
                   {list("right")}
                 </Drawer>
               </Typography>
-              <Link to="/login" style={{ color: "white" }}>
-                <IconButton
-                  color="inherit"
-                  aria-label="upload picture"
-                  component="span"
-                >
-                  <ExitToApp />
-                </IconButton>
-              </Link>
+              {tableNo ? 
+                <Link to="/logout" style={{ color: "white" }}>
+                  <img src="img/logout.png" width="35" alt="bill" />
+                </Link> : (
+                <Link to="/login" style={{ color: "white" }}>
+                  <IconButton color="inherit" aria-label="upload picture" component="span">
+                    <ExitToApp />
+                  </IconButton>
+                </Link>
+              )}
             </Toolbar>
           </AppBar>
           {tableNo && tableNo !== "no_select" && (
@@ -199,6 +201,7 @@ const App = () => {
               <Switch>
                 <Route exact path="/" component={WelcomePage} />
                 <Route path="/login" component={LoginPage} />
+                <Route path="/logout" component={LogoutPage} />
                 <Route path="/table" component={TableTab} />
                 <Route path="/menu/:group" component={MenuTab} />
                 <Route path="/detail/:group/:code" component={MenuDetail} />
