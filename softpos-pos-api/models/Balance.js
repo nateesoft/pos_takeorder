@@ -4,6 +4,17 @@ const Product = require("./Product")
 
 const table_name = "balance"
 
+const convToAscii = text => {
+  let textAscii = ''
+  for (let i=0; i<text.length; i+=1) {
+      let code = parseInt(text.charCodeAt(i))
+      if((0xE01 <= code)&&(code <= 0xE5B)) {
+          textAscii += String.fromCharCode(code-0xD60)
+      }
+  }
+  return textAscii
+}
+
 const BalanceModel = {
   getIndexBalance: (tableNo, callback) => {
     db.query(`select max(R_Index) R_Index from balance where R_Table = ? order by R_Index`, 
@@ -92,7 +103,7 @@ const BalanceModel = {
         const s_text = balance.s_text ? balance.s_text.split(','): []
         const opt = ['','','','','']
         s_text.map((data, id) => {
-          opt[id] = data
+          opt[id] = convToAscii(data)
         })
         return db.query(
           `insert into balance 
