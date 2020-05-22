@@ -5,9 +5,7 @@ import { Link } from "react-router-dom"
 import Divider from "@material-ui/core/Divider"
 import { makeStyles } from "@material-ui/core/styles"
 import Badge from "@material-ui/core/Badge"
-import { useSelector, connect } from "react-redux"
-
-const { LOGOUT } = require('../actions/constants')
+import { useSelector } from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   listMenu: {
@@ -22,13 +20,10 @@ const LeftMenu = props => {
 
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
+  const pdaSmall = window.innerWidth <= 650
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
-  }
-
-  const logout = () => {
-    window.location = '/'
   }
   
   useEffect(() => {
@@ -44,10 +39,12 @@ const LeftMenu = props => {
           button
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
-        >
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
           <Badge badgeContent={tableNo} color="primary">
-            <img src="img/table.png" alt="table" />
+            {pdaSmall ? 
+              <img src="img/table.png" width="35" alt="table" />: 
+              <img src="img/table.png" alt="table" />
+            }
             <ListItemText primary="Table" />
           </Badge>
         </ListItem>
@@ -58,9 +55,11 @@ const LeftMenu = props => {
           button
           selected={selectedIndex === 1}
           onClick={event => handleListItemClick(event, 1)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
-        >
-          <img src="img/food.png" alt="menu" />
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
+          {pdaSmall ? 
+            <img src="img/food.png" width="35" alt="food" />:
+            <img src="img/food.png" alt="food" />
+          }
           <ListItemText primary="Menu" />
         </ListItem>
       </Link>
@@ -70,40 +69,18 @@ const LeftMenu = props => {
           button
           selected={selectedIndex === 2}
           onClick={event => handleListItemClick(event, 2)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
-        >
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
           <Badge badgeContent={orderList.length} color="primary">
-            <img src="img/bill.png" alt="bill" />
+            {pdaSmall ? 
+              <img src="img/bill.png" width="35" alt="bill" />:
+              <img src="img/bill.png" alt="bill" />
+            }
+            <ListItemText primary="Order" />
           </Badge>
-          <ListItemText primary="Order" />
         </ListItem>
       </Link>
-      {
-        tableNo && 
-        <div>
-          <Divider />
-          <ListItem button onClick={() => logout()}
-            style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}
-          >
-            <img src="img/logout.png" alt="bill" />
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </div>
-      }
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  return {}
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch({
-      type: LOGOUT,
-    })
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeftMenu)
+export default LeftMenu

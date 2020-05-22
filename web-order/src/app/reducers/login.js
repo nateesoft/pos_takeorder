@@ -3,6 +3,8 @@ const {
   CHECK_LOGIN,
   CHECK_LOGIN_SUCCESS,
   CHECK_LOGIN_FAIL,
+  CHECK_LOGOUT,
+  CHECK_LOGOUT_SUCCESS,
 } = require('../actions/constants')
 
 const initialState = {
@@ -26,6 +28,15 @@ const loginReducer = (state = initialState, action) =>
       case CHECK_LOGIN_FAIL:
         draft.status = action.payload.status
         draft.errMessage = action.payload.msg
+        break
+      case CHECK_LOGOUT:
+        break
+      case CHECK_LOGOUT_SUCCESS:
+        draft.username = ""
+        draft.password = ""
+        draft.status = ""
+        draft.message = ''
+        draft.errMessage = ''
         break
       default:
         break
