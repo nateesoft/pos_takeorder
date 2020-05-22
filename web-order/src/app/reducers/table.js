@@ -137,6 +137,11 @@ const tableReducer = (state = initialState, action) =>
         break
       case SEND_ORDER_TO_POS_SUCCESS:
         draft.order.sendToPOS = action.payload.msg
+        draft.tableNo = ''
+        draft.order = {
+          orderNo: '',
+          items: []
+        }
         break
       case SEND_ORDER_TO_POS_FAIL:
         break

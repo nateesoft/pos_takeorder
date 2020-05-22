@@ -109,6 +109,7 @@ const OrderTab = props => {
   const [msgError, setMsgError] = useState("")
   const [expanded, setExpanded] = useState(false)
   const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
+  const [successBill, setSuccessBill] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
   const [open, setOpen] = useState(false)
@@ -137,6 +138,7 @@ const OrderTab = props => {
     enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
     setShowButtonSendOrder(false)
     setExpanded(false)
+    setSuccessBill(true)
   }
   const removeIndex = uid => {
     removeItemIndex(uid, order_no)
@@ -170,6 +172,10 @@ const OrderTab = props => {
     return <Redirect push to={`/login`} />
   }
   if (table_no === "" || table_no === "no_select") {
+    return <Redirect push to={`/table`} />
+  }
+
+  if (successBill) {
     return <Redirect push to={`/table`} />
   }
 
