@@ -135,7 +135,11 @@ const BalanceModel = {
             product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic,
             opt[0],opt[1],opt[2],opt[3],opt[4]
           ], 
-          callback)
+          (err, rows) => {
+            if (err) throw err
+            return db.query(`update tablefile set NetTotal = NetTotal + ${balance.total} 
+            where TCode=?`, [balance.table], callback)
+          })
       })
     })
   }

@@ -13,7 +13,9 @@ const Tablefile = {
   },
   findAll: (callback) => {
     return db.query(
-      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, TOnAct, ChkBill from ${table_name} order by SoneCode, Tcode`,
+      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      TOnAct, ChkBill, NetTotal 
+      from ${table_name} order by SoneCode, Tcode`,
       callback
     )
   },

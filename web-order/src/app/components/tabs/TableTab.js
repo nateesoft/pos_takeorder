@@ -113,6 +113,7 @@ const TableTab = props => {
                 primary={`โต๊ะ ${item.Tcode} : ลูกค้า (${item.TCustomer})`}
                 secondary={`Zone : ${item.SoneCode} Last login: ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
               />
+              <span style={{ marginRight: 20}}>รวม: {item.NetTotal || 0}</span>
               <span style={{ marginRight: 20 }}>สถานะ: {item.TOnAct}</span>
               {item.TOnAct==='N' ? <AspectRatio />:<EventSeat />}
             </ListItem>
