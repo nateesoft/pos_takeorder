@@ -109,6 +109,7 @@ const OrderTab = props => {
   const [msgError, setMsgError] = useState("")
   const [expanded, setExpanded] = useState(false)
   const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
+  const [successBill, setSuccessBill] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
 
   const [open, setOpen] = useState(false)
@@ -118,6 +119,7 @@ const OrderTab = props => {
   const order_no = useSelector(state => state.table.order.orderNo)
 
   const orderList = useSelector(state => state.table.order.items)
+  const totalAmount = useSelector(state => state.table.order.totalAmount)
   const expansionItem = useSelector(state => state.table.product.expansionItem)
 
   const loadInitData = () => {
@@ -135,9 +137,11 @@ const OrderTab = props => {
     const variant = "success"
     enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
     setShowButtonSendOrder(false)
+    setExpanded(false)
+    setSuccessBill(true)
   }
   const removeIndex = uid => {
-    removeItemIndex(uid)
+    removeItemIndex(uid, order_no)
     loadInitData()
     const variant = "warning"
     enqueueSnackbar("ลบรายการอาหารแล้ว", { variant })
@@ -158,8 +162,8 @@ const OrderTab = props => {
   }
 
   useEffect(() => {
-    setMsgError('')
     loadListOrderDetail(order_no)
+    setMsgError('')
     return () => {
     }
   }, [loadListOrderDetail, order_no])
@@ -168,6 +172,10 @@ const OrderTab = props => {
     return <Redirect push to={`/login`} />
   }
   if (table_no === "" || table_no === "no_select") {
+    return <Redirect push to={`/table`} />
+  }
+
+  if (successBill) {
     return <Redirect push to={`/table`} />
   }
 
@@ -184,7 +192,7 @@ const OrderTab = props => {
             <Fastfood />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            อาหารที่สั่ง
+            อาหารที่สั่ง : รวม ({totalAmount||0}) บาท
           </Typography>
           {orderList.length > 0 && showButtonSendOrder > 0 && (
             <Button
@@ -314,10 +322,11 @@ const mapDispatchToProps = dispatch => {
         orderNo: orderNo
       }
     }),
-    removeItemIndex: uid => dispatch({
+    removeItemIndex: (uid, order_no) => dispatch({
       type: REMOVE_ORDER_INDEX,
       payload: {
-        uid: uid
+        uid: uid,
+        order_no: order_no
       }
     }),
     addOrderItem: (tableNo, orderNo, menuCode, menuName, price, qty, totalAmount) => dispatch({

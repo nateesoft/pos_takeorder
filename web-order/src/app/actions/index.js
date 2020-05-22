@@ -50,9 +50,15 @@ const {
   LOAD_TABLE_FILE,
   LOAD_TABLE_FILE_SUCCESS,
   LOAD_TABLE_FILE_FAIL,
+  UPDATE_TABLE_FILE,
+  UPDATE_TABLE_FILE_SUCCESS,
+  UPDATE_TABLE_FILE_FAIL,
   CHECK_LOGIN,
   CHECK_LOGIN_SUCCESS,
   CHECK_LOGIN_FAIL,
+  CHECK_LOGOUT,
+  CHECK_LOGOUT_SUCCESS,
+  CHECK_LOGOUT_FAIL,
   CHOOSE_TABLE,
   CLEAR_TABLE,
   CURRENT_ORDER,
@@ -358,6 +364,22 @@ export const loadTablefileFail = () => {
     type: LOAD_TABLE_FILE_FAIL,
   }
 }
+export const updateTablefile = () => {
+  return {
+    type: UPDATE_TABLE_FILE,
+  }
+}
+export const updateTablefileSuccess = payload => {
+  return {
+    type: UPDATE_TABLE_FILE_SUCCESS,
+    payload: payload,
+  }
+}
+export const updateTablefileFail = () => {
+  return {
+    type: UPDATE_TABLE_FILE_FAIL,
+  }
+}
 
 export const checkLogin = payload => {
   return {
@@ -374,6 +396,24 @@ export const checkLoginSuccess = payload => {
 export const checkLoginFail = payload => {
   return {
     type: CHECK_LOGIN_FAIL,
+    payload: payload,
+  }
+}
+export const checkLogut = payload => {
+  return {
+    type: CHECK_LOGOUT,
+    payload: payload,
+  }
+}
+export const checkLogoutSuccess = payload => {
+  return {
+    type: CHECK_LOGOUT_SUCCESS,
+    payload: payload,
+  }
+}
+export const checkLogoutFail = payload => {
+  return {
+    type: CHECK_LOGOUT_FAIL,
     payload: payload,
   }
 }
