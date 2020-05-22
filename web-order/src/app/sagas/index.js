@@ -3,6 +3,8 @@ import request from '../utils/request'
 import {
   loadTablefileSuccess, 
   loadTablefileFail,
+  updateTablefileSuccess, 
+  updateTablefileFail,
   checkLoginSuccess,
   checkLoginFail,
   checkLogoutSuccess,
@@ -58,6 +60,7 @@ const {
   LOAD_PRODUCT_LIST,
   LOAD_GROUP_LIST,
   LOAD_TABLE_FILE,
+  UPDATE_TABLE_FILE,
   CHECK_LOGIN,
   CHECK_LOGOUT,
 } = require('../actions/constants')
@@ -500,9 +503,32 @@ function* fetchTablefile() {
     yield put(loadTablefileFail({ status: "Error", msg: err }))
   }
 }
+function* updateTablefile(action) {
+  const { table_code, cust_count } = action.payload
+  const requestURL = `${POS_API}/pos/tablefile`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        table_code: table_code,
+        cust_count: cust_count,
+      }),
+    })
+    yield put(updateTablefileSuccess(response.data))
+  } catch(err) {
+    yield put(updateTablefileFail({ status: "Error", msg: err }))
+  }
+}
 
 function* actionFetchTablefile() {
   yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
+}
+function* actionUpdateTablefile() {
+  yield takeLatest(UPDATE_TABLE_FILE, updateTablefile)
 }
 function* actionFetchLogin() {
   yield takeLatest(CHECK_LOGIN, fetchLogin)
@@ -562,6 +588,7 @@ function* actionAddNewOrder() {
 export default function* rootSaga() {
   yield all([
     actionFetchTablefile(),
+    actionUpdateTablefile(),
     actionFetchLogin(),
     actionFetchLogout(),
     actionLoadProductList(),

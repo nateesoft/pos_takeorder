@@ -50,6 +50,9 @@ const {
   LOAD_TABLE_FILE,
   LOAD_TABLE_FILE_SUCCESS,
   LOAD_TABLE_FILE_FAIL,
+  UPDATE_TABLE_FILE,
+  UPDATE_TABLE_FILE_SUCCESS,
+  UPDATE_TABLE_FILE_FAIL,
   CHECK_LOGIN,
   CHECK_LOGIN_SUCCESS,
   CHECK_LOGIN_FAIL,
@@ -359,6 +362,22 @@ export const loadTablefileSuccess = payload => {
 export const loadTablefileFail = () => {
   return {
     type: LOAD_TABLE_FILE_FAIL,
+  }
+}
+export const updateTablefile = () => {
+  return {
+    type: UPDATE_TABLE_FILE,
+  }
+}
+export const updateTablefileSuccess = payload => {
+  return {
+    type: UPDATE_TABLE_FILE_SUCCESS,
+    payload: payload,
+  }
+}
+export const updateTablefileFail = () => {
+  return {
+    type: UPDATE_TABLE_FILE_FAIL,
   }
 }
 
