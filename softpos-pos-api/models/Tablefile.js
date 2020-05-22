@@ -2,9 +2,18 @@ const db = require("../config")
 const table_name = "tablefile"
 
 const Tablefile = {
+  update: (tableFile, callback) => {
+    const { table_code, cust_count }= tableFile
+    return db.query(
+      `update ${table_name} 
+      set TCustomer=?, TOnAct='Y', TLoginDate=now() where Tcode=?`,
+      [cust_count, table_code],
+      callback
+    )
+  },
   findAll: (callback) => {
     return db.query(
-      `select Tcode, SoneCode, MacNo, Cashier, TCustomer, TOnAct, ChkBill from ${table_name} order by SoneCode, Tcode`,
+      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, TOnAct, ChkBill from ${table_name} order by SoneCode, Tcode`,
       callback
     )
   },

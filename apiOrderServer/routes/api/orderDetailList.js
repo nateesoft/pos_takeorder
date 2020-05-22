@@ -104,7 +104,8 @@ router.put("/:index/update", (req, res, next) => {
 
 router.delete("/", (req, res, next) => {
   const uid = req.body.uid
-  Task.delete(uid, (err, rows) => {
+  const order_no = req.body.order_no
+  Task.delete(uid, order_no, (err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
