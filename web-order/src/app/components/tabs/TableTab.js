@@ -20,6 +20,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import SearchTable from '../search/SearchTable'
 const format = require('date-format');
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -106,6 +107,7 @@ const TableTab = props => {
 
   return (
     <div className={classes.root}>
+      <SearchTable />
       <List component="nav" aria-label="main mailbox folders">
         {tableFileList && tableFileList.map((item, index) => (
           <div key={`div-${index}`}>
@@ -115,18 +117,14 @@ const TableTab = props => {
               onClick={event => handleListItemClick(event, index, item.Tcode, item.TCustomer)}
             >
               <ListItemAvatar>
-                <img
-                  src="img/table.png"
-                  alt="table"
-                  style={{ padding: 5, marginRight: 20 }}
-                />
+                <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
               </ListItemAvatar>
               <ListItemText
                 primary={`โต๊ะ ${item.Tcode} : ลูกค้า (${item.TCustomer})`}
-                secondary={`Zone : ${item.SoneCode} Last login: ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
+                secondary={`Zone : ${item.SoneCode} - ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
               />
               <span style={{ marginRight: 20}}>รวม: {item.NetTotal || 0}</span>
-              <span style={{ marginRight: 20 }}>สถานะ: {item.TOnAct}</span>
+              <span style={{ marginRight: 20 }}>Sts: {item.TOnAct}</span>
               {item.TOnAct==='N' ? <AspectRatio />:<EventSeat />}
             </ListItem>
             <Divider />
@@ -159,7 +157,7 @@ const TableTab = props => {
             <InputLabel id="demo-simple-select-required-label">ประเภทการสั่ง</InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
+              id="demo-simple-select-required2"
               value={etd}
               onChange={handleTypeChange}
               className={classes.selectEmpty}

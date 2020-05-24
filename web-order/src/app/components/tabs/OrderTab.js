@@ -117,6 +117,7 @@ const OrderTab = props => {
 
   const table_no = useSelector(state => state.table.tableNo)
   const order_no = useSelector(state => state.table.order.orderNo)
+  const auto_logout = useSelector(state => state.login.auto_logout)
 
   const orderList = useSelector(state => state.table.order.items)
   const totalAmount = useSelector(state => state.table.order.totalAmount)
@@ -176,7 +177,11 @@ const OrderTab = props => {
   }
 
   if (successBill) {
-    return <Redirect push to={`/table`} />
+    if (auto_logout === 'Y') {
+      return <Redirect push to={`/logout`} />
+    } else {
+      return <Redirect push to={`/table`} />
+    }
   }
 
   return (

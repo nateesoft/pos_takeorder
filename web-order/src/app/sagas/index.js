@@ -506,8 +506,14 @@ function* fetchGroupList() {
 
 function* fetchLogin(action) {
   const { username, password } = action.payload
-  const requestURL = `${POS_API}/pos/employ/login`
   try {
+    const responseConfig = yield call(request, `${TAKEORDER_API}/api/config`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
     const responseCheckMacno = yield call(request, `${POS_API}/pos/poshwsetup/macno`, {
       method: 'GET',
       headers: {
@@ -518,7 +524,7 @@ function* fetchLogin(action) {
     if (responseCheckMacno.status === 'Not_Found') {
       yield put(checkLoginSuccess({ status: responseCheckMacno.status, msg: responseCheckMacno.msg }))
     } else {
-      const response = yield call(request, requestURL, {
+      const response = yield call(request, `${POS_API}/pos/employ/login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -526,10 +532,15 @@ function* fetchLogin(action) {
         },
         body: JSON.stringify({
           username: username,
-          password: password,
+          password: password
         }),
       })
-      yield put(checkLoginSuccess({ status: response.status, msg: response.msg, macno: responseCheckMacno.data }))
+      yield put(checkLoginSuccess({ 
+        status: response.status, 
+        msg: response.msg, 
+        macno: responseCheckMacno.data,
+        autoLogout: responseConfig.data.auto_logout
+      }))
     }
   } catch(err) {
     yield put(checkLoginFail({ status: "Error", msg: err }))

@@ -13,6 +13,7 @@ const initialState = {
   status: "",
   message: '',
   errMessage: '',
+  auto_logout: 'N'
 }
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
@@ -24,6 +25,7 @@ const loginReducer = (state = initialState, action) =>
       case CHECK_LOGIN_SUCCESS:
         draft.status = action.payload.status
         draft.message = action.payload.msg
+        draft.auto_logout = action.payload.autoLogout
         break
       case CHECK_LOGIN_FAIL:
         draft.status = action.payload.status
