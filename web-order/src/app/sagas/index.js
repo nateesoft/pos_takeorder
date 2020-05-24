@@ -16,6 +16,8 @@ import {
   loadOrderDetailFail,
   loadListOrderDetailSuccess,
   loadListOrderDetailFail,
+  loadLastOrderListSuccess,
+  loadLastOrderListFail,
   loadExpansionProductSuccess,
   loadExpansionProductFail,
   sendOrderToPOSSuccess,
@@ -66,6 +68,7 @@ const {
   UPDATE_TABLE_FILE,
   CHECK_LOGIN,
   CHECK_LOGOUT,
+  LOAD_LAST_ORDER_LIST
 } = require('../actions/constants')
 
 const uuid = require("react-native-uuid")
@@ -229,6 +232,23 @@ function* fetchSubMenuList(action) {
     yield put(loadSubMenuListSuccess(response.data))
   } catch(err) {
     yield put(loadSubMenuListFail({ status: "Error", msg: err }))
+  }
+}
+
+function* fetchLastOrderList(action) {
+  const { table_no } = action.payload
+  const requestURL = `${POS_API}/pos/balance/table/${table_no}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadLastOrderListSuccess(response.data))
+  } catch(err) {
+    yield put(loadLastOrderListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -619,9 +639,13 @@ function* actionUpdateOrderItem() {
 function* actionAddNewOrder() {
   yield takeLatest(ADD_NEW_ORDER, addNewOrder)
 }
+function* actionFetchLastOrderList() {
+  yield takeLatest(LOAD_LAST_ORDER_LIST, fetchLastOrderList)
+}
 
 export default function* rootSaga() {
   yield all([
+    actionFetchLastOrderList(),
     actionFetchTablefile(),
     actionUpdateTablefile(),
     actionFetchLogin(),

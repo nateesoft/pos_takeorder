@@ -35,6 +35,9 @@ const {
   ADD_ORDER,
   CLEAR_ORDER,
   NEW_ORDER,
+  LOAD_LAST_ORDER_LIST,
+  LOAD_LAST_ORDER_LIST_SUCCESS,
+  LOAD_LAST_ORDER_LIST_FAIL,
 } = require('../actions/constants')
 
 const initialState = {
@@ -75,6 +78,7 @@ const initialState = {
     menuCode: '',
     expansionItem: [],
   },
+  balanceList: [],
   billNo: "",
   tableFileList: [],
 }
@@ -109,6 +113,13 @@ const tableReducer = (state = initialState, action) =>
         draft.orderSubMenu.subMenuList = action.payload
         break;
       case LOAD_SUB_MENU_LIST_FAIL:
+        break;
+      case LOAD_LAST_ORDER_LIST:
+        break;
+      case LOAD_LAST_ORDER_LIST_SUCCESS:
+        draft.balanceList = action.payload
+        break;
+      case LOAD_LAST_ORDER_LIST_FAIL:
         break;
       case ADD_NEW_ORDER_ITEM:
         draft.orderDetail.tableNo = action.payload.tableNo

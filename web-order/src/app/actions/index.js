@@ -1,4 +1,11 @@
-import { LOAD_STEP_MENU_LIST, LOAD_STEP_MENU_LIST_SUCCESS, LOAD_STEP_MENU_LIST_FAIL } from './constants'
+import { 
+  LOAD_STEP_MENU_LIST, 
+  LOAD_STEP_MENU_LIST_SUCCESS, 
+  LOAD_STEP_MENU_LIST_FAIL, 
+  LOAD_LAST_ORDER_LIST,
+  LOAD_LAST_ORDER_LIST_SUCCESS,
+  LOAD_LAST_ORDER_LIST_FAIL
+} from './constants'
 
 const { 
   ADD_NEW_ORDER,
@@ -535,6 +542,24 @@ export const loadStepMenuListSuccess = payload => {
 export const loadStepMenuListFail = payload => {
   return {
     type: LOAD_STEP_MENU_LIST_FAIL,
+    payload: payload
+  }
+}
+export const loadLastOrderList = payload => {
+  return {
+    type: LOAD_LAST_ORDER_LIST,
+    payload: payload
+  }
+}
+export const loadLastOrderListSuccess = payload => {
+  return {
+    type: LOAD_LAST_ORDER_LIST_SUCCESS,
+    payload: payload
+  }
+}
+export const loadLastOrderListFail = payload => {
+  return {
+    type: LOAD_LAST_ORDER_LIST_FAIL,
     payload: payload
   }
 }

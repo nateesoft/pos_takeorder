@@ -192,7 +192,7 @@ const OrderTab = props => {
             <Fastfood />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            อาหารที่สั่ง : รวม ({totalAmount||0}) บาท
+            อาหารที่สั่ง : รวม {totalAmount||0} บาท
           </Typography>
           {orderList.length > 0 && showButtonSendOrder > 0 && (
             <Button
