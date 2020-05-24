@@ -16,6 +16,8 @@ import {
   loadOrderDetailFail,
   loadListOrderDetailSuccess,
   loadListOrderDetailFail,
+  loadLastOrderListSuccess,
+  loadLastOrderListFail,
   loadExpansionProductSuccess,
   loadExpansionProductFail,
   sendOrderToPOSSuccess,
@@ -40,6 +42,8 @@ import {
   updateOrderItemFail,
   addNewOrderSuccess,
   addNewOrderFail,
+  loadStepMenuListSuccess,
+  loadStepMenuListFail,
 } from '../actions'
 
 const { 
@@ -50,6 +54,7 @@ const {
   LOAD_ORDER_SPECIAL,
   LOAD_PRODUCT_DETAIL,
   LOAD_SUB_MENU_LIST,
+  LOAD_STEP_MENU_LIST,
   SEARCH_DATA,
   ADD_NEW_ORDER_ITEM,
   REMOVE_ORDER_INDEX,
@@ -63,8 +68,8 @@ const {
   UPDATE_TABLE_FILE,
   CHECK_LOGIN,
   CHECK_LOGOUT,
+  LOAD_LAST_ORDER_LIST
 } = require('../actions/constants')
-
 
 const uuid = require("react-native-uuid")
 const HOST = process.env.HOST || window.location.hostname
@@ -73,7 +78,7 @@ const TAKEORDER_API = `http://${HOST}:4000`
 
 function* addNewOrder(action) {
   const { 
-    code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode 
+    code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode, r_etd
   } = action.payload
   const cust_count = 0
   const item_count = 0
@@ -124,7 +129,8 @@ function* addNewOrder(action) {
         qty: 1,
         total_amount: price,
         special_text: specialText,
-        sub_menu_code: subMenuCode
+        sub_menu_code: subMenuCode,
+        r_etd: r_etd
       })
     })
     yield put(addNewOrderSuccess(response.data))
@@ -226,6 +232,40 @@ function* fetchSubMenuList(action) {
     yield put(loadSubMenuListSuccess(response.data))
   } catch(err) {
     yield put(loadSubMenuListFail({ status: "Error", msg: err }))
+  }
+}
+
+function* fetchLastOrderList(action) {
+  const { table_no } = action.payload
+  const requestURL = `${POS_API}/pos/balance/table/${table_no}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadLastOrderListSuccess(response.data))
+  } catch(err) {
+    yield put(loadLastOrderListFail({ status: "Error", msg: err }))
+  }
+}
+
+function* fetchStepMenuList(action) {
+  const { code, type } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/step_menu_list/${code}/${type}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadStepMenuListSuccess(response.data))
+  } catch(err) {
+    yield put(loadStepMenuListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -468,18 +508,29 @@ function* fetchLogin(action) {
   const { username, password } = action.payload
   const requestURL = `${POS_API}/pos/employ/login`
   try {
-    const response = yield call(request, requestURL, {
-      method: 'POST',
+    const responseCheckMacno = yield call(request, `${POS_API}/pos/poshwsetup/macno`, {
+      method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
     })
-    yield put(checkLoginSuccess({ status: response.status, msg: response.msg }))
+    if (responseCheckMacno.status === 'Not_Found') {
+      yield put(checkLoginSuccess({ status: responseCheckMacno.status, msg: responseCheckMacno.msg }))
+    } else {
+      const response = yield call(request, requestURL, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+      yield put(checkLoginSuccess({ status: response.status, msg: response.msg, macno: responseCheckMacno.data }))
+    }
   } catch(err) {
     yield put(checkLoginFail({ status: "Error", msg: err }))
   }
@@ -504,7 +555,7 @@ function* fetchTablefile() {
   }
 }
 function* updateTablefile(action) {
-  const { table_code, cust_count } = action.payload
+  const { table_code, cust_count, macno } = action.payload
   const requestURL = `${POS_API}/pos/tablefile`
   try {
     const response = yield call(request, requestURL, {
@@ -514,8 +565,9 @@ function* updateTablefile(action) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        table_code: table_code,
-        cust_count: cust_count,
+        table_code,
+        cust_count,
+        macno,
       }),
     })
     yield put(updateTablefileSuccess(response.data))
@@ -566,6 +618,9 @@ function* actionSearchData() {
 function* actionFetchSubMenuList() {
   yield takeLatest(LOAD_SUB_MENU_LIST, fetchSubMenuList)
 }
+function* actionFetchStepMenuList() {
+  yield takeLatest(LOAD_STEP_MENU_LIST, fetchStepMenuList)
+}
 function* actionFetchProductDetail() {
   yield takeLatest(LOAD_PRODUCT_DETAIL, fetchProductDetail)
 }
@@ -584,9 +639,13 @@ function* actionUpdateOrderItem() {
 function* actionAddNewOrder() {
   yield takeLatest(ADD_NEW_ORDER, addNewOrder)
 }
+function* actionFetchLastOrderList() {
+  yield takeLatest(LOAD_LAST_ORDER_LIST, fetchLastOrderList)
+}
 
 export default function* rootSaga() {
   yield all([
+    actionFetchLastOrderList(),
     actionFetchTablefile(),
     actionUpdateTablefile(),
     actionFetchLogin(),
@@ -601,6 +660,7 @@ export default function* rootSaga() {
     actionAddNewOrderItem(),
     actionSearchData(),
     actionFetchSubMenuList(),
+    actionFetchStepMenuList(),
     actionFetchProductDetail(),
     actionFetchOrderSpecial(),
     actionFetchSubMenuIndex(),

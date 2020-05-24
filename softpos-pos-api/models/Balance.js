@@ -116,7 +116,7 @@ const BalanceModel = {
               R_PItemNo, R_PKicQue, 
               R_Stock, R_Set, R_Vat, R_Status,
               R_Service, R_Discount, R_Normal, R_Type, R_Kic, 
-              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5) 
+              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype, r_etd) 
             values 
               (?, ?, ?, ?, ?, 
               ?, ?, ?, ?, ?,
@@ -127,15 +127,18 @@ const BalanceModel = {
               0, 0, 
               ?, ?, ?, ?,
               ?, ?, ?, ?, ?,
-              ?, ?, ?, ?, ?)`,
+              ?, ?, ?, ?, ?, 'PDA', ?)`,
           [
             balance.index, balance.table, balance.emp, balance.plucode, balance.pname, 
             product.PUnit1, product.PGroup, balance.price, balance.qty, balance.total, 
             balance.macno, product.PStock, product.PSet, product.PVat, product.PStatus,
             product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic,
-            opt[0],opt[1],opt[2],opt[3],opt[4]
-          ], 
-          callback)
+            opt[0],opt[1],opt[2],opt[3],opt[4], balance.r_etd
+          ], (err, rows) => {
+            if (err) throw err
+            return db.query(`update tablefile set NetTotal = NetTotal + ${balance.total} 
+            where TCode=?`, [balance.table], callback)
+          })
       })
     })
   }

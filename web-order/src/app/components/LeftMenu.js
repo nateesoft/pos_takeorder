@@ -79,6 +79,19 @@ const LeftMenu = props => {
           </Badge>
         </ListItem>
       </Link>
+      <Link to="/last_order" className={classes.listMenu}>
+        <ListItem
+          button
+          selected={selectedIndex === 2}
+          onClick={event => handleListItemClick(event, 3)}
+          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
+            {pdaSmall ? 
+              <img src="img/last_bill.png" width="35" alt="last bill" />:
+              <img src="img/last_bill.png" alt="bill" />
+            }
+            <ListItemText primary="Last Order" />
+        </ListItem>
+      </Link>
     </div>
   )
 }
