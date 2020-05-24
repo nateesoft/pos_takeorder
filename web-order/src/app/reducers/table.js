@@ -1,5 +1,5 @@
 import produce from "immer"
-import { CHECK_LOGOUT, CHECK_LOGOUT_SUCCESS } from "../actions/constants"
+import { CHECK_LOGOUT, CHECK_LOGOUT_SUCCESS, CHECK_LOGIN_SUCCESS } from "../actions/constants"
 
 const { 
   UPDATE_ORDER_ITEM,
@@ -40,6 +40,7 @@ const {
 const initialState = {
   empCode: "",
   tableNo: "",
+  macno: "",
   order: {
     orderNo: "",
     items: [],
@@ -205,6 +206,9 @@ const tableReducer = (state = initialState, action) =>
           orderNo: '',
           items: []
         }
+        break
+      case CHECK_LOGIN_SUCCESS:
+        draft.macno = action.payload.macno
         break
       default:
         break

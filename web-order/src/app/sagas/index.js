@@ -68,7 +68,6 @@ const {
   CHECK_LOGOUT,
 } = require('../actions/constants')
 
-
 const uuid = require("react-native-uuid")
 const HOST = process.env.HOST || window.location.hostname
 const POS_API = `http://${HOST}:5000`
@@ -76,7 +75,7 @@ const TAKEORDER_API = `http://${HOST}:4000`
 
 function* addNewOrder(action) {
   const { 
-    code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode 
+    code, name, price, tableNo, orderNo, empCode, specialText, subMenuCode, r_etd
   } = action.payload
   const cust_count = 0
   const item_count = 0
@@ -127,7 +126,8 @@ function* addNewOrder(action) {
         qty: 1,
         total_amount: price,
         special_text: specialText,
-        sub_menu_code: subMenuCode
+        sub_menu_code: subMenuCode,
+        r_etd: r_etd
       })
     })
     yield put(addNewOrderSuccess(response.data))
@@ -509,7 +509,7 @@ function* fetchLogin(action) {
           password: password,
         }),
       })
-      yield put(checkLoginSuccess({ status: response.status, msg: response.msg }))
+      yield put(checkLoginSuccess({ status: response.status, msg: response.msg, macno: responseCheckMacno.data }))
     }
   } catch(err) {
     yield put(checkLoginFail({ status: "Error", msg: err }))
@@ -535,7 +535,7 @@ function* fetchTablefile() {
   }
 }
 function* updateTablefile(action) {
-  const { table_code, cust_count } = action.payload
+  const { table_code, cust_count, macno } = action.payload
   const requestURL = `${POS_API}/pos/tablefile`
   try {
     const response = yield call(request, requestURL, {
@@ -545,8 +545,9 @@ function* updateTablefile(action) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        table_code: table_code,
-        cust_count: cust_count,
+        table_code,
+        cust_count,
+        macno,
       }),
     })
     yield put(updateTablefileSuccess(response.data))

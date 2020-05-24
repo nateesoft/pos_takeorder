@@ -13,9 +13,9 @@ router.get("/", (req, res, next) => {
   })
 })
 router.post("/", (req, res, next) => {
-  const { table_code, cust_count } = req.body
+  const { table_code, cust_count, macno } = req.body
   const tableFile = {
-    table_code, cust_count
+    table_code, cust_count, macno
   }
   Task.update(tableFile, (err, rows) => {
     if (err) {

@@ -14,12 +14,12 @@ import MessageUtil from '../../utils/alertMsg'
 import Dialog from "@material-ui/core/Dialog"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import { withStyles } from "@material-ui/core/styles"
-import DialogContentText from '@material-ui/core/DialogContentText';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
 const format = require('date-format');
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -52,6 +52,11 @@ const DialogContent = withStyles(theme => ({
 }))(MuiDialogContent)
 
 const custList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const typeList = [
+  { id: 0, label: 'ทานในร้าน (E)' },
+  { id: 1, label: 'กลับบ้าน (T)' },
+  { id: 2, label: 'เดลิเวอรี่ (D)' }
+]
 
 const TableTab = props => {
   const { onLoadTablefile, updateTable } = props
@@ -60,8 +65,10 @@ const TableTab = props => {
   const dispatch = useDispatch()
   const table_no = useSelector(state => state.table.tableNo)
   const tableFileList = useSelector(state => state.table.tableFileList)
+  const macno = useSelector(state => state.table.macno)
   const [open, setOpen] = useState(false)
   const [customerCount, setCustomerCount] = useState(0)
+  const [etd, setEtd] = useState(0)
   const [selectCust, setSelectCust] = useState(false)
 
   const handleListItemClick = (event, index, tableNo, custCount) => {
@@ -72,7 +79,12 @@ const TableTab = props => {
 
   const handleChange = event => {
     setCustomerCount(event.target.value)
-    updateTable(table_no, event.target.value)
+    updateTable(table_no, event.target.value, macno)
+  };
+  const handleTypeChange = event => {
+    setEtd(event.target.value)
+  };
+  const onSubmit = event => {
     setOpen(false)
     setSelectCust(true)
   };
@@ -129,11 +141,8 @@ const TableTab = props => {
         open={open}
       >
         <DialogContent dividers>
-          <DialogContentText>
-            ระบุจำนวนลูกค้า
-          </DialogContentText>
           <FormControl required className={classes.formControl}>
-            <InputLabel id="demo-simple-select-required-label">Customer</InputLabel>
+            <InputLabel id="demo-simple-select-required-label">จำนวนลูกค้า</InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
               id="demo-simple-select-required"
@@ -146,6 +155,23 @@ const TableTab = props => {
               )}
             </Select>
           </FormControl>
+          <FormControl required className={classes.formControl}>
+            <InputLabel id="demo-simple-select-required-label">ประเภทการสั่ง</InputLabel>
+            <Select
+              labelId="demo-simple-select-required-label"
+              id="demo-simple-select-required"
+              value={etd}
+              onChange={handleTypeChange}
+              className={classes.selectEmpty}
+            >
+              {typeList.map(num =>
+                <MenuItem key={num.id} value={num.id}>{num.label}</MenuItem>
+              )}
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={()=> onSubmit()}>
+            ยืนยันรายการ
+          </Button>
         </DialogContent>
       </Dialog>
       {msgError && <MessageUtil message={msgError} />}
@@ -164,11 +190,12 @@ const mapDispatchToProps = dispatch => {
     onLoadTablefile: () => dispatch({ 
       type: LOAD_TABLE_FILE 
     }),
-    updateTable: (table_code, cust_count) => dispatch({
+    updateTable: (table_code, cust_count, macno) => dispatch({
       type: UPDATE_TABLE_FILE,
       payload: {
-        table_code: table_code,
-        cust_count: cust_count
+        table_code,
+        cust_count,
+        macno
       }
     })
   }

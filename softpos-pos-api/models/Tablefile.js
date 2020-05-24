@@ -3,11 +3,11 @@ const table_name = "tablefile"
 
 const Tablefile = {
   update: (tableFile, callback) => {
-    const { table_code, cust_count }= tableFile
+    const { table_code, cust_count, macno }= tableFile
     return db.query(
       `update ${table_name} 
-      set TCustomer=?, TOnAct='Y', TLoginDate=now() where Tcode=?`,
-      [cust_count, table_code],
+      set TCustomer=?, TOnAct='Y', macno=?, TLoginDate=now() where Tcode=?`,
+      [cust_count, macno, table_code],
       callback
     )
   },
