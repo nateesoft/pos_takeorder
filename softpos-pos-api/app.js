@@ -9,6 +9,8 @@ const employRouter = require('./routes/employ');
 const tableFileRouter = require('./routes/tablefile');
 const balanceRouter = require('./routes/balance');
 const stockRouter = require('./routes/stock');
+const mgrButtonSetupRouter = require('./routes/mgrbuttonsetup');
+const poshwsetupRouter = require('./routes/poshwsetup');
 
 const cors = require('cors')
 
@@ -30,6 +32,8 @@ app.use('/pos/employ', employRouter);
 app.use('/pos/tablefile', tableFileRouter);
 app.use('/pos/balance', balanceRouter);
 app.use('/pos/stock', stockRouter);
+app.use('/pos/mgrbuttonsetup', mgrButtonSetupRouter);
+app.use('/pos/poshwsetup', poshwsetupRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -73,7 +73,7 @@ const OrdersDetail = {
       total_amount,
       specialText = [],
       subMenuCode = [],
-      uid
+      uid, r_etd
     } = OrdersDetail
     if (specialText.length > 0) {
       for (let i = 0; i < specialText.length; i += 1) {
@@ -99,7 +99,7 @@ const OrdersDetail = {
       }
     }
     return db.query(
-      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now(),?,?)`,
+      `insert into ${table_name} values(?,?,?,?,?,?,?,'Y',now(),now(),?,?,?)`,
       [
         index,
         order_no,
@@ -110,6 +110,7 @@ const OrdersDetail = {
         total_amount,
         uid,
         "N",
+        r_etd
       ], (err, rows) => {
         if (err) throw err
         return db.query(`update orders o 
