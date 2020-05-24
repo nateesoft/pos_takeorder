@@ -21,6 +21,7 @@ import LoginPage from "./login/Login"
 import LogoutPage from "./login/Logout"
 import WelcomePage from "./tabs/Welcome"
 import Setting from "./tabs/Setting"
+import MenuStep from "./menu/MenuStep"
 import { Link } from "react-router-dom"
 import useStyles from "./styles/App"
 import SearchIcon from "@material-ui/icons/Search"
@@ -207,6 +208,7 @@ const App = () => {
                 <Route path="/detail/:group/:code" component={MenuDetail} />
                 <Route path="/order" component={OrderTab} />
                 <Route path="/setting" component={Setting} />
+                <Route path="/step" component={MenuStep} />
               </Switch>
             </Container>
           </main>

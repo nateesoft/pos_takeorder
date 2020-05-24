@@ -6,14 +6,17 @@ const Task = require("../models/Employ")
 router.post("/login", (req, res, next) => {
   const username = req.body.username
   const password = req.body.password
-  Task.validLogin(username, password, (err, rows) => {
+  Task.validLogin(username, password, (err, response) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      if (rows.length === 0) {
-        res.status(403).json({ status: "Invalid", msg: "Username/Password invalid" })
+      if (response.status === 'Invalid') {
+        res.status(200).json({ 
+          status: response.status, 
+          msg: "Username/Password invalid" 
+        })
       } else {
-        res.status(200).json({ status: "Success", msg: "Success" })
+        res.status(200).json({ status: response.status, msg: "Success" })
       }
     }
   })

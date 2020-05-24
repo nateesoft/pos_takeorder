@@ -468,18 +468,29 @@ function* fetchLogin(action) {
   const { username, password } = action.payload
   const requestURL = `${POS_API}/pos/employ/login`
   try {
-    const response = yield call(request, requestURL, {
-      method: 'POST',
+    const responseCheckMacno = yield call(request, `${POS_API}/pos/poshwsetup/macno`, {
+      method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
     })
-    yield put(checkLoginSuccess({ status: response.status, msg: response.msg }))
+    if (responseCheckMacno.status === 'Not_Found') {
+      yield put(checkLoginSuccess({ status: responseCheckMacno.status, msg: responseCheckMacno.msg }))
+    } else {
+      const response = yield call(request, requestURL, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+      yield put(checkLoginSuccess({ status: response.status, msg: response.msg }))
+    }
   } catch(err) {
     yield put(checkLoginFail({ status: "Error", msg: err }))
   }

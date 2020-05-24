@@ -103,7 +103,6 @@ const MenuDetail = props => {
           {item.show_sublist === "Y" && (
             <div>
               <CardActions disableSpacing>
-                <h4>เลือกรายการอาหารทานคู่กัน</h4>
                 <IconButton
                   className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded,

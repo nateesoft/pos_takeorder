@@ -42,13 +42,11 @@ const Login = props => {
   const [user, setUser] = useState("")
   const [pass, setPass] = useState("")
   const order_no = useSelector(state => state.table.order.orderNo)
-  const status = useSelector(state => state.login.status)
-  const errMessage = useSelector(state => state.login.errMessage)
+  const loginResponse = useSelector(state => state.login)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setMsgError('')
-    if (status === "Success") {
+    if (loginResponse.status === "Success") {
       if (!order_no) {
         dispatch(newOrder({
           order_no: uuidv4(),
@@ -56,14 +54,23 @@ const Login = props => {
           table_no: "no_select"
         }))
       }
-    } else if (status === "Invalid") {
-      setMsgError('Username/Password invalid !')
-    } else if (status === 'Error') {
-      setMsgError(errMessage)
     }
+    
+    if (loginResponse.status === "Invalid") {
+      setMsgError(loginResponse.message)
+    }
+    
+    if (loginResponse.status === 'Error') {
+      setMsgError(loginResponse.message)
+    }
+    
+    if (loginResponse.status === 'Not_Found') {
+      setMsgError(loginResponse.message)
+    }
+    
     return () => {
     }
-  }, [dispatch, errMessage, order_no, status, user])
+  }, [dispatch, loginResponse.message, loginResponse.status, order_no, user])
 
   if (order_no !== "") {
     return <Redirect push to="/table" />
