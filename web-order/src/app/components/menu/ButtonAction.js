@@ -27,6 +27,8 @@ const ButtonAction = props => {
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
 
+  const r_etd = 'E';//useSelector((state) => state.table.r_etd)
+
   const onAddNewItem = (code, name, price) => {
     dispatch(
       addNewItem({
@@ -35,7 +37,7 @@ const ButtonAction = props => {
         price: price,
       })
     )
-    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode)
+    addOrderItem(code, name, price, table_no, order_no, emp_code, specialText, subMenuCode, r_etd)
     dispatch(clearItemAdd())
     const variant = "success"
     enqueueSnackbar("เพิ่มรายการอาหาร", { variant })
@@ -76,7 +78,7 @@ const mapDispatchToProps = dispatch => {
   return {
     addOrderItem: (
       code,name,price,table_no,order_no,
-      emp_code,specialText,subMenuCode) => dispatch({
+      emp_code,specialText,subMenuCode,r_etd) => dispatch({
       type: ADD_NEW_ORDER,
       payload: {
         code,
@@ -87,6 +89,7 @@ const mapDispatchToProps = dispatch => {
         empCode: emp_code,
         specialText,
         subMenuCode,
+        r_etd
       }
     }),
   }

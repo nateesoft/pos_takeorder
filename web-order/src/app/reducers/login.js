@@ -27,7 +27,7 @@ const loginReducer = (state = initialState, action) =>
         break
       case CHECK_LOGIN_FAIL:
         draft.status = action.payload.status
-        draft.errMessage = action.payload.msg
+        draft.message = action.payload.msg
         break
       case CHECK_LOGOUT:
         break
