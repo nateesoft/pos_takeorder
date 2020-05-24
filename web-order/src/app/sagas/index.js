@@ -40,6 +40,8 @@ import {
   updateOrderItemFail,
   addNewOrderSuccess,
   addNewOrderFail,
+  loadStepMenuListSuccess,
+  loadStepMenuListFail,
 } from '../actions'
 
 const { 
@@ -50,6 +52,7 @@ const {
   LOAD_ORDER_SPECIAL,
   LOAD_PRODUCT_DETAIL,
   LOAD_SUB_MENU_LIST,
+  LOAD_STEP_MENU_LIST,
   SEARCH_DATA,
   ADD_NEW_ORDER_ITEM,
   REMOVE_ORDER_INDEX,
@@ -226,6 +229,23 @@ function* fetchSubMenuList(action) {
     yield put(loadSubMenuListSuccess(response.data))
   } catch(err) {
     yield put(loadSubMenuListFail({ status: "Error", msg: err }))
+  }
+}
+
+function* fetchStepMenuList(action) {
+  const { code, type } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/step_menu_list/${code}/${type}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadStepMenuListSuccess(response.data))
+  } catch(err) {
+    yield put(loadStepMenuListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -577,6 +597,9 @@ function* actionSearchData() {
 function* actionFetchSubMenuList() {
   yield takeLatest(LOAD_SUB_MENU_LIST, fetchSubMenuList)
 }
+function* actionFetchStepMenuList() {
+  yield takeLatest(LOAD_STEP_MENU_LIST, fetchStepMenuList)
+}
 function* actionFetchProductDetail() {
   yield takeLatest(LOAD_PRODUCT_DETAIL, fetchProductDetail)
 }
@@ -612,6 +635,7 @@ export default function* rootSaga() {
     actionAddNewOrderItem(),
     actionSearchData(),
     actionFetchSubMenuList(),
+    actionFetchStepMenuList(),
     actionFetchProductDetail(),
     actionFetchOrderSpecial(),
     actionFetchSubMenuIndex(),

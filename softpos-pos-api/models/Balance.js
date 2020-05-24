@@ -116,7 +116,7 @@ const BalanceModel = {
               R_PItemNo, R_PKicQue, 
               R_Stock, R_Set, R_Vat, R_Status,
               R_Service, R_Discount, R_Normal, R_Type, R_Kic, 
-              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5) 
+              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype) 
             values 
               (?, ?, ?, ?, ?, 
               ?, ?, ?, ?, ?,
@@ -127,7 +127,7 @@ const BalanceModel = {
               0, 0, 
               ?, ?, ?, ?,
               ?, ?, ?, ?, ?,
-              ?, ?, ?, ?, ?)`,
+              ?, ?, ?, ?, ?, 'PDA)`,
           [
             balance.index, balance.table, balance.emp, balance.plucode, balance.pname, 
             product.PUnit1, product.PGroup, balance.price, balance.qty, balance.total, 

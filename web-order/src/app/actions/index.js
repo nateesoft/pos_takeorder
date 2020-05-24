@@ -1,3 +1,5 @@
+import { LOAD_STEP_MENU_LIST, LOAD_STEP_MENU_LIST_SUCCESS, LOAD_STEP_MENU_LIST_FAIL } from './constants'
+
 const { 
   ADD_NEW_ORDER,
   ADD_NEW_ORDER_SUCCESS,
@@ -515,5 +517,24 @@ export const emptySubMenuCode = () => {
 export const emptySpecialText = () => {
   return {
     type: EMPTY_SPECIAL_TEXT,
+  }
+}
+
+export const loadStepMenuList = payload => {
+  return {
+    type: LOAD_STEP_MENU_LIST,
+    payload: payload
+  }
+}
+export const loadStepMenuListSuccess = payload => {
+  return {
+    type: LOAD_STEP_MENU_LIST_SUCCESS,
+    payload: payload
+  }
+}
+export const loadStepMenuListFail = payload => {
+  return {
+    type: LOAD_STEP_MENU_LIST_FAIL,
+    payload: payload
   }
 }

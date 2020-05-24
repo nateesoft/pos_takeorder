@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -7,7 +7,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import MenuSubList from '../menu/MenuSubList'
+import MenuStepList from '../menu/MenuStepList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,22 +29,22 @@ function getSteps() {
   return ['Select Side Dish', 'Select Extra', 'Show Auto Add'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, pcode) {
   switch (step) {
     case 0:
-      return <MenuSubList code="p100" />
+      return <MenuStepList type="sidedish" code={pcode} />
     case 1:
-        return <MenuSubList code="p78" />
+        return <MenuStepList type="extra" code={pcode} />
     case 2:
-        return <MenuSubList code="p79" />
+        return <MenuStepList type="autoadd" code={pcode} />
     default:
       return 'Unknown step';
   }
 }
 
-export default function VerticalLinearStepper() {
+const VerticalLinearStepper = () => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -101,3 +101,5 @@ export default function VerticalLinearStepper() {
     </div>
   );
 }
+
+export default VerticalLinearStepper

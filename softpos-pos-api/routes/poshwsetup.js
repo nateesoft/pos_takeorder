@@ -11,7 +11,7 @@ router.get("/macno", (req, res, next) => {
       if (response.status === 'Not_Found') {
         res.status(200).json({ 
           status: response.status, 
-          msg: "Please register this machine in system" 
+          msg: `Please register this machine in system ${ip}` 
         })
       } else {
         res.status(200).json({ status: "Success", data: response.data.terminal })
