@@ -19,6 +19,23 @@ const Tablefile = {
       callback
     )
   },
+  findEmptyAll: (callback) => {
+    return db.query(
+      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      TOnAct, ChkBill, NetTotal 
+      from ${table_name} 
+      where TCustomer = 0 and NetTotal = 0 order by SoneCode, Tcode`,
+      callback
+    )
+  },
+  searchTable: (table_code, callback) => {
+    return db.query(
+      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      TOnAct, ChkBill, NetTotal 
+      from ${table_name} where Tcode like '%${table_code}%'`,
+      callback
+    )
+  },
   zoneTable: (callback) => {
     return db.query(
       `select SoneCode from ${table_name} group by SoneCode order by SoneCode`,

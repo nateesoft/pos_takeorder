@@ -23,6 +23,17 @@ router.get("/table/:tableNo", (req, res, next) => {
   })
 })
 
+router.get("/employee/:empCode", (req, res, next) => {
+  const empCode = req.params.empCode
+  Task.findByEmployee(empCode, (err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows })
+    }
+  })
+})
+
 router.post("/create", (req, res, next) => {
   const { balance } = req.body
   const Balance = {
