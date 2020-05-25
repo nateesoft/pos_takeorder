@@ -4,6 +4,15 @@ const Task = require("../models/Tablefile")
 
 /* GET employ listing. */
 router.get("/", (req, res, next) => {
+  Task.findEmptyAll((err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows })
+    }
+  })
+})
+router.get("/all", (req, res, next) => {
   Task.findAll((err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
@@ -18,6 +27,16 @@ router.post("/", (req, res, next) => {
     table_code, cust_count, macno
   }
   Task.update(tableFile, (err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows })
+    }
+  })
+})
+router.post("/search", (req, res, next) => {
+  const table_code = req.body.table_code
+  Task.searchTable(table_code, (err, rows) => {
     if (err) {
       res.send({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {

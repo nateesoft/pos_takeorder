@@ -71,7 +71,7 @@ const LastOrderTab = props => {
             <Fastfood />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            โต๊ะ : {table_no} รวมอาหารที่สั่ง : รวม {totalAmount||0} บาท
+            โต๊ะ : {table_no} อาหารที่สั่ง : รวม {totalAmount||0} บาท
           </Typography>
         </Toolbar>
       </AppBar>

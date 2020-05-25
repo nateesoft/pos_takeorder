@@ -4,10 +4,7 @@ import {
   LOAD_STEP_MENU_LIST_FAIL, 
   LOAD_LAST_ORDER_LIST,
   LOAD_LAST_ORDER_LIST_SUCCESS,
-  LOAD_LAST_ORDER_LIST_FAIL
-} from './constants'
-
-const { 
+  LOAD_LAST_ORDER_LIST_FAIL,
   ADD_NEW_ORDER,
   ADD_NEW_ORDER_SUCCESS,
   ADD_NEW_ORDER_FAIL,
@@ -82,8 +79,11 @@ const {
   ADD_SUB_MENU_CODE,
   DELETE_SUB_MENU_CODE,
   EMPTY_SUB_MENU_CODE,
-  EMPTY_SPECIAL_TEXT
-} = require('./constants')
+  EMPTY_SPECIAL_TEXT,
+  SEARCH_TABLE_FILE,
+  SEARCH_TABLE_FILE_SUCCESS,
+  SEARCH_TABLE_FILE_FAIL
+} from './constants'
 
 export const addNewOrder = payload => {
   return {
@@ -357,9 +357,10 @@ export const loadGroupListFail = () => {
   }
 }
 
-export const loadTablefile = () => {
+export const loadTablefile = payload => {
   return {
     type: LOAD_TABLE_FILE,
+    payload: payload,
   }
 }
 export const loadTablefileSuccess = payload => {
@@ -560,6 +561,24 @@ export const loadLastOrderListSuccess = payload => {
 export const loadLastOrderListFail = payload => {
   return {
     type: LOAD_LAST_ORDER_LIST_FAIL,
+    payload: payload
+  }
+}
+export const searchTableFile = payload => {
+  return {
+    type: SEARCH_TABLE_FILE,
+    payload: payload
+  }
+}
+export const searchTableFileSuccess = payload => {
+  return {
+    type: SEARCH_TABLE_FILE_SUCCESS,
+    payload: payload
+  }
+}
+export const searchTableFileFail = payload => {
+  return {
+    type: SEARCH_TABLE_FILE_FAIL,
     payload: payload
   }
 }

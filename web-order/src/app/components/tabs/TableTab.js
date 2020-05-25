@@ -21,13 +21,13 @@ import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import SearchTable from '../search/SearchTable'
-const format = require('date-format');
 
+const format = require('date-format');
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE } = require('../../actions/constants')
+const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE } = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +60,7 @@ const typeList = [
 ]
 
 const TableTab = props => {
-  const { onLoadTablefile, updateTable } = props
+  const { onLoadTablefile, updateTable, onSearchTable } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
@@ -82,16 +82,18 @@ const TableTab = props => {
     setCustomerCount(event.target.value)
     updateTable(table_no, event.target.value, macno)
   };
+
   const handleTypeChange = event => {
     setEtd(event.target.value)
   };
+
   const onSubmit = event => {
     setOpen(false)
     setSelectCust(true)
   };
 
   useEffect(() => {
-      onLoadTablefile()
+      onLoadTablefile('empty')
       setMsgError('')
     return () => {
     }
@@ -107,7 +109,7 @@ const TableTab = props => {
 
   return (
     <div className={classes.root}>
-      <SearchTable />
+      <SearchTable loadTable={onLoadTablefile} onSearch={onSearchTable} />
       <List component="nav" aria-label="main mailbox folders">
         {tableFileList && tableFileList.map((item, index) => (
           <div key={`div-${index}`}>
@@ -179,14 +181,17 @@ const TableTab = props => {
 
 const mapStateToProps = state => {
   return {
-
+    onSearchTable: () => state.table.tableFileList
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadTablefile: () => dispatch({ 
-      type: LOAD_TABLE_FILE 
+    onLoadTablefile: type => dispatch({ 
+      type: LOAD_TABLE_FILE,
+      payload: {
+        type
+      }
     }),
     updateTable: (table_code, cust_count, macno) => dispatch({
       type: UPDATE_TABLE_FILE,
@@ -194,6 +199,13 @@ const mapDispatchToProps = dispatch => {
         table_code,
         cust_count,
         macno
+      }
+    }),
+    onSearchTable: (table_code, type) => dispatch({
+      type: SEARCH_TABLE_FILE,
+      payload: {
+        table_code,
+        type
       }
     })
   }

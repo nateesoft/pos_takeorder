@@ -45,6 +45,7 @@ import {
   loadStepMenuListSuccess,
   loadStepMenuListFail,
 } from '../actions'
+import { SEARCH_TABLE_FILE } from "../actions/constants"
 
 const { 
   ADD_NEW_ORDER,
@@ -249,6 +250,26 @@ function* fetchLastOrderList(action) {
     yield put(loadLastOrderListSuccess(response.data))
   } catch(err) {
     yield put(loadLastOrderListFail({ status: "Error", msg: err }))
+  }
+}
+
+function* searchTableFile(action) {
+  const { table_code } = action.payload
+  const requestURL = `${POS_API}/pos/tablefile/search`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        table_code,
+      }),
+    })
+    yield put(loadTablefileSuccess(response.data))
+  } catch(err) {
+    yield put(loadTablefileFail({ status: "Error", msg: err }))
   }
 }
 
@@ -550,8 +571,12 @@ function* fetchLogout(action) {
     yield put(checkLogoutSuccess({ status: 'Success', msg: 'Logout Success' }))
 }
 
-function* fetchTablefile() {
-  const requestURL = `${POS_API}/pos/tablefile`
+function* fetchTablefile(action) {
+  const { type } = action.payload
+  let requestURL = `${POS_API}/pos/tablefile/all`
+  if (type === 'empty') {
+    requestURL = `${POS_API}/pos/tablefile`
+  }
   try {
     const response = yield call(request, requestURL, {
       method: 'GET',
@@ -653,6 +678,9 @@ function* actionAddNewOrder() {
 function* actionFetchLastOrderList() {
   yield takeLatest(LOAD_LAST_ORDER_LIST, fetchLastOrderList)
 }
+function* actionSearchTableFile() {
+  yield takeLatest(SEARCH_TABLE_FILE, searchTableFile)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -678,5 +706,6 @@ export default function* rootSaga() {
     actionFetchProductSubList(),
     actionUpdateOrderItem(),
     actionAddNewOrder(),
+    actionSearchTableFile(),
   ])
 }

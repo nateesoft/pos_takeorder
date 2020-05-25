@@ -1,7 +1,6 @@
 import React from "react"
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
 import InputBase from "@material-ui/core/InputBase"
 import { fade, makeStyles } from "@material-ui/core/styles"
 import SearchIcon from "@material-ui/icons/Search"
@@ -62,14 +61,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function SearchTable() {
+export default function SearchTable(props) {
+  const { loadTable, onSearch } = props
   const classes = useStyles()
+
+  const handleChange = (evt) => {
+    onSearch(evt.target.value)
+  }
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <SwitchTable />
+          <SwitchTable loadTable={loadTable} />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -80,7 +84,8 @@ export default function SearchTable() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ "aria-label": "search" }} 
+              onChange={evt => handleChange(evt)}
             />
           </div>
         </Toolbar>

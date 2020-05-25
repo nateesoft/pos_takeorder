@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -56,21 +56,26 @@ const IOSSwitch = withStyles((theme) => ({
   );
 });
 
-export default function CustomizedSwitches() {
-  const [state, setState] = useState({
-    checkedA: true,
-    checkedB: true,
-    checkedC: true,
-  });
+export default function CustomizedSwitches(props) {
+  const { loadTable } = props
+  const [active, setActive] = useState(true)
+  const [label, setLabel] = useState('')
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
+  useEffect(()=>{
+    if (active ) {
+      setLabel('โต๊ะว่าง')
+      loadTable('empty')
+    }else {
+      setLabel('โต๊ะทั้งหมด')
+      loadTable('all')
+    }
+  }, [active, loadTable])
 
   return (
     <FormControlLabel
-        control={<IOSSwitch checked={state.checkedB} onChange={handleChange} name="checkedB" />}
-        label="แสดงโต๊ะว่าง"
+        control={<IOSSwitch checked={active} 
+        onChange={()=>setActive(!active)} name="checkedB" />}
+        label={label}
     />
   );
 }
