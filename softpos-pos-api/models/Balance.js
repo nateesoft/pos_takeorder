@@ -52,6 +52,13 @@ const BalanceModel = {
       callback
     )
   },
+  findByEmployee: (empCode, callback) => {
+    return db.query(
+      `select *  from ${table_name} where r_emp=?`,
+      [empCode],
+      callback
+    )
+  },
   create: (Balance, callback) => {
     const { emp, plucode, price, qty, macno } = Balance
     
