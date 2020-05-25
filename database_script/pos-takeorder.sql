@@ -74,6 +74,28 @@ CREATE TABLE `product_menu` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `tempset` (
+  `PTableNo` varchar(10) NOT NULL DEFAULT '',
+  `PIndex` varchar(10) NOT NULL DEFAULT '',
+  `PCode` varchar(13) NOT NULL DEFAULT '',
+  `PDesc` varchar(250) NOT NULL DEFAULT '',
+  `PPostStock` char(3) NOT NULL DEFAULT '',
+  `PProTry` varchar(10) NOT NULL DEFAULT '',
+  `POption` varchar(250) DEFAULT '-',
+  `PTime` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+CREATE TABLE `ip_mapping` (
+  `ip` varchar(100) NOT NULL,
+  `terminal_id` varchar(100) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `active` varchar(1) DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `app_config` (
+  `auto_logout` varchar(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
 INSERT INTO pos_takeorder.group_menu (code,name,description,status,created_at,updated_at) VALUES 
 ('g01','Appitizer','Appitizer','Y','2020-02-19 15:18:10.0','2020-02-19 15:18:10.0')
 ,('g02','Beef','Beef','Y','2020-02-19 15:18:28.0','2020-02-19 15:18:28.0')

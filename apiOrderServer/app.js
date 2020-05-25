@@ -12,6 +12,7 @@ const productMenuRouter = require("./routes/api/productMenu")
 const groupMenuRouter = require("./routes/api/groupMenu")
 const searchRouter = require("./routes/api/search")
 const subMenuRouter = require("./routes/api/menuSubList")
+const appConfigRouter = require("./routes/api/appConfig")
 
 const app = express()
 app.use(cors())
@@ -33,6 +34,7 @@ app.use("/api/product", productMenuRouter)
 app.use("/api/group", groupMenuRouter)
 app.use("/api/search", searchRouter)
 app.use("/api/menu_list", subMenuRouter)
+app.use("/api/config", appConfigRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

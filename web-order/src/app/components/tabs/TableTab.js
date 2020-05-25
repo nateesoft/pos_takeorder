@@ -20,13 +20,14 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
-const format = require('date-format');
+import SearchTable from '../search/SearchTable'
 
+const format = require('date-format');
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE } = require('../../actions/constants')
+const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE } = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,7 +60,7 @@ const typeList = [
 ]
 
 const TableTab = props => {
-  const { onLoadTablefile, updateTable } = props
+  const { onLoadTablefile, updateTable, onSearchTable } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
@@ -81,16 +82,18 @@ const TableTab = props => {
     setCustomerCount(event.target.value)
     updateTable(table_no, event.target.value, macno)
   };
+
   const handleTypeChange = event => {
     setEtd(event.target.value)
   };
+
   const onSubmit = event => {
     setOpen(false)
     setSelectCust(true)
   };
 
   useEffect(() => {
-      onLoadTablefile()
+      onLoadTablefile('empty')
       setMsgError('')
     return () => {
     }
@@ -106,6 +109,7 @@ const TableTab = props => {
 
   return (
     <div className={classes.root}>
+      <SearchTable loadTable={onLoadTablefile} onSearch={onSearchTable} />
       <List component="nav" aria-label="main mailbox folders">
         {tableFileList && tableFileList.map((item, index) => (
           <div key={`div-${index}`}>
@@ -115,18 +119,14 @@ const TableTab = props => {
               onClick={event => handleListItemClick(event, index, item.Tcode, item.TCustomer)}
             >
               <ListItemAvatar>
-                <img
-                  src="img/table.png"
-                  alt="table"
-                  style={{ padding: 5, marginRight: 20 }}
-                />
+                <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
               </ListItemAvatar>
               <ListItemText
                 primary={`โต๊ะ ${item.Tcode} : ลูกค้า (${item.TCustomer})`}
-                secondary={`Zone : ${item.SoneCode} Last login: ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
+                secondary={`Zone : ${item.SoneCode} - ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
               />
               <span style={{ marginRight: 20}}>รวม: {item.NetTotal || 0}</span>
-              <span style={{ marginRight: 20 }}>สถานะ: {item.TOnAct}</span>
+              <span style={{ marginRight: 20 }}>Sts: {item.TOnAct}</span>
               {item.TOnAct==='N' ? <AspectRatio />:<EventSeat />}
             </ListItem>
             <Divider />
@@ -159,7 +159,7 @@ const TableTab = props => {
             <InputLabel id="demo-simple-select-required-label">ประเภทการสั่ง</InputLabel>
             <Select
               labelId="demo-simple-select-required-label"
-              id="demo-simple-select-required"
+              id="demo-simple-select-required2"
               value={etd}
               onChange={handleTypeChange}
               className={classes.selectEmpty}
@@ -181,14 +181,17 @@ const TableTab = props => {
 
 const mapStateToProps = state => {
   return {
-
+    onSearchTable: () => state.table.tableFileList
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadTablefile: () => dispatch({ 
-      type: LOAD_TABLE_FILE 
+    onLoadTablefile: type => dispatch({ 
+      type: LOAD_TABLE_FILE,
+      payload: {
+        type
+      }
     }),
     updateTable: (table_code, cust_count, macno) => dispatch({
       type: UPDATE_TABLE_FILE,
@@ -196,6 +199,13 @@ const mapDispatchToProps = dispatch => {
         table_code,
         cust_count,
         macno
+      }
+    }),
+    onSearchTable: (table_code, type) => dispatch({
+      type: SEARCH_TABLE_FILE,
+      payload: {
+        table_code,
+        type
       }
     })
   }

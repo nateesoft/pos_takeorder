@@ -1,7 +1,11 @@
 import produce from "immer"
-import { CHECK_LOGOUT, CHECK_LOGOUT_SUCCESS, CHECK_LOGIN_SUCCESS } from "../actions/constants"
-
-const { 
+import { 
+  CHECK_LOGOUT, 
+  CHECK_LOGOUT_SUCCESS, 
+  CHECK_LOGIN_SUCCESS, 
+  SEARCH_TABLE_FILE, 
+  SEARCH_TABLE_FILE_SUCCESS, 
+  SEARCH_TABLE_FILE_FAIL,
   UPDATE_ORDER_ITEM,
   UPDATE_ORDER_ITEM_SUCCESS,
   UPDATE_ORDER_ITEM_FAIL,
@@ -38,7 +42,7 @@ const {
   LOAD_LAST_ORDER_LIST,
   LOAD_LAST_ORDER_LIST_SUCCESS,
   LOAD_LAST_ORDER_LIST_FAIL,
-} = require('../actions/constants')
+} from '../actions/constants'
 
 const initialState = {
   empCode: "",
@@ -181,6 +185,13 @@ const tableReducer = (state = initialState, action) =>
         draft.tableFileList = action.payload
         break
       case LOAD_TABLE_FILE_FAIL:
+        break
+      case SEARCH_TABLE_FILE:
+        break
+      case SEARCH_TABLE_FILE_SUCCESS:
+        draft.tableFileList = action.payload
+        break
+      case SEARCH_TABLE_FILE_FAIL:
         break
       case CHOOSE_TABLE:
         draft.tableNo = action.payload
