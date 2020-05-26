@@ -27,7 +27,9 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE } = require('../../actions/constants')
+const { 
+  LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE, SET_ETD_TYPE 
+} = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +62,7 @@ const typeList = [
 ]
 
 const TableTab = props => {
-  const { onLoadTablefile, updateTable, onSearchTable } = props
+  const { onLoadTablefile, updateTable, onSearchTable, updateETD } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
@@ -85,6 +87,19 @@ const TableTab = props => {
 
   const handleTypeChange = event => {
     setEtd(event.target.value)
+    switch(event.target.value) {
+      case 0:
+        updateETD('E')
+        break
+      case 1:
+        updateETD('T')
+        break
+      case 2:
+        updateETD('D')
+        break
+      default:
+        updateETD('E')
+    }
   };
 
   const onSubmit = event => {
@@ -199,6 +214,12 @@ const mapDispatchToProps = dispatch => {
         table_code,
         cust_count,
         macno
+      }
+    }),
+    updateETD: (etd) => dispatch({
+      type: SET_ETD_TYPE,
+      payload: {
+        etd: etd
       }
     }),
     onSearchTable: (table_code, type) => dispatch({

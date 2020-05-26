@@ -101,9 +101,9 @@ const BalanceModel = {
     return db.query(`delete from ${table_name}`, callback)
   },
   saveBalance: (balance, callback) => {
-    Product.findByCode(balance.plucode, (err, rows)=>{
+    Product.findByCode(balance.plucode, (err, rows) => {
       if (err) throw err
-      if(rows.length===0){
+      if (rows.length === 0) {
         return callback(null, [])
       }
       rows.map(product => {
@@ -123,29 +123,27 @@ const BalanceModel = {
               R_PItemNo, R_PKicQue, 
               R_Stock, R_Set, R_Vat, R_Status,
               R_Service, R_Discount, R_Normal, R_Type, R_Kic, 
-              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype, r_etd) 
+              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype, r_etd,
+              r_time, r_pause) 
             values 
               (?, ?, ?, ?, ?, 
               ?, ?, ?, ?, ?,
               now(), ?, 
-              'N', 'N', 'N', 'Y', '0',
+              'N', 'Y', 'N', 'Y', '0',
               'N', 'N', '0', 'N', 0, 
               0, 0, 0, 0, 0, 
               0, 0, 
               ?, ?, ?, ?,
               ?, ?, ?, ?, ?,
-              ?, ?, ?, ?, ?, 'PDA', ?)`,
+              ?, ?, ?, ?, ?, 'PDA', ?, 
+              curtime(), 'P')`,
           [
             balance.index, balance.table, balance.emp, balance.plucode, balance.pname, 
             product.PUnit1, product.PGroup, balance.price, balance.qty, balance.total, 
             balance.macno, product.PStock, product.PSet, product.PVat, product.PStatus,
             product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic,
             opt[0],opt[1],opt[2],opt[3],opt[4], balance.r_etd
-          ], (err, rows) => {
-            if (err) throw err
-            return db.query(`update tablefile set NetTotal = NetTotal + ${balance.total} 
-            where TCode=?`, [balance.table], callback)
-          })
+          ], callback)
       })
     })
   }

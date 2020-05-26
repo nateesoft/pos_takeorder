@@ -50,6 +50,7 @@ router.post("/create", (req, res, next) => {
     s_text: balance.s_text,
     sub_code: balance.sub_code,
     r_etd: balance.r_etd,
+    macno: balance.macno,
   }
   Task.create(Balance, (err, rows) => {
     if (err) {

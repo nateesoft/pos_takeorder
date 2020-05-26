@@ -6,8 +6,18 @@ const Tablefile = {
     const { table_code, cust_count, macno }= tableFile
     return db.query(
       `update ${table_name} 
-      set TCustomer=?, TOnAct='Y', macno=?, TLoginDate=now() where Tcode=?`,
+      set TCustomer=?, TOnAct='Y', macno=?, TLoginDate=now() 
+      where Tcode=?`,
       [cust_count, macno, table_code],
+      callback
+    )
+  },
+  updateTotal: (tableNo, callback) => {
+    return db.query(
+      `update ${table_name} set TOnAct='N', 
+      NetTotal = (select sum(r_total) from balance b where R_Table = Tcode) 
+      where Tcode=?`,
+      [tableNo],
       callback
     )
   },

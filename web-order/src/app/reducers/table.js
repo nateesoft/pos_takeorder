@@ -42,11 +42,14 @@ import {
   LOAD_LAST_ORDER_LIST,
   LOAD_LAST_ORDER_LIST_SUCCESS,
   LOAD_LAST_ORDER_LIST_FAIL,
+  SET_ETD_TYPE
 } from '../actions/constants'
 
 const initialState = {
   empCode: "",
   tableNo: "",
+  custCount: 0,
+  etd: 'E',
   macno: "",
   order: {
     orderNo: "",
@@ -222,7 +225,7 @@ const tableReducer = (state = initialState, action) =>
       case CHECK_LOGOUT:
         break
       case CHECK_LOGOUT_SUCCESS:
-        draft.empCode = ''
+        // draft.empCode = ''
         draft.tableNo = ''
         draft.order = {
           orderNo: '',
@@ -231,6 +234,9 @@ const tableReducer = (state = initialState, action) =>
         break
       case CHECK_LOGIN_SUCCESS:
         draft.macno = action.payload.macno
+        break
+      case SET_ETD_TYPE:
+        draft.etd = action.payload.etd
         break
       default:
         break
