@@ -110,12 +110,14 @@ const OrderTab = props => {
   const [expanded, setExpanded] = useState(false)
   const [showButtonSendOrder, setShowButtonSendOrder] = useState(true)
   const [successBill, setSuccessBill] = useState(false)
+  const macno = useSelector(state => state.table.macno)
   const { enqueueSnackbar } = useSnackbar()
 
   const [open, setOpen] = useState(false)
   const [menuItem, setMenuItem] = useState("")
 
   const table_no = useSelector(state => state.table.tableNo)
+  const etd = useSelector(state => state.table.etd)
   const order_no = useSelector(state => state.table.order.orderNo)
   const auto_logout = useSelector(state => state.login.auto_logout)
 
@@ -133,7 +135,7 @@ const OrderTab = props => {
   }
 
   const sendOrderToPOS = () => {
-    sendToPOS(order_no)
+    sendToPOS(order_no, etd, macno)
     loadInitData()
     const variant = "success"
     enqueueSnackbar("ส่งข้อมูลเข้าระบบ POS แล้ว", { variant })
@@ -321,10 +323,12 @@ const mapDispatchToProps = dispatch => {
         menuCode: menuCode,
       }
     }),
-    sendToPOS: orderNo => dispatch({
+    sendToPOS: (orderNo, etdType, macno) => dispatch({
       type: SEND_ORDER_TO_POS,
       payload: {
-        orderNo: orderNo
+        orderNo: orderNo,
+        etd: etdType,
+        macno: macno
       }
     }),
     removeItemIndex: (uid, order_no) => dispatch({

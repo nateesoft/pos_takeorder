@@ -375,7 +375,7 @@ function* removeOrderIndex(action) {
 }
 
 function* sendOrderToPOS(action) {
-  const { orderNo } = action.payload
+  const { orderNo, etd, macno } = action.payload
   const requestURL = `${TAKEORDER_API}/api/orders/move`
   try {
     const response = yield call(request, requestURL, {
@@ -414,6 +414,8 @@ function* sendOrderToPOS(action) {
       })
 
       data.index = newIndex.data
+      data.r_etd = etd
+      data.macno = macno
       yield call(request, `${POS_API}/pos/balance/create`, {
         method: 'POST',
         headers: {
@@ -422,6 +424,17 @@ function* sendOrderToPOS(action) {
         },
         body: JSON.stringify({
           balance: data,
+        }),
+      })
+
+      yield call(request, `${POS_API}/pos/tablefile/updateTotal`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          table_code: data.table_code,
         }),
       })
     }
