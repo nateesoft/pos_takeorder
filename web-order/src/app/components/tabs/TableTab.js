@@ -10,7 +10,6 @@ import EventSeat from "@material-ui/icons/EventSeat"
 import { chooseTable } from "../../actions"
 import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
-import MessageUtil from '../../utils/alertMsg'
 import Dialog from "@material-ui/core/Dialog"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import { withStyles } from "@material-ui/core/styles"
@@ -21,13 +20,16 @@ import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import SearchTable from '../search/SearchTable'
+import AlertDialog from '../Dialog'
 
 const format = require('date-format');
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const { LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE } = require('../../actions/constants')
+const { 
+  LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE, SET_ETD_TYPE 
+} = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,15 +54,27 @@ const DialogContent = withStyles(theme => ({
   },
 }))(MuiDialogContent)
 
-const custList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const custList = [
+  { id: 0, label: '0' },
+  { id: 1, label: '1' },
+  { id: 2, label: '2' },
+  { id: 3, label: '3' },
+  { id: 4, label: '4' },
+  { id: 5, label: '5' },
+  { id: 6, label: '6' },
+  { id: 7, label: '7' },
+  { id: 8, label: '8' },
+  { id: 9, label: '9' },
+  { id: 10, label: '10' },
+]
 const typeList = [
-  { id: 0, label: 'ทานในร้าน (E)' },
-  { id: 1, label: 'กลับบ้าน (T)' },
-  { id: 2, label: 'เดลิเวอรี่ (D)' }
+  { id: 0, label: 'E' },
+  { id: 1, label: 'T' },
+  { id: 2, label: 'D' }
 ]
 
 const TableTab = props => {
-  const { onLoadTablefile, updateTable, onSearchTable } = props
+  const { onLoadTablefile, updateTable, onSearchTable, updateETD } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
@@ -68,36 +82,51 @@ const TableTab = props => {
   const tableFileList = useSelector(state => state.table.tableFileList)
   const macno = useSelector(state => state.table.macno)
   const [open, setOpen] = useState(false)
-  const [customerCount, setCustomerCount] = useState(0)
-  const [etd, setEtd] = useState(0)
+  const [openError, setOpenError] = useState(false)
+  const [customerCount, setCustomerCount] = useState('0')
+  const [etd, setEtd] = useState('E')
+  const [tableCode, setTableCode] = useState(table_no);
   const [selectCust, setSelectCust] = useState(false)
 
-  const handleListItemClick = (event, index, tableNo, custCount) => {
-    dispatch(chooseTable(tableNo))
-    setCustomerCount(custCount)
-    setOpen(true)
+  const handleListItemClick = (tableNo, custCount, netTotal) => {
+    if(netTotal > 0){
+      setMsgError('โต๊ะนี้มีพนักงานท่านอื่นกำลังทำรายการอยู่')
+      setOpenError(true);
+    } else {
+      setCustomerCount(custCount)
+      setTableCode(tableNo)
+      setOpen(true)
+      setMsgError('')
+    }
   }
 
   const handleChange = event => {
     setCustomerCount(event.target.value)
-    updateTable(table_no, event.target.value, macno)
   };
 
   const handleTypeChange = event => {
     setEtd(event.target.value)
   };
 
-  const onSubmit = event => {
-    setOpen(false)
-    setSelectCust(true)
+  const onSubmit = () => {
+    if (etd && customerCount) {
+      dispatch(chooseTable(tableCode))
+      setSelectCust(true)
+      updateETD(etd)
+      updateTable(table_no, customerCount, macno)
+      setOpen(false)
+    } else {
+      setMsgError('จำนวนลูกค้าต้องมากกว่า 0 คน')
+    }
   };
 
   useEffect(() => {
       onLoadTablefile('empty')
       setMsgError('')
     return () => {
+      setMsgError('')
     }
-  }, [onLoadTablefile])
+  }, [onLoadTablefile, updateETD])
 
   if (table_no === "") {
     return <Redirect push to={`/login`} />
@@ -116,7 +145,7 @@ const TableTab = props => {
             <ListItem
               button
               selected={table_no === item.Tcode}
-              onClick={event => handleListItemClick(event, index, item.Tcode, item.TCustomer)}
+              onClick={() => handleListItemClick(item.Tcode, item.TCustomer, item.NetTotal)}
             >
               <ListItemAvatar>
                 <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
@@ -151,7 +180,7 @@ const TableTab = props => {
               className={classes.selectEmpty}
             >
               {custList.map(num=>
-                <MenuItem key={num} value={num}>{num}</MenuItem>
+                <MenuItem key={num.id} value={num.label}>{num.label}</MenuItem>
               )}
             </Select>
           </FormControl>
@@ -165,7 +194,7 @@ const TableTab = props => {
               className={classes.selectEmpty}
             >
               {typeList.map(num =>
-                <MenuItem key={num.id} value={num.id}>{num.label}</MenuItem>
+                <MenuItem key={num.id} value={num.label}>{num.label}</MenuItem>
               )}
             </Select>
           </FormControl>
@@ -174,7 +203,7 @@ const TableTab = props => {
           </Button>
         </DialogContent>
       </Dialog>
-      {msgError && <MessageUtil message={msgError} />}
+      <AlertDialog open={openError} onClose={()=>setOpenError(false)} msg={msgError} />
     </div>
   )
 }
@@ -199,6 +228,12 @@ const mapDispatchToProps = dispatch => {
         table_code,
         cust_count,
         macno
+      }
+    }),
+    updateETD: (etd) => dispatch({
+      type: SET_ETD_TYPE,
+      payload: {
+        etd: etd
       }
     }),
     onSearchTable: (table_code, type) => dispatch({

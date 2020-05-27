@@ -46,12 +46,12 @@ const Login = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const { status, message } = loginResponse
+    const { status, message, username } = loginResponse
     if (status === "Success") {
       if (!order_no) {
         dispatch(newOrder({
           order_no: uuidv4(),
-          emp_code: user,
+          emp_code: username,
           table_no: "no_select"
         }))
       }
@@ -71,7 +71,7 @@ const Login = props => {
     
     return () => {
     }
-  }, [dispatch, loginResponse, order_no, user])
+  }, [dispatch, loginResponse, order_no])
 
   if (order_no !== "") {
     return <Redirect push to="/table" />
