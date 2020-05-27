@@ -101,13 +101,33 @@ const BalanceModel = {
     return db.query(`delete from ${table_name}`, callback)
   },
   saveBalance: (balance, callback) => {
-    Product.findByCode(balance.plucode, (err, rows)=>{
+    Product.findByCode(balance.plucode, (err, rows) => {
       if (err) throw err
-      if(rows.length===0){
+      if (rows.length === 0) {
         return callback(null, [])
       }
       rows.map(product => {
         const s_text = balance.s_text ? balance.s_text.split(','): []
+        let r_price = 0
+        switch(balance.r_etd) {
+          case 'E':
+            r_price = product.PPrice11
+            break
+          case 'T':
+            r_price = product.PPrice12
+            break
+          case 'D':
+            r_price = product.PPrice13
+            break
+          case 'P':
+            r_price = product.PPrice14
+            break
+          case 'W':
+            r_price = product.PPrice15
+            break
+          default:
+            r_price = product.PPrice11
+        }
         const opt = ['','','','','']
         s_text.map((data, id) => {
           opt[id] = convToAscii(data)
@@ -123,29 +143,27 @@ const BalanceModel = {
               R_PItemNo, R_PKicQue, 
               R_Stock, R_Set, R_Vat, R_Status,
               R_Service, R_Discount, R_Normal, R_Type, R_Kic, 
-              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype, r_etd) 
+              R_Opt1, R_Opt2, R_Opt3, R_Opt4, R_Opt5, trantype, r_etd,
+              r_time, r_pause, R_QuanCanDisc, R_ServiceAmt) 
             values 
               (?, ?, ?, ?, ?, 
               ?, ?, ?, ?, ?,
               now(), ?, 
-              'N', 'N', 'N', 'Y', '0',
+              'N', 'Y', 'N', 'Y', '0',
               'N', 'N', '0', 'N', 0, 
               0, 0, 0, 0, 0, 
               0, 0, 
               ?, ?, ?, ?,
               ?, ?, ?, ?, ?,
-              ?, ?, ?, ?, ?, 'PDA', ?)`,
+              ?, ?, ?, ?, ?, 'PDA', ?, 
+              curtime(), 'P', ?, '0')`,
           [
             balance.index, balance.table, balance.emp, balance.plucode, balance.pname, 
-            product.PUnit1, product.PGroup, balance.price, balance.qty, balance.total, 
+            product.PUnit1, product.PGroup, r_price, balance.qty, (r_price*balance.qty), 
             balance.macno, product.PStock, product.PSet, product.PVat, product.PStatus,
             product.PService, product.PDiscount, product.PNormal, product.PType, product.PKic,
-            opt[0],opt[1],opt[2],opt[3],opt[4], balance.r_etd
-          ], (err, rows) => {
-            if (err) throw err
-            return db.query(`update tablefile set NetTotal = NetTotal + ${balance.total} 
-            where TCode=?`, [balance.table], callback)
-          })
+            opt[0],opt[1],opt[2],opt[3],opt[4], balance.r_etd, balance.qty
+          ], callback)
       })
     })
   }

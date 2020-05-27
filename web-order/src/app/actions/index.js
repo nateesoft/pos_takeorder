@@ -82,7 +82,8 @@ import {
   EMPTY_SPECIAL_TEXT,
   SEARCH_TABLE_FILE,
   SEARCH_TABLE_FILE_SUCCESS,
-  SEARCH_TABLE_FILE_FAIL
+  SEARCH_TABLE_FILE_FAIL,
+  SET_ETD_TYPE
 } from './constants'
 
 export const addNewOrder = payload => {
@@ -579,6 +580,12 @@ export const searchTableFileSuccess = payload => {
 export const searchTableFileFail = payload => {
   return {
     type: SEARCH_TABLE_FILE_FAIL,
+    payload: payload
+  }
+}
+export const setEtdType = payload => {
+  return {
+    type: SET_ETD_TYPE,
     payload: payload
   }
 }

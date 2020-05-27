@@ -79,6 +79,7 @@ const LeftMenu = props => {
           </Badge>
         </ListItem>
       </Link>
+      <Divider />
       <Link to="/last_order" className={classes.listMenu}>
         <ListItem
           button
@@ -86,10 +87,10 @@ const LeftMenu = props => {
           onClick={event => handleListItemClick(event, 3)}
           style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
             {pdaSmall ? 
-              <img src="img/last_bill.png" width="35" alt="last bill" />:
-              <img src="img/last_bill.png" alt="bill" />
+              <img src="img/last_bill.png" width="35" alt="check order" />:
+              <img src="img/last_bill.png" alt="check order" />
             }
-            <ListItemText primary="Last Order" />
+            <ListItemText primary="Check Order" />
         </ListItem>
       </Link>
     </div>
