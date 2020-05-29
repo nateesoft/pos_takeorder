@@ -604,7 +604,7 @@ function* fetchTablefile(action) {
   }
 }
 function* updateTablefile(action) {
-  const { table_code, cust_count, macno } = action.payload
+  const { table_code, cust_count, macno, emp_code } = action.payload
   const requestURL = `${POS_API}/pos/tablefile`
   try {
     const response = yield call(request, requestURL, {
@@ -617,6 +617,7 @@ function* updateTablefile(action) {
         table_code,
         cust_count,
         macno,
+        emp_code,
       }),
     })
     yield put(updateTablefileSuccess(response.data))

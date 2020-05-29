@@ -208,7 +208,7 @@ const App = () => {
                 <Route path="/menu/:group" component={MenuTab} />
                 <Route path="/detail/:group/:code" component={MenuDetail} />
                 <Route path="/order" component={OrderTab} />
-                <Route path="/last_order" component={LastOrderTab} />
+                <Route path="/check_order" component={LastOrderTab} />
                 <Route path="/setting" component={Setting} />
                 <Route path="/step" component={MenuStep} />
               </Switch>

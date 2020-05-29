@@ -80,7 +80,7 @@ const LeftMenu = props => {
         </ListItem>
       </Link>
       <Divider />
-      <Link to="/last_order" className={classes.listMenu}>
+      <Link to="/check_order" className={classes.listMenu}>
         <ListItem
           button
           selected={selectedIndex === 2}
