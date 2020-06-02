@@ -44,6 +44,8 @@ import {
   addNewOrderFail,
   loadStepMenuListSuccess,
   loadStepMenuListFail,
+  selectTableActiveSuccess,
+  selectTableActiveFail,
 } from '../actions'
 import { SEARCH_TABLE_FILE } from "../actions/constants"
 
@@ -69,7 +71,8 @@ const {
   UPDATE_TABLE_FILE,
   CHECK_LOGIN,
   CHECK_LOGOUT,
-  LOAD_LAST_ORDER_LIST
+  LOAD_LAST_ORDER_LIST,
+  SELECT_TABLE_ACTIVE,
 } = require('../actions/constants')
 
 const uuid = require("react-native-uuid")
@@ -270,6 +273,23 @@ function* searchTableFile(action) {
     yield put(loadTablefileSuccess(response.data))
   } catch(err) {
     yield put(loadTablefileFail({ status: "Error", msg: err }))
+  }
+}
+
+function* selectTableActive(action) {
+  const table_code = action.payload
+  const requestURL = `${POS_API}/pos/tablefile/get/${table_code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(selectTableActiveSuccess(response.data))
+  } catch(err) {
+    yield put(selectTableActiveFail({ status: "Error", msg: err }))
   }
 }
 
@@ -695,6 +715,9 @@ function* actionFetchLastOrderList() {
 function* actionSearchTableFile() {
   yield takeLatest(SEARCH_TABLE_FILE, searchTableFile)
 }
+function* actionSelectTable() {
+  yield takeLatest(SELECT_TABLE_ACTIVE, selectTableActive)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -721,5 +744,6 @@ export default function* rootSaga() {
     actionUpdateOrderItem(),
     actionAddNewOrder(),
     actionSearchTableFile(),
+    actionSelectTable(),
   ])
 }

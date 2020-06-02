@@ -50,6 +50,7 @@ const App = () => {
   const [open, setOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const tableNo = useSelector(state => state.table.tableNo)
+  const netTotal = useSelector(state => state.table.NetTotal)
   const dispatch = useDispatch()
 
   const handleDrawerOpen = () => {
@@ -156,7 +157,7 @@ const App = () => {
                 }}
               >
                 <h2>
-                  โต๊ะ: {tableNo}
+                  ยอดที่ต้องชำระ: {netTotal}
                 </h2>
               </div>
             </AppBar>

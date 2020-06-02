@@ -7,7 +7,7 @@ import Divider from "@material-ui/core/Divider"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import AspectRatio from "@material-ui/icons/AspectRatio"
 import EventSeat from "@material-ui/icons/EventSeat"
-import { chooseTable } from "../../actions"
+import { selectTableActive } from "../../actions"
 import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import Dialog from "@material-ui/core/Dialog"
@@ -111,7 +111,7 @@ const TableTab = props => {
 
   const onSubmit = () => {
     if (etd && customerCount) {
-      dispatch(chooseTable(tableCode))
+      dispatch(selectTableActive(tableCode))
       setSelectCust(true)
       updateETD(etd)
       updateTable(tableCode, customerCount, macno, empCode)
