@@ -16,8 +16,8 @@ import {
   loadOrderDetailFail,
   loadListOrderDetailSuccess,
   loadListOrderDetailFail,
-  loadLastOrderListSuccess,
-  loadLastOrderListFail,
+  loadCheckOrderListSuccess,
+  loadCheckOrderListFail,
   loadExpansionProductSuccess,
   loadExpansionProductFail,
   sendOrderToPOSSuccess,
@@ -71,7 +71,7 @@ const {
   UPDATE_TABLE_FILE,
   CHECK_LOGIN,
   CHECK_LOGOUT,
-  LOAD_LAST_ORDER_LIST,
+  LOAD_CHECK_ORDER_LIST,
   SELECT_TABLE_ACTIVE,
 } = require('../actions/constants')
 
@@ -239,7 +239,7 @@ function* fetchSubMenuList(action) {
   }
 }
 
-function* fetchLastOrderList(action) {
+function* fetchCheckOrderList(action) {
   const { table_no } = action.payload
   const requestURL = `${POS_API}/pos/balance/table/${table_no}`
   try {
@@ -250,9 +250,9 @@ function* fetchLastOrderList(action) {
         'Content-Type': 'application/json',
       },
     })
-    yield put(loadLastOrderListSuccess(response.data))
+    yield put(loadCheckOrderListSuccess(response.data))
   } catch(err) {
-    yield put(loadLastOrderListFail({ status: "Error", msg: err }))
+    yield put(loadCheckOrderListFail({ status: "Error", msg: err }))
   }
 }
 
@@ -709,8 +709,8 @@ function* actionUpdateOrderItem() {
 function* actionAddNewOrder() {
   yield takeLatest(ADD_NEW_ORDER, addNewOrder)
 }
-function* actionFetchLastOrderList() {
-  yield takeLatest(LOAD_LAST_ORDER_LIST, fetchLastOrderList)
+function* actionFetchCheckOrderList() {
+  yield takeLatest(LOAD_CHECK_ORDER_LIST, fetchCheckOrderList)
 }
 function* actionSearchTableFile() {
   yield takeLatest(SEARCH_TABLE_FILE, searchTableFile)
@@ -721,7 +721,7 @@ function* actionSelectTable() {
 
 export default function* rootSaga() {
   yield all([
-    actionFetchLastOrderList(),
+    actionFetchCheckOrderList(),
     actionFetchTablefile(),
     actionUpdateTablefile(),
     actionFetchLogin(),

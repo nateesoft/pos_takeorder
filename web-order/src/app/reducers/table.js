@@ -39,9 +39,9 @@ import {
   ADD_ORDER,
   CLEAR_ORDER,
   NEW_ORDER,
-  LOAD_LAST_ORDER_LIST,
-  LOAD_LAST_ORDER_LIST_SUCCESS,
-  LOAD_LAST_ORDER_LIST_FAIL,
+  LOAD_CHECK_ORDER_LIST,
+  LOAD_CHECK_ORDER_LIST_SUCCESS,
+  LOAD_CHECK_ORDER_LIST_FAIL,
   SET_ETD_TYPE,
   SELECT_TABLE_ACTIVE_SUCCESS,
   SELECT_TABLE_ACTIVE_FAIL
@@ -124,12 +124,12 @@ const tableReducer = (state = initialState, action) =>
         break;
       case LOAD_SUB_MENU_LIST_FAIL:
         break;
-      case LOAD_LAST_ORDER_LIST:
+      case LOAD_CHECK_ORDER_LIST:
         break;
-      case LOAD_LAST_ORDER_LIST_SUCCESS:
+      case LOAD_CHECK_ORDER_LIST_SUCCESS:
         draft.balanceList = action.payload
         break;
-      case LOAD_LAST_ORDER_LIST_FAIL:
+      case LOAD_CHECK_ORDER_LIST_FAIL:
         break;
       case ADD_NEW_ORDER_ITEM:
         draft.orderDetail.tableNo = action.payload.tableNo

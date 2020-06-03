@@ -16,7 +16,7 @@ import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
 import MessageUtil from '../../utils/alertMsg'
 
-const { LOAD_LAST_ORDER_LIST } = require('../../actions/constants')
+const { LOAD_CHECK_ORDER_LIST } = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,8 +38,8 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const LastOrderTab = props => {
-  const { loadLastOrderList }= props
+const CheckOrderTab = props => {
+  const { loadCheckOrderList }= props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
 
@@ -47,11 +47,11 @@ const LastOrderTab = props => {
   const balanceList = useSelector(state => state.table.balanceList)
 
   useEffect(() => {
-    loadLastOrderList(table_no)
+    loadCheckOrderList(table_no)
     setMsgError('')
     return () => {
     }
-  }, [loadLastOrderList, table_no])
+  }, [loadCheckOrderList, table_no])
 
   if (table_no === "" || table_no === "no_select") {
     return <Redirect push to={`/table`} />
@@ -88,7 +88,7 @@ const LastOrderTab = props => {
           </TableHead>
           <TableBody>
           {balanceList && balanceList.map((row, index) => (
-              <TableRow key={row.R_Index}>
+              <TableRow key={row.R_PluCode}>
                 <TableCell>{row.R_PluCode}</TableCell>
                 <TableCell>{row.R_PName}</TableCell>
                 <TableCell align="right">{row.R_Price}</TableCell>
@@ -111,8 +111,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadLastOrderList: tableNo => dispatch({
-      type: LOAD_LAST_ORDER_LIST,
+    loadCheckOrderList: tableNo => dispatch({
+      type: LOAD_CHECK_ORDER_LIST,
       payload: {
         table_no: tableNo
       }
@@ -120,4 +120,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LastOrderTab)
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOrderTab)
