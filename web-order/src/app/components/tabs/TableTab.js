@@ -7,7 +7,7 @@ import Divider from "@material-ui/core/Divider"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import AspectRatio from "@material-ui/icons/AspectRatio"
 import EventSeat from "@material-ui/icons/EventSeat"
-import { chooseTable } from "../../actions"
+import { selectTableActive } from "../../actions"
 import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import Dialog from "@material-ui/core/Dialog"
@@ -78,6 +78,7 @@ const TableTab = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
+  const empCode = useSelector(state => state.login.username)
   const table_no = useSelector(state => state.table.tableNo)
   const tableFileList = useSelector(state => state.table.tableFileList)
   const macno = useSelector(state => state.table.macno)
@@ -88,8 +89,8 @@ const TableTab = props => {
   const [tableCode, setTableCode] = useState(table_no);
   const [selectCust, setSelectCust] = useState(false)
 
-  const handleListItemClick = (tableNo, custCount, netTotal) => {
-    if(netTotal > 0){
+  const handleListItemClick = (tableNo, custCount, TOnAct, TUser) => {
+    if(TOnAct === 'Y' && TUser !== empCode){
       setMsgError('โต๊ะนี้มีพนักงานท่านอื่นกำลังทำรายการอยู่')
       setOpenError(true);
     } else {
@@ -110,10 +111,10 @@ const TableTab = props => {
 
   const onSubmit = () => {
     if (etd && customerCount) {
-      dispatch(chooseTable(tableCode))
+      dispatch(selectTableActive(tableCode))
       setSelectCust(true)
       updateETD(etd)
-      updateTable(table_no, customerCount, macno)
+      updateTable(tableCode, customerCount, macno, empCode)
       setOpen(false)
     } else {
       setMsgError('จำนวนลูกค้าต้องมากกว่า 0 คน')
@@ -145,7 +146,7 @@ const TableTab = props => {
             <ListItem
               button
               selected={table_no === item.Tcode}
-              onClick={() => handleListItemClick(item.Tcode, item.TCustomer, item.NetTotal)}
+              onClick={() => handleListItemClick(item.Tcode, item.TCustomer, item.TOnAct, item.TUser)}
             >
               <ListItemAvatar>
                 <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
@@ -222,12 +223,13 @@ const mapDispatchToProps = dispatch => {
         type
       }
     }),
-    updateTable: (table_code, cust_count, macno) => dispatch({
+    updateTable: (table_code, cust_count, macno, emp_code) => dispatch({
       type: UPDATE_TABLE_FILE,
       payload: {
         table_code,
         cust_count,
-        macno
+        macno,
+        emp_code
       }
     }),
     updateETD: (etd) => dispatch({

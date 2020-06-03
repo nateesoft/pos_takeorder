@@ -7,7 +7,7 @@ router.get("/getName", (req, res, next) => {
   const macNo = req.query.macNo
   Task.getStockName(pCode, macNo, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -20,7 +20,7 @@ router.post("/stkfile", (req, res, next) => {
   const qty = req.body.qty
   Task.updateSTKFileAdd(bpCode, stockCode, qty, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -46,7 +46,7 @@ router.post("/stcard", (req, res, next) => {
   }
   Task.saveSTCard(STCardBean, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }

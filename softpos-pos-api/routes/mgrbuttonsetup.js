@@ -6,7 +6,7 @@ router.get("/:pcode", (req, res, next) => {
   const pcode = req.params.pcode
   Task.findByCode(pcode, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -16,7 +16,7 @@ router.delete("/:pcode", (req, res, next) => {
   const pcode = req.params.pcode
   Task.delete(pcode, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows.affectedRows })
     }
@@ -26,7 +26,7 @@ router.delete("/:pcode", (req, res, next) => {
 router.post("/", (req, res, next) => {
   Task.add(req.body, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows.affectedRows })
     }

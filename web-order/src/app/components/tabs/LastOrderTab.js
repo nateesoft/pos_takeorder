@@ -45,7 +45,6 @@ const LastOrderTab = props => {
 
   const table_no = useSelector(state => state.table.tableNo)
   const balanceList = useSelector(state => state.table.balanceList)
-  const totalAmount = useSelector(state => state.table.order.totalAmount)
 
   useEffect(() => {
     loadLastOrderList(table_no)
@@ -71,7 +70,7 @@ const LastOrderTab = props => {
             <Fastfood />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            โต๊ะ : {table_no} อาหารที่สั่ง : รวม {totalAmount||0} บาท
+            โต๊ะ : {table_no}
           </Typography>
         </Toolbar>
       </AppBar>

@@ -65,7 +65,9 @@ import {
   CHECK_LOGOUT,
   CHECK_LOGOUT_SUCCESS,
   CHECK_LOGOUT_FAIL,
-  CHOOSE_TABLE,
+  SELECT_TABLE_ACTIVE,
+  SELECT_TABLE_ACTIVE_SUCCESS,
+  SELECT_TABLE_ACTIVE_FAIL,
   CLEAR_TABLE,
   CURRENT_ORDER,
   ADD_ORDER,
@@ -429,10 +431,22 @@ export const checkLogoutFail = payload => {
   }
 }
 
-export const chooseTable = tableNo => {
+export const selectTableActive = tableNo => {
   return {
-    type: CHOOSE_TABLE,
+    type: SELECT_TABLE_ACTIVE,
     payload: tableNo,
+  }
+}
+export const selectTableActiveSuccess = payload => {
+  return {
+    type: SELECT_TABLE_ACTIVE_SUCCESS,
+    payload: payload,
+  }
+}
+export const selectTableActiveFail = payload => {
+  return {
+    type: SELECT_TABLE_ACTIVE_FAIL,
+    payload: payload,
   }
 }
 
