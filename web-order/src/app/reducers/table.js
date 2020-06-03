@@ -33,7 +33,7 @@ import {
   LOAD_TABLE_FILE,
   LOAD_TABLE_FILE_SUCCESS,
   LOAD_TABLE_FILE_FAIL,
-  CHOOSE_TABLE,
+  SELECT_TABLE_ACTIVE,
   CLEAR_TABLE,
   CURRENT_ORDER,
   ADD_ORDER,
@@ -42,7 +42,9 @@ import {
   LOAD_LAST_ORDER_LIST,
   LOAD_LAST_ORDER_LIST_SUCCESS,
   LOAD_LAST_ORDER_LIST_FAIL,
-  SET_ETD_TYPE
+  SET_ETD_TYPE,
+  SELECT_TABLE_ACTIVE_SUCCESS,
+  SELECT_TABLE_ACTIVE_FAIL
 } from '../actions/constants'
 
 const initialState = {
@@ -51,6 +53,7 @@ const initialState = {
   custCount: 0,
   etd: 'E',
   macno: "",
+  NetTotal: 0,
   order: {
     orderNo: "",
     items: [],
@@ -196,8 +199,14 @@ const tableReducer = (state = initialState, action) =>
         break
       case SEARCH_TABLE_FILE_FAIL:
         break
-      case CHOOSE_TABLE:
+      case SELECT_TABLE_ACTIVE:
         draft.tableNo = action.payload
+        break
+      case SELECT_TABLE_ACTIVE_SUCCESS:
+        draft.tableNo = action.payload[0].Tcode
+        draft.NetTotal = action.payload[0].NetTotal
+        break
+      case SELECT_TABLE_ACTIVE_FAIL:
         break
       case CLEAR_TABLE:
         draft.tableNo = ""
