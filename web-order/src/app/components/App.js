@@ -21,6 +21,7 @@ import LastOrderTab from "./tabs/LastOrderTab"
 import LoginPage from "./login/Login"
 import LogoutPage from "./login/Logout"
 import WelcomePage from "./tabs/Welcome"
+import NotfoundPage from "./pages/Notfound"
 import Setting from "./tabs/Setting"
 import MenuStep from "./menu/MenuStep"
 import { Link } from "react-router-dom"
@@ -212,6 +213,7 @@ const App = () => {
                 <Route path="/check_order" component={LastOrderTab} />
                 <Route path="/setting" component={Setting} />
                 <Route path="/step" component={MenuStep} />
+                <Route path="" component={NotfoundPage} />
               </Switch>
             </Container>
           </main>
