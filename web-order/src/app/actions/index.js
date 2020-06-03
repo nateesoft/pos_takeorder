@@ -2,9 +2,9 @@ import {
   LOAD_STEP_MENU_LIST, 
   LOAD_STEP_MENU_LIST_SUCCESS, 
   LOAD_STEP_MENU_LIST_FAIL, 
-  LOAD_LAST_ORDER_LIST,
-  LOAD_LAST_ORDER_LIST_SUCCESS,
-  LOAD_LAST_ORDER_LIST_FAIL,
+  LOAD_CHECK_ORDER_LIST,
+  LOAD_CHECK_ORDER_LIST_SUCCESS,
+  LOAD_CHECK_ORDER_LIST_FAIL,
   ADD_NEW_ORDER,
   ADD_NEW_ORDER_SUCCESS,
   ADD_NEW_ORDER_FAIL,
@@ -561,21 +561,21 @@ export const loadStepMenuListFail = payload => {
     payload: payload
   }
 }
-export const loadLastOrderList = payload => {
+export const loadCheckOrderList = payload => {
   return {
-    type: LOAD_LAST_ORDER_LIST,
+    type: LOAD_CHECK_ORDER_LIST,
     payload: payload
   }
 }
-export const loadLastOrderListSuccess = payload => {
+export const loadCheckOrderListSuccess = payload => {
   return {
-    type: LOAD_LAST_ORDER_LIST_SUCCESS,
+    type: LOAD_CHECK_ORDER_LIST_SUCCESS,
     payload: payload
   }
 }
-export const loadLastOrderListFail = payload => {
+export const loadCheckOrderListFail = payload => {
   return {
-    type: LOAD_LAST_ORDER_LIST_FAIL,
+    type: LOAD_CHECK_ORDER_LIST_FAIL,
     payload: payload
   }
 }
