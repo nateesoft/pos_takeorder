@@ -5,7 +5,7 @@ const Task = require("../models/Balance")
 router.get("/", (req, res, next) => {
   Task.findAll((err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -16,7 +16,7 @@ router.get("/table/:tableNo", (req, res, next) => {
   const tableNo = req.params.tableNo
   Task.findByTable(tableNo, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -27,7 +27,7 @@ router.get("/employee/:empCode", (req, res, next) => {
   const empCode = req.params.empCode
   Task.findByEmployee(empCode, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ data: rows })
     }
@@ -54,7 +54,7 @@ router.post("/create", (req, res, next) => {
   }
   Task.create(Balance, (err, rows) => {
     if (err) {
-      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
       res.status(200).json({ "Success": rows.affectedRows })
     }
@@ -64,7 +64,7 @@ router.post("/create", (req, res, next) => {
 router.post("/reset_balance", (req, res, next) => {
     Task.empty((err, rows) => {
       if (err) {
-        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+        res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
         res.status(200).json({ delete_count: rows.affectedRows })
       }
@@ -75,7 +75,7 @@ router.post("/getIndex", (req, res, next) => {
   const tableNo = req.body.table_no
     Task.getIndexBalance(tableNo, (err, newIndex) => {
       if (err) {
-        res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+        res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
       } else {
         res.status(200).json({ data: newIndex })
       }
