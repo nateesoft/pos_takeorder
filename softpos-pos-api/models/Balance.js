@@ -47,9 +47,10 @@ const BalanceModel = {
   },
   findByTable: (tableNo, callback) => {
     return db.query(
-      `select *  from ${table_name} where r_table=?`,
-      [tableNo],
-      callback
+      `select R_PluCode, R_PName, R_Price, sum(R_Quan) R_Quan, sum(R_Total) R_Total, R_ETD 
+      from ${table_name} b where b.R_Table =? 
+      group by R_PluCode, R_PName, R_Price, R_Quan, R_Total, R_ETD`,
+      [tableNo], callback
     )
   },
   findByEmployee: (empCode, callback) => {

@@ -88,7 +88,7 @@ const CheckOrderTab = props => {
           </TableHead>
           <TableBody>
           {balanceList && balanceList.map((row, index) => (
-              <TableRow key={row.R_Index}>
+              <TableRow key={row.R_PluCode}>
                 <TableCell>{row.R_PluCode}</TableCell>
                 <TableCell>{row.R_PName}</TableCell>
                 <TableCell align="right">{row.R_Price}</TableCell>
