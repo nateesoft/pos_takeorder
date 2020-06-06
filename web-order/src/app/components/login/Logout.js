@@ -2,7 +2,7 @@ import React from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux"
 
 const { checkLogut } = require('../../actions')
 
@@ -23,8 +23,9 @@ const useStyles = makeStyles(theme => ({
 const Logout = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const table_code = useSelector((state) => state.table.tableNo)
 
-  dispatch(checkLogut())
+  dispatch(checkLogut(table_code))
 
   return (
     <Container component="main" maxWidth="xs">
