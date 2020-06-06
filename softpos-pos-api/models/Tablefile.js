@@ -32,6 +32,9 @@ const Tablefile = {
       callback
     )
   },
+  logoutTable: (table_code, callback) => {
+    return db.query(`update ${table_name} set TOnAct='N' where Tcode=?`, [table_code], callback)
+  },
   updateTotal: (tableNo, callback) => {
     Tablefile.getBalanceTotalAmt(tableNo, (err, { balanceAmt, serviceAmt, vatAmt, P_Service, P_Vat }) => {
       if (err) throw err
@@ -46,7 +49,7 @@ const Tablefile = {
   },
   findAll: (callback) => {
     return db.query(
-      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      `select Tcode, TUser, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
       TOnAct, ChkBill, NetTotal 
       from ${table_name} order by SoneCode, Tcode`,
       callback
@@ -54,7 +57,7 @@ const Tablefile = {
   },
   findEmptyAll: (callback) => {
     return db.query(
-      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      `select Tcode, TUser, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
       TOnAct, ChkBill, NetTotal 
       from ${table_name} 
       where TCustomer = 0 and NetTotal = 0 order by SoneCode, Tcode`,
@@ -63,7 +66,7 @@ const Tablefile = {
   },
   searchTable: (table_code, callback) => {
     return db.query(
-      `select Tcode, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
+      `select Tcode, TUser, TLoginDate, SoneCode, MacNo, Cashier, TCustomer, 
       TOnAct, ChkBill, NetTotal 
       from ${table_name} where Tcode like '%${table_code}%'`,
       callback
@@ -80,7 +83,7 @@ const Tablefile = {
   },
   findByZone: (zone_code, callback) => {
     return db.query(
-      `select Tcode, SoneCode, MacNo, Cashier, TCustomer, TOnAct, ChkBill from ${table_name} where SoneCode=? order by tcode`,
+      `select Tcode, TUser, SoneCode, MacNo, Cashier, TCustomer, TOnAct, ChkBill from ${table_name} where SoneCode=? order by tcode`,
       [zone_code],
       callback
     )
