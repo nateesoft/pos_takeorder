@@ -71,12 +71,18 @@ const App = () => {
     </div>
   )
 
+  const onBackButtonEvent = () => {
+    window.history.forward()
+  }
+
   useEffect(() => {
     dispatch(loadGroupList())
+    window.addEventListener('popstate', onBackButtonEvent)
     if (window.innerWidth <= 650) {
       setOpen(false)
     }
     return () => {
+      window.removeEventListener('popstate', onBackButtonEvent)
     }
   }, [dispatch])
 

@@ -89,16 +89,25 @@ const TableTab = props => {
   const [tableCode, setTableCode] = useState(table_no);
   const [selectCust, setSelectCust] = useState(false)
 
-  const handleListItemClick = (tableNo, custCount, TOnAct, TUser) => {
-    if(TOnAct === 'Y' && TUser !== empCode){
-      setMsgError('โต๊ะนี้มีพนักงานท่านอื่นกำลังทำรายการอยู่')
-      setOpenError(true);
-    } else {
-      setCustomerCount(custCount)
-      setTableCode(tableNo)
-      setOpen(true)
-      setMsgError('')
-    }
+  const HOST = process.env.HOST || window.location.hostname
+  const POS_API = `http://${HOST}:5000`
+
+  const handleListItemClick = (tableNo) => {
+    fetch(`${POS_API}/pos/tablefile/get/${tableNo}`)
+      .then(res => res.json())
+      .then(result => {
+        const table = result.data[0]
+        if(table.TOnAct === 'Y' && table.TUser !== empCode) {
+          setMsgError('โต๊ะนี้มีพนักงานท่านอื่นกำลังทำรายการอยู่')
+          setOpenError(true);
+        } else {
+          setCustomerCount(table.TCustomer)
+          setTableCode(table.Tcode)
+          setOpen(true)
+          setMsgError('')
+        }
+        onLoadTablefile('empty')
+    })
   }
 
   const handleChange = event => {
@@ -146,7 +155,7 @@ const TableTab = props => {
             <ListItem
               button
               selected={table_no === item.Tcode}
-              onClick={() => handleListItemClick(item.Tcode, item.TCustomer, item.TOnAct, item.TUser)}
+              onClick={() => handleListItemClick(item.Tcode)}
             >
               <ListItemAvatar>
                 <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
@@ -217,7 +226,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadTablefile: type => dispatch({ 
+    onLoadTablefile: (type) => dispatch({ 
       type: LOAD_TABLE_FILE,
       payload: {
         type

@@ -601,7 +601,23 @@ function* fetchLogin(action) {
   }
 }
 function* fetchLogout(action) {
+  const table_code = action.payload
+  try {
+    const response = yield call(request, `${POS_API}/pos/tablefile/logout`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        table_code,
+      }),
+    })
+    yield put(updateTablefileSuccess(response.data))
     yield put(checkLogoutSuccess({ status: 'Success', msg: 'Logout Success' }))
+  } catch(err) {
+    yield put(updateTablefileFail({ status: "Error", msg: err }))
+  }
 }
 
 function* fetchTablefile(action) {
