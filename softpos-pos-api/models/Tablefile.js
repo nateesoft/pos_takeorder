@@ -35,6 +35,9 @@ const Tablefile = {
   logoutTable: (table_code, callback) => {
     return db.query(`update ${table_name} set TOnAct='N' where Tcode=?`, [table_code], callback)
   },
+  updateChangeTable: (table_code, callback) => {
+    return db.query(`update ${table_name} set TOnAct='N' where Tcode=?`, [table_code], callback)
+  },
   updateTotal: (tableNo, callback) => {
     Tablefile.getBalanceTotalAmt(tableNo, (err, { balanceAmt, serviceAmt, vatAmt, P_Service, P_Vat }) => {
       if (err) throw err

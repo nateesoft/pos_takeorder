@@ -1,7 +1,13 @@
 import { 
-  LOAD_STEP_MENU_LIST, 
-  LOAD_STEP_MENU_LIST_SUCCESS, 
-  LOAD_STEP_MENU_LIST_FAIL, 
+  LOAD_STEP_MENU_LIST,
+  LOAD_STEP_MENU_LIST_SUCCESS,
+  LOAD_STEP_MENU_LIST_FAIL,
+  UPDATE_ORDER_TABLE,
+  UPDATE_ORDER_TABLE_SUCCESS,
+  UPDATE_ORDER_TABLE_FAIL,
+  UPDATE_POS_CHANGE_TABLE,
+  UPDATE_POS_CHANGE_TABLE_SUCCESS,
+  UPDATE_POS_CHANGE_TABLE_FAIL,
   LOAD_CHECK_ORDER_LIST,
   LOAD_CHECK_ORDER_LIST_SUCCESS,
   LOAD_CHECK_ORDER_LIST_FAIL,
@@ -601,5 +607,39 @@ export const setEtdType = payload => {
   return {
     type: SET_ETD_TYPE,
     payload: payload
+  }
+}
+export const updateOrderTable = payload => {
+  return {
+    type: UPDATE_ORDER_TABLE,
+    payload: payload,
+  }
+}
+export const updateOrderTableSuccess = payload => {
+  return {
+    type: UPDATE_ORDER_TABLE_SUCCESS,
+    payload: payload,
+  }
+}
+export const updateOrderTableFail = () => {
+  return {
+    type: UPDATE_ORDER_TABLE_FAIL,
+  }
+}
+export const updatePosChangeTable = payload => {
+  return {
+    type: UPDATE_POS_CHANGE_TABLE,
+    payload: payload,
+  }
+}
+export const updatePosChangeTableSuccess = payload => {
+  return {
+    type: UPDATE_POS_CHANGE_TABLE_SUCCESS,
+    payload: payload,
+  }
+}
+export const updatePosChangeTableFail = () => {
+  return {
+    type: UPDATE_POS_CHANGE_TABLE_FAIL,
   }
 }

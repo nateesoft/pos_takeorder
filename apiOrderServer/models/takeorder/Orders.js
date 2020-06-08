@@ -73,6 +73,12 @@ const Orders = {
       where order_no=? and send_order='N'`, 
       [order_no], callback)
   },
+  updatTableChange: (order_no, table_code, callback) => {
+    return db.query(`update ${table_name} 
+    set table_code=? 
+    where order_no=?`, 
+    [table_code, order_no], callback)
+  },
   empty: (callback) => {
     db.query(`delete from orders_detail`, (err, result, fields) => {
       if (err) throw err

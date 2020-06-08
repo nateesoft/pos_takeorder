@@ -46,6 +46,10 @@ import {
   loadStepMenuListFail,
   selectTableActiveSuccess,
   selectTableActiveFail,
+  updateOrderTableSuccess,
+  updateOrderTableFail,
+  updatePosChangeTableSuccess,
+  updatePosChangeTableFail,
 } from '../actions'
 import { SEARCH_TABLE_FILE } from "../actions/constants"
 
@@ -73,6 +77,8 @@ const {
   CHECK_LOGOUT,
   LOAD_CHECK_ORDER_LIST,
   SELECT_TABLE_ACTIVE,
+  UPDATE_ORDER_TABLE,
+  UPDATE_POS_CHANGE_TABLE,
 } = require('../actions/constants')
 
 const uuid = require("react-native-uuid")
@@ -662,6 +668,47 @@ function* updateTablefile(action) {
   }
 }
 
+function* updateOrderTable(action) {
+  const { order_no, table_code } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/orders/${order_no}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        order_no,
+        table_code,
+      }),
+    })
+    yield put(updatePosChangeTableSuccess(response.data))
+  } catch(err) {
+    yield put(updatePosChangeTableFail({ status: "Error", msg: err }))
+  }
+}
+
+function* updatePosChangeTable(action) {
+  const { table_code } = action.payload
+  const requestURL = `${POS_API}/pos/tablefile/change`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        table_code,
+      }),
+    })
+    yield put(updateOrderTableSuccess(response.data))
+  } catch(err) {
+    yield put(updateOrderTableFail({ status: "Error", msg: err }))
+  }
+}
+
 function* actionFetchTablefile() {
   yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
 }
@@ -734,6 +781,12 @@ function* actionSearchTableFile() {
 function* actionSelectTable() {
   yield takeLatest(SELECT_TABLE_ACTIVE, selectTableActive)
 }
+function* actionUpdateOrderTable() {
+  yield takeLatest(UPDATE_ORDER_TABLE, updateOrderTable)
+}
+function* actionPosChangeTable() {
+  yield takeLatest(UPDATE_POS_CHANGE_TABLE, updatePosChangeTable)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -761,5 +814,7 @@ export default function* rootSaga() {
     actionAddNewOrder(),
     actionSearchTableFile(),
     actionSelectTable(),
+    actionUpdateOrderTable(),
+    actionPosChangeTable(),
   ])
 }
