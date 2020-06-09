@@ -20,7 +20,8 @@ import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import SearchTable from '../search/SearchTable'
-import AlertDialog from '../Dialog'
+import AlertDialog from '../dialog'
+import { UPDATE_ORDER_TABLE } from "../../actions/constants"
 
 const format = require('date-format');
 const Transition = forwardRef(function Transition(props, ref) {
@@ -28,7 +29,11 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const { 
-  LOAD_TABLE_FILE, UPDATE_TABLE_FILE, SEARCH_TABLE_FILE, SET_ETD_TYPE 
+  LOAD_TABLE_FILE, 
+  UPDATE_TABLE_FILE, 
+  SEARCH_TABLE_FILE, 
+  SET_ETD_TYPE, 
+  UPDATE_POS_CHANGE_TABLE 
 } = require('../../actions/constants')
 
 const useStyles = makeStyles(theme => ({
@@ -74,11 +79,19 @@ const typeList = [
 ]
 
 const TableTab = props => {
-  const { onLoadTablefile, updateTable, onSearchTable, updateETD } = props
+  const { 
+    onLoadTablefile, 
+    updateTable, 
+    onSearchTable, 
+    updateETD, 
+    updateTableChange,
+    onPosChangeTable 
+  } = props
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const dispatch = useDispatch()
   const empCode = useSelector(state => state.login.username)
+  const order_no = useSelector(state => state.table.order.orderNo)
   const table_no = useSelector(state => state.table.tableNo)
   const tableFileList = useSelector(state => state.table.tableFileList)
   const macno = useSelector(state => state.table.macno)
@@ -105,6 +118,10 @@ const TableTab = props => {
           setTableCode(table.Tcode)
           setOpen(true)
           setMsgError('')
+          if (table_no !== 'no_select') {
+            updateTableChange(order_no, table.Tcode)
+            onPosChangeTable(table_no);
+          }
         }
         onLoadTablefile('empty')
     })
@@ -241,6 +258,13 @@ const mapDispatchToProps = dispatch => {
         emp_code
       }
     }),
+    updateTableChange: (order_no, table_code) => dispatch({
+      type: UPDATE_ORDER_TABLE,
+      payload: {
+        order_no,
+        table_code,
+      }
+    }),
     updateETD: (etd) => dispatch({
       type: SET_ETD_TYPE,
       payload: {
@@ -253,6 +277,12 @@ const mapDispatchToProps = dispatch => {
         table_code,
         type
       }
+    }),
+    onPosChangeTable: (table_code) => dispatch({
+      type: UPDATE_POS_CHANGE_TABLE,
+      payload: {
+        table_code
+      },
     })
   }
 }
