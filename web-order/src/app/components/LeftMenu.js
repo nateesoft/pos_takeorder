@@ -32,93 +32,55 @@ const LeftMenu = props => {
     }
   }, [])
 
+  const listItemSmallImg = (index, imgPath, imgDesc, altMsg, badge) => 
+    <ListItem
+      button
+      selected={selectedIndex === index}
+      onClick={(event) => handleListItemClick(event, index)}
+      style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
+      <Badge badgeContent={badge} color="primary">
+        <img src={imgPath} width="35" alt={altMsg} />
+      </Badge>
+    </ListItem>
+  const listItemBigImg = (index, imgPath, imgDesc, altMsg, badge) =>
+    <ListItem
+      button
+      selected={selectedIndex === index}
+      onClick={(event) => handleListItemClick(event, index)}
+      style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
+      <Badge badgeContent={badge} color="primary">
+        <img src={imgPath} alt={altMsg} />
+      </Badge>
+      <ListItemText primary={imgDesc} style={{ textAlign: 'right' }} />
+    </ListItem>
+
   return (
     <div>
       <Link to="/table" className={classes.listMenu}>
       {pdaSmall ?
-        <ListItem
-          button
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
-          <Badge badgeContent={tableNo} color="primary">
-            <img src="img/table.png" width="35" alt="table" />
-          </Badge>
-        </ListItem>:
-        <ListItem
-          button
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-          <Badge badgeContent={tableNo} color="primary">
-            <img src="img/table.png" alt="table" />
-          </Badge>
-          <ListItemText primary="Table" style={{ textAlign: 'right' }} />
-        </ListItem>
+        listItemSmallImg(0, 'img/table.png', '', 'table', tableNo):
+        listItemBigImg(0, 'img/table.png', 'Table', 'table', tableNo)
       }
       </Link>
       <Divider />
       <Link to="/menu/g01" className={classes.listMenu}>
       {pdaSmall ?
-        <ListItem
-          button
-          selected={selectedIndex === 1}
-          onClick={event => handleListItemClick(event, 1)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
-          <img src="img/food.png" width="35" alt="food" />
-        </ListItem>:
-        <ListItem
-          button
-          selected={selectedIndex === 1}
-          onClick={event => handleListItemClick(event, 1)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-            <img src="img/food.png" alt="food" />
-            <ListItemText primary="Menu" style={{ textAlign: 'right' }} />
-        </ListItem>
+        listItemSmallImg(1, 'img/food.png', '', 'menu', ''):
+        listItemBigImg(1, 'img/food.png', 'Menu', 'menu', '')
       }
       </Link>
       <Divider />
       <Link to="/order" className={classes.listMenu}>
       {pdaSmall ?
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 2)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
-          <Badge badgeContent={orderList.length} color="primary">
-            <img src="img/bill.png" width="35" alt="bill" />
-          </Badge>
-        </ListItem>:
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 2)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-          <Badge badgeContent={orderList.length} color="primary">
-            <img src="img/bill.png" alt="bill" />
-          </Badge>
-          <ListItemText primary="Order" style={{ textAlign: 'right' }} />
-        </ListItem>
+        listItemSmallImg(2, 'img/bill.png', '', 'order', orderList.length):
+        listItemBigImg(2, 'img/bill.png', 'Order', 'order', orderList.length)
       }
       </Link>
       <Divider />
       <Link to="/check_order" className={classes.listMenu}>
-      {pdaSmall ? 
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 3)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
-            <img src="img/last_bill.png" width="35" alt="check order" />
-        </ListItem>:
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 3)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-            <img src="img/last_bill.png" alt="check order" />
-            <ListItemText primary="Check Order" style={{ textAlign: 'right' }} />
-        </ListItem>
+      {pdaSmall ?
+        listItemSmallImg(3, 'img/last_bill.png', '', 'check order', ''):
+        listItemBigImg(3, 'img/last_bill.png', 'Check Order', 'check order', '')
       }
       </Link>
     </div>
