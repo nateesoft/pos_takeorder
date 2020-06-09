@@ -21,10 +21,10 @@ docker rm api_takeorder
 docker build -t api_takeorder --rm .
 docker run --name api_takeorder -d -p 4000:4000 api_takeorder
 
-## softpos-pos-api
+## pos-api
 
 cd ..
-cd ./softpos-pos-api
+cd ./pos-api
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql5 > './config/mysql-ip'
 docker stop api_pos
 docker rm api_pos
