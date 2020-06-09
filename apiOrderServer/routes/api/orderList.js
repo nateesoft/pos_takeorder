@@ -47,6 +47,17 @@ router.put("/:order_no/update", (req, res, next) => {
   })
 })
 
+router.patch("/:order_no", (req, res, next) => {
+  const { order_no, table_code } = req.body
+  Task.updatTableChange(order_no, table_code, (err, rows) => {
+    if (err) {
+      res.send({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({"Success": rows.affectedRows})
+    }
+  })
+})
+
 router.delete("/:order_no/delete", (req, res, next) => {
   const order_no = req.params.order_no
   Task.delete(order_no, (err, rows) => {

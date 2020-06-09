@@ -32,66 +32,61 @@ const LeftMenu = props => {
     }
   }, [])
 
+  const tableImg = 'img/table.png';
+  const foodImg = 'img/food.png';
+  const billImg = 'img/bill.png';
+  const lastBillImg = 'img/last_bill.png';
+
+  const listItemSmallImg = (index, imgPath, imgDesc, altMsg, badge) => 
+    <ListItem
+      button
+      selected={selectedIndex === index}
+      onClick={(event) => handleListItemClick(event, index)}
+      style={{ backgroundColor: "#0058AB", color: "white", height: 75, paddingLeft: 10 }}>
+      <Badge badgeContent={badge} color="primary">
+        <img src={imgPath} width="35" alt={altMsg} />
+      </Badge>
+    </ListItem>
+  const listItemBigImg = (index, imgPath, imgDesc, altMsg, badge) =>
+    <ListItem
+      button
+      selected={selectedIndex === index}
+      onClick={(event) => handleListItemClick(event, index)}
+      style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
+      <Badge badgeContent={badge} color="primary">
+        <img src={imgPath} alt={altMsg} />
+      </Badge>
+      <ListItemText primary={imgDesc} style={{ textAlign: 'right' }} />
+    </ListItem>
+
   return (
     <div>
       <Link to="/table" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-          <Badge badgeContent={tableNo} color="primary">
-            {pdaSmall ? 
-              <img src="img/table.png" width="35" alt="table" />: 
-              <img src="img/table.png" alt="table" />
-            }
-            <ListItemText primary="Table" />
-          </Badge>
-        </ListItem>
+      {pdaSmall ?
+        listItemSmallImg(0, tableImg, '', 'table', tableNo):
+        listItemBigImg(0, tableImg, 'Table', 'table', tableNo)
+      }
       </Link>
       <Divider />
       <Link to="/menu/g01" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 1}
-          onClick={event => handleListItemClick(event, 1)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-          {pdaSmall ? 
-            <img src="img/food.png" width="35" alt="food" />:
-            <img src="img/food.png" alt="food" />
-          }
-          <ListItemText primary="Menu" />
-        </ListItem>
+      {pdaSmall ?
+        listItemSmallImg(1, foodImg, '', 'menu', ''):
+        listItemBigImg(1, foodImg, 'Menu', 'menu', '')
+      }
       </Link>
       <Divider />
       <Link to="/order" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 2)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-          <Badge badgeContent={orderList.length} color="primary">
-            {pdaSmall ? 
-              <img src="img/bill.png" width="35" alt="bill" />:
-              <img src="img/bill.png" alt="bill" />
-            }
-            <ListItemText primary="Order" />
-          </Badge>
-        </ListItem>
+      {pdaSmall ?
+        listItemSmallImg(2, billImg, '', 'order', orderList.length):
+        listItemBigImg(2, billImg, 'Order', 'order', orderList.length)
+      }
       </Link>
       <Divider />
       <Link to="/check_order" className={classes.listMenu}>
-        <ListItem
-          button
-          selected={selectedIndex === 2}
-          onClick={event => handleListItemClick(event, 3)}
-          style={{ backgroundColor: "#0058AB", color: "white", height: 100 }}>
-            {pdaSmall ? 
-              <img src="img/last_bill.png" width="35" alt="check order" />:
-              <img src="img/last_bill.png" alt="check order" />
-            }
-            <ListItemText primary="Check Order" />
-        </ListItem>
+      {pdaSmall ?
+        listItemSmallImg(3, lastBillImg, '', 'check order', ''):
+        listItemBigImg(3, lastBillImg, 'Check Order', 'check order', '')
+      }
       </Link>
     </div>
   )

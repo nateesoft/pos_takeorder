@@ -1,4 +1,10 @@
-# pull images from Dockerfile
+# Installation
+
+copy images into public/images
+yarn install
+yarn start
+
+## pull images from Dockerfile
 
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql5 > './config/mysql-ip'
 docker stop api_takeorder

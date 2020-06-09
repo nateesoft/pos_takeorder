@@ -73,6 +73,16 @@ router.put("/logout", (req, res, next) => {
     }
   })
 })
+router.patch("/change", (req, res, next) => {
+  const { table_code } = req.body
+  Task.updateChangeTable(table_code, (err, rows) => {
+    if (err) {
+      res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows })
+    }
+  })
+})
 router.post("/search", (req, res, next) => {
   const table_code = req.body.table_code
   Task.searchTable(table_code, (err, rows) => {
