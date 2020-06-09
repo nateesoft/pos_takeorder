@@ -7,8 +7,8 @@ import IconButton from "@material-ui/core/IconButton"
 import AddCircle from "@material-ui/icons/AddCircle"
 import { Redirect } from "react-router"
 import { useSelector, useDispatch, connect } from "react-redux"
-import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
+import { clearItemAdd } from "../../actions"
 import MessageUtil from '../../utils/alertMsg'
 
 const { LOAD_PRODUCT_LIST, ADD_NEW_ORDER } = require('../../actions/constants')
