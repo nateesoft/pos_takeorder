@@ -110,7 +110,7 @@ const Tablefile = {
                   balanceAmt  += balance.R_Total
                   // vatAmt      += balance.R_Total * P_Vat / 100
                   if (balance.R_Service === 'Y' && P_SerChkBySaleType) {
-                    const [ E, T, D, P, W ] = P_SerChkBySaleType.split('/')
+                    const [ E, T, D ] = P_SerChkBySaleType.split('/')
                     if ((balance.R_ETD === 'E' && E === 'Y')||
                         (balance.R_ETD === 'T' && T === 'Y')||
                         (balance.R_ETD === 'D' && D === 'Y')) {
