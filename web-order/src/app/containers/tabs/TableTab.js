@@ -7,7 +7,6 @@ import Divider from "@material-ui/core/Divider"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import AspectRatio from "@material-ui/icons/AspectRatio"
 import EventSeat from "@material-ui/icons/EventSeat"
-import { selectTableActive } from "../../actions"
 import { connect, useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router"
 import Dialog from "@material-ui/core/Dialog"
@@ -20,8 +19,9 @@ import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import SearchTable from '../search/SearchTable'
-import AlertDialog from '../dialog'
+import AlertDialog from '../../components/dialog'
 import { UPDATE_ORDER_TABLE } from "../../actions/constants"
+import { selectTableActive } from "../../actions"
 
 const format = require('date-format');
 const Transition = forwardRef(function Transition(props, ref) {

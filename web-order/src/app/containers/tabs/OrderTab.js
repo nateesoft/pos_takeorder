@@ -20,7 +20,6 @@ import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import Fastfood from "@material-ui/icons/Fastfood"
 import Button from "@material-ui/core/Button"
-import { clearItemAdd } from "../../actions"
 import { useSnackbar } from "notistack"
 import { Redirect } from "react-router"
 import { withStyles } from "@material-ui/core/styles"
@@ -28,8 +27,9 @@ import Dialog from "@material-ui/core/Dialog"
 import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import CloseIcon from "@material-ui/icons/Close"
-import EditMenu from "../menu/EditMenu"
+import EditMenu from "../../components/menu/EditMenu"
 import MessageUtil from '../../utils/alertMsg'
+import { clearItemAdd } from "../../actions"
 
 const { 
   LOAD_LIST_ORDER_DETAIL,

@@ -9,11 +9,12 @@ import EmojiFoodBeverage from '@material-ui/icons/EmojiFoodBeverage';
 import LocalPharmacy from '@material-ui/icons/LocalPharmacy';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import SettingItem from './SettingItem';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
+import SettingItem from './SettingItem';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
