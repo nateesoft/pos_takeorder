@@ -11,12 +11,12 @@ import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import EditMenuSubList from "./EditMenuSubList"
-import EditButtonAction from "./EditButtonAction"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
-import EditSpecialTextComp from "./EditSpecialTextComp"
 import { useSelector, connect } from "react-redux"
+import EditMenuSubList from "./EditMenuSubList"
+import EditButtonAction from "./EditButtonAction"
+import EditSpecialTextComp from "./EditSpecialTextComp"
 import MessageUtil from '../../utils/alertMsg'
 
 const { LOAD_ORDER_DETAIL } = require('../../actions/constants')

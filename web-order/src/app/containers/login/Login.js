@@ -8,9 +8,9 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { Redirect } from "react-router"
-import { clearTable, newOrder } from "../../actions"
 import { useDispatch, useSelector, connect } from "react-redux"
 import { v4 as uuidv4 } from "uuid"
+import { clearTable, newOrder } from "../../actions"
 import MessageUtil from '../../utils/alertMsg'
 
 const { CHECK_LOGIN } = require('../../actions/constants')

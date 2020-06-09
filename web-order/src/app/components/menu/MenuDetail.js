@@ -11,12 +11,12 @@ import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MenuSubList from "./MenuSubList"
-import ButtonAction from "./ButtonAction"
 import Fastfood from "@material-ui/icons/Fastfood"
 import { Redirect } from "react-router"
-import SpecialTextComp from "./SpecialTextComp"
 import { useSelector, connect } from "react-redux"
+import MenuSubList from "./MenuSubList"
+import ButtonAction from "./ButtonAction"
+import SpecialTextComp from "./SpecialTextComp"
 import MessageUtil from '../../utils/alertMsg'
 
 const { LOAD_PRODUCT_DETAIL } = require('../../actions/constants')
