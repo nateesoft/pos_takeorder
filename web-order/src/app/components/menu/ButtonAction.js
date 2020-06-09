@@ -27,7 +27,7 @@ const ButtonAction = props => {
   const specialText = useSelector((state) => state.item.specialText)
   const subMenuCode = useSelector((state) => state.item.subMenuCode)
 
-  const r_etd = 'E';//useSelector((state) => state.table.r_etd)
+  const r_etd = 'E';
 
   const onAddNewItem = (code, name, price) => {
     dispatch(

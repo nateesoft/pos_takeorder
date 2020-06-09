@@ -32,6 +32,11 @@ const LeftMenu = props => {
     }
   }, [])
 
+  const tableImg = 'img/table.png';
+  const foodImg = 'img/food.png';
+  const billImg = 'img/bill.png';
+  const lastBillImg = 'img/last_bill.png';
+
   const listItemSmallImg = (index, imgPath, imgDesc, altMsg, badge) => 
     <ListItem
       button
@@ -58,29 +63,29 @@ const LeftMenu = props => {
     <div>
       <Link to="/table" className={classes.listMenu}>
       {pdaSmall ?
-        listItemSmallImg(0, 'img/table.png', '', 'table', tableNo):
-        listItemBigImg(0, 'img/table.png', 'Table', 'table', tableNo)
+        listItemSmallImg(0, tableImg, '', 'table', tableNo):
+        listItemBigImg(0, tableImg, 'Table', 'table', tableNo)
       }
       </Link>
       <Divider />
       <Link to="/menu/g01" className={classes.listMenu}>
       {pdaSmall ?
-        listItemSmallImg(1, 'img/food.png', '', 'menu', ''):
-        listItemBigImg(1, 'img/food.png', 'Menu', 'menu', '')
+        listItemSmallImg(1, foodImg, '', 'menu', ''):
+        listItemBigImg(1, foodImg, 'Menu', 'menu', '')
       }
       </Link>
       <Divider />
       <Link to="/order" className={classes.listMenu}>
       {pdaSmall ?
-        listItemSmallImg(2, 'img/bill.png', '', 'order', orderList.length):
-        listItemBigImg(2, 'img/bill.png', 'Order', 'order', orderList.length)
+        listItemSmallImg(2, billImg, '', 'order', orderList.length):
+        listItemBigImg(2, billImg, 'Order', 'order', orderList.length)
       }
       </Link>
       <Divider />
       <Link to="/check_order" className={classes.listMenu}>
       {pdaSmall ?
-        listItemSmallImg(3, 'img/last_bill.png', '', 'check order', ''):
-        listItemBigImg(3, 'img/last_bill.png', 'Check Order', 'check order', '')
+        listItemSmallImg(3, lastBillImg, '', 'check order', ''):
+        listItemBigImg(3, lastBillImg, 'Check Order', 'check order', '')
       }
       </Link>
     </div>
