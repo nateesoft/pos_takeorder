@@ -36,18 +36,26 @@ const Tablefile = {
     return db.query(`update ${table_name} set TOnAct='N' where Tcode=?`, [table_code], callback)
   },
   updateChangeTable: (table_code, callback) => {
-    return db.query(`update ${table_name} set TOnAct='N' where Tcode=?`, [table_code], callback)
+    return db.query(`update ${table_name} 
+    set TOnAct='N', TCustomer=0, NetTotal=0, TUser='' where Tcode=?`, 
+    [table_code], callback)
   },
   updateTotal: (tableNo, callback) => {
-    Tablefile.getBalanceTotalAmt(tableNo, (err, { balanceAmt, serviceAmt, vatAmt, P_Service, P_Vat }) => {
+    PosConfigSetupTask.getData((err, config) => {
       if (err) throw err
-      return db.query(
-        `update ${ table_name } set 
-        TOnAct='N', Service = ?, ServiceAmt = ?, TAmount = ?, NetTotal = ?
-        where Tcode=?`, 
-        [P_Service, serviceAmt, (balanceAmt + serviceAmt), (balanceAmt + serviceAmt + vatAmt), tableNo],
-        callback
-      )
+      if (config.length > 0) {
+        const PosConfigSetup = config[0]
+        const P_Service = PosConfigSetup.P_Service
+        return db.query(
+          `update ${table_name} t set TOnAct='N', Service = ?, 
+          ServiceAmt = (select sum(b.R_ServiceAmt) from balance b where b.R_Table = t.Tcode), 
+          TAmount = (select sum(b.R_Total) from balance b where b.R_Table = t.Tcode), 
+          NetTotal = TAmount+ServiceAmt 
+          where Tcode=?`, 
+          [P_Service, tableNo],
+          callback
+        )
+      }
     })
   },
   findAll: (callback) => {
@@ -90,42 +98,6 @@ const Tablefile = {
       [zone_code],
       callback
     )
-  },
-  getBalanceTotalAmt: (table_code, callback) => {
-    PosConfigSetupTask.getData((err, config) => {
-      if (err) throw err
-      if (config.length > 0) {
-        BalanceTask.findByTable(table_code, (err1, rows) => {
-            if (err1) throw err1
-            let balanceAmt = 0
-            let serviceAmt = 0
-            let vatAmt = 0
-            const PosConfigSetup = config[0]
-            const P_Vat = PosConfigSetup.P_Vat
-            const P_Service = PosConfigSetup.P_Service
-            const P_SerChkBySaleType = PosConfigSetup.P_SerChkBySaleType
-            if(rows.length > 0) {
-              rows.forEach(balance => {
-                if (balance.R_Void !== 'V') {
-                  balanceAmt  += balance.R_Total
-                  // vatAmt      += balance.R_Total * P_Vat / 100
-                  if (balance.R_Service === 'Y' && P_SerChkBySaleType) {
-                    const [ E, T, D ] = P_SerChkBySaleType.split('/')
-                    if ((balance.R_ETD === 'E' && E === 'Y')||
-                        (balance.R_ETD === 'T' && T === 'Y')||
-                        (balance.R_ETD === 'D' && D === 'Y')) {
-                      serviceAmt  += balance.R_Total * P_Service / 100
-                      // vatAmt      += balance.R_Total * P_Service / 100
-                    }
-                  }
-                }
-              });
-              callback(null, { balanceAmt, serviceAmt, vatAmt, P_Service, P_Vat  })
-            }
-          }
-        )
-      }
-    })
   },
 }
 
