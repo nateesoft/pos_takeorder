@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    height: "50px"
   }
 }))
 
@@ -40,7 +41,6 @@ const Login = props => {
   const classes = useStyles()
   const [msgError, setMsgError] = useState("")
   const [user, setUser] = useState("")
-  const [pass, setPass] = useState("")
   const order_no = useSelector(state => state.table.order.orderNo)
   const loginResponse = useSelector(state => state.login)
   const dispatch = useDispatch()
@@ -103,21 +103,8 @@ const Login = props => {
             value={user}
             onChange={e => setUser(e.target.value)}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={pass}
-            onChange={e => setPass(e.target.value)}
-          />
           <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}
-            onClick={() => checkLogin(user, pass)}>Sign In
+            onClick={() => checkLogin(user, '')}>Sign In
           </Button>
         </form>
         {msgError && <MessageUtil message={msgError} />}
@@ -132,7 +119,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    checkLogin: (user, pass) => dispatch({ 
+    checkLogin: (user, pass = '') => dispatch({ 
       type: CHECK_LOGIN, 
       payload: {
         username: user, 
