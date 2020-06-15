@@ -56,6 +56,9 @@ import {
   LOAD_PRODUCT_LIST,
   LOAD_PRODUCT_LIST_SUCCESS,
   LOAD_PRODUCT_LIST_FAIL,
+  LOAD_PRODUCT_LIST_ALL,
+  LOAD_PRODUCT_LIST_ALL_SUCCESS,
+  LOAD_PRODUCT_LIST_ALL_FAIL,
   LOAD_GROUP_LIST,
   LOAD_GROUP_LIST_SUCCESS,
   LOAD_GROUP_LIST_FAIL,
@@ -347,6 +350,22 @@ export const loadProductListSuccess = payload => {
 export const loadProductListFail = () => {
   return {
     type: LOAD_PRODUCT_LIST_FAIL,
+  }
+}
+export const loadProductListAll = () => {
+  return {
+    type: LOAD_PRODUCT_LIST_ALL,
+  }
+}
+export const loadProductListAllSuccess = payload => {
+  return {
+    type: LOAD_PRODUCT_LIST_ALL_SUCCESS,
+    payload: payload,
+  }
+}
+export const loadProductListAllFail = () => {
+  return {
+    type: LOAD_PRODUCT_LIST_ALL_FAIL,
   }
 }
 export const loadGroupList = payload => {

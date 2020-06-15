@@ -13,6 +13,9 @@ const {
   LOAD_PRODUCT_LIST,
   LOAD_PRODUCT_LIST_SUCCESS,
   LOAD_PRODUCT_LIST_FAIL,
+  LOAD_PRODUCT_LIST_ALL,
+  LOAD_PRODUCT_LIST_ALL_SUCCESS,
+  LOAD_PRODUCT_LIST_ALL_FAIL,
   LOAD_GROUP_LIST,
   LOAD_GROUP_LIST_SUCCESS,
   LOAD_GROUP_LIST_FAIL,
@@ -46,6 +49,13 @@ const productReducer = (state = initialState, action) =>
         draft.productList = action.payload
         break
       case LOAD_PRODUCT_LIST_FAIL:
+        break
+      case LOAD_PRODUCT_LIST_ALL:
+        break
+      case LOAD_PRODUCT_LIST_ALL_SUCCESS:
+        draft.productList = action.payload
+        break
+      case LOAD_PRODUCT_LIST_ALL_FAIL:
         break
       case LOAD_GROUP_LIST:
         break

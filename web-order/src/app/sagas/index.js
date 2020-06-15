@@ -10,6 +10,8 @@ import {
   checkLogoutSuccess,
   loadProductListSuccess,
   loadProductListFail,
+  loadProductListAllSuccess,
+  loadProductListAllFail,
   loadGroupListSuccess,
   loadGroupListFail,
   loadOrderDetailSuccess,
@@ -70,6 +72,7 @@ const {
   LOAD_LIST_ORDER_DETAIL,
   LOAD_ORDER_DETAIL,
   LOAD_PRODUCT_LIST,
+  LOAD_PRODUCT_LIST_ALL,
   LOAD_GROUP_LIST,
   LOAD_TABLE_FILE,
   UPDATE_TABLE_FILE,
@@ -547,6 +550,21 @@ function* fetchProductList(action) {
     yield put(loadProductListFail({ status: "Error", msg: err }))
   }
 }
+function* fetchProductListAll() {
+  const requestURL = `${TAKEORDER_API}/api/product`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadProductListAllSuccess(response.data))
+  } catch(err) {
+    yield put(loadProductListAllFail({ status: "Error", msg: err }))
+  }
+}
 
 function* fetchGroupList() {
   const requestURL = `${TAKEORDER_API}/api/group`
@@ -724,6 +742,9 @@ function* actionFetchLogout() {
 function* actionLoadProductList() {
   yield takeLatest(LOAD_PRODUCT_LIST, fetchProductList)
 }
+function* actionLoadProductListAll() {
+  yield takeLatest(LOAD_PRODUCT_LIST_ALL, fetchProductListAll)
+}
 function* actionLoadGroupList() {
   yield takeLatest(LOAD_GROUP_LIST, fetchGroupList)
 }
@@ -796,6 +817,7 @@ export default function* rootSaga() {
     actionFetchLogin(),
     actionFetchLogout(),
     actionLoadProductList(),
+    actionLoadProductListAll(),
     actionLoadGroupList(),
     actionLoadOrderDetail(),
     actionLoadListOrderDetail(),
