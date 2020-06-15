@@ -113,6 +113,11 @@ const MenuForm = (props) => {
               </td>
             </tr>
           ))}
+          {items.length===0 && (
+              <tr>
+                <td colSpan={6}>ไม่พบข้อมูลสินค้า</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
