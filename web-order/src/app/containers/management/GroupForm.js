@@ -36,18 +36,29 @@ const GroupForm = (props) => {
         onChange={(evt) => setGroup(evt.target.value)}
       /> :<button onClick={() => handleAddItems(group)}>Add</button> :
       <button onClick={() => saveData()}>Save</button>
-      <div style={{height: 400, overflow: 'auto'}}>
-        <ul>
-            {items &&
-            items.map((data, index) => (
-                <li key={index} style={{ color: "black", padding: 5 }}>
-                <label>{data.name}</label>
-                <button onClick={() => handleRemoveItems(data.name)}>
-                    remove
-                </button>
-                </li>
+      <div style={{height: 400, overflow: 'auto', padding: 10}}>
+        <table style={{color: "black"}}>
+          <thead></thead>
+          <tbody>
+            {items && items.map((data, index) => (
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{data.name}</td>
+                <td>
+                  <button onClick={() => handleRemoveItems(data.name)}>
+                      remove
+                  </button>
+                </td>
+              </tr>
             ))}
-        </ul>
+            {items.length===0 && (
+              <tr>
+                <td colSpan={3}>ไม่พบข้อมูลกลุ่มสินค้า</td>
+              </tr>
+            )}
+          </tbody>
+          <tfoot></tfoot>
+        </table>
       </div>
     </div>
   )
