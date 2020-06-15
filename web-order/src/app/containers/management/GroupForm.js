@@ -38,7 +38,6 @@ const GroupForm = (props) => {
       <button onClick={() => saveData()}>Save</button>
       <div style={{height: 400, overflow: 'auto', padding: 10}}>
         <table style={{color: "black"}}>
-          <thead></thead>
           <tbody>
             {items && items.map((data, index) => (
               <tr key={index}>
@@ -57,7 +56,6 @@ const GroupForm = (props) => {
               </tr>
             )}
           </tbody>
-          <tfoot></tfoot>
         </table>
       </div>
     </div>

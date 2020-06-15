@@ -47,46 +47,74 @@ const MenuForm = (props) => {
   }
 
   return (
-    <div style={{ padding: 20, background: "white", marginBottom: 10 }}>
-      <div>
-        <label style={{ color: "black" }}>กลุ่มสินค้า: </label>
-        <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
-          <option value="">เลือกกลุ่มสินค้า</option>
-          {groupList && groupList.map((data, index)=> (
-            <option key={index} value={data.code}>{data.name}</option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label style={{ color: "black" }}>สินค้า: </label>
-        <input
-          type="text"
-          value={product}
-          onChange={(evt) => setProduct(evt.target.value)}
-        />
-      </div>
-      <div>
-        <label style={{ color: "black" }}>Path(Big): </label>
-        <input type="text" value={imgUrl} onChange={evt => setImgUrl(evt.target.value)} />
-        <label style={{ color: "black" }}>Path(Small): </label>
-        <input type="text" value={imgUrlThumbnail} onChange={evt => setImgUrlThumbnail(evt.target.value)} />
-      </div>
-      <div>
-        <button onClick={() => handleAddItems(product, imgUrl, imgUrlThumbnail)}>Add</button> :
-        <button onClick={() => saveData()}>Save</button>
-      </div>
-      <div style={{height: 500, overflow: 'auto'}}>
-        <ul>
-          {items &&
-            items.map((data, index) => (
-              <li key={index} style={{ color: "black", padding: 5 }}>
-                {data.name} : {data.group_code} : {data.img_url} : {data.img_url_thumbnail} :
+    <div style={{ padding: 20, background: "white", marginBottom: 10, color: "black" }}>
+      <table style={{padding: 5}}>
+        <tbody>
+          <tr>
+            <td>กลุ่มสินค้า:</td>
+            <td>
+              <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
+                <option value="">เลือกกลุ่มสินค้า</option>
+                {groupList && groupList.map((data, index)=> (
+                  <option key={index} value={data.code}>{data.name}</option>
+                ))}
+              </select>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>สินค้า:</td>
+            <td>
+              <input
+                type="text"
+                value={product}
+                onChange={(evt) => setProduct(evt.target.value)}
+              />
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Path(Big):</td>
+            <td>
+              <input type="text" value={imgUrl} onChange={evt => setImgUrl(evt.target.value)} />
+            </td>
+            <td>Path(Small):</td>
+            <td>
+              <input type="text" value={imgUrlThumbnail} onChange={evt => setImgUrlThumbnail(evt.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button onClick={() => handleAddItems(product, imgUrl, imgUrlThumbnail)}>Add</button>
+              <button onClick={() => saveData()}>Save</button>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style={{height: 500, overflow: 'auto', padding: 10}}>
+        <table>
+          <tbody style={{color: "black"}}>
+          {items && items.map((data, index) => (
+            <tr key={index}>
+              <td>{index+1}</td>
+              <td>{data.name}</td>
+              <td>{data.group_code}</td>
+              <td>{data.img_url}</td>
+              <td>{data.img_url_thumbnail}</td>
+              <td>
                 <button onClick={() => handleRemoveItems(data.code)}>
                   remove
                 </button>
-              </li>
-            ))}
-        </ul>
+              </td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
