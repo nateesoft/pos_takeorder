@@ -12,7 +12,7 @@ const GroupMenu = {
       if (groupList.length === 0) {
         finish = true
       }
-      for (let i=0; i<groupList.length; i++) {
+      for(let i=0; i<groupList.length; i++) {
         const group = groupList[i]
         db.query(`insert into ${table_name} 
           (code, name, description, 
@@ -20,7 +20,9 @@ const GroupMenu = {
           values(
             '${group.code}', '${group.name}', '${group.description}', 
             'Y', curdate(), curdate()
-          )`)
+          )`, (err1, rows1) => {
+            if(err1) throw err1
+          })
 
         if (i === groupList.length-1) {
           finish = true

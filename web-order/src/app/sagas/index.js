@@ -52,8 +52,12 @@ import {
   updateOrderTableFail,
   updatePosChangeTableSuccess,
   updatePosChangeTableFail,
+  addGroupItemsSuccess,
+  addGroupItemsFail,
+  addProductItemsSuccess,
+  addProductItemsFail,
 } from '../actions'
-import { SEARCH_TABLE_FILE } from "../actions/constants"
+import { SEARCH_TABLE_FILE, SAVE_GROUP_ITEMS, SAVE_PRODUCT_ITEMS } from "../actions/constants"
 
 const { 
   ADD_NEW_ORDER,
@@ -727,6 +731,47 @@ function* updatePosChangeTable(action) {
   }
 }
 
+function* addGroupItems(action) {
+  const { items } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/group`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        groupList: items
+      }),
+    })
+    yield put(addGroupItemsSuccess(response.data))
+  } catch(err) {
+    yield put(addGroupItemsFail({ status: "Error", msg: err }))
+  }
+}
+
+function* addProductItems(action) {
+  const { items, group } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/product`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        productList: items,
+        group
+      }),
+    })
+    yield put(addProductItemsSuccess(response.data))
+  } catch(err) {
+    yield put(addProductItemsFail({ status: "Error", msg: err }))
+  }
+}
+
 function* actionFetchTablefile() {
   yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
 }
@@ -808,6 +853,12 @@ function* actionUpdateOrderTable() {
 function* actionPosChangeTable() {
   yield takeLatest(UPDATE_POS_CHANGE_TABLE, updatePosChangeTable)
 }
+function* actionSaveGroupItems() {
+  yield takeLatest(SAVE_GROUP_ITEMS, addGroupItems)
+}
+function* actionSaveProductItems() {
+  yield takeLatest(SAVE_PRODUCT_ITEMS, addProductItems)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -838,5 +889,7 @@ export default function* rootSaga() {
     actionSelectTable(),
     actionUpdateOrderTable(),
     actionPosChangeTable(),
+    actionSaveGroupItems(),
+    actionSaveProductItems(),
   ])
 }

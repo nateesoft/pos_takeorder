@@ -38,8 +38,8 @@ const ProductMenu = {
       callback
     )
   },
-  updateMgr: (productList, callback) => {
-    db.query(`delete from ${table_name}`, (err, rows) => {
+  updateMgr: (productList, group, callback) => {
+    db.query(`delete from ${table_name} where group_code='${group}'`, (err, rows) => {
       if (err) throw err
       let finish = false
       if (productList.length === 0) {
@@ -54,8 +54,10 @@ const ProductMenu = {
           values(
             '${product.code}', '', '${product.name}', '${product.description}', '${product.price}',
             '${product.group_code}', '${product.img_url}', '${product.img_url_thumbnail}', 'Y', '0',
-            'N', curdate(), curdate(), 'N', '${product.img_host}',
-          )`)
+            'N', curdate(), curdate(), 'N', '${product.img_host}')`, 
+            (err1, rows1) => {
+            if(err1) throw err1
+          })
         
         if (i === productList.length-1) {
           finish = true

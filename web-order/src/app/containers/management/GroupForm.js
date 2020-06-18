@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
+import { connect } from "react-redux"
+import { SAVE_GROUP_ITEMS } from '../../actions/constants'
 
 const GroupForm = props => {
-  const { data } = props
+  const { data, saveGroupItems } = props
   const [items, setItems] = useState([])
   const [groupCode, setGroupCode] = useState("")
   const [groupName, setGroupName] = useState("")
@@ -13,7 +15,9 @@ const GroupForm = props => {
   }, [data])
 
   const saveData = () => {
-
+    if(items.length > 0) {
+      saveGroupItems(items)
+    }
   }
 
   const handleAddItems = () => {
@@ -127,4 +131,19 @@ const GroupForm = props => {
   )
 }
 
-export default GroupForm
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    saveGroupItems: (items) => dispatch({
+      type: SAVE_GROUP_ITEMS,
+      payload: {
+        items: items,
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupForm)

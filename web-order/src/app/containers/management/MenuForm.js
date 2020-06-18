@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react"
+import { connect } from "react-redux"
+import { SAVE_PRODUCT_ITEMS } from '../../actions/constants'
 
-const MenuForm = (props) => {
-  const { data, group } = props
+const MenuForm = props => {
+  const { data, group, saveProductItems } = props
   const [items, setItems] = useState([])
 
-  const [product, setProduct] = useState('')
+  const [code, setCode] = useState('')
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
   const [imgUrl, setImgUrl] = useState('')
   const [imgUrlThumbnail, setImgUrlThumbnail] = useState('')
 
@@ -17,23 +21,35 @@ const MenuForm = (props) => {
     return () => {}
   }, [data, group])
 
-  const saveData = () => {}
+  const saveData = () => {
+    if(groupSel !== '' && items.length > 0) {
+      saveProductItems(items, groupSel)
+    }
+  }
 
-  const handleAddItems = (product) => {
-    if (product !== "") {
-      setItems((item) => item.concat({
-        name: product,
+  const handleAddItems = () => {
+    if (code !== "") {
+      const itemExist = items.filter(item => item.code === code);
+      if (itemExist.length > 0) {
+        handleRemoveItems(itemExist[0].code);
+      }
+      setItems(item => item.concat({
+        code: code,
+        name: name,
         group_code: groupSel,
         img_url: imgUrl,
-        img_url_thumbnail: imgUrlThumbnail
+        img_url_thumbnail: imgUrlThumbnail,
+        price: price,
       }))
-      setProduct('')
+      setCode('')
+      setName('')
+      setPrice('')
       setImgUrl('')
       setImgUrlThumbnail('')
     }
   }
   const handleRemoveItems = (product) => {
-    setItems(items.filter((item) => item.code !== product))
+    setItems(items.filter(item => item.code !== product))
   }
 
   const changeGroup = code => {
@@ -44,6 +60,16 @@ const MenuForm = (props) => {
       setGroupSel(code)
       setItems(data.filter(item => item.group_code === code))
     }
+  }
+
+  const handleEditItems = product => {
+    setCode(product.code)
+    setName(product.name)
+    setPrice(product.price)
+    setImgUrl(product.img_url)
+    setImgUrlThumbnail(product.img_url_thumbnail)
+    setGroupSel(product.group_code)
+    changeGroup(product.group_code)
   }
 
   return (
@@ -68,8 +94,8 @@ const MenuForm = (props) => {
             <td>
               <input
                 type="text"
-                value={product}
-                onChange={(evt) => setProduct(evt.target.value)}
+                value={code}
+                onChange={(evt) => setCode(evt.target.value)}
               />
             </td>
             <td>
@@ -80,11 +106,11 @@ const MenuForm = (props) => {
           <tr>
             <td>ชื่อ:</td>
             <td>
-              <input type="text" value={imgUrl} onChange={evt => setImgUrl(evt.target.value)} />
+              <input type="text" value={name} onChange={evt => setName(evt.target.value)} />
             </td>
             <td>ราคา:</td>
             <td>
-              <input type="text" value={imgUrlThumbnail} onChange={evt => setImgUrlThumbnail(evt.target.value)} />
+              <input type="text" value={price} onChange={evt => setPrice(evt.target.value)} />
             </td>
           </tr>
           <tr>
@@ -100,7 +126,7 @@ const MenuForm = (props) => {
           <tr>
             <td></td>
             <td>
-              <button onClick={() => handleAddItems(product, imgUrl, imgUrlThumbnail)}>Add</button>
+              <button onClick={() => handleAddItems()}>Add</button>
               <button onClick={() => saveData()}>Save</button>
             </td>
             <td></td>
@@ -110,15 +136,32 @@ const MenuForm = (props) => {
       </table>
       <div style={{height: 320, overflow: 'auto', padding: 10, border: "1px solid #eee"}}>
         <table>
+          <thead>
+            <tr>
+              <th style={{backgroundColor: '#eee'}} align="center">No</th>
+              <th style={{backgroundColor: '#eee'}} align="center">Code</th>
+              <th style={{backgroundColor: '#eee'}} align="left">Name</th>
+              <th style={{backgroundColor: '#eee'}} align="right">Price</th>
+              <th style={{backgroundColor: '#eee'}} align="center">Group</th>
+              <th style={{backgroundColor: '#eee'}} align="left">url</th>
+              <th style={{backgroundColor: '#eee'}} align="left">url_thumbnail</th>
+              <th style={{backgroundColor: '#eee'}}></th>
+            </tr>
+          </thead>
           <tbody style={{color: "black"}}>
           {items && items.map((data, index) => (
             <tr key={index}>
               <td>{index+1}</td>
+              <td>{data.code}</td>
               <td>{data.name}</td>
+              <td>{data.price}</td>
               <td>{data.group_code}</td>
               <td>{data.img_url}</td>
               <td>{data.img_url_thumbnail}</td>
               <td>
+                <button onClick={() => handleEditItems(data)}>
+                  edit
+                </button>
                 <button onClick={() => handleRemoveItems(data.code)}>
                   remove
                 </button>
@@ -127,7 +170,7 @@ const MenuForm = (props) => {
           ))}
           {items.length===0 && (
               <tr>
-                <td colSpan={6}>ไม่พบข้อมูลสินค้า</td>
+                <td colSpan={8}>ไม่พบข้อมูลสินค้า</td>
               </tr>
             )}
           </tbody>
@@ -137,4 +180,20 @@ const MenuForm = (props) => {
   )
 }
 
-export default MenuForm
+const mapStateToProps = state => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    saveProductItems: (items, group) => dispatch({
+      type: SAVE_PRODUCT_ITEMS,
+      payload: {
+        items: items,
+        group: group,
+      }
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuForm)

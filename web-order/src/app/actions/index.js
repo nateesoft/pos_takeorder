@@ -94,7 +94,13 @@ import {
   SEARCH_TABLE_FILE,
   SEARCH_TABLE_FILE_SUCCESS,
   SEARCH_TABLE_FILE_FAIL,
-  SET_ETD_TYPE
+  SET_ETD_TYPE,
+  SAVE_GROUP_ITEMS,
+  SAVE_GROUP_ITEMS_SUCCESS,
+  SAVE_GROUP_ITEMS_FAIL,
+  SAVE_PRODUCT_ITEMS,
+  SAVE_PRODUCT_ITEMS_SUCCESS,
+  SAVE_PRODUCT_ITEMS_FAIL,
 } from './constants'
 
 export const addNewOrder = payload => {
@@ -660,5 +666,39 @@ export const updatePosChangeTableSuccess = payload => {
 export const updatePosChangeTableFail = () => {
   return {
     type: UPDATE_POS_CHANGE_TABLE_FAIL,
+  }
+}
+export const addGroupItems = payload => {
+  return {
+    type: SAVE_GROUP_ITEMS,
+    payload: payload,
+  }
+}
+export const addGroupItemsSuccess = payload => {
+  return {
+    type: SAVE_GROUP_ITEMS_SUCCESS,
+    payload: payload,
+  }
+}
+export const addGroupItemsFail = () => {
+  return {
+    type: SAVE_GROUP_ITEMS_FAIL,
+  }
+}
+export const addProductItems = payload => {
+  return {
+    type: SAVE_PRODUCT_ITEMS,
+    payload: payload,
+  }
+}
+export const addProductItemsSuccess = payload => {
+  return {
+    type: SAVE_PRODUCT_ITEMS_SUCCESS,
+    payload: payload,
+  }
+}
+export const addProductItemsFail = () => {
+  return {
+    type: SAVE_PRODUCT_ITEMS_FAIL,
   }
 }

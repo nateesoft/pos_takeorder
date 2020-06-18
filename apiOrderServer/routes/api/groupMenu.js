@@ -14,7 +14,7 @@ router.get("/", (req, res, next) => {
 })
 
 router.post("/", (req, res, next) => {
-  const groupList = req.body
+  const { groupList } = req.body
 
   Task.updateMgr(groupList, (err, rows) => {
     if (err) {
