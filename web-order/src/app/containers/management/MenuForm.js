@@ -72,8 +72,20 @@ const MenuForm = (props) => {
                 onChange={(evt) => setProduct(evt.target.value)}
               />
             </td>
+            <td>
+              <button>Load Product</button>
+            </td>
             <td></td>
-            <td></td>
+          </tr>
+          <tr>
+            <td>ชื่อ:</td>
+            <td>
+              <input type="text" value={imgUrl} onChange={evt => setImgUrl(evt.target.value)} />
+            </td>
+            <td>ราคา:</td>
+            <td>
+              <input type="text" value={imgUrlThumbnail} onChange={evt => setImgUrlThumbnail(evt.target.value)} />
+            </td>
           </tr>
           <tr>
             <td>Path(Big):</td>
@@ -96,7 +108,7 @@ const MenuForm = (props) => {
           </tr>
         </tbody>
       </table>
-      <div style={{height: 500, overflow: 'auto', padding: 10}}>
+      <div style={{height: 320, overflow: 'auto', padding: 10, border: "1px solid #eee"}}>
         <table>
           <tbody style={{color: "black"}}>
           {items && items.map((data, index) => (

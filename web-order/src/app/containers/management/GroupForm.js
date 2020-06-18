@@ -1,50 +1,115 @@
 import React, { useState, useEffect } from "react"
 
-const GroupForm = (props) => {
+const GroupForm = props => {
   const { data } = props
   const [items, setItems] = useState([])
-  const [group, setGroup] = useState("")
+  const [groupCode, setGroupCode] = useState("")
+  const [groupName, setGroupName] = useState("")
+  const [groupDesc, setGroupDesc] = useState("")
 
   useEffect(() => {
     setItems(data)
     return () => {}
   }, [data])
 
-  const saveData = () => {}
+  const saveData = () => {
 
-  const handleAddItems = (group) => {
-    if (group !== "") {
-      setItems((item) =>
+  }
+
+  const handleAddItems = () => {
+    if (groupCode !== "") {
+      const itemExist = items.filter(item => item.code === groupCode);
+      if (itemExist.length > 0) {
+        handleRemoveItems(itemExist[0].code);
+      }
+      setItems(item =>
         item.concat({
-          name: group,
+          code: groupCode,
+          name: groupName,
+          description: groupDesc,
         })
       )
-      setGroup("")
+      
+      setGroupCode("")
+      setGroupName("")
+      setGroupDesc("")
     }
   }
-  const handleRemoveItems = (group) => {
-    setItems(items.filter((item) => item.name !== group))
-    setGroup("")
+  const handleRemoveItems = code => {
+    setItems(items.filter(item => item.code !== code))
+  }
+  const handleEditItems = group => {
+    setGroupCode(group.code)
+    setGroupName(group.name)
+    setGroupDesc(group.description)
   }
 
   return (
     <div style={{ padding: 20, background: "white", marginBottom: 10 }}>
-      <label style={{ color: "black" }}>กลุ่มสินค้า: </label>
-      <input
-        type="text"
-        value={group}
-        onChange={(evt) => setGroup(evt.target.value)}
-      /> :<button onClick={() => handleAddItems(group)}>Add</button> :
-      <button onClick={() => saveData()}>Save</button>
-      <div style={{height: 400, overflow: 'auto', padding: 10}}>
-        <table style={{color: "black"}}>
+      <table style={{color: "black", padding: 5}}>
+        <tbody>
+          <tr>
+            <td>รหัส</td>
+            <td>
+              <input
+                type="text"
+                value={groupCode}
+                onChange={(evt) => setGroupCode(evt.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>ชื่อ</td>
+            <td>
+              <input
+                type="text"
+                value={groupName}
+                onChange={(evt) => setGroupName(evt.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>รายละเอียด</td>
+            <td>
+              <input
+                type="text"
+                value={groupDesc}
+                onChange={(evt) => setGroupDesc(evt.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button onClick={() => handleAddItems()}>Add</button>
+              <button onClick={() => saveData()}>Save</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style={{height: 350, overflow: 'auto', padding: 10, border: "1px solid #eee"}}>
+        <table width="100%" style={{color: "black"}}>
+          <thead>
+            <tr>
+              <th style={{backgroundColor: '#eee'}}>No</th>
+              <th style={{backgroundColor: '#eee'}}>Code</th>
+              <th style={{backgroundColor: '#eee'}} align="left">Name</th>
+              <th style={{backgroundColor: '#eee'}} align="left">Description</th>
+              <th style={{backgroundColor: '#eee'}}></th>
+            </tr>
+          </thead>
           <tbody>
             {items && items.map((data, index) => (
               <tr key={index}>
-                <td>{index+1}</td>
+                <td align="center">{index+1}</td>
+                <td align="center">{data.code}</td>
                 <td>{data.name}</td>
-                <td>
-                  <button onClick={() => handleRemoveItems(data.name)}>
+                <td>{data.description}</td>
+                <td align="center">
+                  <button onClick={() => handleEditItems(data)}>
+                      edit
+                  </button>
+                  <button onClick={() => handleRemoveItems(data.code)}>
                       remove
                   </button>
                 </td>
@@ -52,7 +117,7 @@ const GroupForm = (props) => {
             ))}
             {items.length===0 && (
               <tr>
-                <td colSpan={3}>ไม่พบข้อมูลกลุ่มสินค้า</td>
+                <td colSpan={5}>ไม่พบข้อมูลกลุ่มสินค้า</td>
               </tr>
             )}
           </tbody>
