@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import { SAVE_PRODUCT_ITEMS } from '../../actions/constants'
+import { SAVE_PRODUCT_ITEMS, GET_PRODUCT_CODE } from '../../actions/constants'
+const TextUtil = require('../../utils/TextUtil')
 
 const MenuForm = props => {
-  const { data, group, saveProductItems } = props
-  const [items, setItems] = useState([])
+  const { data, group, saveProductItems, loadProductCode, productInfo } = props
 
+  const [items, setItems] = useState([])
   const [code, setCode] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
@@ -18,13 +19,21 @@ const MenuForm = props => {
   useEffect(() => {
     setItems(data)
     setGroupList(group)
+    if (productInfo && productInfo[0]){
+      setName(TextUtil.convAscii2Unicode(productInfo[0].PDesc))
+      setPrice(productInfo[0].PPrice11)
+    }
     return () => {}
-  }, [data, group])
+  }, [data, group, productInfo])
 
   const saveData = () => {
     if(groupSel !== '' && items.length > 0) {
       saveProductItems(items, groupSel)
     }
+  }
+
+  const SpaceText = () => {
+    return <span style={{marginLeft: 5}}></span>
   }
 
   const handleAddItems = () => {
@@ -72,6 +81,10 @@ const MenuForm = props => {
     changeGroup(product.group_code)
   }
 
+  const loadProduct = () => {
+    loadProductCode(code)
+  }
+
   return (
     <div style={{ padding: 20, background: "white", marginBottom: 10, color: "black" }}>
       <table style={{padding: 5}}>
@@ -98,10 +111,9 @@ const MenuForm = props => {
                 onChange={(evt) => setCode(evt.target.value)}
               />
             </td>
-            <td>
-              <button>Load Product</button>
+            <td colSpan={2}>
+              <button onClick={()=>loadProduct()}>Load Product From POS</button>
             </td>
-            <td></td>
           </tr>
           <tr>
             <td>ชื่อ:</td>
@@ -114,11 +126,11 @@ const MenuForm = props => {
             </td>
           </tr>
           <tr>
-            <td>Path(Big):</td>
+            <td>Path (Full):</td>
             <td>
               <input type="text" value={imgUrl} onChange={evt => setImgUrl(evt.target.value)} />
             </td>
-            <td>Path(Small):</td>
+            <td>Path (Thumbnail):</td>
             <td>
               <input type="text" value={imgUrlThumbnail} onChange={evt => setImgUrlThumbnail(evt.target.value)} />
             </td>
@@ -127,10 +139,10 @@ const MenuForm = props => {
             <td></td>
             <td>
               <button onClick={() => handleAddItems()}>Add</button>
-              <button onClick={() => saveData()}>Save</button>
             </td>
-            <td></td>
-            <td></td>
+            <td colSpan={2}>
+              <button style={{background: "green", color: "white"}} onClick={() => saveData()}>Save Data Database</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -162,6 +174,7 @@ const MenuForm = props => {
                 <button onClick={() => handleEditItems(data)}>
                   edit
                 </button>
+                <SpaceText />
                 <button onClick={() => handleRemoveItems(data.code)}>
                   remove
                 </button>
@@ -181,7 +194,9 @@ const MenuForm = props => {
 }
 
 const mapStateToProps = state => {
-  return {}
+  return {
+    productInfo: state.product.productInfo,
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -189,8 +204,14 @@ const mapDispatchToProps = dispatch => {
     saveProductItems: (items, group) => dispatch({
       type: SAVE_PRODUCT_ITEMS,
       payload: {
-        items: items,
-        group: group,
+        items,
+        group,
+      }
+    }),
+    loadProductCode: code => dispatch({
+      type: GET_PRODUCT_CODE,
+      payload: {
+        code
       }
     })
   }

@@ -20,6 +20,10 @@ const GroupForm = props => {
     }
   }
 
+  const SpaceText = () => {
+    return <span style={{marginLeft: 5}}></span>
+  }
+
   const handleAddItems = () => {
     if (groupCode !== "") {
       const itemExist = items.filter(item => item.code === groupCode);
@@ -85,8 +89,9 @@ const GroupForm = props => {
           <tr>
             <td></td>
             <td>
-              <button onClick={() => handleAddItems()}>Add</button>
-              <button onClick={() => saveData()}>Save</button>
+              <button onClick={() => handleAddItems()}>Add Group</button>
+              <SpaceText />
+              <button style={{background: "green", color: "white"}} onClick={() => saveData()}>Save Group Database</button>
             </td>
           </tr>
         </tbody>
@@ -113,6 +118,7 @@ const GroupForm = props => {
                   <button onClick={() => handleEditItems(data)}>
                       edit
                   </button>
+                  <SpaceText />
                   <button onClick={() => handleRemoveItems(data.code)}>
                       remove
                   </button>

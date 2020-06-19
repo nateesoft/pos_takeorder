@@ -101,6 +101,9 @@ import {
   SAVE_PRODUCT_ITEMS,
   SAVE_PRODUCT_ITEMS_SUCCESS,
   SAVE_PRODUCT_ITEMS_FAIL,
+  GET_PRODUCT_CODE,
+  GET_PRODUCT_CODE_SUCCESS,
+  GET_PRODUCT_CODE_FAIL,
 } from './constants'
 
 export const addNewOrder = payload => {
@@ -700,5 +703,22 @@ export const addProductItemsSuccess = payload => {
 export const addProductItemsFail = () => {
   return {
     type: SAVE_PRODUCT_ITEMS_FAIL,
+  }
+}
+export const getProductCode = payload => {
+  return {
+    type: GET_PRODUCT_CODE,
+    payload: payload,
+  }
+}
+export const getProductCodeSuccess = payload => {
+  return {
+    type: GET_PRODUCT_CODE_SUCCESS,
+    payload: payload,
+  }
+}
+export const getProductCodeFail = () => {
+  return {
+    type: GET_PRODUCT_CODE_FAIL,
   }
 }

@@ -1,4 +1,4 @@
-import { takeLatest, all, call, put} from "redux-saga/effects"
+import { takeLatest, all, call, put } from "redux-saga/effects"
 import request from '../utils/request'
 import {
   loadTablefileSuccess, 
@@ -56,6 +56,8 @@ import {
   addGroupItemsFail,
   addProductItemsSuccess,
   addProductItemsFail,
+  getProductCodeSuccess,
+  getProductCodeFail,
 } from '../actions'
 import { SEARCH_TABLE_FILE, SAVE_GROUP_ITEMS, SAVE_PRODUCT_ITEMS } from "../actions/constants"
 
@@ -86,6 +88,7 @@ const {
   SELECT_TABLE_ACTIVE,
   UPDATE_ORDER_TABLE,
   UPDATE_POS_CHANGE_TABLE,
+  GET_PRODUCT_CODE,
 } = require('../actions/constants')
 
 const uuid = require("react-native-uuid")
@@ -772,6 +775,23 @@ function* addProductItems(action) {
   }
 }
 
+function* getProductCode(action) {
+  const { code } = action.payload
+  const requestURL = `${POS_API}/pos/product/${code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(getProductCodeSuccess(response.data))
+  } catch(err) {
+    yield put(getProductCodeFail({ status: "Error", msg: err }))
+  }
+}
+
 function* actionFetchTablefile() {
   yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
 }
@@ -859,6 +879,9 @@ function* actionSaveGroupItems() {
 function* actionSaveProductItems() {
   yield takeLatest(SAVE_PRODUCT_ITEMS, addProductItems)
 }
+function* actionGetProductCode() {
+  yield takeLatest(GET_PRODUCT_CODE, getProductCode)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -891,5 +914,6 @@ export default function* rootSaga() {
     actionPosChangeTable(),
     actionSaveGroupItems(),
     actionSaveProductItems(),
+    actionGetProductCode(),
   ])
 }

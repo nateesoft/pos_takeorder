@@ -83,12 +83,12 @@ const MenuManagement = props => {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          <div style={{ background: "white" }}>
+          <div style={{ background: "white", padding: 10 }}>
             <Typography className={classes.instructions}>
-              บันทึกข้อมูลเมนูอาหารเรียบร้อยแล้ว
+              จบกระบวนการสร้างกลุ่มสินค้า สำหรับระบบ PDA
             </Typography>
             <Button onClick={handleReset} className={classes.button}>
-              Reset
+              BACK
             </Button>
           </div>
         ) : (
