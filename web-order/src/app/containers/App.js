@@ -28,11 +28,10 @@ import LoginPage from "./login/Login"
 import LogoutPage from "./login/Logout"
 import WelcomePage from "../containers/tabs/Welcome"
 import NotfoundPage from "../components/pages/Notfound"
-import Setting from "../containers/tabs/Setting"
-import MenuStep from "../components/menu/MenuStep"
 import useStyles from "../components/styles/App"
 import SearchPanel from "../containers/search"
 import { loadGroupList } from '../actions'
+import Management from '../containers/management'
 
 require("../components/styles/App.css")
 
@@ -195,7 +194,7 @@ const App = () => {
                 className={classes.titleLogo}
               >
                 <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  <img src="img/jeffer.png" alt="" width="100" />
+                  <img src="img/fast_order.png" alt="" width="100" />
                 </Link>
               </Typography>
               <IconButton onClick={handleDrawerClose} style={{ color: "white" }}>
@@ -217,8 +216,7 @@ const App = () => {
                 <Route path="/detail/:group/:code" component={MenuDetail} />
                 <Route path="/order" component={OrderTab} />
                 <Route path="/check_order" component={CheckOrderTab} />
-                <Route path="/setting" component={Setting} />
-                <Route path="/step" component={MenuStep} />
+                <Route path="/management" component={Management} />
                 <Route path="" component={NotfoundPage} />
               </Switch>
             </Container>

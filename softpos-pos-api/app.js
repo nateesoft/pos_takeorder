@@ -6,6 +6,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const employRouter = require('./routes/employ');
+const productRouter = require('./routes/product');
 const tableFileRouter = require('./routes/tablefile');
 const balanceRouter = require('./routes/balance');
 const stockRouter = require('./routes/stock');
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/pos/', indexRouter);
 app.use('/pos/employ', employRouter);
+app.use('/pos/product', productRouter);
 app.use('/pos/tablefile', tableFileRouter);
 app.use('/pos/balance', balanceRouter);
 app.use('/pos/stock', stockRouter);

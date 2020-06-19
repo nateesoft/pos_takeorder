@@ -2,19 +2,9 @@ const db = require("../config")
 const Stock = require("./Stock")
 const PosConfigSetupTask = require('./PosConfigSetup')
 const Product = require("./Product")
+const TextUtil = require('../utils')
 
 const table_name = "balance"
-
-const convToAscii = text => {
-  let textAscii = ''
-  for (let i=0; i<text.length; i+=1) {
-      let code = parseInt(text.charCodeAt(i))
-      if((0xE01 <= code)&&(code <= 0xE5B)) {
-          textAscii += String.fromCharCode(code-0xD60)
-      }
-  }
-  return textAscii
-}
 
 const BalanceModel = {
   getIndexBalance: (tableNo, callback) => {
@@ -141,7 +131,7 @@ const BalanceModel = {
             }
             const opt = ['','','','','']
             s_text.map((data, id) => {
-              opt[id] = convToAscii(data)
+              opt[id] = TextUtil.convUnicode2Ascii(data)
             })
             const	R_Index	=	balance.index
             const	R_Table	=	balance.table
