@@ -1,4 +1,4 @@
-import { takeLatest, all, call, put} from "redux-saga/effects"
+import { takeLatest, all, call, put } from "redux-saga/effects"
 import request from '../utils/request'
 import {
   loadTablefileSuccess, 
@@ -10,6 +10,8 @@ import {
   checkLogoutSuccess,
   loadProductListSuccess,
   loadProductListFail,
+  loadProductListAllSuccess,
+  loadProductListAllFail,
   loadGroupListSuccess,
   loadGroupListFail,
   loadOrderDetailSuccess,
@@ -50,8 +52,14 @@ import {
   updateOrderTableFail,
   updatePosChangeTableSuccess,
   updatePosChangeTableFail,
+  addGroupItemsSuccess,
+  addGroupItemsFail,
+  addProductItemsSuccess,
+  addProductItemsFail,
+  getProductCodeSuccess,
+  getProductCodeFail,
 } from '../actions'
-import { SEARCH_TABLE_FILE } from "../actions/constants"
+import { SEARCH_TABLE_FILE, SAVE_GROUP_ITEMS, SAVE_PRODUCT_ITEMS } from "../actions/constants"
 
 const { 
   ADD_NEW_ORDER,
@@ -70,6 +78,7 @@ const {
   LOAD_LIST_ORDER_DETAIL,
   LOAD_ORDER_DETAIL,
   LOAD_PRODUCT_LIST,
+  LOAD_PRODUCT_LIST_ALL,
   LOAD_GROUP_LIST,
   LOAD_TABLE_FILE,
   UPDATE_TABLE_FILE,
@@ -79,6 +88,7 @@ const {
   SELECT_TABLE_ACTIVE,
   UPDATE_ORDER_TABLE,
   UPDATE_POS_CHANGE_TABLE,
+  GET_PRODUCT_CODE,
 } = require('../actions/constants')
 
 const uuid = require("react-native-uuid")
@@ -547,6 +557,21 @@ function* fetchProductList(action) {
     yield put(loadProductListFail({ status: "Error", msg: err }))
   }
 }
+function* fetchProductListAll() {
+  const requestURL = `${TAKEORDER_API}/api/product`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(loadProductListAllSuccess(response.data))
+  } catch(err) {
+    yield put(loadProductListAllFail({ status: "Error", msg: err }))
+  }
+}
 
 function* fetchGroupList() {
   const requestURL = `${TAKEORDER_API}/api/group`
@@ -709,6 +734,64 @@ function* updatePosChangeTable(action) {
   }
 }
 
+function* addGroupItems(action) {
+  const { items } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/group`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        groupList: items
+      }),
+    })
+    yield put(addGroupItemsSuccess(response.data))
+  } catch(err) {
+    yield put(addGroupItemsFail({ status: "Error", msg: err }))
+  }
+}
+
+function* addProductItems(action) {
+  const { items, group } = action.payload
+  const requestURL = `${TAKEORDER_API}/api/product`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        productList: items,
+        group
+      }),
+    })
+    yield put(addProductItemsSuccess(response.data))
+  } catch(err) {
+    yield put(addProductItemsFail({ status: "Error", msg: err }))
+  }
+}
+
+function* getProductCode(action) {
+  const { code } = action.payload
+  const requestURL = `${POS_API}/pos/product/${code}`
+  try {
+    const response = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    yield put(getProductCodeSuccess(response.data))
+  } catch(err) {
+    yield put(getProductCodeFail({ status: "Error", msg: err }))
+  }
+}
+
 function* actionFetchTablefile() {
   yield takeLatest(LOAD_TABLE_FILE, fetchTablefile)
 }
@@ -723,6 +806,9 @@ function* actionFetchLogout() {
 }
 function* actionLoadProductList() {
   yield takeLatest(LOAD_PRODUCT_LIST, fetchProductList)
+}
+function* actionLoadProductListAll() {
+  yield takeLatest(LOAD_PRODUCT_LIST_ALL, fetchProductListAll)
 }
 function* actionLoadGroupList() {
   yield takeLatest(LOAD_GROUP_LIST, fetchGroupList)
@@ -787,6 +873,15 @@ function* actionUpdateOrderTable() {
 function* actionPosChangeTable() {
   yield takeLatest(UPDATE_POS_CHANGE_TABLE, updatePosChangeTable)
 }
+function* actionSaveGroupItems() {
+  yield takeLatest(SAVE_GROUP_ITEMS, addGroupItems)
+}
+function* actionSaveProductItems() {
+  yield takeLatest(SAVE_PRODUCT_ITEMS, addProductItems)
+}
+function* actionGetProductCode() {
+  yield takeLatest(GET_PRODUCT_CODE, getProductCode)
+}
 
 export default function* rootSaga() {
   yield all([
@@ -796,6 +891,7 @@ export default function* rootSaga() {
     actionFetchLogin(),
     actionFetchLogout(),
     actionLoadProductList(),
+    actionLoadProductListAll(),
     actionLoadGroupList(),
     actionLoadOrderDetail(),
     actionLoadListOrderDetail(),
@@ -816,5 +912,8 @@ export default function* rootSaga() {
     actionSelectTable(),
     actionUpdateOrderTable(),
     actionPosChangeTable(),
+    actionSaveGroupItems(),
+    actionSaveProductItems(),
+    actionGetProductCode(),
   ])
 }
