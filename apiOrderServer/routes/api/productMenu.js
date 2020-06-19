@@ -58,4 +58,16 @@ router.get("/top/recommend", (req, res, next) => {
   })
 })
 
+router.post("/", (req, res, next) => {
+  const { productList, group } = req.body
+  
+  Task.updateMgr(productList, group, (err, rows) => {
+    if (err) {
+      res.status(500).send({ status: 'Error', msg: err.sqlMessage || err.errno })
+    } else {
+      res.status(200).json({ data: rows });
+    }
+  })
+})
+
 module.exports = router
