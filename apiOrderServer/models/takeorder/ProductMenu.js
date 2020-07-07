@@ -48,11 +48,12 @@ const ProductMenu = {
       for (let i=0; i<productList.length; i++) {
         const product = productList[i]
         db.query(`insert into ${table_name} 
-          (code, code_key, name, description, price,
+          (code, code_key, name, description, price, price2, price3, price4, price5,
           group_code, img_url, img_url_thumbnail, status, star_count,
           show_recommend, created_at, updated_at, show_sublist, img_host) 
           values(
             '${product.code}', '', '${product.name}', '${product.description}', '${product.price}',
+            '${product.price2}','${product.price3}','${product.price4}','${product.price5}',
             '${product.group_code}', '${product.img_url}', '${product.img_url_thumbnail}', 'Y', '0',
             'N', curdate(), curdate(), 'N', '${product.img_host}')`, 
             (err1, rows1) => {

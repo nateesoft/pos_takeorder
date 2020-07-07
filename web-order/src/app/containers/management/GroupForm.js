@@ -15,9 +15,7 @@ const GroupForm = props => {
   }, [data])
 
   const saveData = () => {
-    if(items.length > 0) {
-      saveGroupItems(items)
-    }
+    saveGroupItems(items)
   }
 
   const SpaceText = () => {
