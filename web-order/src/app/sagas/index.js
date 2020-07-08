@@ -749,7 +749,9 @@ function* addGroupItems(action) {
       }),
     })
     yield put(addGroupItemsSuccess(response.data))
+    alert('บันทึกข้อมูลเรียบร้อย')
   } catch(err) {
+    alert('พบข้อผิดพลาด: ', err)
     yield put(addGroupItemsFail({ status: "Error", msg: err }))
   }
 }
@@ -770,7 +772,9 @@ function* addProductItems(action) {
       }),
     })
     yield put(addProductItemsSuccess(response.data))
+    alert('บันทึกข้อมูลเรียบร้อย')
   } catch(err) {
+    alert('พบข้อผิดพลาด: ', err)
     yield put(addProductItemsFail({ status: "Error", msg: err }))
   }
 }
