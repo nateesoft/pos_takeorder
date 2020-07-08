@@ -20,7 +20,7 @@ const LeftMenu = props => {
 
   const classes = useStyles()
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  const pdaSmall = window.innerWidth <= 650
+  const pdaSmall = window.innerWidth <= 450
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index)
