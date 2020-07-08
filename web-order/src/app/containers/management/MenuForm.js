@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { SAVE_PRODUCT_ITEMS, GET_PRODUCT_CODE } from '../../actions/constants'
-const TextUtil = require('../../utils/TextUtil')
 
 const MenuForm = props => {
   const { data, group, saveProductItems, loadProductCode, productInfo } = props
@@ -24,7 +23,7 @@ const MenuForm = props => {
     setItems(data)
     setGroupList(group)
     if (productInfo && productInfo[0]){
-      setName(TextUtil.convAscii2Unicode(productInfo[0].PDesc))
+      setName(productInfo[0].PDesc)
       setPrice(productInfo[0].PPrice11)
       setPrice2(productInfo[0].PPrice12)
       setPrice3(productInfo[0].PPrice13)
@@ -63,6 +62,7 @@ const MenuForm = props => {
         price3: price3,
         price4: price4,
         price5: price5,
+        img_host: 'http://localhost:4000/images'
       }))
       setCode('')
       setName('')
@@ -104,7 +104,11 @@ const MenuForm = props => {
   }
 
   const loadProduct = () => {
-    loadProductCode(code)
+    if(code!==''){
+      loadProductCode(code)
+    }else{
+      alert('กรุณาเลือกรหัสสินค้าที่ต้องการดึงข้อมูล')
+    }
   }
 
   return (
@@ -112,20 +116,7 @@ const MenuForm = props => {
       <table style={{padding: 5}}>
         <tbody>
           <tr>
-            <td>กลุ่มสินค้า:</td>
-            <td>
-              <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
-                <option value="">เลือกกลุ่มสินค้า</option>
-                {groupList && groupList.map((data, index)=> (
-                  <option key={index} value={data.code}>{data.name}</option>
-                ))}
-              </select>
-            </td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>สินค้า:</td>
+            <td align="right">สินค้า:</td>
             <td>
               <input
                 type="text"
@@ -138,31 +129,44 @@ const MenuForm = props => {
             </td>
           </tr>
           <tr>
-            <td>ชื่อ:</td>
+            <td align="right">กลุ่มสินค้า:</td>
+            <td>
+              <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
+                <option value="">เลือกกลุ่มสินค้า</option>
+                {groupList && groupList.map((data, index)=> (
+                  <option key={index} value={data.code}>{data.name}</option>
+                ))}
+              </select>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right">ชื่อ:</td>
             <td>
               <input type="text" value={name} onChange={evt => setName(evt.target.value)} />
             </td>
-            <td>ราคา:</td>
+            <td align="right">ราคา:</td>
             <td>
               <input type="text" value={price} onChange={evt => setPrice(evt.target.value)} />
             </td>
           </tr>
           <tr>
-            <td>ราคา2:</td>
+            <td align="right">ราคา2:</td>
             <td>
               <input type="text" value={price2} onChange={evt => setPrice2(evt.target.value)} />
             </td>
-            <td>ราคา3:</td>
+            <td align="right">ราคา3:</td>
             <td>
               <input type="text" value={price3} onChange={evt => setPrice3(evt.target.value)} />
             </td>
           </tr>
           <tr>
-            <td>ราคา4:</td>
+            <td align="right">ราคา4:</td>
             <td>
               <input type="text" value={price4} onChange={evt => setPrice4(evt.target.value)} />
             </td>
-            <td>ราคา5:</td>
+            <td align="right">ราคา5:</td>
             <td>
               <input type="text" value={price5} onChange={evt => setPrice5(evt.target.value)} />
             </td>
