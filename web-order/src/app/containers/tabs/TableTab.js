@@ -166,29 +166,34 @@ const TableTab = props => {
   return (
     <div className={classes.root}>
       <SearchTable loadTable={onLoadTablefile} onSearch={onSearchTable} />
-      <List component="nav" aria-label="main mailbox folders">
-        {tableFileList && tableFileList.map((item, index) => (
-          <div key={`div-${index}`}>
-            <ListItem
-              button
-              selected={table_no === item.Tcode}
-              onClick={() => handleListItemClick(item.Tcode)}
-            >
-              <ListItemAvatar>
-                <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={`โต๊ะ ${item.Tcode} : ลูกค้า (${item.TCustomer})`}
-                secondary={`Zone : ${item.SoneCode} - ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
-              />
-              <span style={{ marginRight: 20}}>รวม: {item.NetTotal || 0}</span>
-              <span style={{ marginRight: 20 }}>Sts: {item.TOnAct}</span>
-              {item.TOnAct==='N' ? <AspectRatio />:<EventSeat />}
-            </ListItem>
-            <Divider />
-          </div>
-        ))}
-      </List>
+      { tableFileList && tableFileList.length > 0 && 
+        <List component="nav" aria-label="main mailbox folders">
+          {tableFileList && tableFileList.map((item, index) => (
+            <div key={`div-${index}`}>
+              <ListItem
+                button
+                selected={table_no === item.Tcode}
+                onClick={() => handleListItemClick(item.Tcode)}
+              >
+                <ListItemAvatar>
+                  <img src="img/table.png" width="50" alt="table" style={{ padding: 5 }} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`โต๊ะ ${item.Tcode} : ลูกค้า (${item.TCustomer})`}
+                  secondary={`Zone : ${item.SoneCode} - ${format('dd/MM/yyyy', new Date(item.TLoginDate))}`}
+                />
+                <span style={{ marginRight: 20}}>รวม: {item.NetTotal || 0}</span>
+                <span style={{ marginRight: 20 }}>Sts: {item.TOnAct}</span>
+                {item.TOnAct==='N' ? <AspectRatio />:<EventSeat />}
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+      }
+      {
+        tableFileList.length === 0 && <h3 style={{paddingLeft: 10}}>ไม่พบข้อมูลโต๊ะในระบบ</h3>
+      }
       <Divider />
       <Dialog
         TransitionComponent={Transition}
