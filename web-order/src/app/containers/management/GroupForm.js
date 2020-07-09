@@ -15,9 +15,7 @@ const GroupForm = props => {
   }, [data])
 
   const saveData = () => {
-    if(items.length > 0) {
-      saveGroupItems(items)
-    }
+    saveGroupItems(items)
   }
 
   const SpaceText = () => {
@@ -57,7 +55,7 @@ const GroupForm = props => {
       <table style={{color: "black", padding: 5}}>
         <tbody>
           <tr>
-            <td>รหัส</td>
+            <td align="right">รหัส:</td>
             <td>
               <input
                 type="text"
@@ -67,7 +65,7 @@ const GroupForm = props => {
             </td>
           </tr>
           <tr>
-            <td>ชื่อ</td>
+            <td align="right">ชื่อ:</td>
             <td>
               <input
                 type="text"
@@ -77,7 +75,7 @@ const GroupForm = props => {
             </td>
           </tr>
           <tr>
-            <td>รายละเอียด</td>
+            <td align="right">รายละเอียด:</td>
             <td>
               <input
                 type="text"

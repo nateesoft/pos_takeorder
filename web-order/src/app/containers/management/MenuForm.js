@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { SAVE_PRODUCT_ITEMS, GET_PRODUCT_CODE } from '../../actions/constants'
-const TextUtil = require('../../utils/TextUtil')
 
 const MenuForm = props => {
   const { data, group, saveProductItems, loadProductCode, productInfo } = props
@@ -10,6 +9,10 @@ const MenuForm = props => {
   const [code, setCode] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
+  const [price2, setPrice2] = useState('')
+  const [price3, setPrice3] = useState('')
+  const [price4, setPrice4] = useState('')
+  const [price5, setPrice5] = useState('')
   const [imgUrl, setImgUrl] = useState('')
   const [imgUrlThumbnail, setImgUrlThumbnail] = useState('')
 
@@ -20,15 +23,21 @@ const MenuForm = props => {
     setItems(data)
     setGroupList(group)
     if (productInfo && productInfo[0]){
-      setName(TextUtil.convAscii2Unicode(productInfo[0].PDesc))
+      setName(productInfo[0].PDesc)
       setPrice(productInfo[0].PPrice11)
+      setPrice2(productInfo[0].PPrice12)
+      setPrice3(productInfo[0].PPrice13)
+      setPrice4(productInfo[0].PPrice14)
+      setPrice5(productInfo[0].PPrice15)
     }
     return () => {}
   }, [data, group, productInfo])
 
   const saveData = () => {
-    if(groupSel !== '' && items.length > 0) {
+    if(groupSel !== '') {
       saveProductItems(items, groupSel)
+    } else {
+      alert('กรุณาระบุกลุ่มสินค้า')
     }
   }
 
@@ -49,10 +58,19 @@ const MenuForm = props => {
         img_url: imgUrl,
         img_url_thumbnail: imgUrlThumbnail,
         price: price,
+        price2: price2,
+        price3: price3,
+        price4: price4,
+        price5: price5,
+        img_host: 'http://localhost:4000/images'
       }))
       setCode('')
       setName('')
       setPrice('')
+      setPrice2('')
+      setPrice3('')
+      setPrice4('')
+      setPrice5('')
       setImgUrl('')
       setImgUrlThumbnail('')
     }
@@ -75,6 +93,10 @@ const MenuForm = props => {
     setCode(product.code)
     setName(product.name)
     setPrice(product.price)
+    setPrice2(product.price2)
+    setPrice3(product.price3)
+    setPrice4(product.price4)
+    setPrice5(product.price5)
     setImgUrl(product.img_url)
     setImgUrlThumbnail(product.img_url_thumbnail)
     setGroupSel(product.group_code)
@@ -82,7 +104,11 @@ const MenuForm = props => {
   }
 
   const loadProduct = () => {
-    loadProductCode(code)
+    if(code!==''){
+      loadProductCode(code)
+    }else{
+      alert('กรุณาเลือกรหัสสินค้าที่ต้องการดึงข้อมูล')
+    }
   }
 
   return (
@@ -90,20 +116,7 @@ const MenuForm = props => {
       <table style={{padding: 5}}>
         <tbody>
           <tr>
-            <td>กลุ่มสินค้า:</td>
-            <td>
-              <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
-                <option value="">เลือกกลุ่มสินค้า</option>
-                {groupList && groupList.map((data, index)=> (
-                  <option key={index} value={data.code}>{data.name}</option>
-                ))}
-              </select>
-            </td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>สินค้า:</td>
+            <td align="right">สินค้า:</td>
             <td>
               <input
                 type="text"
@@ -116,13 +129,46 @@ const MenuForm = props => {
             </td>
           </tr>
           <tr>
-            <td>ชื่อ:</td>
+            <td align="right">กลุ่มสินค้า:</td>
+            <td>
+              <select value={groupSel} onChange={evt=>changeGroup(evt.target.value)}>
+                <option value="">เลือกกลุ่มสินค้า</option>
+                {groupList && groupList.map((data, index)=> (
+                  <option key={index} value={data.code}>{data.name}</option>
+                ))}
+              </select>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td align="right">ชื่อ:</td>
             <td>
               <input type="text" value={name} onChange={evt => setName(evt.target.value)} />
             </td>
-            <td>ราคา:</td>
+            <td align="right">ราคา:</td>
             <td>
               <input type="text" value={price} onChange={evt => setPrice(evt.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td align="right">ราคา2:</td>
+            <td>
+              <input type="text" value={price2} onChange={evt => setPrice2(evt.target.value)} />
+            </td>
+            <td align="right">ราคา3:</td>
+            <td>
+              <input type="text" value={price3} onChange={evt => setPrice3(evt.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td align="right">ราคา4:</td>
+            <td>
+              <input type="text" value={price4} onChange={evt => setPrice4(evt.target.value)} />
+            </td>
+            <td align="right">ราคา5:</td>
+            <td>
+              <input type="text" value={price5} onChange={evt => setPrice5(evt.target.value)} />
             </td>
           </tr>
           <tr>
@@ -154,6 +200,10 @@ const MenuForm = props => {
               <th style={{backgroundColor: '#eee'}} align="center">Code</th>
               <th style={{backgroundColor: '#eee'}} align="left">Name</th>
               <th style={{backgroundColor: '#eee'}} align="right">Price</th>
+              <th style={{backgroundColor: '#eee'}} align="right">Price2</th>
+              <th style={{backgroundColor: '#eee'}} align="right">Price3</th>
+              <th style={{backgroundColor: '#eee'}} align="right">Price4</th>
+              <th style={{backgroundColor: '#eee'}} align="right">Price5</th>
               <th style={{backgroundColor: '#eee'}} align="center">Group</th>
               <th style={{backgroundColor: '#eee'}} align="left">url</th>
               <th style={{backgroundColor: '#eee'}} align="left">url_thumbnail</th>
@@ -167,6 +217,10 @@ const MenuForm = props => {
               <td>{data.code}</td>
               <td>{data.name}</td>
               <td>{data.price}</td>
+              <td>{data.price2}</td>
+              <td>{data.price3}</td>
+              <td>{data.price4}</td>
+              <td>{data.price5}</td>
               <td>{data.group_code}</td>
               <td>{data.img_url}</td>
               <td>{data.img_url_thumbnail}</td>
