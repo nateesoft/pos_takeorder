@@ -24,13 +24,13 @@ import MenuTab from "containers/tabs/MenuTab"
 import MenuDetail from "components/menu/MenuDetail"
 import OrderTab from "containers/tabs/OrderTab"
 import CheckOrderTab from "containers/tabs/CheckOrderTab"
-import LoginPage from "./login/Login"
-import LogoutPage from "./login/Logout"
+import LoginPage from "../login/Login"
+import LogoutPage from "../login/Logout"
 import WelcomePage from "containers/tabs/Welcome"
 import NotfoundPage from "components/pages/Notfound"
 import useStyles from "components/styles/App"
 import SearchPanel from "containers/search"
-import { loadGroupList } from '../actions'
+import { loadGroupList } from '../../actions'
 import Management from 'containers/management'
 
 require("components/styles/App.css")
