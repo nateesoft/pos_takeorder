@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import IconButton from "@material-ui/core/IconButton"
 import ExitToApp from "@material-ui/icons/CloseRounded"
 import { connect, useSelector } from 'react-redux'
-import SearchMenu from "../../components/apis/SearchMenu"
+import SearchMenu from "components/apis/SearchMenu"
 import MessageUtil from '../../utils/alertMsg'
 
 const { SEARCH_DATA } = require('../../actions/constants')

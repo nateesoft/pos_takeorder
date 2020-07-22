@@ -19,7 +19,7 @@ import Select from '@material-ui/core/Select';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import SearchTable from '../search/SearchTable'
-import AlertDialog from '../../components/dialog'
+import AlertDialog from 'components/dialog'
 import { UPDATE_ORDER_TABLE } from "../../actions/constants"
 import { selectTableActive } from "../../actions"
 

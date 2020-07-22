@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box"
 import { Redirect } from "react-router"
 import SwipeableViews from "react-swipeable-views"
 import { useSelector } from "react-redux"
-import GetMenu from "../../components/apis/GetMenu"
+import GetMenu from "components/apis/GetMenu"
 
 const TabPanel = props => {
   const { children, value, index, ...other } = props

@@ -4,11 +4,11 @@ import { createStore, applyMiddleware } from "redux"
 import { Provider } from "react-redux"
 import createSagaMiddleware from "redux-saga"
 // import { logger } from "redux-logger"
-import App from "./app/containers/App"
+import App from "containers/App"
 import * as serviceWorker from "./serviceWorker"
 
-import allReducers from "./app/reducers"
-import rootSaga from "./app/sagas"
+import allReducers from "./reducers"
+import rootSaga from "./sagas"
 
 const sagaMiddleware = createSagaMiddleware()
 

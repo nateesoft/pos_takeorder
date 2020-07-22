@@ -276,7 +276,7 @@ module.exports = function(webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/253
       modules: ['node_modules', paths.appNodeModules].concat(
         modules.additionalModulePaths || []
-      ),
+      ).concat('app', paths.appSrc),
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:
@@ -640,8 +640,8 @@ module.exports = function(webpackEnv) {
             '**',
             '!**/__tests__/**',
             '!**/?(*.)(spec|test).*',
-            '!**/src/setupProxy.*',
-            '!**/src/setupTests.*',
+            '!**/app/setupProxy.*',
+            '!**/app/setupTests.*',
           ],
           silent: true,
           // The formatter is invoked directly in WebpackDevServerUtils during development

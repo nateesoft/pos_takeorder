@@ -27,7 +27,7 @@ import Dialog from "@material-ui/core/Dialog"
 import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import MuiDialogContent from "@material-ui/core/DialogContent"
 import CloseIcon from "@material-ui/icons/Close"
-import EditMenu from "../../components/menu/EditMenu"
+import EditMenu from "components/menu/EditMenu"
 import MessageUtil from '../../utils/alertMsg'
 import { clearItemAdd } from "../../actions"
 
