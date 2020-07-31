@@ -9,7 +9,7 @@ RUN npm install
 RUN npm install react-scripts -g
 
 COPY public /usr/app
-COPY src /usr/app
+COPY app /usr/app
 
 CMD ["npm", "start"]
 EXPOSE 3000
