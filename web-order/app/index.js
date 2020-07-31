@@ -1,24 +1,26 @@
 import React from "react"
 import { render } from "react-dom"
-import { createStore, applyMiddleware } from "redux"
+import { applyMiddleware } from "redux"
 import { Provider } from "react-redux"
 import createSagaMiddleware from "redux-saga"
-// import { logger } from "redux-logger"
+import { PersistGate } from "redux-persist/integration/react"
 import App from "containers/App"
 import * as serviceWorker from "./serviceWorker"
 
-import allReducers from "./reducers"
 import rootSaga from "./sagas"
+import configureStore from "./store"
 
 const sagaMiddleware = createSagaMiddleware()
 
-const store = createStore(allReducers, applyMiddleware(sagaMiddleware))
+const { store, persistor } = configureStore(applyMiddleware(sagaMiddleware))
 // store.subscribe(() => console.log(store.getState()))
 sagaMiddleware.run(rootSaga)
 
 render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 )

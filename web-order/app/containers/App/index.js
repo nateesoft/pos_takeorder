@@ -31,7 +31,6 @@ import NotfoundPage from "components/pages/Notfound"
 import useStyles from "components/styles/App"
 import SearchPanel from "containers/search"
 import { loadGroupList } from '../../actions'
-import Management from 'containers/management'
 
 require("components/styles/App.css")
 
@@ -216,7 +215,6 @@ const App = () => {
                 <Route path="/detail/:group/:code" component={MenuDetail} />
                 <Route path="/order" component={OrderTab} />
                 <Route path="/check_order" component={CheckOrderTab} />
-                <Route path="/management" component={Management} />
                 <Route path="" component={NotfoundPage} />
               </Switch>
             </Container>
