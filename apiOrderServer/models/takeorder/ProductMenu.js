@@ -38,8 +38,8 @@ const ProductMenu = {
       callback
     )
   },
-  updateMgr: (productList, group, callback) => {
-    db.query(`delete from ${table_name} where group_code='${group}'`, (err, rows) => {
+  updateMgr: (productList, callback) => {
+    db.query(`delete from ${table_name}`, (err, rows) => {
       if (err) throw err
       let finish = false
       if (productList.length === 0) {
