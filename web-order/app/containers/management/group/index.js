@@ -2,7 +2,7 @@ import React from "react";
 import "antd/dist/antd.css";
 import ExcelPage from "./excelPage";
 
-function Management() {
+function GroupManagement() {
   return (
     <div>
       <ExcelPage />
@@ -10,4 +10,4 @@ function Management() {
   );
 }
 
-export default Management
+export default GroupManagement

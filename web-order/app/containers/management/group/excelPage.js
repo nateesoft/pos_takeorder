@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Table, Button, Popconfirm, Row, Col, Icon, Upload } from "antd"
 import { ExcelRenderer } from "react-excel-renderer"
 import { EditableFormRow, EditableCell } from "./editable"
+const fetch = require("node-fetch")
 
 export default class ExcelPage extends Component {
   constructor(props) {
@@ -142,10 +143,18 @@ export default class ExcelPage extends Component {
   }
 
   handleSubmit = async () => {
-    console.log("submitting: ", this.state.rows)
-    //submit to API
-    //if successful, banigate and clear the data
-    //this.setState({ rows: [] })
+    const response = await fetch("http://localhost:4000/api/group", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ groupList: this.state.rows }),
+    })
+    const content = await response.json()
+    console.log(content)
+    alert("บันทึกข้อมูลเรียบร้อยแล้ว")
+    this.setState({ rows: [] })
   }
 
   handleDelete = (key) => {
@@ -190,7 +199,7 @@ export default class ExcelPage extends Component {
       }
     })
     return (
-      <div style={{background: 'white'}}>
+      <div style={{ background: "white" }}>
         <h1>Import ข้อมูลกลุ่มสินค้าจากไฟล์ Excel</h1>
         <Row gutter={16}>
           <Col
@@ -202,7 +211,9 @@ export default class ExcelPage extends Component {
               marginBottom: "5%",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", color: "black" }}>
+            <div
+              style={{ display: "flex", alignItems: "center", color: "black" }}
+            >
               <div className="page-title">Upload Group</div>
             </div>
           </Col>

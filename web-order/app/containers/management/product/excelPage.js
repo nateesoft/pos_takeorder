@@ -197,9 +197,18 @@ export default class ExcelPage extends Component {
 
   handleSubmit = async () => {
     console.log("submitting: ", this.state.rows)
-    //submit to API
-    //if successful, banigate and clear the data
-    //this.setState({ rows: [] })
+    const response = await fetch("http://localhost:4000/api/product", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productList: this.state.rows }),
+    })
+    const content = await response.json()
+    console.log(content)
+    alert("บันทึกข้อมูลเรียบร้อยแล้ว")
+    this.setState({ rows: [] })
   }
 
   handleDelete = (key) => {
