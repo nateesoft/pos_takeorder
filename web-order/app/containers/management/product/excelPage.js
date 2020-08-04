@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { Table, Button, Popconfirm, Row, Col, Icon, Upload } from "antd"
 import { ExcelRenderer } from "react-excel-renderer"
 import { EditableFormRow, EditableCell } from "./editable"
+const HOST = process.env.HOST || window.location.hostname
+const TAKEORDER_API = `http://${HOST}:4000`
 
 export default class ExcelPage extends Component {
   constructor(props) {
@@ -197,7 +199,7 @@ export default class ExcelPage extends Component {
 
   handleSubmit = async () => {
     console.log("submitting: ", this.state.rows)
-    const response = await fetch("http://localhost:4000/api/product", {
+    const response = await fetch(`${TAKEORDER_API}/api/product`, {
       method: "POST",
       headers: {
         Accept: "application/json",

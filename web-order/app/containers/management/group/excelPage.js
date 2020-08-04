@@ -4,6 +4,9 @@ import { ExcelRenderer } from "react-excel-renderer"
 import { EditableFormRow, EditableCell } from "./editable"
 const fetch = require("node-fetch")
 
+const HOST = process.env.HOST || window.location.hostname
+const TAKEORDER_API = `http://${HOST}:4000`
+
 export default class ExcelPage extends Component {
   constructor(props) {
     super(props)
@@ -143,7 +146,7 @@ export default class ExcelPage extends Component {
   }
 
   handleSubmit = async () => {
-    const response = await fetch("http://localhost:4000/api/group", {
+    const response = await fetch(`${TAKEORDER_API}/api/group`, {
       method: "POST",
       headers: {
         Accept: "application/json",
