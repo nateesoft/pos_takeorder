@@ -20,7 +20,7 @@ const TabPanel = props => {
       role="tabpanel"
       hidden={value !== index}
       id={`scrollable-force-tabpanel-${index}`}
-      aria-labelledby={`scrollable-force-tab-${index}`}
+      aria-labelledby={`scrollable-force-tab-${index}`} 
       {...other}
     >
       {value === index && <Box p={1}>{children}</Box>}
@@ -109,8 +109,8 @@ const MenuTab = props => {
         {dataGroup &&
           dataGroup.map((item, i) => (
             <div
-              style={{ height: window.innerHeight - 175, overflow: "auto" }}
-              key={`dg${i}`}
+              style={{ height: window.innerHeight - 175, overflow: "auto" }} 
+              key={`div${i}`}
             >
               <TabPanel value={value} index={i} key={i}>
                 <GetMenu id={item.code} close={emptyFunc} />

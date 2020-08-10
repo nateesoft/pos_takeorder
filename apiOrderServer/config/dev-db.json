@@ -4,6 +4,11 @@
     "user": "root",
     "password": "myPassword",
     "database": "pos_takeorder",
-    "port": "3306"
+    "port": "3306",
+    "connectionLimit": 5,
+    "connectTimeout": 10000,
+    "acquireTimeout": 10000,
+    "waitForConnections": true,
+    "queueLimit": 0
   }
 ]
