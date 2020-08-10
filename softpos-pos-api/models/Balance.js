@@ -1,4 +1,4 @@
-const db = require("../config")
+const pool = require("../config")
 const Stock = require("./Stock")
 const PosConfigSetupTask = require("./PosConfigSetup")
 const Product = require("./Product")
@@ -7,12 +7,14 @@ const TextUtil = require("../utils")
 const table_name = "balance"
 
 const BalanceModel = {
-  getIndexBalance: (tableNo, callback) => {
-    db.query(
-      `select max(R_Index) R_Index from balance where R_Table = ? order by R_Index`,
-      [tableNo],
-      (err, rows) => {
-        if (err) throw err
+  getIndexBalance: async (tableNo, callback) => {
+    try {
+      const sql = `select max(R_Index) R_Index from balance where R_Table = ? order by R_Index`
+      const rows = await pool.query(sql, [tableNo])
+      if (rows.length === 0) {
+        const newIndex = tableNo.toUpperCase() + "/001"
+        callback(null, newIndex)
+      } else {
         rows.map((a) => {
           let newIndex = a.R_Index ? a.R_Index.split("/") : "0"
           const id = (parseInt(newIndex[1]) || 0) + 1
@@ -23,41 +25,32 @@ const BalanceModel = {
           } else if (id < 1000) {
             newIndex = tableNo.toUpperCase() + "/" + id
           }
-          return callback(null, newIndex)
+          callback(null, newIndex)
         })
-        if (rows.length === 0) {
-          const newIndex = tableNo.toUpperCase() + "/001"
-          return callback(null, newIndex)
-        }
       }
-    )
+    } catch (err) {
+      callback(err, { status: "Error", msg: err.message })
+    }
   },
-  findAll: (callback) => {
-    return db.query(`select *  from ${table_name}`, callback)
+  findAll: async (callback) => {
+    return await pool.query(`select *  from ${table_name}`, callback)
   },
-  findByTable: (tableNo, callback) => {
-    return db.query(
-      `select R_PluCode, R_PName, R_Price, sum(R_Quan) R_Quan, sum(R_Total) R_Total, R_ETD 
-      from ${table_name} b where b.R_Table =? 
-      group by R_PluCode, R_PName, R_Price, R_Quan, R_Total, R_ETD`,
-      [tableNo],
-      callback
-    )
+  findByTable: async (tableNo, callback) => {
+    const sql = `select R_PluCode, R_PName, R_Price, sum(R_Quan) R_Quan, sum(R_Total) R_Total, R_ETD 
+                 from ${table_name} b where b.R_Table ='${tableNo}' 
+                 group by R_PluCode, R_PName, R_Price, R_Quan, R_Total, R_ETD`
+    return await pool.query(sql, callback)
   },
-  findByEmployee: (empCode, callback) => {
-    return db.query(
-      `select *  from ${table_name} where r_emp=?`,
-      [empCode],
-      callback
-    )
+  findByEmployee: async (empCode, callback) => {
+    return await pool.query( `select *  from ${table_name} where r_emp='${empCode}'`, callback)
   },
-  create: (Balance, callback) => {
+  create: async (Balance, callback) => {
     const { emp, plucode, price, qty, macno } = Balance
 
     Stock.getStockName(plucode, macno, (err, rows) => {
       if (err) throw err
       if (rows.length === 0) {
-        return BalanceModel.saveBalance(Balance, callback)
+        return BalanceModel.saveBalance(Balance, 'A1', callback)
       }
       rows.map((stock) => {
         Stock.updateSTKFileAdd(plucode, stock.StkCode, qty, (err1, rows1) => {
@@ -90,7 +83,7 @@ const BalanceModel = {
     })
   },
   empty: (callback) => {
-    return db.query(`delete from ${table_name}`, callback)
+    return pool.query(`delete from ${table_name}`, callback)
   },
   saveBalance: (balance, stk_code, callback) => {
     PosConfigSetupTask.getData((err, config) => {
@@ -104,7 +97,7 @@ const BalanceModel = {
         Product.findByCode(balance.plucode, (err, rows) => {
           if (err) throw err
           if (rows.length > 0) {
-            rows.map((product) => {
+            rows.map(async (product) => {
               const s_text = balance.s_text ? balance.s_text.split(",") : []
               let r_price = 0
               switch (balance.r_etd) {
@@ -235,7 +228,7 @@ const BalanceModel = {
                 }
               }
 
-              return db.query(
+              return await pool.query(
                 `insert into ${table_name} 
             ( R_Index, R_Table, R_Date, R_Time, Macno,
               Cashier, R_Emp, R_PluCode, R_PName, R_Unit,
@@ -357,8 +350,16 @@ const BalanceModel = {
                 callback
               )
             })
+          }else {
+            // not found product in pos
+            console.error('not found proudct in pos db')
+            callback(null, [])
           }
         }) // find product
+      }else {
+        // not found config
+        console.error('not found product config file')
+        callback(null, [])
       }
     }) // load posconfig
   },
