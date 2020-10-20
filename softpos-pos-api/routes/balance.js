@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const TextUtil = require("../utils")
 const Task = require("../models/Balance")
 
 router.get("/", (req, res, next) => {
@@ -18,7 +19,11 @@ router.get("/table/:tableNo", (req, res, next) => {
     if (err) {
       res.status(500).json({ status: "Error", msg: err.sqlMessage || err.errno })
     } else {
-      res.status(200).json({ data: rows })
+      const result = []
+      rows.map(item => {
+        result.push({...item, R_PName: TextUtil.convAscii2Unicode(item.R_PName)});
+      })
+      res.status(200).json({ data: result })
     }
   })
 })
