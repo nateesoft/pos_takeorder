@@ -3,7 +3,7 @@ const table_name = "group_menu"
 
 const GroupMenu = {
   findAll: (callback) => {
-    return db.query(`select * from ${table_name} where status='Y'`, callback)
+    return db.query(`select * from ${table_name} where status='Y' order by code`, callback)
   },
   updateMgr: (groupList, callback) => {
     db.query(`delete from ${table_name}`, (err, rows) => {
