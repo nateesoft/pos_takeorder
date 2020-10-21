@@ -1,4 +1,0 @@
-get http://localhost:5000/pos/product
-
-###
-get http://localhost:5000/pos/product/11001

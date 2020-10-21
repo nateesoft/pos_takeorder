@@ -9,7 +9,7 @@ app.get("*", (req, res) => {
 })
 
 app.get("/version", (req, res) => {
-  res.send("Hello, World")
+  res.send("Take order Version 1.0")
 })
 
 app.listen(3000, () => {
