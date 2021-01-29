@@ -5,6 +5,8 @@ const TextUtil = {
         let code = parseInt(text.charCodeAt(i))
         if (0xe01 <= code && code <= 0xe5b) {
           result += String.fromCharCode(code - 0xd60)
+        }else{
+          result += String.fromCharCode(code);
         }
       }
       return result
@@ -15,6 +17,8 @@ const TextUtil = {
         let code = parseInt(text.charCodeAt(i))
         if (0xa1 <= code && code <= 0xfb) {
           result += String.fromCharCode(code + 0xd60)
+        }else{
+          result += String.fromCharCode(code);
         }
       }
       return result
