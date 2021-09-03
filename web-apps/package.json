@@ -12,7 +12,7 @@
     "antd": "3.20.1",
     "date-format": "^3.0.0",
     "file-loader": "4.3.0",
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "moment": "^2.24.0",
     "notistack": "^0.9.9",
     "qrcode.react": "^1.0.0",
